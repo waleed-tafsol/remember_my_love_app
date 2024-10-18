@@ -8,9 +8,7 @@ class AppColors {
   static const Color kTextfieldColor = kGlassColor;
   static const Color kGlassColor = Color.fromARGB(49, 255, 255, 255);
   // static const Color kBlue300 = Color(0xFFA8DADC);
-  static const Color kSignInWithGoogle = Colors.white;
   static const Color kIconColor = Colors.white;
-  static const Color kBlueLightShade = Color(0xFFE6F0F0);
-  static const Color kBlueMediumShade = Color(0xFFA8DADC);
-  static const Color kBluedarkShade = Color(0xFF457B9D);
+  static const Color kpurple = Colors.purple;
+  static Color kSecondaryColor = Colors.blueAccent[700]!;
 }

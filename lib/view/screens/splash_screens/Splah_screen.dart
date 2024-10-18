@@ -11,6 +11,8 @@ import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.da
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../widgets/Custom_glass_container.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
   static const routeName = "SplashScreen";
@@ -132,136 +134,109 @@ class _SplashScreenState extends State<SplashScreen>
                 duration: Duration(milliseconds: 2000),
                 child: Column(children: [
                   Expanded(
-                    child: GlassmorphicContainer(
+                    child: CustomGlassmorphicContainer(
                         width: _animation2 ? double.maxFinite : 0,
                         height: _animation2 ? double.maxFinite : 0,
-                        borderRadius: 20,
-                        border: 0,
-                        blur: 10,
-                        linearGradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Color(0xFFffffff).withOpacity(0.1),
-                              Color(0xFFFFFFFF).withOpacity(0.05),
-                            ],
-                            stops: [
-                              0.1,
-                              1,
-                            ]),
-                        borderGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFFffffff).withOpacity(0.5),
-                            Color((0xFFFFFFFF)).withOpacity(0.5),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: kpaddingH4V2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Welcome Back!",
-                                style: TextStyleConstants.displayMediumWhite(
-                                    context),
-                              ),
-                              k2hSizedBox,
-                              Text(
-                                "Please Sign in to Continue your journey.",
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              k1hSizedBox,
-                              TextField(
-                                decoration:
-                                    InputDecoration(hintText: "Enter Email"),
-                              ),
-                              k1hSizedBox,
-                              TextField(
-                                decoration: InputDecoration(
-                                    hintText: "Enter Password",
-                                    suffixIcon:
-                                        Icon(Icons.visibility_off_outlined)),
-                              ),
-                              k1hSizedBox,
-                              Row(
-                                children: [
-                                  Checkbox(value: false, onChanged: (_) {}),
-                                  k1wSizedBox,
-                                  Text(
-                                    "Remember me",
-                                    style: TextStyleConstants.bodySmallWhite(
-                                        context),
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    "Forgot Password",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: Container(
-                                    color: Colors.white,
-                                    height: 0.5,
-                                  )),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 2.w),
-                                    child: Text("Or",
-                                        style:
-                                            TextStyleConstants.bodyLargeWhite(
-                                                context)),
-                                  ),
-                                  Expanded(
-                                      child: Container(
-                                    color: Colors.white,
-                                    height: 0.5,
-                                  )),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: CustomGlassButton(
-                                    child: SvgPicture.asset(SvgAssets.google),
-                                  )),
-                                  k2wSizedBox,
-                                  Expanded(
-                                      child: CustomGlassButton(
-                                    child: SvgPicture.asset(SvgAssets.apple),
-                                  )),
-                                ],
-                              ),
-                              k1hSizedBox,
-                              IntrinsicWidth(
-                                child: CustomGlassButton(
-                                  padding: EdgeInsets.all(2.w),
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Icon(
-                                    size: 6.h,
-                                    Icons.fingerprint_outlined,
-                                    color: Colors.white,
-                                  ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Welcome Back!",
+                              style: TextStyleConstants.displayMediumWhite(
+                                  context),
+                            ),
+                            k2hSizedBox,
+                            Text(
+                              "Please Sign in to Continue your journey.",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            k1hSizedBox,
+                            TextField(
+                              decoration:
+                                  InputDecoration(hintText: "Enter Email"),
+                            ),
+                            k1hSizedBox,
+                            TextField(
+                              decoration: InputDecoration(
+                                  hintText: "Enter Password",
+                                  suffixIcon:
+                                      Icon(Icons.visibility_off_outlined)),
+                            ),
+                            k1hSizedBox,
+                            Row(
+                              children: [
+                                Checkbox(value: false, onChanged: (_) {}),
+                                k1wSizedBox,
+                                Text(
+                                  "Remember me",
+                                  style: TextStyleConstants.bodySmallWhite(
+                                      context),
+                                ),
+                                Spacer(),
+                                Text(
+                                  "Forgot Password",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                  color: Colors.white,
+                                  height: 0.5,
+                                )),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 2.w),
+                                  child: Text("Or",
+                                      style: TextStyleConstants.bodyLargeWhite(
+                                          context)),
+                                ),
+                                Expanded(
+                                    child: Container(
+                                  color: Colors.white,
+                                  height: 0.5,
+                                )),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: CustomGlassButton(
+                                  child: SvgPicture.asset(SvgAssets.google),
+                                )),
+                                k2wSizedBox,
+                                Expanded(
+                                    child: CustomGlassButton(
+                                  child: SvgPicture.asset(SvgAssets.apple),
+                                )),
+                              ],
+                            ),
+                            k1hSizedBox,
+                            IntrinsicWidth(
+                              child: CustomGlassButton(
+                                padding: EdgeInsets.all(2.w),
+                                borderRadius: BorderRadius.circular(50),
+                                child: Icon(
+                                  size: 6.h,
+                                  Icons.fingerprint_outlined,
+                                  color: Colors.white,
                                 ),
                               ),
-                              k1hSizedBox,
-                              Text(
-                                "Login with Touch ID",
-                                style:
-                                    TextStyleConstants.bodySmallWhite(context),
-                              )
-                            ],
-                          ),
+                            ),
+                            k1hSizedBox,
+                            Text(
+                              "Login with Touch ID",
+                              style: TextStyleConstants.bodySmallWhite(context),
+                            )
+                          ],
                         )),
                   ),
                   k1hSizedBox,

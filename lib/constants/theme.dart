@@ -29,7 +29,7 @@ class CustomTheme {
       textStyle: TextStyle(color: AppColors.kPrimaryColor, fontSize: 14.sp),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       backgroundColor: AppColors.kPrimaryColor,
-      foregroundColor: AppColors.kBluedarkShade,
+      foregroundColor: AppColors.kSecondaryColor,
       elevation: 4,
     )),
     snackBarTheme: const SnackBarThemeData(
@@ -81,7 +81,7 @@ class CustomTheme {
         color: AppColors.kTextWhite,
       ),
       checkmarkColor: AppColors.kPrimaryColor,
-      // iconTheme: IconThemeData(color: AppColors.kPrimaryColor),
+      iconTheme: IconThemeData(color: AppColors.kPrimaryColor),
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0), // Rounded rectangle shape
@@ -142,6 +142,10 @@ class CustomTheme {
         ),
     textTheme: TextTheme(
       //custom text for headline
+      displaySmall: TextStyle(
+        color: AppColors.kTextWhite,
+        fontSize: 22.sp,
+      ),
       labelLarge: TextStyle(
           // color: AppColors.kTextWhiteColor,
           fontSize: 20.sp,

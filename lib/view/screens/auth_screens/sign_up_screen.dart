@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/onboarding_screen.dart';
+import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/TextConstant.dart';
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
-import '../splash_screens/Splah_screen.dart';
+import '../../../controllers/Signup_controller.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends GetView<SignupController> {
   const SignUpScreen({super.key});
   static const routeName = "SignUpScreen";
 
@@ -26,103 +26,78 @@ class SignUpScreen extends StatelessWidget {
                   transitionOnUserGestures: true,
                   tag: 1,
                   child: Image.asset(Image_assets.animation_cloud_front))),
-          GlassmorphicContainer(
+          CustomGlassmorphicContainer(
               width: double.maxFinite,
               height: 60.h,
-              borderRadius: 20,
-              border: 0,
-              blur: 10,
-              linearGradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFFffffff).withOpacity(0.1),
-                    Color(0xFFFFFFFF).withOpacity(0.05),
-                  ],
-                  stops: [
-                    0.1,
-                    1,
-                  ]),
-              borderGradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFffffff).withOpacity(0.5),
-                  Color((0xFFFFFFFF)).withOpacity(0.5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Setup Your Profile",
+                    style: TextStyleConstants.displayMediumWhite(context),
+                  ),
+                  k2hSizedBox,
+                  Text(
+                    "Please Sign up to Start your journey.",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  k1hSizedBox,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Name",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(hintText: "Enter Name"),
+                      ),
+                    ],
+                  ),
+                  k1hSizedBox,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Email",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(hintText: "Enter Email"),
+                      ),
+                    ],
+                  ),
+                  k1hSizedBox,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Password",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                            hintText: "Enter Password",
+                            suffixIcon: Icon(Icons.visibility_off_outlined)),
+                      ),
+                    ],
+                  ),
+                  k1hSizedBox,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Password",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                            hintText: "Enter Password",
+                            suffixIcon: Icon(Icons.visibility_off_outlined)),
+                      ),
+                    ],
+                  ),
                 ],
-              ),
-              child: Padding(
-                padding: kpaddingH4V2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Setup Your Profile",
-                      style: TextStyleConstants.displayMediumWhite(context),
-                    ),
-                    k2hSizedBox,
-                    Text(
-                      "Please Sign up to Start your journey.",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    k1hSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Name",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        TextField(
-                          decoration: InputDecoration(hintText: "Enter Name"),
-                        ),
-                      ],
-                    ),
-                    k1hSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Email",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        TextField(
-                          decoration: InputDecoration(hintText: "Enter Email"),
-                        ),
-                      ],
-                    ),
-                    k1hSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Password",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              hintText: "Enter Password",
-                              suffixIcon: Icon(Icons.visibility_off_outlined)),
-                        ),
-                      ],
-                    ),
-                    k1hSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Password",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              hintText: "Enter Password",
-                              suffixIcon: Icon(Icons.visibility_off_outlined)),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
               )),
           k1hSizedBox,
           GestureDetector(
@@ -169,6 +144,7 @@ class SignUpScreen extends StatelessWidget {
 class GradientButton extends StatefulWidget {
   final VoidCallback onPressed;
   final String text;
+  final Color? textColor;
   final List<Color> gradients;
 
   const GradientButton({
@@ -176,6 +152,7 @@ class GradientButton extends StatefulWidget {
     required this.onPressed,
     required this.text,
     required this.gradients,
+    this.textColor,
   }) : super(key: key);
 
   @override
@@ -218,6 +195,7 @@ class _GradientButtonState extends State<GradientButton>
               Color.lerp(startColor, endColor, _animation.value)!;
 
           return Container(
+            height: kButtonHeight,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [animatedColor, endColor],
@@ -231,7 +209,7 @@ class _GradientButtonState extends State<GradientButton>
               child: Text(
                 widget.text,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: widget.textColor ?? Colors.white,
                   fontSize: 14.sp,
                 ),
               ),

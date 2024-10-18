@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:remember_my_love_app/constants/constants.dart';
-import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Choose_Your_plan_Screen.dart';
+import 'package:remember_my_love_app/view/screens/Bottom_nav_bar_screens/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../controllers/Onboarding_controller.dart';
+import '../../../constants/constants.dart';
 import '../auth_screens/sign_up_screen.dart';
+import 'Choose_Your_plan_Screen.dart';
 
-class OnboardingScreen extends GetView<OnboardingController> {
-  const OnboardingScreen({super.key});
-  static const routeName = "OnboardingScreen";
+class ContinueScreen extends StatelessWidget {
+  const ContinueScreen({super.key});
+  static const routeName = "ContinueScreen";
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +40,14 @@ class OnboardingScreen extends GetView<OnboardingController> {
           ),
           k1hSizedBox,
           Text(
-            "We're grateful you've joined our community and taken the first step in preserving your family legacy.",
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 18.sp,
-                ),
+            " We're excited to share that your picture will"
+            " be the cover of a special collection of cherished memories and videos,"
+            " which will be delivered to your loved ones at a time you choose,"
+            " allowing you to share those precious moments with them.",
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(fontSize: 15.sp, fontWeight: FontWeight.w300),
             textAlign: TextAlign.center,
           ),
           Spacer(),
@@ -51,7 +55,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
             height: kButtonHeight,
             child: GradientButton(
               onPressed: () {
-                Get.toNamed(ChooseYourPlanScreen.routeName);
+                Get.toNamed(BottomNavBarScreen.routeName);
               },
               text: 'Continue',
               textColor: Colors.lightBlue[900],
