@@ -6,6 +6,7 @@ class Image_assets {
       '${_assets}animation_cloud_front.png';
   static const String animation_cloud_back =
       '${_assets}animation_cloud_back.png';
+  static const String userImage = '${_assets}user_image.png';
 }
 
 class SvgAssets {

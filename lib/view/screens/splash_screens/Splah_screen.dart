@@ -8,6 +8,7 @@ import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -268,7 +269,9 @@ class _SplashScreenState extends State<SplashScreen>
               SizedBox(
                 height: kButtonHeight,
                 child: GradientButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(BottomNavBarScreen.routeName);
+                  },
                   gradients: const [Colors.purple, Colors.blue],
                   text: 'Sign In',
                 ),
@@ -295,16 +298,19 @@ class CustomGlassButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding:
-          padding ?? EdgeInsets.symmetric(vertical: 2.h), // Use default if null
-      decoration: BoxDecoration(
-        borderRadius:
-            borderRadius ?? BorderRadius.circular(20), // Use default if null
-        color: AppColors.kGlassColor,
-      ),
-      child: Center(
-        child: child, // Display the provided child
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: padding ??
+            EdgeInsets.symmetric(vertical: 2.h), // Use default if null
+        decoration: BoxDecoration(
+          borderRadius:
+              borderRadius ?? BorderRadius.circular(20), // Use default if null
+          color: AppColors.kGlassColor,
+        ),
+        child: Center(
+          child: child, // Display the provided child
+        ),
       ),
     );
   }

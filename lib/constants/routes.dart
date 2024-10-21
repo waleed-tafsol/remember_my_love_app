@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Continue_screen.dart';
 
+import '../bindings/Bottom_nav_bar_bindings.dart';
 import '../bindings/splash_binding.dart';
-import '../view/screens/Bottom_nav_bar_screens/Bottom_nav_bar.dart';
+import '../view/screens/Memory_tile_screen/Memory_tile_screen.dart';
+import '../view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import '../view/screens/auth_screens/sign_up_screen.dart';
 import '../view/screens/onboarding_screens/onboarding_screen.dart';
 import '../view/screens/splash_screens/Splah_screen.dart';
@@ -53,7 +55,14 @@ class Pages {
         return GetPageRoute(
           settings: settings,
           page: () => BottomNavBarScreen(),
-          // binding: SplashBinding(),
+          binding: BottomNavBarBindings(),
+          transition: _routeTransition,
+        );
+      case MemoryTileScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => MemoryTileScreen(),
+          binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
 

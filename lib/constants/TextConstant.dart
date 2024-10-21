@@ -8,6 +8,13 @@ class TextStyleConstants {
         );
   }
 
+  static TextStyle displaySmallWhiteBold(BuildContext context) {
+    return Theme.of(context).textTheme.displaySmall!.copyWith(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        );
+  }
+
   static TextStyle displayMediumWhite(BuildContext context) {
     return Theme.of(context).textTheme.displaySmall!.copyWith(
           color: Colors.white,
@@ -28,6 +35,12 @@ class TextStyleConstants {
 
   static TextStyle bodyLargeWhite(BuildContext context) {
     return Theme.of(context).textTheme.bodyLarge!.copyWith(
+          color: Colors.white,
+        );
+  }
+
+  static TextStyle headlineLargeWhite(BuildContext context) {
+    return Theme.of(context).textTheme.headlineLarge!.copyWith(
           color: Colors.white,
         );
   }

@@ -6,7 +6,7 @@ class CustomScaffold extends StatelessWidget {
   final Widget body;
   final ImageProvider? backgroundImage;
   final AppBar? appBar;
-  final BottomNavigationBar? bottomNavigationBar;
+  final Widget? bottomNavigationBar;
   final FloatingActionButton? floatingActionButton;
   final PreferredSizeWidget? bottomSheet;
   final bool resizeToAvoidBottomInset;
