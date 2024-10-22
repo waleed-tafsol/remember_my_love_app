@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Continue_screen.dart';
+import 'package:remember_my_love_app/view/screens/update_password_screen/update_password_screen.dart';
+import 'package:remember_my_love_app/view/screens/upgrade_plan_screen.dart/upgrade_plan_screen.dart';
 
 import '../bindings/Bottom_nav_bar_bindings.dart';
 import '../bindings/splash_binding.dart';
@@ -62,6 +64,20 @@ class Pages {
         return GetPageRoute(
           settings: settings,
           page: () => MemoryTileScreen(),
+          binding: BottomNavBarBindings(),
+          transition: _routeTransition,
+        );
+      case UpdatePasswordScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => UpdatePasswordScreen(),
+          binding: BottomNavBarBindings(),
+          transition: _routeTransition,
+        );
+      case UpgradePlanScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => UpgradePlanScreen(),
           binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
