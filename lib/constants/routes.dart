@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Continue_screen.dart';
+import 'package:remember_my_love_app/view/screens/update_password_screen/update_password_screen.dart';
+import 'package:remember_my_love_app/view/screens/upgrade_plan_screen.dart/upgrade_plan_screen.dart';
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Write_a_memory.dart';
 
@@ -65,27 +67,6 @@ class Pages {
         return GetPageRoute(
           settings: settings,
           page: () => MemoryTileScreen(),
-          binding: BottomNavBarBindings(),
-          transition: _routeTransition,
-        );
-      case WriteAMemoryScreen.routeName:
-        return GetPageRoute(
-          settings: settings,
-          page: () => WriteAMemoryScreen(),
-          binding: BottomNavBarBindings(),
-          transition: _routeTransition,
-        );
-      case RecipientDetailsScreen.routeName:
-        return GetPageRoute(
-          settings: settings,
-          page: () => RecipientDetailsScreen(),
-          binding: BottomNavBarBindings(),
-          transition: _routeTransition,
-        );
-      case ScheduleMemoryScreen.routeName:
-        return GetPageRoute(
-          settings: settings,
-          page: () => ScheduleMemoryScreen(),
           binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );

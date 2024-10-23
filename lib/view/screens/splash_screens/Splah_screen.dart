@@ -291,12 +291,14 @@ class CustomGlassButton extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding; // Make padding optional
   final BorderRadius? borderRadius; // Make borderRadius optional
+  final VoidCallback? onTap;
 
   CustomGlassButton({
     super.key,
     required this.child,
     this.padding, // Use this to declare as optional
-    this.borderRadius, // Use this to declare as optional
+    this.borderRadius,
+    this.onTap, // Use this to declare as optional
   });
 
   @override

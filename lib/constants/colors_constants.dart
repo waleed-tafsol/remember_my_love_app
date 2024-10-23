@@ -10,5 +10,5 @@ class AppColors {
   // static const Color kBlue300 = Color(0xFFA8DADC);
   static const Color kIconColor = Colors.white;
   static const Color kpurple = Colors.purple;
-  static Color kSecondaryColor = Colors.blueAccent[700]!;
+  static Color kSecondaryColor = Color(0xff515BD6);
 }

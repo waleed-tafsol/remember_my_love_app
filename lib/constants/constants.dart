@@ -16,6 +16,9 @@ final k1hSizedBox = SizedBox(
 final k2wSizedBox = SizedBox(
   width: 2.w,
 );
+final k3wSizedBox = SizedBox(
+  width: 3.w,
+);
 final k1wSizedBox = SizedBox(
   width: 1.w,
 );

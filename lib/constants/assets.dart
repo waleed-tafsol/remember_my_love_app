@@ -26,4 +26,5 @@ class SvgAssets {
   static const String emoji_happy = '${_assets}Emoji_happy.svg';
   static const String apple = '${_assets}apple.svg';
   static const String google = '${_assets}google.svg';
+  static const String edit = '${_assets}edit.svg';
 }
