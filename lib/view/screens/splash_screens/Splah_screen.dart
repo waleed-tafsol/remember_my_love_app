@@ -166,7 +166,10 @@ class _SplashScreenState extends State<SplashScreen>
                             k1hSizedBox,
                             Row(
                               children: [
-                                Checkbox(value: false, onChanged: (_) {}),
+                                Checkbox(
+                                  value: false,
+                                  onChanged: (_) {},
+                                ),
                                 k1wSizedBox,
                                 Text(
                                   "Remember me",
@@ -298,19 +301,16 @@ class CustomGlassButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        padding: padding ??
-            EdgeInsets.symmetric(vertical: 2.h), // Use default if null
-        decoration: BoxDecoration(
-          borderRadius:
-              borderRadius ?? BorderRadius.circular(20), // Use default if null
-          color: AppColors.kGlassColor,
-        ),
-        child: Center(
-          child: child, // Display the provided child
-        ),
+    return Container(
+      padding:
+          padding ?? EdgeInsets.symmetric(vertical: 2.h), // Use default if null
+      decoration: BoxDecoration(
+        borderRadius:
+            borderRadius ?? BorderRadius.circular(20), // Use default if null
+        color: AppColors.kGlassColor,
+      ),
+      child: Center(
+        child: child, // Display the provided child
       ),
     );
   }

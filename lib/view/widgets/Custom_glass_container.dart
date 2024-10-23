@@ -46,8 +46,8 @@ class CustomGlassmorphicContainer extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFFffffff).withOpacity(0.1),
-                    Color(0xFFFFFFFF).withOpacity(0.05),
+                    Color.fromARGB(255, 2, 255, 242).withOpacity(0.3),
+                    Color.fromARGB(255, 255, 0, 238).withOpacity(0.3),
                   ],
                   stops: [
                     0.1,
@@ -58,8 +58,8 @@ class CustomGlassmorphicContainer extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFFffffff).withOpacity(0.5),
-                  Color((0xFFFFFFFF)).withOpacity(0.5),
+                  Color.fromARGB(255, 18, 253, 2).withOpacity(1),
+                  Color((0xFFFFFFFF)).withOpacity(1),
                 ],
               ),
           child: Padding(

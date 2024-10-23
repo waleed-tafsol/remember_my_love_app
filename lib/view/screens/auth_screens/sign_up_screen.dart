@@ -184,7 +184,9 @@ class _GradientButtonState extends State<GradientButton>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onPressed,
+      onTap: () {
+        widget.onPressed();
+      },
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, child) {

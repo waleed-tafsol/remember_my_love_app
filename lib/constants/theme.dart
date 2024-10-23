@@ -89,6 +89,15 @@ class CustomTheme {
       ),
       // brightness: Brightness,
     ),
+    checkboxTheme: CheckboxThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      checkColor: WidgetStatePropertyAll(Colors.blue), // Check color
+
+      fillColor: WidgetStatePropertyAll(Colors.transparent), // Background color
+      side: BorderSide(color: Colors.white, width: 2), // Border color
+    ),
 
     inputDecorationTheme: const InputDecorationTheme().copyWith(
         contentPadding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 1.h),

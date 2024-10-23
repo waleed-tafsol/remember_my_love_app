@@ -19,24 +19,22 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       extendBody: true,
-      body: SingleChildScrollView(
-        child: Obx(() {
-          switch (controller.selectedTab.value) {
-            case SelectedTab.home:
-              return HomeScreen();
-            case SelectedTab.memories:
-              return MyMemoriesScreen();
-            case SelectedTab.add:
-              return UploadMemoryScreen();
-            case SelectedTab.profile:
-              return ProfileScreen();
-            case SelectedTab.explore:
-              return ExploreScreen();
-            default:
-              return HomeScreen(); // Fallback
-          }
-        }),
-      ),
+      body: Obx(() {
+        switch (controller.selectedTab.value) {
+          case SelectedTab.home:
+            return HomeScreen();
+          case SelectedTab.memories:
+            return MyMemoriesScreen();
+          case SelectedTab.add:
+            return UploadMemoryScreen();
+          case SelectedTab.profile:
+            return ProfileScreen();
+          case SelectedTab.explore:
+            return ExploreScreen();
+          default:
+            return HomeScreen(); // Fallback
+        }
+      }),
       bottomNavigationBar: Obx(() {
         return ClipRect(
           child: CrystalNavigationBar(
