@@ -1,7 +1,7 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Upload_memory_screen.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Explore_screen.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Notification_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screen.dart';
@@ -29,8 +29,8 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
             return UploadMemoryScreen();
           case SelectedTab.profile:
             return ProfileScreen();
-          case SelectedTab.explore:
-            return ExploreScreen();
+          case SelectedTab.notification:
+            return NotificationScreen();
           default:
             return HomeScreen(); // Fallback
         }
@@ -60,8 +60,8 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
                 selectedColor: Colors.white,
               ),
               CrystalNavigationBarItem(
-                icon: IconlyBold.search,
-                unselectedIcon: IconlyLight.search,
+                icon: IconlyBold.notification,
+                unselectedIcon: IconlyLight.notification,
                 selectedColor: Colors.white,
               ),
               CrystalNavigationBarItem(

@@ -8,7 +8,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../constants/assets.dart';
 import '../../../widgets/Letter_list_tile_widget.dart';
-import '../../splash_screens/Splah_screen.dart';
+import '../../../widgets/My_storage_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -53,42 +53,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        CustomGlassmorphicContainer(
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "My Storage",
-                    style: TextStyleConstants.headlineLargeWhite(context)
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "0.08 GB of 1 GB Used",
-                    style: TextStyleConstants.bodyMediumWhite(context),
-                  ),
-                  Text(
-                    "Upgrade to Premium",
-                    style: TextStyleConstants.bodyMediumWhite(context).copyWith(
-                        decoration: TextDecoration.underline,
-                        color: Colors.amber),
-                  ),
-                ],
-              ),
-              CircularPercentIndicator(
-                radius: 5.h,
-                lineWidth: 5.0,
-                percent: 0.6,
-                center: Text("60%"),
-                progressColor: Colors.white,
-              )
-            ],
-          ),
-        ),
+        My_storage_widget(),
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,

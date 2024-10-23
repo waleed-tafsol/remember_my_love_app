@@ -13,6 +13,7 @@ import '../../widgets/Custom_rounded_glass_button.dart';
 import '../../widgets/Glass_text_field_with_text_widget.dart';
 import '../../widgets/custom_scaffold.dart';
 import '../auth_screens/sign_up_screen.dart';
+import 'Memory_scheduled_succeccfully.dart';
 
 class ScheduleMemoryScreen extends StatelessWidget {
   const ScheduleMemoryScreen({super.key});
@@ -71,7 +72,7 @@ class ScheduleMemoryScreen extends StatelessWidget {
                         initialDateTime: DateTime(1996, 10, 22),
                         maxDateTime: DateTime(1998),
                         minDateTime: DateTime(1980),
-                        pickerTextStyle: TextStyle(
+                        pickerTextStyle: const TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
@@ -113,7 +114,7 @@ class ScheduleMemoryScreen extends StatelessWidget {
           const Spacer(),
           GradientButton(
               onPressed: () {
-                // Get.toNamed(ScheduleMemoryScreen.routeName);
+                Get.toNamed(MemoryScheduledSucceccfully.routeName);
               },
               text: "Send",
               gradients: [Colors.purple, Colors.blue]),

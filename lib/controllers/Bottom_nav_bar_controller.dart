@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-enum SelectedTab { home, memories, add, explore, profile }
+enum SelectedTab { home, memories, add, notification, profile }
 
 class BottomNavController extends GetxController {
   var selectedTab = SelectedTab.home.obs;

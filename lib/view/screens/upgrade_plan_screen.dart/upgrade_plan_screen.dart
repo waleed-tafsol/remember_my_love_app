@@ -7,12 +7,11 @@ import 'package:remember_my_love_app/controllers/Choose_your_plan_controller.dar
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/screens/splash_screens/Splah_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
+import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class UpgradePlanScreen extends StatelessWidget {
-  final ChooseYourPlanController planController =
-      Get.put(ChooseYourPlanController());
+class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
   UpgradePlanScreen({super.key});
   static const routeName = 'UpgradePlanScreen';
 
@@ -23,14 +22,11 @@ class UpgradePlanScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              CustomGlassButton(
-                padding: EdgeInsets.all(4.w),
-                borderRadius: BorderRadius.circular(50),
-                child: Icon(
-                  size: 3.h,
-                  Icons.arrow_back_ios_new,
-                  color: Colors.white,
-                ),
+              CustomRoundedGlassButton(
+                icon: Icons.arrow_back_ios_new,
+                ontap: () {
+                  Get.back();
+                },
               ),
               k3wSizedBox,
               Text("Upgrade Your Plan",
@@ -45,18 +41,18 @@ class UpgradePlanScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(color: AppColors.kPrimaryColor, width: 2),
               ),
-              height: kButtonHeight, // Ensure this constant is properly defined
+              height: kButtonHeight,
               width: 60.w,
               child: Row(
                 children: [
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        planController.changePlan('Monthly');
+                        controller.changePlan('Monthly');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: planController.selectedPlan.value == 'Monthly'
+                          color: controller.selectedPlan.value == 'Monthly'
                               ? AppColors.kPrimaryColor
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(40),
@@ -65,13 +61,15 @@ class UpgradePlanScreen extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                           "Monthly",
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: planController.selectedPlan.value ==
-                                            'Monthly'
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                color:
+                                    controller.selectedPlan.value == 'Monthly'
                                         ? AppColors.kSecondaryColor
                                         : AppColors.kTextWhite,
-                                  ),
+                              ),
                         ),
                       ),
                     ),
@@ -79,11 +77,11 @@ class UpgradePlanScreen extends StatelessWidget {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        planController.changePlan('Yearly');
+                        controller.changePlan('Yearly');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: planController.selectedPlan.value == 'Yearly'
+                          color: controller.selectedPlan.value == 'Yearly'
                               ? AppColors.kPrimaryColor
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(40),
@@ -91,13 +89,14 @@ class UpgradePlanScreen extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                           "Yearly",
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: planController.selectedPlan.value ==
-                                            'Yearly'
-                                        ? AppColors.kSecondaryColor
-                                        : AppColors.kTextWhite,
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                color: controller.selectedPlan.value == 'Yearly'
+                                    ? AppColors.kSecondaryColor
+                                    : AppColors.kTextWhite,
+                              ),
                         ),
                       ),
                     ),
@@ -110,7 +109,7 @@ class UpgradePlanScreen extends StatelessWidget {
             height: 12.h,
           ),
           Obx(() {
-            if (planController.selectedPlan.value == 'Monthly') {
+            if (controller.selectedPlan.value == 'Monthly') {
               return Column(
                 children: [
                   k4hSizedBox,

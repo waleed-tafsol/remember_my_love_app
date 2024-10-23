@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:glassmorphism/glassmorphism.dart';
-import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
@@ -273,7 +271,7 @@ class _SplashScreenState extends State<SplashScreen>
                 height: kButtonHeight,
                 child: GradientButton(
                   onPressed: () {
-                    Get.toNamed(BottomNavBarScreen.routeName);
+                    Get.offAndToNamed(BottomNavBarScreen.routeName);
                   },
                   gradients: const [Colors.purple, Colors.blue],
                   text: 'Sign In',

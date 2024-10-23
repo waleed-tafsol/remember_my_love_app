@@ -5,7 +5,6 @@ import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Recipient_details_screen.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
-import 'package:remember_my_love_app/view/screens/splash_screens/Splah_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -37,12 +36,12 @@ class WriteAMemoryScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GlassTextFieldWithTitle(
+                const GlassTextFieldWithTitle(
                   title: 'Title',
                   hintText: "Enter Title",
                 ),
                 k1hSizedBox,
-                Text(
+                const Text(
                   "Select Category",
                 ),
                 SizedBox(
@@ -55,7 +54,7 @@ class WriteAMemoryScreen extends StatelessWidget {
                         borderRadius: 8,
                         padding: EdgeInsets.symmetric(
                             vertical: 2.h, horizontal: 2.w),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Catagory"),
@@ -67,12 +66,12 @@ class WriteAMemoryScreen extends StatelessWidget {
                         )),
                   ),
                 ),
-                Text("Description"),
+                const Text("Description"),
                 k1hSizedBox,
                 SizedBox(
                   height: 20.h,
                   width: double.infinity,
-                  child: TextField(
+                  child: const TextField(
                     textAlignVertical: TextAlignVertical(y: -1.0),
                     expands: true,
                     maxLines: null,
@@ -84,7 +83,7 @@ class WriteAMemoryScreen extends StatelessWidget {
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           GradientButton(
               onPressed: () {
                 Get.toNamed(RecipientDetailsScreen.routeName);
@@ -104,14 +103,14 @@ class WriteAMemoryScreen extends StatelessWidget {
 
       elevation: 0,
       context: context,
-      position: RelativeRect.fromLTRB(
+      position: const RelativeRect.fromLTRB(
           100.0, 0.0, 0.0, 100.0), // Adjust position if needed
       items: <String>['Option 1', 'Option 2', 'Option 3'].map((String value) {
         return PopupMenuItem<String>(
           value: value,
           child: Container(
             color: Colors.transparent, // Semi-transparent background
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Text(
               value,
               style: TextStyleConstants.bodySmallWhite(
