@@ -88,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: AnimatedAlign(
           curve: Curves.elasticIn,
@@ -120,7 +120,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               // Animate position based on _positionAnimation
               AnimatedOpacity(
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   opacity: _showText ? 1 : 0,
                   child: Text(
                     "Remember My\nLove",
@@ -131,7 +131,7 @@ class _SplashScreenState extends State<SplashScreen>
               AnimatedContainer(
                 height: _animation2 ? 60.h : 0,
                 width: _animation2 ? double.maxFinite : 0,
-                duration: Duration(milliseconds: 2000),
+                duration: const Duration(milliseconds: 2000),
                 child: Column(children: [
                   Expanded(
                     child: CustomGlassmorphicContainer(
@@ -151,12 +151,12 @@ class _SplashScreenState extends State<SplashScreen>
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             k1hSizedBox,
-                            TextField(
+                            const TextField(
                               decoration:
                                   InputDecoration(hintText: "Enter Email"),
                             ),
                             k1hSizedBox,
-                            TextField(
+                            const TextField(
                               decoration: InputDecoration(
                                   hintText: "Enter Password",
                                   suffixIcon:
@@ -175,7 +175,7 @@ class _SplashScreenState extends State<SplashScreen>
                                   style: TextStyleConstants.bodySmallWhite(
                                       context),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
                                   "Forgot Password",
                                   style: Theme.of(context)
@@ -269,7 +269,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               k2hSizedBox,
               AnimatedOpacity(
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 opacity: _showText ? 1 : 0,
                 child: SizedBox(
                   height: kButtonHeight,
@@ -296,7 +296,7 @@ class CustomGlassButton extends StatelessWidget {
   final BorderRadius? borderRadius; // Make borderRadius optional
   final VoidCallback? onTap;
 
-  CustomGlassButton({
+  const CustomGlassButton({
     super.key,
     required this.child,
     this.padding, // Use this to declare as optional

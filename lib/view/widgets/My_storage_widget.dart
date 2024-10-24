@@ -48,7 +48,7 @@ class My_storage_widget extends StatelessWidget {
               radius: 5.h,
               lineWidth: 5.0,
               percent: 0.6,
-              center: Text("60%"),
+              center: const Text("60%"),
               progressColor: Colors.white,
             )
           ],

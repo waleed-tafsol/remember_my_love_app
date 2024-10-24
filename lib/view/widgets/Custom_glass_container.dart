@@ -18,7 +18,7 @@ class CustomGlassmorphicContainer extends StatelessWidget {
   final Widget child;
 
   const CustomGlassmorphicContainer({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.margin,
@@ -28,7 +28,7 @@ class CustomGlassmorphicContainer extends StatelessWidget {
     this.borderGradient,
     required this.child,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +46,10 @@ class CustomGlassmorphicContainer extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color.fromARGB(255, 2, 255, 242).withOpacity(0.3),
-                    Color.fromARGB(255, 255, 0, 238).withOpacity(0.3),
+                    const Color.fromARGB(255, 2, 255, 242).withOpacity(0.3),
+                    const Color.fromARGB(255, 255, 0, 238).withOpacity(0.3),
                   ],
-                  stops: [
+                  stops: const [
                     0.1,
                     1,
                   ]),
@@ -58,8 +58,8 @@ class CustomGlassmorphicContainer extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 18, 253, 2).withOpacity(1),
-                  Color((0xFFFFFFFF)).withOpacity(1),
+                  const Color.fromARGB(255, 18, 253, 2).withOpacity(1),
+                  const Color((0xFFFFFFFF)).withOpacity(1),
                 ],
               ),
           child: Padding(

@@ -1,22 +1,19 @@
 import 'package:bottom_picker/bottom_picker.dart';
-import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../constants/TextConstant.dart';
 import '../../../constants/colors_constants.dart';
 import '../../../constants/constants.dart';
+import '../../../controllers/Upload_memory_controller.dart';
 import '../../widgets/Custom_glass_container.dart';
 import '../../widgets/Custom_rounded_glass_button.dart';
-import '../../widgets/Glass_text_field_with_text_widget.dart';
 import '../../widgets/custom_scaffold.dart';
-import '../auth_screens/sign_up_screen.dart';
 import 'Memory_scheduled_succeccfully.dart';
 
-class ScheduleMemoryScreen extends StatelessWidget {
+class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
   const ScheduleMemoryScreen({super.key});
   static const routeName = "ScheduleMemoryScreen";
 
@@ -46,7 +43,7 @@ class ScheduleMemoryScreen extends StatelessWidget {
                     onTap: () {
                       BottomPicker.date(
                         displayCloseIcon: true,
-
+                        closeIconColor: AppColors.kPrimaryColor,
                         dismissable: true,
                         displaySubmitButton: true,
                         backgroundColor: AppColors.kGlassColor,
@@ -58,9 +55,17 @@ class ScheduleMemoryScreen extends StatelessWidget {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(50)),
                         buttonWidth: 90.w,
-                        buttonContent: Text(
-                          "data",
-                          style: TextStyleConstants.displayMediumWhite(context),
+                        buttonContent: Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 1.h,
+                            ),
+                            child: Text(
+                              "save",
+                              style: TextStyleConstants.bodyMediumWhite(context)
+                                  .copyWith(color: Colors.blue),
+                            ),
+                          ),
                         ),
                         // buttonContent: GradientButton(
                         //     onPressed: () {},
@@ -70,9 +75,9 @@ class ScheduleMemoryScreen extends StatelessWidget {
                         //       Colors.white,
                         //     ]),
                         dateOrder: DatePickerDateOrder.mdy,
-                        initialDateTime: DateTime(1996, 10, 22),
-                        maxDateTime: DateTime(1998),
-                        minDateTime: DateTime(1980),
+                        initialDateTime: controller.selectedDate.value,
+                        minDateTime: DateTime.now(),
+
                         pickerTextStyle: const TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
@@ -83,8 +88,8 @@ class ScheduleMemoryScreen extends StatelessWidget {
                         },
                         onSubmit: (index) {
                           print(index);
+                          controller.updateSelectedDate(index);
                         },
-                        bottomPickerTheme: BottomPickerTheme.heavyRain,
                       ).show(context);
                     },
                     child: CustomGlassmorphicContainer(
@@ -94,7 +99,10 @@ class ScheduleMemoryScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Set Delivery Date"),
+                            Obx(() {
+                              return Text(
+                                  "${controller.selectedDate.value.year} : ${controller.selectedDate.value.month} : ${controller.selectedDate.value.day}");
+                            }),
                             Icon(
                               Icons.keyboard_arrow_down_outlined,
                               color: AppColors.kIconColor,
@@ -104,21 +112,84 @@ class ScheduleMemoryScreen extends StatelessWidget {
                   ),
                 ),
                 k1hSizedBox,
-                const GlassTextFieldWithTitle(
-                  title: 'Set Delivery Time',
-                  hintText: "00 : 00",
+                SizedBox(
+                  width: double.infinity,
+                  child: InkWell(
+                    onTap: () {
+                      BottomPicker.time(
+                        displayCloseIcon: true,
+                        closeIconColor: AppColors.kPrimaryColor,
+                        dismissable: true,
+                        displaySubmitButton: true,
+                        backgroundColor: AppColors.kGlassColor,
+                        pickerTitle: Text(
+                          '',
+                          style: TextStyleConstants.bodyLargeWhite(context),
+                        ),
+                        buttonStyle: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(50)),
+                        buttonWidth: 90.w,
+                        buttonContent: Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 1.h,
+                            ),
+                            child: Text(
+                              "save",
+                              style: TextStyleConstants.bodyMediumWhite(context)
+                                  .copyWith(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                        initialTime: Time(
+                            hours: controller.selectedTime.value.hour,
+                            minutes: controller.selectedTime.value.minute),
+                        pickerTextStyle: const TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                        onChange: (index) {
+                          print(index);
+                        },
+                        onSubmit: (index) {
+                          print(index);
+                          controller.updateSelectedTime(
+                              TimeOfDay.fromDateTime(index));
+                        },
+                      ).show(context);
+                    },
+                    child: CustomGlassmorphicContainer(
+                        borderRadius: 8,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2.h, horizontal: 2.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Obx(() {
+                              return Text(
+                                  "${controller.selectedTime.value.format(context)}");
+                            }),
+                            Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: AppColors.kIconColor,
+                            )
+                          ],
+                        )),
+                  ),
                 ),
-                k1hSizedBox,
               ],
             ),
           ),
           const Spacer(),
           GradientButton(
               onPressed: () {
+                controller.removeAllFiles();
                 Get.toNamed(MemoryScheduledSucceccfully.routeName);
               },
               text: "Send",
-              gradients: [Colors.purple, Colors.blue]),
+              gradients: const [Colors.purple, Colors.blue]),
         ],
       ),
     );

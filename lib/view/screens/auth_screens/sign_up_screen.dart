@@ -50,7 +50,7 @@ class SignUpScreen extends GetView<SignupController> {
                         "Name",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      TextField(
+                      const TextField(
                         decoration: InputDecoration(hintText: "Enter Name"),
                       ),
                     ],
@@ -63,7 +63,7 @@ class SignUpScreen extends GetView<SignupController> {
                         "Email",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      TextField(
+                      const TextField(
                         decoration: InputDecoration(hintText: "Enter Email"),
                       ),
                     ],
@@ -76,7 +76,7 @@ class SignUpScreen extends GetView<SignupController> {
                         "Password",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      TextField(
+                      const TextField(
                         decoration: InputDecoration(
                             hintText: "Enter Password",
                             suffixIcon: Icon(Icons.visibility_off_outlined)),
@@ -91,7 +91,7 @@ class SignUpScreen extends GetView<SignupController> {
                         "Password",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      TextField(
+                      const TextField(
                         decoration: InputDecoration(
                             hintText: "Enter Password",
                             suffixIcon: Icon(Icons.visibility_off_outlined)),
@@ -130,7 +130,7 @@ class SignUpScreen extends GetView<SignupController> {
                 Get.offAllNamed(OnboardingScreen.routeName);
               },
               text: 'Sign Up',
-              gradients: [
+              gradients: const [
                 Colors.purple,
                 Colors.blue,
               ],

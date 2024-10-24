@@ -10,12 +10,12 @@ class GradientButton extends StatefulWidget {
   final List<Color> gradients;
 
   const GradientButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.text,
     required this.gradients,
     this.textColor,
-  }) : super(key: key);
+  });
 
   @override
   State<GradientButton> createState() => _GradientButtonState();
@@ -68,7 +68,7 @@ class _GradientButtonState extends State<GradientButton>
               ),
               borderRadius: BorderRadius.circular(50),
             ),
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: Center(
               child: Text(
                 widget.text,

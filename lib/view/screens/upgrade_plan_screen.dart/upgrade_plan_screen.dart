@@ -12,7 +12,7 @@ import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
-  UpgradePlanScreen({super.key});
+  const UpgradePlanScreen({super.key});
   static const routeName = 'UpgradePlanScreen';
 
   @override
@@ -172,7 +172,7 @@ class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
                   GradientButton(
                       onPressed: () {},
                       text: "Select this Plan",
-                      gradients: [Colors.purple, Colors.blue])
+                      gradients: const [Colors.purple, Colors.blue])
                 ],
               ); // Added const for optimization
             } else {
@@ -238,10 +238,10 @@ class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
                   GradientButton(
                       onPressed: () {},
                       text: "Select this Plan",
-                      gradients: [Colors.purple, Colors.blue])
+                      gradients: const [Colors.purple, Colors.blue])
                 ],
               );
-              ; // Added const for optimization
+// Added const for optimization
             }
           }),
         ],

@@ -81,7 +81,7 @@ class CustomTheme {
         color: AppColors.kTextWhite,
       ),
       checkmarkColor: AppColors.kPrimaryColor,
-      iconTheme: IconThemeData(color: AppColors.kPrimaryColor),
+      iconTheme: const IconThemeData(color: AppColors.kPrimaryColor),
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0), // Rounded rectangle shape
@@ -93,10 +93,11 @@ class CustomTheme {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4.0),
       ),
-      checkColor: WidgetStatePropertyAll(Colors.blue), // Check color
+      checkColor: const WidgetStatePropertyAll(Colors.blue), // Check color
 
-      fillColor: WidgetStatePropertyAll(Colors.transparent), // Background color
-      side: BorderSide(color: Colors.white, width: 2), // Border color
+      fillColor:
+          const WidgetStatePropertyAll(Colors.transparent), // Background color
+      side: const BorderSide(color: Colors.white, width: 2), // Border color
     ),
 
     inputDecorationTheme: const InputDecorationTheme().copyWith(

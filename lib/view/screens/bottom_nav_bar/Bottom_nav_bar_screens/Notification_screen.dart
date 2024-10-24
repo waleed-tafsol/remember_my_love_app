@@ -19,7 +19,7 @@ class NotificationScreen extends StatelessWidget {
             itemCount: 10,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return NotificationListTile();
+              return const NotificationListTile();
             },
           ),
         ),

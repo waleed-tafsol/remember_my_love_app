@@ -61,7 +61,7 @@ class Pages {
       case BottomNavBarScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => BottomNavBarScreen(),
+          page: () => const BottomNavBarScreen(),
           binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
@@ -75,35 +75,35 @@ class Pages {
       case UpdatePasswordScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => UpdatePasswordScreen(),
+          page: () => const UpdatePasswordScreen(),
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
       case WriteAMemoryScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => WriteAMemoryScreen(),
+          page: () => const WriteAMemoryScreen(),
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
       case RecipientDetailsScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => RecipientDetailsScreen(),
+          page: () => const RecipientDetailsScreen(),
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
       case ScheduleMemoryScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => ScheduleMemoryScreen(),
+          page: () => const ScheduleMemoryScreen(),
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
       case MemoryScheduledSucceccfully.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => MemoryScheduledSucceccfully(),
+          page: () => const MemoryScheduledSucceccfully(),
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );

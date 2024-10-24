@@ -107,7 +107,7 @@ class ChooseYourPlanScreen extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.check_circle,
                         color: AppColors.kIconColor,
                       ),
@@ -125,13 +125,13 @@ class ChooseYourPlanScreen extends StatelessWidget {
               ),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           GradientButton(
               onPressed: () {
                 Get.toNamed(ContinueScreen.routeName);
               },
               text: "Select This Plan",
-              gradients: [Colors.purpleAccent, Colors.blue]),
+              gradients: const [Colors.purpleAccent, Colors.blue]),
           k2hSizedBox,
           Text(
             "Stick with 1 GB Free Plan",

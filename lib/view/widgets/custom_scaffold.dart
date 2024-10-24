@@ -20,9 +20,10 @@ class CustomScaffold extends StatelessWidget {
   final bool? automaticallyImplyLeading;
   final Color? scaffoldBackgroundColor;
   final Color? drawerScrimColor;
+  final EdgeInsets? padding;
 
   const CustomScaffold({
-    Key? key,
+    super.key,
     required this.body,
     this.backgroundImage,
     this.appBar,
@@ -40,7 +41,8 @@ class CustomScaffold extends StatelessWidget {
     this.automaticallyImplyLeading,
     this.scaffoldBackgroundColor,
     this.drawerScrimColor,
-  }) : super(key: key);
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +50,14 @@ class CustomScaffold extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: backgroundImage ?? AssetImage(Image_assets.scaffold_image),
+          image:
+              backgroundImage ?? const AssetImage(Image_assets.scaffold_image),
         ),
       ),
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
+          padding:
+              padding ?? EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
           child: Scaffold(
             appBar: appBar,
             bottomNavigationBar: bottomNavigationBar,

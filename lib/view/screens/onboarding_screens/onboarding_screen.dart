@@ -6,10 +6,8 @@ import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Choos
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../constants/assets.dart';
 import '../../../controllers/Onboarding_controller.dart';
-import '../auth_screens/sign_up_screen.dart';
 
 class OnboardingScreen extends GetView<OnboardingController> {
   const OnboardingScreen({super.key});
@@ -25,11 +23,23 @@ class OnboardingScreen extends GetView<OnboardingController> {
             SizedBox(
               height: 8.h,
             ),
-            Lottie.asset(
-              LottieAssets.loading,
-              height: 200.0,
-              repeat: false,
-              animate: true,
+            FutureBuilder(
+              future: Future.delayed(Duration(milliseconds: 500)),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SizedBox(
+                    height: 30.h,
+                  );
+                } else {
+                  return Lottie.asset(
+                    LottieAssets.loading,
+                    height: 30.h,
+                    fit: BoxFit.cover,
+                    repeat: false,
+                    animate: true,
+                  );
+                }
+              },
             ),
             SizedBox(
               height: 8.h,
@@ -49,7 +59,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                   ),
               textAlign: TextAlign.center,
             ),
-            Spacer(),
+            const Spacer(),
             SizedBox(
               height: kButtonHeight,
               child: GradientButton(
@@ -58,7 +68,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                 },
                 text: 'Continue',
                 textColor: Colors.lightBlue[900],
-                gradients: [
+                gradients: const [
                   Colors.blue,
                   Colors.white,
                 ],

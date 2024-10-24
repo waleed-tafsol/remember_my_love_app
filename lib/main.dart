@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glassmorphism/glassmorphism.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
-import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/view/screens/splash_screens/Splah_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

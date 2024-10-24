@@ -38,7 +38,7 @@ class NotificationListTile extends StatelessWidget {
             ),
           ],
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           '2m',
           style: TextStyleConstants.bodySmallWhite(context),

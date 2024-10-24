@@ -21,11 +21,25 @@ class MemoryScheduledSucceccfully extends StatelessWidget {
           SizedBox(
             height: 8.h,
           ),
-          Lottie.asset(
-            LottieAssets.loading,
-            height: 200.0,
-            repeat: false,
-            animate: true,
+          FutureBuilder(
+            future: Future.delayed(Duration(milliseconds: 500)),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Show loading animation
+                return SizedBox(
+                  height: 30.h,
+                );
+              } else {
+                return Lottie.asset(
+                  LottieAssets.loading,
+                  height: 30.h,
+                  fit: BoxFit.cover,
+                  repeat: false,
+                  animate: true,
+                );
+                // Show another animation after loading
+              }
+            },
           ),
           SizedBox(
             height: 8.h,
@@ -48,7 +62,7 @@ class MemoryScheduledSucceccfully extends StatelessWidget {
                 .copyWith(fontSize: 15.sp, fontWeight: FontWeight.w300),
             textAlign: TextAlign.center,
           ),
-          Spacer(),
+          const Spacer(),
           SizedBox(
             height: kButtonHeight,
             child: GradientButton(
@@ -58,7 +72,7 @@ class MemoryScheduledSucceccfully extends StatelessWidget {
               },
               text: 'Continue',
               textColor: Colors.lightBlue[900],
-              gradients: [
+              gradients: const [
                 Colors.blue,
                 Colors.white,
               ],

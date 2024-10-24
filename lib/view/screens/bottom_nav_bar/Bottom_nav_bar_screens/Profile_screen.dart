@@ -59,17 +59,17 @@ class ProfileScreen extends StatelessWidget {
               ),
             ],
           )),
-          My_storage_widget(),
+          const My_storage_widget(),
           k1hSizedBox,
           CustomGlassmorphicContainer(
-              margin: EdgeInsets.symmetric(vertical: 0),
+              margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
                   Get.toNamed(UpdatePasswordScreen.routeName);
                 },
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.visibility_off,
                       color: Colors.white,
                     ),
@@ -83,14 +83,14 @@ class ProfileScreen extends StatelessWidget {
               )),
           k2hSizedBox,
           CustomGlassmorphicContainer(
-            margin: EdgeInsets.symmetric(vertical: 0),
+            margin: const EdgeInsets.symmetric(vertical: 0),
             child: InkWell(
                 onTap: () {
                   Get.offAllNamed(SplashScreen.routeName);
                 },
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.logout_outlined,
                       color: Colors.white,
                     ),
@@ -104,14 +104,14 @@ class ProfileScreen extends StatelessWidget {
           ),
           k2hSizedBox,
           CustomGlassmorphicContainer(
-              margin: EdgeInsets.symmetric(vertical: 0),
+              margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
                   Get.toNamed(UpdatePasswordScreen.routeName);
                 },
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.delete,
                       color: Colors.white,
                     ),
@@ -125,14 +125,14 @@ class ProfileScreen extends StatelessWidget {
               )),
           k2hSizedBox,
           CustomGlassmorphicContainer(
-              margin: EdgeInsets.symmetric(vertical: 0),
+              margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
                   Get.toNamed(UpdatePasswordScreen.routeName);
                 },
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.delete,
                       color: Colors.white,
                     ),
@@ -146,14 +146,14 @@ class ProfileScreen extends StatelessWidget {
               )),
           k2hSizedBox,
           CustomGlassmorphicContainer(
-              margin: EdgeInsets.symmetric(vertical: 0),
+              margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
                   Get.toNamed(UpdatePasswordScreen.routeName);
                 },
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.delete,
                       color: Colors.white,
                     ),

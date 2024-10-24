@@ -36,17 +36,17 @@ class UpdatePasswordScreen extends StatelessWidget {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GlassTextFieldWithTitle(
+            const GlassTextFieldWithTitle(
               title: "Current Password",
               hintText: "Enter current password",
             ),
             k2hSizedBox,
-            GlassTextFieldWithTitle(
+            const GlassTextFieldWithTitle(
               title: "New Password",
               hintText: "Enter new password",
             ),
             k2hSizedBox,
-            GlassTextFieldWithTitle(
+            const GlassTextFieldWithTitle(
               title: "Confirm Password",
               hintText: "Enter confirm password",
             ),
@@ -57,7 +57,7 @@ class UpdatePasswordScreen extends StatelessWidget {
         GradientButton(
             onPressed: () {},
             text: "Update",
-            gradients: [Colors.purple, Colors.blue])
+            gradients: const [Colors.purple, Colors.blue])
       ],
     ));
   }

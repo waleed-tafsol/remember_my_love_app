@@ -32,7 +32,7 @@ class MyMemoriesScreen extends StatelessWidget {
           ),
           k1hSizedBox,
           GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,

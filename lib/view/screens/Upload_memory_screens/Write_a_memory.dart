@@ -10,9 +10,10 @@ import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../controllers/Upload_memory_controller.dart';
 import '../../widgets/Glass_text_field_with_text_widget.dart';
 
-class WriteAMemoryScreen extends StatelessWidget {
+class WriteAMemoryScreen extends GetView<UploadMemoryController> {
   const WriteAMemoryScreen({super.key});
   static const routeName = "WriteAMemoryScreen";
 
@@ -36,9 +37,10 @@ class WriteAMemoryScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const GlassTextFieldWithTitle(
+                GlassTextFieldWithTitle(
                   title: 'Title',
                   hintText: "Enter Title",
+                  controller: controller.titleController,
                 ),
                 k1hSizedBox,
                 const Text(
@@ -71,10 +73,11 @@ class WriteAMemoryScreen extends StatelessWidget {
                 SizedBox(
                   height: 20.h,
                   width: double.infinity,
-                  child: const TextField(
+                  child: TextField(
                     textAlignVertical: TextAlignVertical(y: -1.0),
                     expands: true,
                     maxLines: null,
+                    controller: controller.descriptionController,
                     decoration: InputDecoration(
                       hintText: "Enter Description",
                     ),
@@ -89,7 +92,7 @@ class WriteAMemoryScreen extends StatelessWidget {
                 Get.toNamed(RecipientDetailsScreen.routeName);
               },
               text: "Add Recipients",
-              gradients: [Colors.purple, Colors.blue])
+              gradients: const [Colors.purple, Colors.blue])
         ],
       ),
     );

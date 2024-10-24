@@ -63,11 +63,11 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                 )),
                 Row(
                   children: [
-                    Expanded(child: Divider()),
+                    const Expanded(child: Divider()),
                     k1wSizedBox,
-                    Text("Or"),
+                    const Text("Or"),
                     k1wSizedBox,
-                    Expanded(child: Divider())
+                    const Expanded(child: Divider())
                   ],
                 ),
                 CustomGlassmorphicContainer(
@@ -85,12 +85,12 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                 // GridView to display selected images
                 Obx(() {
                   if (controller.pickedFiles.isEmpty) {
-                    return SizedBox();
+                    return const SizedBox();
                   }
                   return GridView.builder(
                     shrinkWrap: true,
                     physics:
-                        NeverScrollableScrollPhysics(), // Disable scrolling
+                        const NeverScrollableScrollPhysics(), // Disable scrolling
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, // Number of columns
                         childAspectRatio: 1.1, // Aspect ratio of grid items
@@ -138,13 +138,13 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
           right: 0,
           child: Obx(() {
             return controller.pickedFiles.isEmpty
-                ? SizedBox()
+                ? const SizedBox()
                 : GradientButton(
                     onPressed: () {
                       Get.toNamed(WriteAMemoryScreen.routeName);
                     },
                     text: "Continue",
-                    gradients: [Colors.purple, Colors.blue]);
+                    gradients: const [Colors.purple, Colors.blue]);
           }),
         ),
       ],
