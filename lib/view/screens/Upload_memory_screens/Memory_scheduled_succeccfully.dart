@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
+import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/constants.dart';
-import '../auth_screens/sign_up_screen.dart';
 import '../bottom_nav_bar/Bottom_nav_bar.dart';
 
 class MemoryScheduledSucceccfully extends StatelessWidget {
@@ -21,7 +22,7 @@ class MemoryScheduledSucceccfully extends StatelessWidget {
             height: 8.h,
           ),
           Lottie.asset(
-            'assets/Lottie/Animation - 1729714562307 (1).json',
+            LottieAssets.loading,
             height: 200.0,
             repeat: false,
             animate: true,

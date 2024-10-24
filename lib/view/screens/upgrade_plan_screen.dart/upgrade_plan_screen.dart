@@ -5,10 +5,10 @@ import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/Choose_your_plan_controller.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
-import 'package:remember_my_love_app/view/screens/splash_screens/Splah_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
+import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class UpgradePlanScreen extends GetView<ChooseYourPlanController> {

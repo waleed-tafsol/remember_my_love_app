@@ -28,3 +28,10 @@ class SvgAssets {
   static const String google = '${_assets}google.svg';
   static const String edit = '${_assets}edit.svg';
 }
+
+class LottieAssets {
+  static const String _assets = 'assets/Lottie/';
+
+  static const String loading = '${_assets}loading.json';
+  static const String confettie = '${_assets}confettie.json';
+}

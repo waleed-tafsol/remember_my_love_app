@@ -7,6 +7,7 @@ import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/Glass_text_field_with_text_widget.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
+import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 
 class UpdatePasswordScreen extends StatelessWidget {
   const UpdatePasswordScreen({super.key});

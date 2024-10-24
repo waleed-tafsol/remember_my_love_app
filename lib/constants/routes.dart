@@ -7,6 +7,7 @@ import 'package:remember_my_love_app/view/screens/upgrade_plan_screen.dart/upgra
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Write_a_memory.dart';
 import '../bindings/Bottom_nav_bar_bindings.dart';
+import '../bindings/Memory_detail_bindings.dart';
 import '../bindings/UpgradePlanBindings.dart';
 import '../bindings/splash_binding.dart';
 import '../view/screens/Memory_tile_screen/Memory_tile_screen.dart';
@@ -64,11 +65,11 @@ class Pages {
           binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
-      case MemoryTileScreen.routeName:
+      case MemoryDetailScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => MemoryTileScreen(),
-          // binding: BottomNavBarBindings(),
+          page: () => MemoryDetailScreen(),
+          binding: MemoryDetailBindings(),
           transition: _routeTransition,
         );
       case UpdatePasswordScreen.routeName:

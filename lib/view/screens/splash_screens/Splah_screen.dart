@@ -8,6 +8,7 @@ import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
+import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../widgets/Custom_glass_container.dart';
@@ -267,14 +268,18 @@ class _SplashScreenState extends State<SplashScreen>
                 ]),
               ),
               k2hSizedBox,
-              SizedBox(
-                height: kButtonHeight,
-                child: GradientButton(
-                  onPressed: () {
-                    Get.offAndToNamed(BottomNavBarScreen.routeName);
-                  },
-                  gradients: const [Colors.purple, Colors.blue],
-                  text: 'Sign In',
+              AnimatedOpacity(
+                duration: Duration(milliseconds: 500),
+                opacity: _showText ? 1 : 0,
+                child: SizedBox(
+                  height: kButtonHeight,
+                  child: GradientButton(
+                    onPressed: () {
+                      Get.offAndToNamed(BottomNavBarScreen.routeName);
+                    },
+                    gradients: const [Colors.purple, Colors.blue],
+                    text: 'Sign In',
+                  ),
                 ),
               ),
             ],

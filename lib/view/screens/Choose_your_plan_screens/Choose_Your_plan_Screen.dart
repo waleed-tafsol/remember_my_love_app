@@ -6,6 +6,7 @@ import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Conti
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/onboarding_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
+import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../widgets/Custom_glass_container.dart';

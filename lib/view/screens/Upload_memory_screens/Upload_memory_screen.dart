@@ -7,6 +7,7 @@ import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Write_a_
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
+import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../controllers/Upload_memory_controller.dart';
@@ -130,17 +131,22 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
           ),
         ),
         // here but i dont have access to file object here
+
         Positioned(
           bottom: 10.h,
           left: 0,
           right: 0,
-          child: GradientButton(
-              onPressed: () {
-                Get.toNamed(WriteAMemoryScreen.routeName);
-              },
-              text: "Continue",
-              gradients: [Colors.purple, Colors.blue]),
-        )
+          child: Obx(() {
+            return controller.pickedFiles.isEmpty
+                ? SizedBox()
+                : GradientButton(
+                    onPressed: () {
+                      Get.toNamed(WriteAMemoryScreen.routeName);
+                    },
+                    text: "Continue",
+                    gradients: [Colors.purple, Colors.blue]);
+          }),
+        ),
       ],
     );
   }

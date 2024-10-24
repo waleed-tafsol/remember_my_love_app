@@ -3,11 +3,9 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/view/screens/Memory_tile_screen/Memory_tile_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../constants/TextConstant.dart';
 import '../../constants/assets.dart';
 import '../../constants/constants.dart';
-import '../screens/splash_screens/Splah_screen.dart';
 import 'Custom_glass_container.dart';
 
 class LetterListTile extends StatelessWidget {
@@ -24,7 +22,7 @@ class LetterListTile extends StatelessWidget {
         width: double.infinity,
         child: InkWell(
           onTap: () {
-            Get.toNamed(MemoryTileScreen.routeName);
+            Get.toNamed(MemoryDetailScreen.routeName);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
