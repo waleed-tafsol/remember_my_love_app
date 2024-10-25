@@ -39,7 +39,7 @@ class CustomGlassmorphicContainer extends StatelessWidget {
           width: width ?? double.infinity,
           height: height ?? double.infinity,
           borderRadius: borderRadius ?? 20,
-          border: 0,
+          border: 1.5,
           blur: 10,
           linearGradient: linearGradient ??
               LinearGradient(
@@ -58,8 +58,8 @@ class CustomGlassmorphicContainer extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color.fromARGB(255, 18, 253, 2).withOpacity(1),
-                  const Color((0xFFFFFFFF)).withOpacity(1),
+                  const Color.fromARGB(255, 130, 236, 231).withOpacity(0.4),
+                  const Color.fromARGB(255, 252, 101, 242).withOpacity(0.4),
                 ],
               ),
           child: Padding(

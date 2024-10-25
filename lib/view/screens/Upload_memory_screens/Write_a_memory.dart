@@ -9,7 +9,6 @@ import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.da
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../controllers/Upload_memory_controller.dart';
 import '../../widgets/Glass_text_field_with_text_widget.dart';
 
@@ -102,7 +101,6 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
     showMenu(
       color: AppColors.kGlassColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      surfaceTintColor: Colors.amber,
 
       elevation: 0,
       context: context,
