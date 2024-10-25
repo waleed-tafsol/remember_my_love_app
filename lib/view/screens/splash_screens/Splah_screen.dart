@@ -193,7 +193,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 Expanded(
                                     child: Container(
                                   color: Colors.white,
-                                  height: 0.5,
+                                  height: 0.1.h,
                                 )),
                                 Padding(
                                   padding:
@@ -205,7 +205,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 Expanded(
                                     child: Container(
                                   color: Colors.white,
-                                  height: 0.5,
+                                  height: 0.1.h,
                                 )),
                               ],
                             ),

@@ -4,12 +4,9 @@ import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Write_a_memory.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
-import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../controllers/Upload_memory_controller.dart';
 
 class UploadMemoryScreen extends GetView<UploadMemoryController> {
@@ -111,16 +108,16 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                             ),
                           ),
                           Positioned(
-                            right: 2.w,
-                            top: 2,
-                            child: CustomRoundedGlassButton(
-                                icon: Icons.delete,
-                                ontap: () {
-                                  print("view ontap");
-                                  controller.removeFile(file);
-                                }),
-                          )
-                          // i want to add this button on top of single child scrollview
+                              right: 2.w,
+                              top: 2,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.red,
+                                child: IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () {
+                                      controller.removeFile(file);
+                                    }),
+                              ))
                         ],
                       );
                     },
@@ -130,10 +127,8 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
             ),
           ),
         ),
-        // here but i dont have access to file object here
-
         Positioned(
-          bottom: 10.h,
+          bottom: 14.h,
           left: 0,
           right: 0,
           child: Obx(() {

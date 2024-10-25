@@ -15,6 +15,7 @@ class CustomGlassCalendarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        margin: EdgeInsets.symmetric(vertical: 1.h),
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
@@ -27,38 +28,17 @@ class CustomGlassCalendarWidget extends StatelessWidget {
             ],
           ),
           border: Border.all(
-            color: Colors.white.withOpacity(0.5), // Border color
+            color: Colors.white.withOpacity(0.5),
             width: 1,
           ),
         ),
-        // borderRadius: 20,
-        // border: 1.5,
-        // blur: 10,
-        // linearGradient: LinearGradient(
-        //     begin: Alignment.topLeft,
-        //     end: Alignment.bottomRight,
-        //     colors: [
-        //       const Color.fromARGB(255, 2, 255, 242).withOpacity(0.3),
-        //       const Color.fromARGB(255, 255, 0, 238).withOpacity(0.3),
-        //     ],
-        //     stops: const [
-        //       0.1,
-        //       1,
-        //     ]),
-        // borderGradient: LinearGradient(
-        //   begin: Alignment.topLeft,
-        //   end: Alignment.bottomRight,
-        //   colors: [
-        //     const Color.fromARGB(255, 130, 236, 231).withOpacity(0.4),
-        //     const Color.fromARGB(255, 252, 101, 242).withOpacity(0.4),
-        //   ],
-        // ),
-        // height: 45.h,
         child: Theme(
           data: Theme.of(context).copyWith(
               dividerColor: Colors.transparent,
               textTheme: Theme.of(context).textTheme),
           child: ExpansionTile(
+            expansionAnimationStyle: AnimationStyle(
+                curve: Curves.easeInOut, duration: Durations.extralong1),
             onExpansionChanged: (value) {
               controller.toggleCalendarVisibility(value);
             },
@@ -97,19 +77,21 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                 Builder(builder: (context) {
                   return InkWell(
                     onTap: () {
-                      ExpansionTileController.of(context).expand();
-                      controller.toggleCalendarVisibility(false);
+                      if (controller.calendarHidden.value) {
+                        ExpansionTileController.of(context).expand();
+                        controller.toggleCalendarVisibility(false);
+                      }
                       // controller.controller.value.expand();
                     },
                     child: Obx(() {
                       return Container(
-                          color: controller.calendarHidded.value
+                          color: controller.calendarHidden.value
                               ? Colors.transparent
                               : Colors.white,
                           padding: const EdgeInsets.all(3),
                           child: Icon(
                             Icons.window,
-                            color: controller.calendarHidded.value
+                            color: controller.calendarHidden.value
                                 ? Colors.white
                                 : Colors.indigo[600],
                           ));
@@ -119,18 +101,20 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                 Builder(builder: (context) {
                   return InkWell(
                     onTap: () {
-                      ExpansionTileController.of(context).collapse();
-                      controller.toggleCalendarVisibility(true);
+                      if (!controller.calendarHidden.value) {
+                        ExpansionTileController.of(context).collapse();
+                        controller.toggleCalendarVisibility(true);
+                      }
                     },
                     child: Obx(() {
                       return Container(
-                          color: !controller.calendarHidded.value
+                          color: !controller.calendarHidden.value
                               ? Colors.transparent
                               : Colors.white,
                           padding: const EdgeInsets.all(3),
                           child: Icon(
                             Icons.menu,
-                            color: !controller.calendarHidded.value
+                            color: !controller.calendarHidden.value
                                 ? Colors.white
                                 : Colors.indigo[600],
                           ));

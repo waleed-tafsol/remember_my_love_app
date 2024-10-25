@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 
 class CalendarController extends GetxController {
-  RxBool calendarHidded = false.obs;
+  RxBool calendarHidden = false.obs;
   Rx<DateTime> focusedDay = DateTime.now().obs;
 
   void toggleCalendarVisibility(bool val) {
-    calendarHidded.value != val ? calendarHidded.value = val : null;
+    calendarHidden.value != val ? calendarHidden.value = val : null;
   }
 
   String getMonthName(int month) {

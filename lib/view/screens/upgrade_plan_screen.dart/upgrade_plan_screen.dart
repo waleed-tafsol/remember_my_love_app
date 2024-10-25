@@ -4,7 +4,6 @@ import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/Choose_your_plan_controller.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -115,7 +114,6 @@ class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
                   k4hSizedBox,
                   CustomGlassmorphicContainer(
                     width: double.infinity,
-                    height: 22.h,
                     child: Center(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -181,7 +179,6 @@ class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
                   k4hSizedBox,
                   CustomGlassmorphicContainer(
                     width: double.infinity,
-                    height: 22.h,
                     child: Center(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
