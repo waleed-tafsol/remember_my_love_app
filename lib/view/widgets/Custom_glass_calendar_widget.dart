@@ -10,22 +10,68 @@ import 'package:table_calendar/table_calendar.dart';
 class CustomGlassCalendarWidget extends StatelessWidget {
   CustomGlassCalendarWidget({super.key});
 
-  DateTime focusedDay = DateTime.now();
-
   final CalendarController controller = Get.put(CalendarController());
 
   @override
   Widget build(BuildContext context) {
-    return CustomGlassmorphicContainer(
-        height: 45.h,
+    return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              const Color.fromARGB(255, 2, 255, 242).withOpacity(0.3),
+              const Color.fromARGB(255, 255, 0, 238).withOpacity(0.3),
+            ],
+          ),
+          border: Border.all(
+            color: Colors.white.withOpacity(0.5), // Border color
+            width: 1,
+          ),
+        ),
+        // borderRadius: 20,
+        // border: 1.5,
+        // blur: 10,
+        // linearGradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [
+        //       const Color.fromARGB(255, 2, 255, 242).withOpacity(0.3),
+        //       const Color.fromARGB(255, 255, 0, 238).withOpacity(0.3),
+        //     ],
+        //     stops: const [
+        //       0.1,
+        //       1,
+        //     ]),
+        // borderGradient: LinearGradient(
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        //   colors: [
+        //     const Color.fromARGB(255, 130, 236, 231).withOpacity(0.4),
+        //     const Color.fromARGB(255, 252, 101, 242).withOpacity(0.4),
+        //   ],
+        // ),
+        // height: 45.h,
         child: Theme(
-          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+          data: Theme.of(context).copyWith(
+              dividerColor: Colors.transparent,
+              textTheme: Theme.of(context).textTheme),
           child: ExpansionTile(
+            onExpansionChanged: (value) {
+              controller.toggleCalendarVisibility(value);
+            },
+            initiallyExpanded: true,
+            collapsedTextColor: AppColors.kTextWhite,
+            textColor: AppColors.kTextWhite,
             showTrailingIcon: false,
             title: Row(
               children: [
-                Text("My Memories"),
-                Spacer(),
+                const Text(
+                  "My Memories",
+                ),
+                const Spacer(),
                 InkWell(
                   onTap: () {
                     _showDropdown(context);
@@ -33,9 +79,14 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(_getMonthName(focusedDay.month)),
+                      Obx(() {
+                        return Text(
+                          "${controller.focusedDay.value.year} "
+                          "${controller.getMonthName(controller.focusedDay.value.month)}",
+                        );
+                      }),
                       k1wSizedBox,
-                      Icon(
+                      const Icon(
                         Icons.keyboard_arrow_down_sharp,
                         color: AppColors.kIconColor,
                       )
@@ -55,12 +106,12 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                           color: controller.calendarHidded.value
                               ? Colors.transparent
                               : Colors.white,
-                          padding: EdgeInsets.all(3),
+                          padding: const EdgeInsets.all(3),
                           child: Icon(
                             Icons.window,
                             color: controller.calendarHidded.value
                                 ? Colors.white
-                                : Colors.blue[900],
+                                : Colors.indigo[600],
                           ));
                     }),
                   );
@@ -76,12 +127,12 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                           color: !controller.calendarHidded.value
                               ? Colors.transparent
                               : Colors.white,
-                          padding: EdgeInsets.all(3),
+                          padding: const EdgeInsets.all(3),
                           child: Icon(
                             Icons.menu,
                             color: !controller.calendarHidded.value
                                 ? Colors.white
-                                : Colors.blue[900],
+                                : Colors.indigo[600],
                           ));
                     }),
                   );
@@ -92,10 +143,10 @@ class CustomGlassCalendarWidget extends StatelessWidget {
               k2hSizedBox,
               TableCalendar(
                 focusedDay: DateTime.now(),
-                firstDay: DateTime.now().subtract(Duration(days: 365)),
-                lastDay: DateTime.now().add(Duration(days: 365)),
+                firstDay: DateTime.now().subtract(const Duration(days: 365)),
+                lastDay: DateTime.now().add(const Duration(days: 365)),
                 headerVisible: false,
-                calendarStyle: CalendarStyle(
+                calendarStyle: const CalendarStyle(
                   todayDecoration: BoxDecoration(
                     color: Colors.blueAccent,
                     shape: BoxShape.circle,
@@ -106,11 +157,11 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                   ),
                 ),
                 rowHeight: 5.h,
-                daysOfWeekStyle: DaysOfWeekStyle(
+                daysOfWeekStyle: const DaysOfWeekStyle(
                   weekdayStyle: TextStyle(color: AppColors.kPrimaryColor),
                   weekendStyle: TextStyle(color: AppColors.kPrimaryColor),
                 ),
-                headerStyle: HeaderStyle(),
+                headerStyle: const HeaderStyle(),
                 onDaySelected: (selectedDay, focusedDay) {
                   // Handle day selection
                   print("Selected day: $selectedDay");
@@ -123,22 +174,29 @@ class CustomGlassCalendarWidget extends StatelessWidget {
 
   void _showDropdown(BuildContext context) {
     showMenu(
-      color: const Color.fromARGB(66, 255, 255, 255),
+      color: const Color.fromARGB(226, 66, 0, 137),
       context: context,
-      position: RelativeRect.fromLTRB(
+      position: const RelativeRect.fromLTRB(
           100.0, 0.0, 0.0, 100.0), // Adjust position if needed
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       elevation: 0,
       items: List.generate(12, (index) {
-        String monthName = _getMonthName(index + 1);
+        String monthName = controller.getMonthName(index + 1);
         return PopupMenuItem<String>(
           value: monthName,
+          onTap: () {
+            controller.focusedDay.value = DateTime(
+                DateTime.now().year, controller.getMonthIndex(monthName), 1);
+          },
           child: CustomGlassmorphicContainer(
             borderRadius: 5,
+            padding: const EdgeInsets.symmetric(
+              vertical: 5,
+            ),
             child: Center(
               child: Text(
                 monthName,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 16,
                     color: AppColors.kTextWhite), // Customize text style
               ),
@@ -152,44 +210,9 @@ class CustomGlassCalendarWidget extends StatelessWidget {
         print("Selected Month: $newValue");
         // Update focusedDay to the first day of the selected month
         // setState(() {
-        focusedDay = DateTime(DateTime.now().year, _getMonthIndex(newValue), 1);
+
         // });
       }
     });
-  }
-
-  String _getMonthName(int month) {
-    return [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ][month - 1];
-  }
-
-  int _getMonthIndex(String monthName) {
-    return [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December',
-        ].indexOf(monthName) +
-        1;
   }
 }
