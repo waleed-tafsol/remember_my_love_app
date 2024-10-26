@@ -123,12 +123,15 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                     },
                   );
                 }),
+                SizedBox(
+                  height: 10.h,
+                )
               ],
             ),
           ),
         ),
         Positioned(
-          bottom: 14.h,
+          bottom: 10.h,
           left: 0,
           right: 0,
           child: Obx(() {

@@ -104,8 +104,8 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
 
       elevation: 0,
       context: context,
-      position: const RelativeRect.fromLTRB(
-          100.0, 0.0, 0.0, 100.0), // Adjust position if needed
+      position: RelativeRect.fromLTRB(
+          50.w, 38.h, 8.w, 0.0), // Adjust position if needed
       items: <String>['Option 1', 'Option 2', 'Option 3'].map((String value) {
         return PopupMenuItem<String>(
           value: value,

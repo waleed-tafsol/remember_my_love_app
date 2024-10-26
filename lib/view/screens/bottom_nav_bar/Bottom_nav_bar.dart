@@ -40,8 +40,9 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
       bottomNavigationBar: Obx(() {
         return ClipRect(
           child: CrystalNavigationBar(
-            marginR: EdgeInsets.symmetric(vertical: 20, horizontal: 8.w),
-            itemPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 3.w),
+            marginR: EdgeInsets.only(
+                bottom: 1.2.h, left: 8.w, right: 8.w, top: 3.2.h),
+            itemPadding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
             // margin: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
             currentIndex:
                 SelectedTab.values.indexOf(controller.selectedTab.value),
