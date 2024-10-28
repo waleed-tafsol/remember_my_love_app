@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../screens/splash_screens/Splah_screen.dart';
+import '../screens/auth_screens/Splah_screen.dart';
 
 class CustomRoundedGlassButton extends StatelessWidget {
   final IconData icon;

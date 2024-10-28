@@ -11,7 +11,7 @@ class Question {
 
 class QuestionsController extends GetxController {
   // Use RxList to hold the questions
-  final RxList<Question> questions = <Question>[
+  final List<Question> questions = <Question>[
     Question(
       question: "Have you been struggling with anything lately?",
       answers: ["Anxiety", "Grief", "Breakup", "Depression"],
@@ -21,16 +21,14 @@ class QuestionsController extends GetxController {
           "It is a long established fact that a reader will be distracted by the readable.",
       answers: ["Grief", "Anxiety", "Breakup", "Depression"],
     ),
-    // Additional questions can be added here
-  ].obs; // Convert the list to an observable list
+  ];
 
-  var currentQuestionIndex = 0.obs; // Track the current question index
+  var currentQuestionIndex = 0.obs;
 
-  // Getter for the current question
   Question get currentQuestion => questions[currentQuestionIndex.value];
 
   void onChanged(String? value) {
-    currentQuestion.selectedAnswer.value = value; // Set the selected answer
+    currentQuestion.selectedAnswer.value = value;
   }
 
   void nextQuestion() {
