@@ -9,6 +9,7 @@ class CustomTheme {
     scaffoldBackgroundColor: AppColors.kScaffoldBackgroundColor,
     primaryColor: AppColors.kPrimaryColor,
     primaryIconTheme: const IconThemeData(color: AppColors.kPrimaryColor),
+    iconTheme: const IconThemeData(color: AppColors.kIconColor),
     iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
       iconColor: WidgetStateProperty.all(AppColors.kPrimaryColor),

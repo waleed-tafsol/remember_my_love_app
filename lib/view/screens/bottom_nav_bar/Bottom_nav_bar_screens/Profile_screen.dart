@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
+import 'package:remember_my_love_app/view/screens/Privacy_policy_screens/Privacy_policy_screen.dart';
+import 'package:remember_my_love_app/view/screens/Terms_and_conditions_screen/Terms_and_condition_screen.dart';
 import 'package:remember_my_love_app/view/screens/splash_screens/Splah_screen.dart';
 import 'package:remember_my_love_app/view/screens/update_password_screen/update_password_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
@@ -107,12 +108,12 @@ class ProfileScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
-                  Get.toNamed(UpdatePasswordScreen.routeName);
+                  Get.toNamed(PrivacyPolicyScreen.routeName);
                 },
                 child: Row(
                   children: [
                     const Icon(
-                      Icons.delete,
+                      Icons.privacy_tip_outlined,
                       color: Colors.white,
                     ),
                     k3wSizedBox,
@@ -128,12 +129,12 @@ class ProfileScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
-                  Get.toNamed(UpdatePasswordScreen.routeName);
+                  Get.toNamed(TermsAndConditionScreen.routeName);
                 },
                 child: Row(
                   children: [
                     const Icon(
-                      Icons.delete,
+                      Icons.description_outlined,
                       color: Colors.white,
                     ),
                     k3wSizedBox,
@@ -149,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
-                  Get.toNamed(UpdatePasswordScreen.routeName);
+                  // Get.toNamed(UpdatePasswordScreen.routeName);
                 },
                 child: Row(
                   children: [

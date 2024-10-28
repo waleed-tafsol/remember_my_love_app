@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/Choose_your_plan_screens/Continue_screen.dart';
+import 'package:remember_my_love_app/view/screens/Privacy_policy_screens/Privacy_policy_screen.dart';
+import 'package:remember_my_love_app/view/screens/Terms_and_conditions_screen/Terms_and_condition_screen.dart';
 import 'package:remember_my_love_app/view/screens/update_password_screen/update_password_screen.dart';
 import 'package:remember_my_love_app/view/screens/upgrade_plan_screen.dart/upgrade_plan_screen.dart';
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Write_a_memory.dart';
 import '../bindings/Bottom_nav_bar_bindings.dart';
 import '../bindings/Memory_detail_bindings.dart';
+import '../bindings/Questions_bindings.dart';
 import '../bindings/UpgradePlanBindings.dart';
 import '../bindings/splash_binding.dart';
 import '../view/screens/Memory_tile_screen/Memory_tile_screen.dart';
+import '../view/screens/Questions_screens/Questions_screen.dart';
 import '../view/screens/Upload_memory_screens/Memory_scheduled_succeccfully.dart';
 import '../view/screens/Upload_memory_screens/Recipient_details_screen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
@@ -110,8 +114,29 @@ class Pages {
       case UpgradePlanScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => UpgradePlanScreen(),
+          page: () => const UpgradePlanScreen(),
           binding: ChooseYourPlanBindings(),
+          transition: _routeTransition,
+        );
+      case QuestionsScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const QuestionsScreen(),
+          binding: QuestionsBindings(),
+          transition: _routeTransition,
+        );
+      case PrivacyPolicyScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const PrivacyPolicyScreen(),
+          // binding: QuestionsBindings(),
+          transition: _routeTransition,
+        );
+      case TermsAndConditionScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const TermsAndConditionScreen(),
+          // binding: QuestionsBindings(),
           transition: _routeTransition,
         );
 

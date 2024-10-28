@@ -103,7 +103,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                               return Text(
                                   "${controller.selectedDate.value.year} : ${controller.selectedDate.value.month} : ${controller.selectedDate.value.day}");
                             }),
-                            Icon(
+                            const Icon(
                               Icons.keyboard_arrow_down_outlined,
                               color: AppColors.kIconColor,
                             )
@@ -168,10 +168,10 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Obx(() {
-                              return Text(
-                                  "${controller.selectedTime.value.format(context)}");
+                              return Text(controller.selectedTime.value
+                                  .format(context));
                             }),
-                            Icon(
+                            const Icon(
                               Icons.keyboard_arrow_down_outlined,
                               color: AppColors.kIconColor,
                             )

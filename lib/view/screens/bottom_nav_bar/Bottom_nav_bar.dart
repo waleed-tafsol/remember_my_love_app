@@ -1,6 +1,5 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:remember_my_love_app/constants/StyleConstants.dart';
 import 'package:remember_my_love_app/view/screens/Upload_memory_screens/Upload_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Notification_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screen.dart';

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -40,7 +38,7 @@ class CustomGlassmorphicContainer extends StatelessWidget {
           height: height ?? double.infinity,
           borderRadius: borderRadius ?? 20,
           border: 1.5,
-          blur: 10,
+          blur: blur ?? 10,
           linearGradient: linearGradient ??
               LinearGradient(
                   begin: Alignment.topLeft,

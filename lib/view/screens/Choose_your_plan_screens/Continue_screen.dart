@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/constants.dart';
+import '../Questions_screens/Questions_screen.dart';
 
 class ContinueScreen extends StatelessWidget {
   const ContinueScreen({super.key});
@@ -15,18 +15,18 @@ class ContinueScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       body: Stack(
         fit: StackFit.expand,
         children: [
           Positioned.fill(
             child: FutureBuilder(
               future: Future.delayed(
-                  Duration(milliseconds: 1500)), // Simulate loading time
+                  const Duration(milliseconds: 1500)), // Simulate loading time
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   // Show loading animation
-                  return SizedBox();
+                  return const SizedBox();
                 } else {
                   // Show another animation after loading
                   return Lottie.asset(
@@ -94,7 +94,7 @@ class ContinueScreen extends StatelessWidget {
                   height: kButtonHeight,
                   child: GradientButton(
                     onPressed: () {
-                      Get.offAllNamed(BottomNavBarScreen.routeName);
+                      Get.toNamed(QuestionsScreen.routeName);
                     },
                     text: 'Continue',
                     textColor: Colors.lightBlue[900],

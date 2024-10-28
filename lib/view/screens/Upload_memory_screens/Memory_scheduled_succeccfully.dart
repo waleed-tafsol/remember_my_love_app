@@ -22,7 +22,7 @@ class MemoryScheduledSucceccfully extends StatelessWidget {
             height: 8.h,
           ),
           FutureBuilder(
-            future: Future.delayed(Duration(milliseconds: 500)),
+            future: Future.delayed(const Duration(milliseconds: 500)),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // Show loading animation

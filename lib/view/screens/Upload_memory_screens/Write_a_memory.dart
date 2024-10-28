@@ -73,11 +73,11 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
                   height: 20.h,
                   width: double.infinity,
                   child: TextField(
-                    textAlignVertical: TextAlignVertical(y: -1.0),
+                    textAlignVertical: const TextAlignVertical(y: -1.0),
                     expands: true,
                     maxLines: null,
                     controller: controller.descriptionController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Enter Description",
                     ),
                   ),

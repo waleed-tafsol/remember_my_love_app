@@ -11,7 +11,7 @@ class UploadMemoryController extends GetxController {
   final descriptionController = TextEditingController();
   RxList<Recipient> recipients = <Recipient>[].obs;
   Rx<DateTime> selectedDate = DateTime.now().add(const Duration(days: 1)).obs;
-  Rx<TimeOfDay> selectedTime = TimeOfDay(hour: 0, minute: 0).obs;
+  Rx<TimeOfDay> selectedTime = const TimeOfDay(hour: 0, minute: 0).obs;
 
   @override
   void onInit() {

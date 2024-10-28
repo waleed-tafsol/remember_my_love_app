@@ -113,7 +113,7 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                               child: CircleAvatar(
                                 backgroundColor: Colors.red,
                                 child: IconButton(
-                                    icon: Icon(Icons.delete),
+                                    icon: const Icon(Icons.delete),
                                     onPressed: () {
                                       controller.removeFile(file);
                                     }),
