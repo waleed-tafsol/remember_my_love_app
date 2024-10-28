@@ -23,7 +23,7 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
       body: Obx(() {
         switch (controller.selectedTab.value) {
           case SelectedTab.home:
-            return const HomeScreen();
+            return HomeScreen();
           case SelectedTab.memories:
             return const MyMemoriesScreen();
           case SelectedTab.add:
@@ -33,7 +33,7 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
           case SelectedTab.notification:
             return const NotificationScreen();
           default:
-            return const HomeScreen(); // Fallback
+            return HomeScreen(); // Fallback
         }
       }),
       bottomNavigationBar: Obx(() {
