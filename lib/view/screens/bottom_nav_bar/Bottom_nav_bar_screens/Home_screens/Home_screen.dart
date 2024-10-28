@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
-import 'package:remember_my_love_app/view/widgets/Custom_glass_calendar_widget.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Widgets/Custom_glass_calendar_widget.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../constants/assets.dart';
-import '../../../widgets/Letter_list_tile_widget.dart';
-import '../../../widgets/My_storage_widget.dart';
+import '../../../../../constants/assets.dart';
+import 'Widgets/Letter_list_tile_widget.dart';
+import 'Widgets/My_storage_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

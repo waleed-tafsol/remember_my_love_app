@@ -3,8 +3,8 @@ import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../constants/assets.dart';
-import '../../splash_screens/Splah_screen.dart';
+import '../../../../../constants/assets.dart';
+import '../../../auth_screens/Splah_screen.dart';
 
 class MyMemoriesScreen extends StatelessWidget {
   const MyMemoriesScreen({super.key});
