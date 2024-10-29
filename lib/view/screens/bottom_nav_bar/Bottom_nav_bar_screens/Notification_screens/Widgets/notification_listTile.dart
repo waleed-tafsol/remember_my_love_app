@@ -32,7 +32,7 @@ class NotificationListTile extends StatelessWidget {
             k1hSizedBox,
             Text(
               "It is a long established fact that",
-              style: TextStyleConstants.bodySmallWhite(context),
+              style: TextStyleConstants.bodyLargeWhite(context),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),

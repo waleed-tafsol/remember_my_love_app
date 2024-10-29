@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/Splah_screen.dart';
+import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'constants/routes.dart';

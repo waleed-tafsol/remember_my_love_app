@@ -107,140 +107,139 @@ class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
           SizedBox(
             height: 12.h,
           ),
-          Obx(() {
-            if (controller.selectedPlan.value == 'Monthly') {
-              return Column(
-                children: [
-                  k4hSizedBox,
-                  CustomGlassmorphicContainer(
-                    width: double.infinity,
-                    child: Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "\$25",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "/Month",
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ],
-                          ),
-                          k2hSizedBox,
-                          Text(
-                            'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-                            textAlign: TextAlign.center,
-                            style: TextStyleConstants.bodySmallWhite(context),
-                          ),
-                          k2hSizedBox,
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                Icons.check_circle,
-                                color: AppColors.kIconColor,
-                              ),
-                              k1wSizedBox,
-                              Text(
-                                "Get 100 GB Storage",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
+          Expanded(
+            child: Obx(() {
+              if (controller.selectedPlan.value == 'Monthly') {
+                return Column(
+                  children: [
+                    k4hSizedBox,
+                    CustomGlassmorphicContainer(
+                      width: double.infinity,
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "\$25",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "/Month",
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                            k2hSizedBox,
+                            Text(
+                              'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
+                              textAlign: TextAlign.center,
+                              style:
+                                  TextStyleConstants.bodyMediumWhite(context),
+                            ),
+                            k2hSizedBox,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.check_circle,
+                                  color: AppColors.kIconColor,
+                                ),
+                                k1wSizedBox,
+                                Text(
+                                  "Get 100 GB Storage",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  // const Spacer(),
-                  SizedBox(
-                    height: 26.h,
-                  ),
-                  GradientButton(
-                      onPressed: () {},
-                      text: "Select this Plan",
-                      gradients: const [Colors.purple, Colors.blue])
-                ],
-              ); // Added const for optimization
-            } else {
-              return Column(
-                children: [
-                  k4hSizedBox,
-                  CustomGlassmorphicContainer(
-                    width: double.infinity,
-                    child: Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "\$280",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "/Year",
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ],
-                          ),
-                          k2hSizedBox,
-                          Text(
-                            'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-                            textAlign: TextAlign.center,
-                            style: TextStyleConstants.bodySmallWhite(context),
-                          ),
-                          k2hSizedBox,
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                Icons.check_circle,
-                                color: AppColors.kIconColor,
-                              ),
-                              k1wSizedBox,
-                              Text(
-                                "Get 1 TB Storage",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
+                    const Spacer(),
+                    GradientButton(
+                        onPressed: () {},
+                        text: "Select this Plan",
+                        gradients: const [Colors.purple, Colors.blue])
+                  ],
+                ); // Added const for optimization
+              } else {
+                return Column(
+                  children: [
+                    k4hSizedBox,
+                    CustomGlassmorphicContainer(
+                      width: double.infinity,
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "\$280",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "/Year",
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                            k2hSizedBox,
+                            Text(
+                              'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
+                              textAlign: TextAlign.center,
+                              style: TextStyleConstants.bodyLargeWhite(context),
+                            ),
+                            k2hSizedBox,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.check_circle,
+                                  color: AppColors.kIconColor,
+                                ),
+                                k1wSizedBox,
+                                Text(
+                                  "Get 1 TB Storage",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  // const Spacer(),
-                  SizedBox(
-                    height: 26.h,
-                  ),
-                  GradientButton(
-                      onPressed: () {},
-                      text: "Select this Plan",
-                      gradients: const [Colors.purple, Colors.blue])
-                ],
-              );
-// Added const for optimization
-            }
-          }),
+                    const Spacer(),
+                    GradientButton(
+                        onPressed: () {},
+                        text: "Select this Plan",
+                        gradients: const [Colors.purple, Colors.blue])
+                  ],
+                );
+                // Added const for optimization
+              }
+            }),
+          ),
         ],
       ),
     );

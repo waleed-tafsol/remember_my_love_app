@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
+import 'package:remember_my_love_app/controllers/Questions_controller.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/Questions_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -85,6 +87,7 @@ class ChooseYourPlanScreen extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
                         "\$39.99",
@@ -114,7 +117,7 @@ class ChooseYourPlanScreen extends StatelessWidget {
                         "Get 1 TB Storage",
                         style: Theme.of(context)
                             .textTheme
-                            .bodyMedium!
+                            .titleLarge!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -126,7 +129,16 @@ class ChooseYourPlanScreen extends StatelessWidget {
           const Spacer(),
           GradientButton(
               onPressed: () {
-                Get.toNamed(ContinueScreen.routeName);
+                Get.offAllNamed(
+                  ContinueScreen.routeName,
+                  arguments: {
+                    "title": "Grateful for Every Moment",
+                    "subtitle": "We're excited to share that your picture will be the cover of a special"
+                        "collection of cherished memories and videos, which will be delivered"
+                        "to your loved ones at a time you choose, allowing you to share those precious moments with them.",
+                    "callback": () => Get.toNamed(QuestionsScreen.routeName)
+                  },
+                );
               },
               text: "Select This Plan",
               gradients: const [Colors.purpleAccent, Colors.blue]),

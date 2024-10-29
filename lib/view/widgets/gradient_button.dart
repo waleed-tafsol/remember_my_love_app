@@ -7,6 +7,8 @@ class GradientButton extends StatefulWidget {
   final VoidCallback onPressed;
   final String text;
   final Color? textColor;
+  final Color? cornorIconColor;
+  final Color? cornorIconBackgroundColor;
   final List<Color> gradients;
 
   const GradientButton({
@@ -15,6 +17,8 @@ class GradientButton extends StatefulWidget {
     required this.text,
     required this.gradients,
     this.textColor,
+    this.cornorIconColor,
+    this.cornorIconBackgroundColor,
   });
 
   @override
@@ -49,37 +53,54 @@ class _GradientButtonState extends State<GradientButton>
       onTap: () {
         widget.onPressed();
       },
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          // Calculate the colors for the gradient based on animation value
-          Color startColor = widget.gradients[0];
-          Color endColor = widget.gradients[1];
-          Color animatedColor =
-              Color.lerp(startColor, endColor, _animation.value)!;
+      child: Stack(
+        children: [
+          AnimatedBuilder(
+            animation: _animation,
+            builder: (context, child) {
+              // Calculate the colors for the gradient based on animation value
+              Color startColor = widget.gradients[0];
+              Color endColor = widget.gradients[1];
+              Color animatedColor =
+                  Color.lerp(startColor, endColor, _animation.value)!;
 
-          return Container(
-            height: kButtonHeight,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [animatedColor, endColor],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(50),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: Center(
-              child: Text(
-                widget.text,
-                style: TextStyle(
-                  color: widget.textColor ?? Colors.white,
-                  fontSize: 14.sp,
+              return Container(
+                height: kButtonHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [animatedColor, endColor],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(50),
                 ),
-              ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Center(
+                  child: Text(
+                    widget.text,
+                    style: TextStyle(
+                      color: widget.textColor ?? Colors.white,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: CircleAvatar(
+              radius: 6.5.w,
+              backgroundColor:
+                  widget.cornorIconBackgroundColor ?? Colors.blue[900],
+              child: Icon(Icons.arrow_outward_outlined,
+                  color: widget.cornorIconColor ??
+                      Theme.of(context).iconTheme.color),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

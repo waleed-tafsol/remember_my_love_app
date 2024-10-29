@@ -38,16 +38,19 @@ class UpdatePasswordScreen extends StatelessWidget {
             const GlassTextFieldWithTitle(
               title: "Current Password",
               hintText: "Enter current password",
+              icon: Icons.visibility_off_outlined,
             ),
             k2hSizedBox,
             const GlassTextFieldWithTitle(
               title: "New Password",
               hintText: "Enter new password",
+              icon: Icons.visibility_off_outlined,
             ),
             k2hSizedBox,
             const GlassTextFieldWithTitle(
               title: "Confirm Password",
               hintText: "Enter confirm password",
+              icon: Icons.visibility_off_outlined,
             ),
             k2hSizedBox,
           ],

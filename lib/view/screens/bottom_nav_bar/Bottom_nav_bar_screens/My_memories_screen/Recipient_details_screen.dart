@@ -29,7 +29,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                     icon: Icons.arrow_back_ios_new, ontap: () => Get.back()),
                 k2wSizedBox,
                 Text(
-                  "Write a Memory",
+                  "Recipient's Details",
                   style: TextStyleConstants.headlineLargeWhite(context),
                 )
               ],
@@ -128,6 +128,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                 ],
               ),
             ),
+            k2hSizedBox,
             GradientButton(
                 onPressed: () {
                   Get.toNamed(ScheduleMemoryScreen.routeName);

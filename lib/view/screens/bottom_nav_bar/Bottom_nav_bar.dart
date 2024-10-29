@@ -1,6 +1,5 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Upload_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Notification_screens/Notification_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Home_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/My_memories_screen.dart';
@@ -26,8 +25,7 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
             return HomeScreen();
           case SelectedTab.memories:
             return const MyMemoriesScreen();
-          case SelectedTab.add:
-            return const UploadMemoryScreen();
+
           case SelectedTab.profile:
             return const ProfileScreen();
           case SelectedTab.notification:

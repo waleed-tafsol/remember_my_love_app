@@ -37,6 +37,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Text("Set Delivery Date"),
                 SizedBox(
                   width: double.infinity,
                   child: InkWell(
@@ -104,7 +105,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                                   "${controller.selectedDate.value.year} : ${controller.selectedDate.value.month} : ${controller.selectedDate.value.day}");
                             }),
                             const Icon(
-                              Icons.keyboard_arrow_down_outlined,
+                              Icons.event,
                               color: AppColors.kIconColor,
                             )
                           ],
@@ -112,6 +113,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                   ),
                 ),
                 k1hSizedBox,
+                const Text("Set Delivery Time"),
                 SizedBox(
                   width: double.infinity,
                   child: InkWell(
@@ -172,7 +174,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                                   .format(context));
                             }),
                             const Icon(
-                              Icons.keyboard_arrow_down_outlined,
+                              Icons.access_time,
                               color: AppColors.kIconColor,
                             )
                           ],

@@ -7,6 +7,7 @@ import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
+import 'package:remember_my_love_app/view/widgets/Glass_text_field_with_text_widget.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -129,7 +130,7 @@ class _SplashScreenState extends State<SplashScreen>
                   )),
 
               AnimatedContainer(
-                height: _animation2 ? 60.h : 0,
+                height: _animation2 ? 63.h : 0,
                 width: _animation2 ? double.maxFinite : 0,
                 duration: const Duration(milliseconds: 2000),
                 child: Column(children: [
@@ -145,22 +146,20 @@ class _SplashScreenState extends State<SplashScreen>
                               style: TextStyleConstants.displayMediumWhite(
                                   context),
                             ),
-                            k2hSizedBox,
+                            k1hSizedBox,
                             Text(
                               "Please Sign in to Continue your journey.",
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             k1hSizedBox,
-                            const TextField(
-                              decoration:
-                                  InputDecoration(hintText: "Enter Email"),
+                            GlassTextFieldWithTitle(
+                              title: "Email",
+                              hintText: "Enter Email",
                             ),
                             k1hSizedBox,
-                            const TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Enter Password",
-                                  suffixIcon:
-                                      Icon(Icons.visibility_off_outlined)),
+                            GlassTextFieldWithTitle(
+                              title: "Password",
+                              hintText: "Enter Password",
                             ),
                             k1hSizedBox,
                             Row(
@@ -169,7 +168,6 @@ class _SplashScreenState extends State<SplashScreen>
                                   value: false,
                                   onChanged: (_) {},
                                 ),
-                                k1wSizedBox,
                                 Text(
                                   "Remember me",
                                   style: TextStyleConstants.bodySmallWhite(
@@ -236,13 +234,13 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                             k1hSizedBox,
                             Text(
-                              "Login with Touch ID",
+                              "Sign In with Touch ID",
                               style: TextStyleConstants.bodySmallWhite(context),
                             )
                           ],
                         )),
                   ),
-                  k1hSizedBox,
+                  // k1hSizedBox,
                   GestureDetector(
                     onTap: () {
                       Get.toNamed(SignUpScreen.routeName);
@@ -267,7 +265,7 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ]),
               ),
-              k2hSizedBox,
+              k1hSizedBox,
               AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
                 opacity: _showText ? 1 : 0,

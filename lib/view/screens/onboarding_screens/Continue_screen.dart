@@ -14,6 +14,8 @@ class ContinueScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final naviagtionParams = Get.arguments;
+    final callback = naviagtionParams["callback"];
     return CustomScaffold(
       padding: const EdgeInsets.all(0),
       body: Stack(
@@ -71,7 +73,7 @@ class ContinueScreen extends StatelessWidget {
                   height: 8.h,
                 ),
                 Text(
-                  "Welcome aboard!",
+                  naviagtionParams["title"],
                   style: Theme.of(context)
                       .textTheme
                       .displaySmall!
@@ -79,10 +81,7 @@ class ContinueScreen extends StatelessWidget {
                 ),
                 k1hSizedBox,
                 Text(
-                  " We're excited to share that your picture will"
-                  " be the cover of a special collection of cherished memories and videos,"
-                  " which will be delivered to your loved ones at a time you choose,"
-                  " allowing you to share those precious moments with them.",
+                  naviagtionParams["subtitle"],
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
@@ -94,10 +93,14 @@ class ContinueScreen extends StatelessWidget {
                   height: kButtonHeight,
                   child: GradientButton(
                     onPressed: () {
-                      Get.toNamed(QuestionsScreen.routeName);
+                      if (callback != null) callback();
+                      // Get.toNamed(QuestionsScreen.routeName);
                     },
                     text: 'Continue',
                     textColor: Colors.lightBlue[900],
+                    cornorIconBackgroundColor:
+                        const Color.fromARGB(255, 214, 230, 253),
+                    cornorIconColor: Colors.blue[900],
                     gradients: const [
                       Colors.blue,
                       Colors.white,

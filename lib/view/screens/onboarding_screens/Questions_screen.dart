@@ -92,6 +92,9 @@ class QuestionsScreen extends GetView<QuestionsController> {
                               ? controller.nextQuestion()
                               : null;
                         },
+                        cornorIconBackgroundColor:
+                            const Color.fromARGB(255, 214, 230, 253),
+                        cornorIconColor: Colors.blue[900],
                         text: currentQuestion.selectedAnswer.value != null
                             ? "Done"
                             : "please Select an answer",

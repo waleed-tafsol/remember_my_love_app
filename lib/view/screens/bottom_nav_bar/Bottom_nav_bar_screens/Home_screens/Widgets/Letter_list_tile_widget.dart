@@ -48,6 +48,9 @@ class LetterListTile extends StatelessWidget {
                   CustomRoundedGlassButton(icon: Icons.email, ontap: () {})
                 ],
               ),
+
+              k2hSizedBox,
+              Divider(),
               k2hSizedBox,
               Text(
                 "Description :",

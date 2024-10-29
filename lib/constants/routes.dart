@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Upload_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
@@ -12,6 +13,7 @@ import '../bindings/Bottom_nav_bar_bindings.dart';
 import '../bindings/Memory_detail_bindings.dart';
 import '../bindings/Questions_bindings.dart';
 import '../bindings/UpgradePlanBindings.dart';
+import '../bindings/Upload_memories_bindings.dart';
 import '../bindings/splash_binding.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 import '../view/screens/onboarding_screens/Questions_screen.dart';
@@ -20,7 +22,7 @@ import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import '../view/screens/auth_screens/sign_up_screen.dart';
 import '../view/screens/onboarding_screens/onboarding_screen.dart';
-import '../view/screens/auth_screens/Splah_screen.dart';
+import '../view/screens/auth_screens/Splash_screen.dart';
 
 class Pages {
   static Transition get _routeTransition => Transition.fade;
@@ -41,11 +43,11 @@ class Pages {
           // binding: SplashBinding(),
           transition: _routeTransition,
         );
-      case OnboardingScreen.routeName:
+      case UploadMemoryScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const OnboardingScreen(),
-          // binding: SplashBinding(),
+          page: () => const UploadMemoryScreen(),
+          binding: UploadMemoriesBindings(),
           transition: _routeTransition,
         );
       case ChooseYourPlanScreen.routeName:

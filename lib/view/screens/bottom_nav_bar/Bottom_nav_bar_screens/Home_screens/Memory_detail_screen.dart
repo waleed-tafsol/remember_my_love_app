@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
+import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -43,17 +44,29 @@ class MemoryDetailScreen extends GetView<MemoryDetailController> {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Obx(() {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      controller.selectedImage.value,
-                      height: 20.h,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                }),
+                Stack(
+                  children: [
+                    Obx(() {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(
+                          controller.selectedImage.value,
+                          height: 20.h,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    }),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: CustomRoundedGlassButton(
+                        icon: Icons.more_horiz,
+                        ontap: () {},
+                      ),
+                    )
+                  ],
+                ),
                 SizedBox(
                   height: 10.h,
                   width: double.infinity,
@@ -101,7 +114,7 @@ class MemoryDetailScreen extends GetView<MemoryDetailController> {
                       Icons.schedule,
                       color: AppColors.kIconColor,
                     ),
-                    k1wSizedBox,
+                    k2wSizedBox,
                     Text(
                       "Scheduled On",
                       style: TextStyleConstants.bodySmallWhite(context),

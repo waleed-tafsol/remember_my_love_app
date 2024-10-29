@@ -6,7 +6,7 @@ import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Terms_and_condition_screen.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/Splah_screen.dart';
+import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/update_password_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -31,7 +31,9 @@ class ProfileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
+              CircleAvatar(
+                radius: 6.2.h,
+                backgroundColor: Colors.white,
                 child: ClipOval(
                   child: Image.asset(
                     Image_assets.userImage,
@@ -56,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
               k1hSizedBox,
               Text(
                 "Email:   johndoe@gmail.com",
-                style: TextStyleConstants.bodySmallWhite(context),
+                style: TextStyleConstants.bodyMediumWhite(context),
               ),
             ],
           )),

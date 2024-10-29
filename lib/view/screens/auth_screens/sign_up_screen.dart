@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/onboarding_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -26,9 +28,14 @@ class SignUpScreen extends GetView<SignupController> {
                   transitionOnUserGestures: true,
                   tag: 1,
                   child: Image.asset(Image_assets.animation_cloud_front))),
+          Text(
+            "Remember My\nLove",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 20.sp),
+          ),
           CustomGlassmorphicContainer(
               width: double.maxFinite,
-              height: 60.h,
+              // height: 50.h,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -99,7 +106,7 @@ class SignUpScreen extends GetView<SignupController> {
                   ),
                 ],
               )),
-          k1hSizedBox,
+          Spacer(),
           GestureDetector(
             onTap: () {
               Get.back();
@@ -126,7 +133,16 @@ class SignUpScreen extends GetView<SignupController> {
             height: kButtonHeight,
             child: GradientButton(
               onPressed: () {
-                Get.offAllNamed(OnboardingScreen.routeName);
+                Get.offAllNamed(
+                  ContinueScreen.routeName,
+                  arguments: {
+                    "title": "Welcome Aboard!",
+                    "subtitle":
+                        "We're grateful you've joined our community and taken the first step in preserving your family legacy.",
+                    "callback": () =>
+                        Get.toNamed(ChooseYourPlanScreen.routeName)
+                  },
+                );
               },
               text: 'Sign Up',
               gradients: const [

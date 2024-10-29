@@ -37,7 +37,7 @@ class My_storage_widget extends StatelessWidget {
                   style: TextStyleConstants.bodyMediumWhite(context),
                 ),
                 Text(
-                  "Upgrade to Premium",
+                  "♚ Upgrade to Premium ↗",
                   style: TextStyleConstants.bodyMediumWhite(context).copyWith(
                       decoration: TextDecoration.underline,
                       color: Colors.amber),

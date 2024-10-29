@@ -6,11 +6,13 @@ class GlassTextFieldWithTitle extends StatelessWidget {
   final String title;
   final String? hintText;
   final TextEditingController? controller;
+  final IconData? icon;
   const GlassTextFieldWithTitle({
     super.key,
     required this.title,
     this.hintText,
     this.controller,
+    this.icon,
   });
 
   @override
@@ -22,7 +24,8 @@ class GlassTextFieldWithTitle extends StatelessWidget {
         k1hSizedBox,
         TextField(
           controller: controller,
-          decoration: InputDecoration(hintText: hintText ?? ""),
+          decoration:
+              InputDecoration(hintText: hintText ?? "", suffixIcon: Icon(icon)),
         ),
       ],
     );
