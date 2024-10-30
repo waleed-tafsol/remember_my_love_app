@@ -4,6 +4,8 @@ class Image_assets {
   static const String scaffold_image = '${_assets}scaffold_background.png';
   static const String animation_cloud_front =
       '${_assets}animation_cloud_front.png';
+  static const String animation_cloud_front_blue =
+      '${_assets}animation_cloud_front_blue.png';
   static const String animation_cloud_back =
       '${_assets}animation_cloud_back.png';
   static const String userImage = '${_assets}user_image.png';
@@ -34,4 +36,12 @@ class LottieAssets {
 
   static const String loading = '${_assets}loading.json';
   static const String confettie = '${_assets}confettie.json';
+}
+
+class HtmlAssets {
+  static const String _assets = 'assets/Html/';
+
+  static const String terms_and_conditions =
+      '${_assets}Terms_and_Conditions.html';
+  static const String privacy_policy = '${_assets}Privacy_Policy.html';
 }

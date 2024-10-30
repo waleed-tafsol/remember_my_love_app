@@ -33,6 +33,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
               )
             ],
           ),
+          k2hSizedBox,
           CustomGlassmorphicContainer(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,10 +43,11 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                   width: double.infinity,
                   child: InkWell(
                     onTap: () {
+                      controller.buttonVisivility.value = false;
                       BottomPicker.date(
                         displayCloseIcon: true,
                         closeIconColor: AppColors.kPrimaryColor,
-                        dismissable: true,
+                        dismissable: false,
                         displaySubmitButton: true,
                         backgroundColor: AppColors.kGlassColor,
                         pickerTitle: Text(
@@ -57,12 +59,12 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                             borderRadius: BorderRadius.circular(50)),
                         buttonWidth: 90.w,
                         buttonContent: Center(
-                          child: Padding(
+                          child: Container(
                             padding: EdgeInsets.symmetric(
                               vertical: 1.h,
                             ),
                             child: Text(
-                              "save",
+                              "Save",
                               style: TextStyleConstants.bodyMediumWhite(context)
                                   .copyWith(color: Colors.blue),
                             ),
@@ -79,10 +81,10 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         initialDateTime: controller.selectedDate.value,
                         minDateTime: DateTime.now(),
 
-                        pickerTextStyle: const TextStyle(
+                        pickerTextStyle: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 17.sp,
                         ),
                         onChange: (index) {
                           print(index);
@@ -90,6 +92,11 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         onSubmit: (index) {
                           print(index);
                           controller.updateSelectedDate(index);
+                          controller.buttonVisivility.value = true;
+                        },
+                        onClose: () {
+                          controller.buttonVisivility.value = true;
+                          Get.back();
                         },
                       ).show(context);
                     },
@@ -118,10 +125,11 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                   width: double.infinity,
                   child: InkWell(
                     onTap: () {
+                      controller.buttonVisivility.value = false;
                       BottomPicker.time(
                         displayCloseIcon: true,
                         closeIconColor: AppColors.kPrimaryColor,
-                        dismissable: true,
+                        dismissable: false,
                         displaySubmitButton: true,
                         backgroundColor: AppColors.kGlassColor,
                         pickerTitle: Text(
@@ -138,7 +146,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                               vertical: 1.h,
                             ),
                             child: Text(
-                              "save",
+                              "Save",
                               style: TextStyleConstants.bodyMediumWhite(context)
                                   .copyWith(color: Colors.blue),
                             ),
@@ -147,10 +155,10 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         initialTime: Time(
                             hours: controller.selectedTime.value.hour,
                             minutes: controller.selectedTime.value.minute),
-                        pickerTextStyle: const TextStyle(
+                        pickerTextStyle: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 17.sp,
                         ),
                         onChange: (index) {
                           print(index);
@@ -159,6 +167,11 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           print(index);
                           controller.updateSelectedTime(
                               TimeOfDay.fromDateTime(index));
+                          controller.buttonVisivility.value = true;
+                        },
+                        onClose: () {
+                          controller.buttonVisivility.value = true;
+                          Get.back();
                         },
                       ).show(context);
                     },
@@ -185,13 +198,17 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
             ),
           ),
           const Spacer(),
-          GradientButton(
-              onPressed: () {
-                controller.removeAllFiles();
-                Get.toNamed(MemoryScheduledSucceccfully.routeName);
-              },
-              text: "Send",
-              gradients: const [Colors.purple, Colors.blue]),
+          Obx(() {
+            return controller.buttonVisivility.value
+                ? GradientButton(
+                    onPressed: () {
+                      controller.removeAllFiles();
+                      Get.toNamed(MemoryScheduledSucceccfully.routeName);
+                    },
+                    text: "Send",
+                    gradients: const [Colors.purple, Colors.blue])
+                : SizedBox();
+          }),
         ],
       ),
     );

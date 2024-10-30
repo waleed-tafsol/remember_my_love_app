@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Profile",
-              style: TextStyleConstants.headlineLargeWhite(context)),
+              style: TextStyleConstants.displayMediumWhite(context)),
           k2hSizedBox,
           CustomGlassmorphicContainer(
               // height: 27.h,
@@ -86,27 +86,6 @@ class ProfileScreen extends StatelessWidget {
               )),
           k2hSizedBox,
           CustomGlassmorphicContainer(
-            margin: const EdgeInsets.symmetric(vertical: 0),
-            child: InkWell(
-                onTap: () {
-                  Get.offAllNamed(SplashScreen.routeName);
-                },
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.logout_outlined,
-                      color: Colors.white,
-                    ),
-                    k3wSizedBox,
-                    Text(
-                      "Log Out",
-                      style: TextStyleConstants.bodyMediumWhite(context),
-                    ),
-                  ],
-                )),
-          ),
-          k2hSizedBox,
-          CustomGlassmorphicContainer(
               margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
@@ -147,6 +126,27 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               )),
+          k2hSizedBox,
+          CustomGlassmorphicContainer(
+            margin: const EdgeInsets.symmetric(vertical: 0),
+            child: InkWell(
+                onTap: () {
+                  Get.offAllNamed(SplashScreen.routeName);
+                },
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.logout_outlined,
+                      color: Colors.white,
+                    ),
+                    k3wSizedBox,
+                    Text(
+                      "Log Out",
+                      style: TextStyleConstants.bodyMediumWhite(context),
+                    ),
+                  ],
+                )),
+          ),
           k2hSizedBox,
           CustomGlassmorphicContainer(
               margin: const EdgeInsets.symmetric(vertical: 0),

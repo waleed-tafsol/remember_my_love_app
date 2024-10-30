@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
     // );
 
     // Flip animation
-    _flipAnimation = Tween<double>(begin: 0, end: 1).animate(_controller);
+    _flipAnimation = Tween<double>(begin: 0, end: -1).animate(_controller);
 
     // Position animation for the text
     // _positionAnimation = Tween<double>(begin: 0, end: 1).animate(
@@ -69,6 +69,7 @@ class _SplashScreenState extends State<SplashScreen>
       const Duration(milliseconds: 200),
     );
     await _controller.forward();
+
     await Future.delayed(
       const Duration(milliseconds: 200),
     );
@@ -89,88 +90,95 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      body: SizedBox(
-        width: double.infinity,
-        child: AnimatedAlign(
-          curve: Curves.elasticIn,
-          duration: const Duration(milliseconds: 2000),
-          onEnd: () {
-            setState(() {
-              _animation2 = true;
-            });
-          },
-          alignment: _showText ? Alignment.topCenter : Alignment.center,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Hero(
-                tag: 1,
-                child: AnimatedBuilder(
-                    animation: _controller,
-                    builder: (context, child) {
-                      return Transform(
-                        alignment: Alignment.center,
-                        transform:
-                            Matrix4.rotationY(_flipAnimation.value * 3.14159),
-                        child: _flipAnimation.value < 0.5
-                            ? Image.asset(Image_assets.animation_cloud_front)
-                            : Image.asset(Image_assets.animation_cloud_back),
-                      );
-                    }),
-              ),
-              // Animate position based on _positionAnimation
-              AnimatedOpacity(
-                  duration: const Duration(milliseconds: 500),
-                  opacity: _showText ? 1 : 0,
-                  child: Text(
-                    "Remember My\nLove",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 20.sp),
-                  )),
+      body: AnimatedAlign(
+        curve: Curves.elasticIn,
+        duration: const Duration(milliseconds: 2000),
+        onEnd: () {
+          setState(() {
+            _animation2 = true;
+          });
+        },
+        alignment: _showText ? Alignment.topCenter : Alignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Hero(
+              tag: 1,
+              child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    return Transform(
+                      alignment: Alignment.center,
+                      transform:
+                          Matrix4.rotationY(_flipAnimation.value * 3.14159),
+                      child: _showText
+                          ? Image.asset(
+                              Image_assets.animation_cloud_front_blue,
+                              height: 10.h,
+                            )
+                          : _flipAnimation.value > -0.5
+                              ? Image.asset(Image_assets.animation_cloud_back)
+                              : Image.asset(Image_assets.animation_cloud_front),
+                    );
+                  }),
+            ),
+            // Animate position based on _positionAnimation
+            AnimatedOpacity(
+                duration: const Duration(milliseconds: 500),
+                opacity: _showText ? 1 : 0,
+                child: Text(
+                  "Remember My\nLove",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 20.sp),
+                )),
 
-              AnimatedContainer(
-                height: _animation2 ? 63.h : 0,
-                width: _animation2 ? double.maxFinite : 0,
-                duration: const Duration(milliseconds: 2000),
-                child: Column(children: [
-                  Expanded(
-                    child: CustomGlassmorphicContainer(
-                        width: _animation2 ? double.maxFinite : 0,
-                        height: _animation2 ? double.maxFinite : 0,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Welcome Back!",
-                              style: TextStyleConstants.displayMediumWhite(
-                                  context),
-                            ),
-                            k1hSizedBox,
-                            Text(
-                              "Please Sign in to Continue your journey.",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            k1hSizedBox,
-                            GlassTextFieldWithTitle(
-                              title: "Email",
-                              hintText: "Enter Email",
-                            ),
-                            k1hSizedBox,
-                            GlassTextFieldWithTitle(
-                              title: "Password",
-                              hintText: "Enter Password",
-                            ),
-                            k1hSizedBox,
-                            Row(
+            AnimatedContainer(
+              height: _animation2 ? 65.h : 0,
+              width: _animation2 ? double.maxFinite : 0,
+              duration: const Duration(milliseconds: 2000),
+              child: Column(children: [
+                Expanded(
+                  child: CustomGlassmorphicContainer(
+                      width: _animation2 ? double.maxFinite : 0,
+                      height: _animation2 ? double.maxFinite : 0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Welcome Back!",
+                            style:
+                                TextStyleConstants.displayMediumWhite(context),
+                          ),
+                          k1hSizedBox,
+                          Text(
+                            "Please Sign in to Continue your journey.",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          k1hSizedBox,
+                          const GlassTextFieldWithTitle(
+                            title: "Email",
+                            hintText: "Enter Email",
+                          ),
+                          k1hSizedBox,
+                          const GlassTextFieldWithTitle(
+                            title: "Password",
+                            hintText: "Enter Password",
+                          ),
+                          k1hSizedBox,
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Checkbox(
-                                  value: false,
-                                  onChanged: (_) {},
+                                Icon(
+                                  Icons.check_box_outline_blank,
                                 ),
+                                k1wSizedBox,
                                 Text(
                                   "Remember me",
-                                  style: TextStyleConstants.bodySmallWhite(
+                                  style: TextStyleConstants.bodyMediumWhite(
                                       context),
                                 ),
                                 const Spacer(),
@@ -186,102 +194,100 @@ class _SplashScreenState extends State<SplashScreen>
                                 ),
                               ],
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Container(
-                                  color: Colors.white,
-                                  height: 0.1.h,
-                                )),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 2.w),
-                                  child: Text("Or",
-                                      style: TextStyleConstants.bodyLargeWhite(
-                                          context)),
-                                ),
-                                Expanded(
-                                    child: Container(
-                                  color: Colors.white,
-                                  height: 0.1.h,
-                                )),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: CustomGlassButton(
-                                  child: SvgPicture.asset(SvgAssets.google),
-                                )),
-                                k2wSizedBox,
-                                Expanded(
-                                    child: CustomGlassButton(
-                                  child: SvgPicture.asset(SvgAssets.apple),
-                                )),
-                              ],
-                            ),
-                            k1hSizedBox,
-                            IntrinsicWidth(
-                              child: CustomGlassButton(
-                                padding: EdgeInsets.all(2.w),
-                                borderRadius: BorderRadius.circular(50),
-                                child: Icon(
-                                  size: 6.h,
-                                  Icons.fingerprint_outlined,
-                                  color: Colors.white,
-                                ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                color: Colors.white,
+                                height: 0.1.h,
+                              )),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 2.w),
+                                child: Text("Or",
+                                    style: TextStyleConstants.bodyLargeWhite(
+                                        context)),
+                              ),
+                              Expanded(
+                                  child: Container(
+                                color: Colors.white,
+                                height: 0.1.h,
+                              )),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: CustomGlassButton(
+                                child: SvgPicture.asset(SvgAssets.google),
+                              )),
+                              k2wSizedBox,
+                              Expanded(
+                                  child: CustomGlassButton(
+                                child: SvgPicture.asset(SvgAssets.apple),
+                              )),
+                            ],
+                          ),
+                          k1hSizedBox,
+                          IntrinsicWidth(
+                            child: CustomGlassButton(
+                              padding: EdgeInsets.all(2.w),
+                              borderRadius: BorderRadius.circular(50),
+                              child: Icon(
+                                size: 6.h,
+                                Icons.fingerprint_outlined,
+                                color: Colors.white,
                               ),
                             ),
-                            k1hSizedBox,
-                            Text(
-                              "Sign In with Touch ID",
-                              style: TextStyleConstants.bodySmallWhite(context),
-                            )
-                          ],
-                        )),
-                  ),
-                  // k1hSizedBox,
-                  GestureDetector(
-                    onTap: () {
-                      Get.toNamed(SignUpScreen.routeName);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account?",
-                          style: TextStyleConstants.bodySmallWhite(context),
-                        ),
-                        k1wSizedBox,
-                        Text(
-                          "Sign Up",
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    decoration: TextDecoration.underline,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ]),
-              ),
-              k1hSizedBox,
-              AnimatedOpacity(
-                duration: const Duration(milliseconds: 500),
-                opacity: _showText ? 1 : 0,
-                child: SizedBox(
-                  height: kButtonHeight,
-                  child: GradientButton(
-                    onPressed: () {
-                      Get.offAndToNamed(BottomNavBarScreen.routeName);
-                    },
-                    gradients: const [Colors.purple, Colors.blue],
-                    text: 'Sign In',
+                          ),
+                          k1hSizedBox,
+                          Text(
+                            "Sign In with Touch ID",
+                            style: TextStyleConstants.bodySmallWhite(context),
+                          )
+                        ],
+                      )),
+                ),
+                // k1hSizedBox,
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(SignUpScreen.routeName);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account?",
+                        style: TextStyleConstants.bodySmallWhite(context),
+                      ),
+                      k1wSizedBox,
+                      Text(
+                        "Sign Up",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
+                      ),
+                    ],
                   ),
                 ),
+              ]),
+            ),
+            k1hSizedBox,
+            AnimatedOpacity(
+              duration: const Duration(milliseconds: 500),
+              opacity: _showText ? 1 : 0,
+              child: SizedBox(
+                height: kButtonHeight,
+                child: GradientButton(
+                  onPressed: () {
+                    Get.offAndToNamed(BottomNavBarScreen.routeName);
+                  },
+                  gradients: const [Colors.purple, Colors.blue],
+                  text: 'Sign In',
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

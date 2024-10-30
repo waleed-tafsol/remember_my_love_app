@@ -35,7 +35,7 @@ class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
           k4hSizedBox,
           Obx(
             () => Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(color: AppColors.kPrimaryColor, width: 2),
@@ -131,9 +131,18 @@ class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
                                       .displayMedium!
                                       .copyWith(fontWeight: FontWeight.bold),
                                 ),
-                                Text(
-                                  "/Month",
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "/Month",
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    )
+                                  ],
                                 ),
                               ],
                             ),
@@ -187,6 +196,7 @@ class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
                                   "\$280",
@@ -195,9 +205,18 @@ class UpgradePlanScreen extends GetView<ChooseYourPlanController> {
                                       .displayMedium!
                                       .copyWith(fontWeight: FontWeight.bold),
                                 ),
-                                Text(
-                                  "/Year",
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "/Year",
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    )
+                                  ],
                                 ),
                               ],
                             ),

@@ -36,30 +36,36 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
             ),
             k2hSizedBox,
             CustomGlassmorphicContainer(
-                child: InkWell(
-              onTap: () {
-                controller.pickImageOrVideo();
-              },
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      size: 8.h,
-                      Icons.image_outlined,
-                      color: AppColors.kIconColor,
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Text(
-                      "Select Image or Video",
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    )
-                  ],
+                padding: EdgeInsets.symmetric(
+                  vertical: 6.h,
                 ),
-              ),
-            )),
+                child: InkWell(
+                  onTap: () {
+                    controller.pickImageOrVideo();
+                  },
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          size: 8.h,
+                          Icons.image_outlined,
+                          color: AppColors.kIconColor,
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Text(
+                          "Select Image or Video",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(fontWeight: FontWeight.normal),
+                        )
+                      ],
+                    ),
+                  ),
+                )),
             Row(
               children: [
                 const Expanded(child: Divider()),
@@ -126,7 +132,7 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
               );
             }),
             SizedBox(
-              height: 4.h,
+              height: 8.h,
             ),
             Obx(() {
               return controller.pickedFiles.isEmpty

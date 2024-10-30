@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/onboarding_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
@@ -27,7 +26,12 @@ class SignUpScreen extends GetView<SignupController> {
               child: Hero(
                   transitionOnUserGestures: true,
                   tag: 1,
-                  child: Image.asset(Image_assets.animation_cloud_front))),
+                  child: Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.rotationY(3.14159),
+                      child: Image.asset(
+                        Image_assets.animation_cloud_front_blue,
+                      )))),
           Text(
             "Remember My\nLove",
             textAlign: TextAlign.center,
@@ -106,7 +110,7 @@ class SignUpScreen extends GetView<SignupController> {
                   ),
                 ],
               )),
-          Spacer(),
+          const Spacer(),
           GestureDetector(
             onTap: () {
               Get.back();

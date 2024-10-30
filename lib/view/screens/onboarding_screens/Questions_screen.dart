@@ -84,7 +84,7 @@ class QuestionsScreen extends GetView<QuestionsController> {
                             ),
                           ),
                         );
-                      }).toList(),
+                      }),
                       const SizedBox(height: 20),
                       GradientButton(
                         onPressed: () {
@@ -99,7 +99,7 @@ class QuestionsScreen extends GetView<QuestionsController> {
                             ? "Done"
                             : "please Select an answer",
                         textColor: Colors.blue[900],
-                        gradients: [Colors.blue, Colors.white],
+                        gradients: const [Colors.blue, Colors.white],
                       ),
                     ],
                   ),
@@ -112,7 +112,7 @@ class QuestionsScreen extends GetView<QuestionsController> {
                 Get.toNamed(BottomNavBarScreen.routeName);
               },
               text: "Skip",
-              gradients: [Colors.purple, Colors.blue])
+              gradients: const [Colors.purple, Colors.blue])
         ],
       ),
     );

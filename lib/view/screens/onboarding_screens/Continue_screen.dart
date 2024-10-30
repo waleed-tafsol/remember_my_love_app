@@ -6,7 +6,6 @@ import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/constants.dart';
-import 'Questions_screen.dart';
 
 class ContinueScreen extends StatelessWidget {
   const ContinueScreen({super.key});

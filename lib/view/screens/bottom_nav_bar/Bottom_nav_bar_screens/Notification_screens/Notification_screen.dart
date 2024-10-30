@@ -12,7 +12,7 @@ class NotificationScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Notifications",
-            style: TextStyleConstants.headlineLargeWhite(context)),
+            style: TextStyleConstants.displayMediumWhite(context)),
         k2hSizedBox,
         Expanded(
           child: ListView.builder(

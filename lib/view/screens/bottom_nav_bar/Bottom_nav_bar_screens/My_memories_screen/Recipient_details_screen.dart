@@ -44,15 +44,19 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                   SizedBox(
                     width: double.infinity,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        _showDropdown(context);
+                      },
                       child: CustomGlassmorphicContainer(
                           borderRadius: 8,
                           padding: EdgeInsets.symmetric(
                               vertical: 2.h, horizontal: 2.w),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Others"),
+                              Obx(() {
+                                return Text(controller.sendTo.value);
+                              }),
                               Icon(
                                 Icons.keyboard_arrow_down_outlined,
                                 color: AppColors.kIconColor,
@@ -61,10 +65,14 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                           )),
                     ),
                   ),
-                  const GlassTextFieldWithTitle(
-                    title: 'Enter Relation',
-                    hintText: "Family, Friend, Sibling, etc",
-                  ),
+                  Obx(() {
+                    return controller.sendTo.value == 'Other'
+                        ? const GlassTextFieldWithTitle(
+                            title: 'Enter Relation',
+                            hintText: "Family, Friend, Sibling, etc",
+                          )
+                        : SizedBox();
+                  }),
                   k1hSizedBox,
                   Obx(() {
                     return Column(
@@ -139,5 +147,40 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
         ),
       ),
     );
+  }
+
+  void _showDropdown(BuildContext context) {
+    showMenu(
+      color: AppColors.kGlassColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+
+      elevation: 0,
+      context: context,
+      position: RelativeRect.fromLTRB(
+          50.w, 20.h, 8.w, 0.0), // Adjust position if needed
+      items: <String>[
+        'Same',
+        'Other',
+      ].map((String value) {
+        return PopupMenuItem<String>(
+          value: value,
+          child: Container(
+            color: Colors.transparent, // Semi-transparent background
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              value,
+              style: TextStyleConstants.bodySmallWhite(
+                  context), // White text for contrast
+            ),
+          ),
+        );
+      }).toList(),
+    ).then((String? newValue) {
+      if (newValue != null) {
+        // Handle dropdown value change
+        controller.sendTo.value = newValue;
+        print(newValue);
+      }
+    });
   }
 }

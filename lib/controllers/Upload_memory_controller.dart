@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 class UploadMemoryController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   var pickedFiles = <File>[].obs;
+  RxString sendTo = "Other".obs;
+  RxBool buttonVisivility = true.obs;
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();

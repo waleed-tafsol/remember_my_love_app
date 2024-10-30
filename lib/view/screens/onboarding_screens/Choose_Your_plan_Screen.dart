@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
-import 'package:remember_my_love_app/controllers/Questions_controller.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Questions_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -11,9 +10,22 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../widgets/Custom_glass_container.dart';
 
-class ChooseYourPlanScreen extends StatelessWidget {
+class ChooseYourPlanScreen extends StatefulWidget {
   const ChooseYourPlanScreen({super.key});
   static const routeName = "ChooseYourPlanScreen";
+
+  @override
+  State<ChooseYourPlanScreen> createState() => _ChooseYourPlanScreenState();
+}
+
+class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
+  bool _monthlySelected = true;
+
+  void changeType() {
+    setState(() {
+      _monthlySelected = !_monthlySelected;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +43,7 @@ class ChooseYourPlanScreen extends StatelessWidget {
           ),
           k4hSizedBox,
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(color: AppColors.kPrimaryColor, width: 2)),
@@ -40,34 +52,48 @@ class ChooseYourPlanScreen extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(width: 0)),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Monthly",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: AppColors.kTextWhite),
+                  child: InkWell(
+                    onTap: () {
+                      _monthlySelected ? null : changeType();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: _monthlySelected
+                              ? AppColors.kPrimaryColor
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(width: 0)),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Monthly",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: _monthlySelected
+                                ? AppColors.kSecondaryColor
+                                : AppColors.kTextWhite),
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.kPrimaryColor,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Yearly",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: AppColors.kSecondaryColor),
+                  child: InkWell(
+                    onTap: () {
+                      !_monthlySelected ? null : changeType();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: _monthlySelected
+                            ? Colors.transparent
+                            : AppColors.kPrimaryColor,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Yearly",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: !_monthlySelected
+                                ? AppColors.kSecondaryColor
+                                : AppColors.kPrimaryColor),
+                      ),
                     ),
                   ),
                 ),
@@ -96,9 +122,17 @@ class ChooseYourPlanScreen extends StatelessWidget {
                             .displayMedium!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        "/Year",
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _monthlySelected ? "/month" : "/Year",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          SizedBox(
+                            height: 0.5.h,
+                          )
+                        ],
                       ),
                     ],
                   ),

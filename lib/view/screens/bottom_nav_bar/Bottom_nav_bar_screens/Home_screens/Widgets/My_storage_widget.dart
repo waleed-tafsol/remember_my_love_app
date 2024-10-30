@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/upgrade_plan_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -25,23 +26,30 @@ class My_storage_widget extends StatelessWidget {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "My Storage",
                   style: TextStyleConstants.headlineLargeWhite(context)
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
+                k1hSizedBox,
                 Text(
                   "0.08 GB of 1 GB Used",
                   style: TextStyleConstants.bodyMediumWhite(context),
                 ),
+                k1hSizedBox,
                 Text(
-                  "♚ Upgrade to Premium ↗",
+                  "♕ Upgrade to Premium ↗",
                   style: TextStyleConstants.bodyMediumWhite(context).copyWith(
-                      decoration: TextDecoration.underline,
+                      // decoration: TextDecoration.underline,
                       color: Colors.amber),
                 ),
+                Container(
+                  width: 40.w,
+                  color: Colors.amber,
+                  height: 1,
+                )
               ],
             ),
             CircularPercentIndicator(

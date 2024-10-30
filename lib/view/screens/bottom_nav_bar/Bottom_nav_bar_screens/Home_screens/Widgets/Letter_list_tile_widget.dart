@@ -50,7 +50,7 @@ class LetterListTile extends StatelessWidget {
               ),
 
               k2hSizedBox,
-              Divider(),
+              const Divider(),
               k2hSizedBox,
               Text(
                 "Description :",

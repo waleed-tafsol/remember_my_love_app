@@ -180,7 +180,7 @@ class CustomTheme {
       // body text style
       bodyLarge: TextStyle(
         color: AppColors.kTextWhite,
-        fontSize: 15.sp,
+        fontSize: 16.sp,
       ),
       bodyMedium: TextStyle(
         color: AppColors.kTextWhite,

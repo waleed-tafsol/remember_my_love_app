@@ -27,7 +27,7 @@ class NotificationListTile extends StatelessWidget {
           children: [
             Text(
               "William Manager",
-              style: TextStyleConstants.bodyMediumWhite(context),
+              style: TextStyleConstants.bodyLargeWhite(context),
             ),
             k1hSizedBox,
             Text(
