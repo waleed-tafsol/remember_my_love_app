@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
+import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -9,6 +10,7 @@ import 'constants/theme.dart';
 
 void main() {
   runApp(const MyApp());
+  Get.put(AuthService(), permanent: true);
 }
 
 class MyApp extends StatelessWidget {

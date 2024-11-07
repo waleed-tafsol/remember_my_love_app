@@ -7,6 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../../constants/TextConstant.dart';
 import '../../../../../widgets/Custom_glass_container.dart';
+import '../../../../onboarding_screens/Choose_Your_plan_Screen.dart';
 
 class My_storage_widget extends StatelessWidget {
   const My_storage_widget({
@@ -19,7 +20,10 @@ class My_storage_widget extends StatelessWidget {
       width: double.infinity,
       child: InkWell(
         onTap: () {
-          Get.toNamed(UpgradePlanScreen.routeName);
+          Get.toNamed(ChooseYourPlanScreen.routeName, arguments: {
+            "title": "Upgrade Your Plan",
+            "popAfterSuccess": true
+          });
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

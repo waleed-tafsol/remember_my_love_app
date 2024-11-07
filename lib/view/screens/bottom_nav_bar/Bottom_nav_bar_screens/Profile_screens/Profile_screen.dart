@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
+import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Terms_and_condition_screen.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
@@ -128,27 +129,6 @@ class ProfileScreen extends StatelessWidget {
               )),
           k2hSizedBox,
           CustomGlassmorphicContainer(
-            margin: const EdgeInsets.symmetric(vertical: 0),
-            child: InkWell(
-                onTap: () {
-                  Get.offAllNamed(SplashScreen.routeName);
-                },
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.logout_outlined,
-                      color: Colors.white,
-                    ),
-                    k3wSizedBox,
-                    Text(
-                      "Log Out",
-                      style: TextStyleConstants.bodyMediumWhite(context),
-                    ),
-                  ],
-                )),
-          ),
-          k2hSizedBox,
-          CustomGlassmorphicContainer(
               margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
@@ -168,6 +148,27 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               )),
+          k2hSizedBox,
+          CustomGlassmorphicContainer(
+            margin: const EdgeInsets.symmetric(vertical: 0),
+            child: InkWell(
+                onTap: () {
+                  authService.logout();
+                },
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.logout_outlined,
+                      color: Colors.white,
+                    ),
+                    k3wSizedBox,
+                    Text(
+                      "Logout",
+                      style: TextStyleConstants.bodyMediumWhite(context),
+                    ),
+                  ],
+                )),
+          ),
           SizedBox(
             height: 10.h,
           ),

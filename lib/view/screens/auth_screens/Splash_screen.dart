@@ -5,6 +5,7 @@ import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
+import 'package:remember_my_love_app/controllers/AuthController.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/widgets/Glass_text_field_with_text_widget.dart';
@@ -25,35 +26,22 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  // late AnimationController _positionController;
   late Animation<double> _flipAnimation;
-  // late Animation<double> _positionAnimation; // New animation for position
+
   bool _showText = false;
+  bool _animateWobal = false;
   bool _animation2 = false;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    // _positionController = AnimationController(
-    //   duration: const Duration(milliseconds: 500),
-    //   vsync: this,
-    // );
 
-    // Flip animation
-    _flipAnimation = Tween<double>(begin: 0, end: -1).animate(_controller);
-
-    // Position animation for the text
-    // _positionAnimation = Tween<double>(begin: 0, end: 1).animate(
-    //   CurvedAnimation(
-    //     parent: _controller,
-    //     curve: Curves.easeInOut,
-    //   ),
-    // );
-
+    _flipAnimation = Tween<double>(begin: 0, end: -1)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
     _startAnimation();
   }
 
@@ -61,24 +49,27 @@ class _SplashScreenState extends State<SplashScreen>
     await _controller.forward();
 
     await Future.delayed(
-      const Duration(milliseconds: 200),
+      const Duration(milliseconds: 300),
     );
 
     await _controller.reverse();
     await Future.delayed(
-      const Duration(milliseconds: 200),
+      const Duration(milliseconds: 300),
     );
     await _controller.forward();
 
     await Future.delayed(
-      const Duration(milliseconds: 200),
+      const Duration(milliseconds: 300),
     );
     setState(() {
       _showText = true;
     });
-
-    // await Future.delayed(const Duration(milliseconds: 200));
-    // _positionController.forward();
+    await Future.delayed(
+      const Duration(milliseconds: 50),
+    );
+    setState(() {
+      _animateWobal = true;
+    });
   }
 
   @override
@@ -86,6 +77,8 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.dispose();
     super.dispose();
   }
+
+  AuthController authController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -113,13 +106,22 @@ class _SplashScreenState extends State<SplashScreen>
                       transform:
                           Matrix4.rotationY(_flipAnimation.value * 3.14159),
                       child: _showText
-                          ? Image.asset(
-                              Image_assets.animation_cloud_front_blue,
-                              height: 10.h,
+                          ? AnimatedContainer(
+                              curve: Curves.elasticIn,
+                              duration: const Duration(milliseconds: 500),
+                              height: _animateWobal ? 10.h : 5.h,
+                              child: Image.asset(
+                                Image_assets.logo,
+                                fit: BoxFit.fitHeight,
+                              ),
                             )
                           : _flipAnimation.value > -0.5
                               ? Image.asset(Image_assets.animation_cloud_back)
-                              : Image.asset(Image_assets.animation_cloud_front),
+                              : AnimatedOpacity(
+                                  duration: Duration(milliseconds: 500),
+                                  opacity: _animateWobal ? 0 : 1,
+                                  child: Image.asset(
+                                      Image_assets.animation_cloud_front)),
                     );
                   }),
             ),
@@ -130,7 +132,10 @@ class _SplashScreenState extends State<SplashScreen>
                 child: Text(
                   "Remember My\nLove",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 20.sp),
+                  style: TextStyle(
+                      fontFamily: 'Bookos',
+                      color: Colors.white,
+                      fontSize: 20.sp),
                 )),
 
             AnimatedContainer(
@@ -156,15 +161,49 @@ class _SplashScreenState extends State<SplashScreen>
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           k1hSizedBox,
-                          const GlassTextFieldWithTitle(
-                            title: "Email",
-                            hintText: "Enter Email",
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Email")),
+                          k1hSizedBox,
+                          TextField(
+                            onChanged: (value) {
+                              authController.validateForm();
+                            },
+                            controller: authController.emailController,
+                            decoration: InputDecoration(
+                              hintText: "Enter Email",
+                              errorText: authController.emailError.value,
+                            ),
                           ),
                           k1hSizedBox,
-                          const GlassTextFieldWithTitle(
-                            title: "Password",
-                            hintText: "Enter Password",
-                          ),
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Password")),
+                          k1hSizedBox,
+                          Obx(() {
+                            return TextField(
+                              onChanged: (value) {
+                                authController.validateForm();
+                              },
+                              controller: authController.passwordController,
+                              obscureText:
+                                  !authController.passwordVisibility.value,
+                              decoration: InputDecoration(
+                                  hintText: "Enter Password",
+                                  errorText: authController.passwordError.value,
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        authController
+                                                .passwordVisibility.value =
+                                            !authController
+                                                .passwordVisibility.value;
+                                      },
+                                      icon: Icon(authController
+                                              .passwordVisibility.value
+                                          ? Icons.visibility
+                                          : Icons.visibility_off))),
+                            );
+                          }),
                           k1hSizedBox,
                           Align(
                             alignment: Alignment.centerLeft,
@@ -172,7 +211,7 @@ class _SplashScreenState extends State<SplashScreen>
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.check_box_outline_blank,
                                 ),
                                 k1wSizedBox,
@@ -251,7 +290,7 @@ class _SplashScreenState extends State<SplashScreen>
                 // k1hSizedBox,
                 GestureDetector(
                   onTap: () {
-                    Get.toNamed(SignUpScreen.routeName);
+                    // authController.login();
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -280,7 +319,8 @@ class _SplashScreenState extends State<SplashScreen>
                 height: kButtonHeight,
                 child: GradientButton(
                   onPressed: () {
-                    Get.offAndToNamed(BottomNavBarScreen.routeName);
+                    // Get.offAndToNamed(BottomNavBarScreen.routeName);
+                    authController.login();
                   },
                   gradients: const [Colors.purple, Colors.blue],
                   text: 'Sign In',

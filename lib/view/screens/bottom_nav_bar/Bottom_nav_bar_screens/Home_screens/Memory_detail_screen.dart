@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';

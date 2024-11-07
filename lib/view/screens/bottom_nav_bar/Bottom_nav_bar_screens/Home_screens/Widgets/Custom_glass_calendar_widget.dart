@@ -7,6 +7,8 @@ import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../../../widgets/dropdown_calender.dart';
+
 class CustomGlassCalendarWidget extends StatelessWidget {
   CustomGlassCalendarWidget({super.key});
 
@@ -52,27 +54,7 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                   "My Memories",
                 ),
                 const Spacer(),
-                InkWell(
-                  onTap: () {
-                    _showDropdown(context);
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Obx(() {
-                        return Text(
-                          "${controller.focusedDay.value.year} "
-                          "${controller.getMonthName(controller.focusedDay.value.month)}",
-                        );
-                      }),
-                      k1wSizedBox,
-                      const Icon(
-                        Icons.keyboard_arrow_down_sharp,
-                        color: AppColors.kIconColor,
-                      )
-                    ],
-                  ),
-                ),
+                YearMonthDropdown(),
                 k1wSizedBox,
                 Builder(builder: (context) {
                   return InkWell(
@@ -121,6 +103,12 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                     }),
                   );
                 }),
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.filter_alt_outlined,
+                      color: Theme.of(context).iconTheme.color,
+                    ))
               ],
             ),
             children: <Widget>[
@@ -154,49 +142,5 @@ class CustomGlassCalendarWidget extends StatelessWidget {
             ],
           ),
         ));
-  }
-
-  void _showDropdown(BuildContext context) {
-    showMenu(
-      color: const Color.fromARGB(226, 66, 0, 137),
-      context: context,
-      position: const RelativeRect.fromLTRB(
-          100.0, 0.0, 0.0, 100.0), // Adjust position if needed
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      elevation: 0,
-      items: List.generate(12, (index) {
-        String monthName = controller.getMonthName(index + 1);
-        return PopupMenuItem<String>(
-          value: monthName,
-          onTap: () {
-            controller.focusedDay.value = DateTime(
-                DateTime.now().year, controller.getMonthIndex(monthName), 1);
-          },
-          child: CustomGlassmorphicContainer(
-            borderRadius: 5,
-            padding: const EdgeInsets.symmetric(
-              vertical: 5,
-            ),
-            child: Center(
-              child: Text(
-                monthName,
-                style: const TextStyle(
-                    fontSize: 16,
-                    color: AppColors.kTextWhite), // Customize text style
-              ),
-            ),
-          ),
-        );
-      }).toList(),
-    ).then((String? newValue) {
-      if (newValue != null) {
-        // Handle dropdown value change
-        print("Selected Month: $newValue");
-        // Update focusedDay to the first day of the selected month
-        // setState(() {
-
-        // });
-      }
-    });
   }
 }

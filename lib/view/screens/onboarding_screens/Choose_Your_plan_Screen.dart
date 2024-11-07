@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Questions_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -29,11 +30,15 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = Get.arguments;
+    if (arguments == null) {
+      return Center(child: Text('No arguments passed in choose your plan.'));
+    }
     return CustomScaffold(
       body: Column(
         children: [
           Text(
-            "Choose Your Plan",
+            Get.arguments["title"] ?? "Choose Your Plan",
             style: Theme.of(context).textTheme.displaySmall,
           ),
           k1hSizedBox,
@@ -163,16 +168,28 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
           const Spacer(),
           GradientButton(
               onPressed: () {
-                Get.offAllNamed(
-                  ContinueScreen.routeName,
-                  arguments: {
-                    "title": "Grateful for Every Moment",
-                    "subtitle": "We're excited to share that your picture will be the cover of a special"
-                        "collection of cherished memories and videos, which will be delivered"
-                        "to your loved ones at a time you choose, allowing you to share those precious moments with them.",
-                    "callback": () => Get.toNamed(QuestionsScreen.routeName)
-                  },
-                );
+                Get.arguments["popAfterSuccess"] ?? false
+                    ? Get.toNamed(
+                        ContinueScreen.routeName,
+                        arguments: {
+                          "title": "Congrats ",
+                          "subtitle":
+                              "Your Plan has been upgraded successfully",
+                          "callback": () => Get.until((route) =>
+                              Get.currentRoute == BottomNavBarScreen.routeName)
+                        },
+                      )
+                    : Get.offAllNamed(
+                        ContinueScreen.routeName,
+                        arguments: {
+                          "title": "Grateful for Every Moment",
+                          "subtitle": "We're excited to share that your picture will be the cover of a special"
+                              "collection of cherished memories and videos, which will be delivered"
+                              "to your loved ones at a time you choose, allowing you to share those precious moments with them.",
+                          "callback": () =>
+                              Get.toNamed(QuestionsScreen.routeName)
+                        },
+                      );
               },
               text: "Select This Plan",
               gradients: const [Colors.purpleAccent, Colors.blue]),

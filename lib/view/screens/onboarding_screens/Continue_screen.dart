@@ -13,8 +13,13 @@ class ContinueScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final naviagtionParams = Get.arguments;
-    final callback = naviagtionParams["callback"];
+    // final Get.arguments = Get.arguments;
+    // final callback = Get.arguments["callback"];
+
+    final arguments = Get.arguments;
+    if (arguments == null) {
+      return Center(child: Text('No arguments passed in contineu screen.'));
+    }
     return CustomScaffold(
       padding: const EdgeInsets.all(0),
       body: Stack(
@@ -72,7 +77,7 @@ class ContinueScreen extends StatelessWidget {
                   height: 8.h,
                 ),
                 Text(
-                  naviagtionParams["title"],
+                  Get.arguments["title"],
                   style: Theme.of(context)
                       .textTheme
                       .displaySmall!
@@ -80,7 +85,7 @@ class ContinueScreen extends StatelessWidget {
                 ),
                 k1hSizedBox,
                 Text(
-                  naviagtionParams["subtitle"],
+                  Get.arguments["subtitle"],
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
@@ -92,7 +97,8 @@ class ContinueScreen extends StatelessWidget {
                   height: kButtonHeight,
                   child: GradientButton(
                     onPressed: () {
-                      if (callback != null) callback();
+                      if (Get.arguments["callback"] != null)
+                        Get.arguments["callback"]();
                       // Get.toNamed(QuestionsScreen.routeName);
                     },
                     text: 'Continue',

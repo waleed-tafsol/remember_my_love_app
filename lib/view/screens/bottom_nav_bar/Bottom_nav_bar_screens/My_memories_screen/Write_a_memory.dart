@@ -58,7 +58,7 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Catagory"),
+                            Text("Category"),
                             Icon(
                               Icons.keyboard_arrow_down_outlined,
                               color: AppColors.kIconColor,

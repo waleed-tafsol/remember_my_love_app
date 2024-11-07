@@ -21,21 +21,20 @@ class SignUpScreen extends GetView<SignupController> {
     return CustomScaffold(
       body: Column(
         children: [
-          SizedBox(
-              width: 30.w,
-              child: Hero(
-                  transitionOnUserGestures: true,
-                  tag: 1,
-                  child: Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.rotationY(3.14159),
-                      child: Image.asset(
-                        Image_assets.animation_cloud_front_blue,
-                      )))),
+          Hero(
+              transitionOnUserGestures: true,
+              tag: 1,
+              child: Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.rotationY(3.14159),
+                  child: Image.asset(
+                    Image_assets.logo,
+                  ))),
           Text(
             "Remember My\nLove",
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontSize: 20.sp),
+            style: TextStyle(
+                fontFamily: 'Bookos', color: Colors.white, fontSize: 20.sp),
           ),
           CustomGlassmorphicContainer(
               width: double.maxFinite,
@@ -143,8 +142,10 @@ class SignUpScreen extends GetView<SignupController> {
                     "title": "Welcome Aboard!",
                     "subtitle":
                         "We're grateful you've joined our community and taken the first step in preserving your family legacy.",
-                    "callback": () =>
-                        Get.toNamed(ChooseYourPlanScreen.routeName)
+                    "callback": () {
+                      Get.toNamed(ChooseYourPlanScreen.routeName,
+                          arguments: {});
+                    }
                   },
                 );
               },

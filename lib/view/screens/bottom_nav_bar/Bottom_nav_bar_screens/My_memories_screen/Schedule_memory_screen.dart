@@ -207,7 +207,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                     },
                     text: "Send",
                     gradients: const [Colors.purple, Colors.blue])
-                : SizedBox();
+                : const SizedBox();
           }),
         ],
       ),

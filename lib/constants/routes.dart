@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/bindings/Privacy_policy_bindings.dart';
+import 'package:remember_my_love_app/bindings/Terms_and_conditions_bindings.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Upload_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
@@ -112,13 +114,13 @@ class Pages {
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
-      case UpgradePlanScreen.routeName:
-        return GetPageRoute(
-          settings: settings,
-          page: () => const UpgradePlanScreen(),
-          binding: ChooseYourPlanBindings(),
-          transition: _routeTransition,
-        );
+      // case UpgradePlanScreen.routeName:
+      //   return GetPageRoute(
+      //     settings: settings,
+      //     page: () => const UpgradePlanScreen(),
+      //     binding: ChooseYourPlanBindings(),
+      //     transition: _routeTransition,
+      //   );
       case QuestionsScreen.routeName:
         return GetPageRoute(
           settings: settings,
@@ -130,14 +132,14 @@ class Pages {
         return GetPageRoute(
           settings: settings,
           page: () => const PrivacyPolicyScreen(),
-          // binding: QuestionsBindings(),
+          binding: PrivacyPolicyBinding(),
           transition: _routeTransition,
         );
       case TermsAndConditionScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const TermsAndConditionScreen(),
-          // binding: QuestionsBindings(),
+          page: () => TermsAndConditionScreen(),
+          binding: TermsAndConditionBinding(),
           transition: _routeTransition,
         );
 

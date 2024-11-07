@@ -57,7 +57,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                               Obx(() {
                                 return Text(controller.sendTo.value);
                               }),
-                              Icon(
+                              const Icon(
                                 Icons.keyboard_arrow_down_outlined,
                                 color: AppColors.kIconColor,
                               )
@@ -67,11 +67,11 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                   ),
                   Obx(() {
                     return controller.sendTo.value == 'Other'
-                        ? const GlassTextFieldWithTitle(
+                        ? GlassTextFieldWithTitle(
                             title: 'Enter Relation',
                             hintText: "Family, Friend, Sibling, etc",
                           )
-                        : SizedBox();
+                        : const SizedBox();
                   }),
                   k1hSizedBox,
                   Obx(() {
@@ -103,12 +103,12 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                               ),
                             ),
                             k1hSizedBox,
-                            const GlassTextFieldWithTitle(
+                            GlassTextFieldWithTitle(
                               title: 'Email',
                               hintText: "Enter Email",
                             ),
                             k1hSizedBox,
-                            const GlassTextFieldWithTitle(
+                            GlassTextFieldWithTitle(
                               title: 'Contact',
                               hintText: "Enter Phone Number",
                             )
