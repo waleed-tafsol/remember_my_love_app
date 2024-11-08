@@ -290,7 +290,7 @@ class _SplashScreenState extends State<SplashScreen>
                 // k1hSizedBox,
                 GestureDetector(
                   onTap: () {
-                    // authController.login();
+                    Get.toNamed(SignUpScreen.routeName);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
