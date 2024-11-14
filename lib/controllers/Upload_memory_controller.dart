@@ -29,7 +29,7 @@ class UploadMemoryController extends GetxController {
   Rx<DateTime> selectedDate = DateTime.now().add(const Duration(days: 1)).obs;
   Rx<TimeOfDay> selectedTime = const TimeOfDay(hour: 0, minute: 0).obs;
   List<CatagoriesModel> categories = [];
-  RxString selectedCatagory = "".obs;
+  Rx<CatagoriesModel?> selectedCatagory = Rx<CatagoriesModel?>(null);
 
   @override
   void onInit() async {
@@ -115,7 +115,7 @@ class UploadMemoryController extends GetxController {
       await Memoryservices.create_mem(
           title: titleController.value.text,
           description: descriptionController.value.text,
-          category: selectedCatagory?.value ?? "",
+          category: selectedCatagory.value?.sId ?? "",
           deliveryDate: selectedDate,
           sendTo: sendTo,
           receivingUserName: recievingUsername.value.text,
@@ -124,6 +124,7 @@ class UploadMemoryController extends GetxController {
           recipientsRelation: recipientRelation.value.text.trim(),
           files: pickedFiles);
       removeAllFiles();
+      ColoredPrint.green("successful upload memory");
 
       Get.toNamed(MemoryScheduledSucceccfully.routeName);
     } catch (e) {

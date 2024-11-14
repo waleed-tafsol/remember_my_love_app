@@ -56,10 +56,16 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
                         borderRadius: 8,
                         padding: EdgeInsets.symmetric(
                             vertical: 2.h, horizontal: 2.w),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Category"),
+                            Obx(() {
+                              return Text(controller.selectedCatagory.value ==
+                                      null
+                                  ? "Catagory"
+                                  : controller.selectedCatagory.value?.name ??
+                                      "");
+                            }),
                             Icon(
                               Icons.keyboard_arrow_down_outlined,
                               color: AppColors.kIconColor,
@@ -122,7 +128,7 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
         );
       }).toList(),
     ).then((selectedValue) {
-      controller.selectedCatagory.value = selectedValue!.sId ?? "";
+      controller.selectedCatagory.value = selectedValue;
     });
   }
 }
