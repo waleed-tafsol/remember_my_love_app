@@ -7,7 +7,6 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
-
 import '../constants/ApiConstant.dart';
 import 'ApiServices.dart';
 import 'Auth_token_services.dart';
@@ -15,19 +14,24 @@ import 'Auth_token_services.dart';
 class AuthService extends GetxService {
   @override
   void onInit() async {
-    print("inauth init");
+    await initialize();
+    super.onInit();
+  }
+
+  Future<void> initialize() async {
+    print("Initializing AuthService...");
     if (await _tokenStorage.hasToken()) {
       isAuthenticated.value = true;
-      print("${isAuthenticated.value} is authenticated");
       authToken = await _tokenStorage.getToken();
+      print("User is authenticated with token: $authToken");
     }
-    super.onInit();
   }
 
   final Dio _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
 
   var isAuthenticated = false.obs;
   TokenService _tokenStorage = TokenService();
+
   String? authToken;
 
   Future<Map<String, dynamic>> login(String email, String password) async {

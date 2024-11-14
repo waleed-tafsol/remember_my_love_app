@@ -8,13 +8,11 @@ import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_sc
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Terms_and_condition_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/update_password_screen.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/upgrade_plan_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
 import '../bindings/Bottom_nav_bar_bindings.dart';
 import '../bindings/Memory_detail_bindings.dart';
 import '../bindings/Questions_bindings.dart';
-import '../bindings/UpgradePlanBindings.dart';
 import '../bindings/Upload_memories_bindings.dart';
 import '../bindings/splash_binding.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';

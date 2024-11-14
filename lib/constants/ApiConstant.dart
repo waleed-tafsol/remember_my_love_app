@@ -1,6 +1,5 @@
 class ApiConstants {
-  static const baseUrl =
-      "https://89b7-2407-aa80-14-b66f-ad27-d14-820-6c73.ngrok-free.app/";
+  static const baseUrl = "https://remember-my-love-c7798dc8cf7c.herokuapp.com/";
   static const login = "api/v1/auth/login";
   static const logout = "api/v1/auth/logout";
   // user RUD

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/upgrade_plan_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../../../../constants/TextConstant.dart';
 import '../../../../../widgets/Custom_glass_container.dart';
 import '../../../../onboarding_screens/Choose_Your_plan_Screen.dart';
