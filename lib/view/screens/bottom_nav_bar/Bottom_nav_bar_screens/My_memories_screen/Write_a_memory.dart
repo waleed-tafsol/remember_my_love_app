@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
+import 'package:remember_my_love_app/models/categories.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Recipient_details_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
@@ -106,25 +107,22 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
       context: context,
       position: RelativeRect.fromLTRB(
           50.w, 38.h, 8.w, 0.0), // Adjust position if needed
-      items: <String>['Option 1', 'Option 2', 'Option 3'].map((String value) {
-        return PopupMenuItem<String>(
+      items: controller.categories.map((CatagoriesModel value) {
+        return PopupMenuItem<CatagoriesModel>(
           value: value,
           child: Container(
             color: Colors.transparent, // Semi-transparent background
             padding: const EdgeInsets.all(10),
             child: Text(
-              value,
+              value.name!,
               style: TextStyleConstants.bodySmallWhite(
                   context), // White text for contrast
             ),
           ),
         );
       }).toList(),
-    ).then((String? newValue) {
-      if (newValue != null) {
-        // Handle dropdown value change
-        print("Selected: $newValue");
-      }
+    ).then((selectedValue) {
+      controller.selectedCatagory.value = selectedValue!.sId ?? "";
     });
   }
 }

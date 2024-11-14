@@ -132,7 +132,18 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  k1hSizedBox,
+                  GlassTextFieldWithTitle(
+                    title: 'Username',
+                    hintText: "Enter Username",
+                    controller: controller.recievingUsername,
+                  ),
+                  k1hSizedBox,
+                  GlassTextFieldWithTitle(
+                      title: 'Password',
+                      hintText: "Enter Password",
+                      controller: controller.recievingUserPassword)
                 ],
               ),
             ),

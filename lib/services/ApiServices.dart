@@ -23,9 +23,9 @@ class ApiService {
   static Future<Response?> getRequest(String endpoint) async {
     try {
       final headers = await _getHeaders();
-      final response =
+      Response response =
           await _dio.get(endpoint, options: Options(headers: headers));
-      return response.data;
+      return response;
     } on DioException catch (e) {
       _handleError(e);
       return null;

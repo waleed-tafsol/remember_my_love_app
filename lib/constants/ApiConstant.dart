@@ -1,6 +1,5 @@
 class ApiConstants {
-  static const baseUrl =
-      "https://89b7-2407-aa80-14-b66f-ad27-d14-820-6c73.ngrok-free.app/";
+  static const baseUrl = "https://remember-my-love-c7798dc8cf7c.herokuapp.com/";
   static const login = "api/v1/auth/login";
   static const logout = "api/v1/auth/logout";
   // user RUD
@@ -11,7 +10,11 @@ class ApiConstants {
   // Memories CRUD
   static const getAllMemories = "api/memory/all";
   static const findMemories = "api/memory/find/";
+  static const createMemories = "api/v1/memory/create";
   // static const findMemories = "api/memory/find/";
+
+  //categories CRUD
+  static const getcategories = "api/v1/category/all";
 
   // static const register = "${_baseUrl}api/register";
   // static const profile = "${_baseUrl}api/profile";
