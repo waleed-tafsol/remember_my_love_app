@@ -2,6 +2,7 @@ import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/services/MemoryServices.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/TextConstant.dart';
@@ -203,7 +204,6 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                 ? GradientButton(
                     onPressed: () {
                       controller.removeAllFiles();
-                      Get.toNamed(MemoryScheduledSucceccfully.routeName);
                     },
                     text: "Send",
                     gradients: const [Colors.purple, Colors.blue])

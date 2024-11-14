@@ -10,7 +10,11 @@ class ApiConstants {
   // Memories CRUD
   static const getAllMemories = "api/memory/all";
   static const findMemories = "api/memory/find/";
+  static const createMemories = "api/v1/memory/create";
   // static const findMemories = "api/memory/find/";
+
+  //categories CRUD
+  static const getcategories = "api/v1/category/all";
 
   // static const register = "${_baseUrl}api/register";
   // static const profile = "${_baseUrl}api/profile";
