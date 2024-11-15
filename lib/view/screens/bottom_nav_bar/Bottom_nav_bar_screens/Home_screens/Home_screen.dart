@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/Bottom_nav_bar_controller.dart';
+import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/controllers/Signup_controller.dart';
+import 'package:remember_my_love_app/models/memoryModel.dart';
+import 'package:remember_my_love_app/services/MemoryServices.dart';
+import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Widgets/Custom_glass_calendar_widget.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -11,7 +18,7 @@ import '../../../../widgets/dropdown_calender.dart';
 import 'Widgets/Letter_list_tile_widget.dart';
 import 'Widgets/My_storage_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends GetView<HomeScreenController> {
   HomeScreen({super.key});
 
   final picturesCount = 20;
@@ -21,6 +28,18 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
+        ElevatedButton(
+            onPressed: () async {
+              final Map<String, dynamic> jsonMap =
+                  await jsonDecode(Memoryservices.all_mem().toString());
+              for (var element in jsonMap['data']['memories']) {
+                ColoredPrint.red(element);
+                HomeScreenController.memories
+                    .add(MemoryModel.fromJson(element));
+              }
+              ColoredPrint.magenta(HomeScreenController.memories.toString());
+            },
+            child: Text("Test memory all")),
         InkWell(
           onTap: () {
             bottomNavController.changeTab(4);

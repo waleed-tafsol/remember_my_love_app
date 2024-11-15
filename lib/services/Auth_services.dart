@@ -34,6 +34,32 @@ class AuthService extends GetxService {
 
   String? authToken;
 
+  Future<Map<String, dynamic>> Signup(
+      String name, String email, String password, String passCnfrm) async {
+    try {
+      Response response = await _dio.post(
+        ApiConstants.signup,
+        data: {
+          "name": name,
+          "email": email,
+          "password": password,
+          "passwordConfirm": passCnfrm
+        },
+      );
+      authToken = response.data["data"]["token"];
+      _tokenStorage.saveToken(authToken!);
+      isAuthenticated.value = true;
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data["message"]["error"] ?? "An error occurred");
+      } else {
+        throw Exception("Network error: ${e.message}");
+      }
+    }
+  }
+
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       Response response = await _dio.post(
