@@ -1,10 +1,7 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:get/get_rx/get_rx.dart';
-import 'package:remember_my_love_app/controllers/Upload_memory_controller.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
-
 import '../constants/ApiConstant.dart';
 
 class Memoryservices {
@@ -12,13 +9,14 @@ class Memoryservices {
       {required String title,
       required String description,
       required String category,
-      required Rx<DateTime> deliveryDate,
-      required Rx<String> sendTo,
+      required String deliveryDate,
+      required String deliveryTime,
+      required String sendTo,
       required String receivingUserName,
       required String receivingUserPassword,
-      required RxList<Recipient> recipients,
+      required List<Map> recipients,
       required String recipientsRelation,
-      required RxList<File> files}) async {
+      required List<dynamic> files}) async {
     try {
       Response? response = await ApiService.postRequest(
         ApiConstants.createMemories,
@@ -26,18 +24,15 @@ class Memoryservices {
           "title": title,
           "description": description,
           "category": category,
-          "deliveryDate": deliveryDate,
+          "date": deliveryDate,
+          "time": deliveryTime,
           "sendTo": sendTo,
           "receivingUserName": receivingUserName,
           "receivingUserPassword": receivingUserPassword,
-          "recipients": [
-            {"email": "string", "contact": "string"}
-          ],
+          "recipients": recipients,
           // "recipients": recipients,
           "recipientsRelation": recipientsRelation,
-          "files": [
-            {"key": "string", "size": 0}
-          ],
+          "files": files,
           // "files": files
         },
       );

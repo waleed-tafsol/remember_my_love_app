@@ -203,7 +203,8 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
             return controller.buttonVisivility.value
                 ? GradientButton(
                     onPressed: () {
-                      controller.removeAllFiles();
+                      // controller.removeAllFiles();
+                      controller.createMemory();
                     },
                     text: "Send",
                     gradients: const [Colors.purple, Colors.blue])

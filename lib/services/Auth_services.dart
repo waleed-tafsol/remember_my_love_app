@@ -61,8 +61,8 @@ class AuthService extends GetxService {
     try {
       final Response? response =
           await ApiService.postRequest(ApiConstants.logout, {});
-      Get.back();
       if (response != null) {
+        Get.back();
         _tokenStorage.deleteToken();
         authToken = null;
         isAuthenticated.value = false;

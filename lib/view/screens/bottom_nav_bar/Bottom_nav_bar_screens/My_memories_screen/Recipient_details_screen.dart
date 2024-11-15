@@ -70,6 +70,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                         ? GlassTextFieldWithTitle(
                             title: 'Enter Relation',
                             hintText: "Family, Friend, Sibling, etc",
+                            controller: controller.recipientRelation,
                           )
                         : const SizedBox();
                   }),
@@ -106,11 +107,15 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                             GlassTextFieldWithTitle(
                               title: 'Email',
                               hintText: "Enter Email",
+                              controller:
+                                  controller.recipients[index].emailController,
                             ),
                             k1hSizedBox,
                             GlassTextFieldWithTitle(
                               title: 'Contact',
                               hintText: "Enter Phone Number",
+                              controller: controller
+                                  .recipients[index].contactController,
                             )
                           ],
                         );
@@ -170,8 +175,8 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
       position: RelativeRect.fromLTRB(
           50.w, 20.h, 8.w, 0.0), // Adjust position if needed
       items: <String>[
-        'Same',
-        'Other',
+        'same',
+        'others',
       ].map((String value) {
         return PopupMenuItem<String>(
           value: value,

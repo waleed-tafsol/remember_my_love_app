@@ -5,6 +5,7 @@ import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/services/Auth_services.dart';
+import 'package:remember_my_love_app/services/Auth_token_services.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Terms_and_condition_screen.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
@@ -154,6 +155,7 @@ class ProfileScreen extends StatelessWidget {
             child: InkWell(
                 onTap: () {
                   authService.logout();
+                  // TokenService().deleteToken();
                 },
                 child: Row(
                   children: [
