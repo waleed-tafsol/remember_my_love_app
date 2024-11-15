@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:remember_my_love_app/controllers/Upload_memory_controller.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
+import 'package:remember_my_love_app/utills/Colored_print.dart';
 
 import '../constants/ApiConstant.dart';
 
@@ -41,6 +42,29 @@ class Memoryservices {
           // "files": files
         },
       );
+      return response?.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data["message"]["error"] ?? "An error occurred");
+      } else {
+        throw Exception("Network error: ${e.message}");
+      }
+    }
+  }
+
+  static Future<Map<String, dynamic>> all_mem({
+    String? search,
+    String? status,
+    String? favorites,
+    String? year,
+    String? month,
+  }) async {
+    try {
+      Response? response = await ApiService.getRequest(
+        ApiConstants.getAllMemories,
+      );
+      ColoredPrint.green('${response?.data}');
       return response?.data;
     } on DioException catch (e) {
       if (e.response != null) {

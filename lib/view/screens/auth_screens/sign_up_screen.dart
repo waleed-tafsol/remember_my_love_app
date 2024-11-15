@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/controllers/AuthController.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
@@ -15,9 +16,9 @@ import '../../../controllers/Signup_controller.dart';
 class SignUpScreen extends GetView<SignupController> {
   const SignUpScreen({super.key});
   static const routeName = "SignUpScreen";
-
   @override
   Widget build(BuildContext context) {
+    final AuthController authController = Get.find();
     return CustomScaffold(
       body: Column(
         children: [
@@ -59,9 +60,17 @@ class SignUpScreen extends GetView<SignupController> {
                         "Name",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      const TextField(
-                        decoration: InputDecoration(hintText: "Enter Name"),
-                      ),
+                      Obx(() {
+                        return TextField(
+                          decoration: InputDecoration(
+                              hintText: "Enter Name",
+                              errorText: authController.nameError.value),
+                          onChanged: (value) {
+                            authController.signupValidateForm();
+                          },
+                          controller: authController.nameController,
+                        );
+                      })
                     ],
                   ),
                   k1hSizedBox,
@@ -72,9 +81,17 @@ class SignUpScreen extends GetView<SignupController> {
                         "Email",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      const TextField(
-                        decoration: InputDecoration(hintText: "Enter Email"),
-                      ),
+                      Obx(() {
+                        return TextField(
+                          decoration: InputDecoration(
+                              hintText: "Enter Email",
+                              errorText: authController.emailError.value),
+                          onChanged: (value) {
+                            authController.signupValidateForm();
+                          },
+                          controller: authController.signupemailController,
+                        );
+                      })
                     ],
                   ),
                   k1hSizedBox,
@@ -85,11 +102,28 @@ class SignUpScreen extends GetView<SignupController> {
                         "Password",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      const TextField(
-                        decoration: InputDecoration(
-                            hintText: "Enter Password",
-                            suffixIcon: Icon(Icons.visibility_off_outlined)),
-                      ),
+                      Obx(() {
+                        return TextField(
+                          onChanged: (value) {
+                            authController.signupValidateForm();
+                          },
+                          controller: authController.signupPassController,
+                          obscureText: !authController.passwordVisibility.value,
+                          decoration: InputDecoration(
+                              hintText: "Enter Password",
+                              errorText: authController.passwordError.value,
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    authController.passwordVisibility.value =
+                                        !authController
+                                            .passwordVisibility.value;
+                                  },
+                                  icon: Icon(
+                                      authController.passwordVisibility.value
+                                          ? Icons.visibility
+                                          : Icons.visibility_off))),
+                        );
+                      })
                     ],
                   ),
                   k1hSizedBox,
@@ -97,14 +131,31 @@ class SignUpScreen extends GetView<SignupController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Password",
+                        "Confirm Password",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      const TextField(
-                        decoration: InputDecoration(
-                            hintText: "Enter Password",
-                            suffixIcon: Icon(Icons.visibility_off_outlined)),
-                      ),
+                      Obx(() {
+                        return TextField(
+                          onChanged: (value) {
+                            authController.signupValidateForm();
+                          },
+                          controller: authController.passCnfirmController,
+                          obscureText: !authController.passwordVisibility.value,
+                          decoration: InputDecoration(
+                              hintText: "Confirm Your Password",
+                              errorText: authController.passconfrmErr.value,
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    authController.passwordVisibility.value =
+                                        !authController
+                                            .passwordVisibility.value;
+                                  },
+                                  icon: Icon(
+                                      authController.passwordVisibility.value
+                                          ? Icons.visibility
+                                          : Icons.visibility_off))),
+                        );
+                      })
                     ],
                   ),
                 ],
@@ -136,7 +187,8 @@ class SignUpScreen extends GetView<SignupController> {
             height: kButtonHeight,
             child: GradientButton(
               onPressed: () {
-                Get.offAllNamed(
+                authController.signup();
+                /* Get.offAllNamed(
                   ContinueScreen.routeName,
                   arguments: {
                     "title": "Welcome Aboard!",
@@ -147,7 +199,7 @@ class SignUpScreen extends GetView<SignupController> {
                           arguments: {});
                     }
                   },
-                );
+                ); */
               },
               text: 'Sign Up',
               gradients: const [

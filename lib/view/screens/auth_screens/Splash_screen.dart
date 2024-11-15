@@ -165,16 +165,18 @@ class _SplashScreenState extends State<SplashScreen>
                               alignment: Alignment.centerLeft,
                               child: Text("Email")),
                           k1hSizedBox,
-                          TextField(
-                            onChanged: (value) {
-                              authController.validateForm();
-                            },
-                            controller: authController.emailController,
-                            decoration: InputDecoration(
-                              hintText: "Enter Email",
-                              errorText: authController.emailError.value,
-                            ),
-                          ),
+                          Obx(() {
+                            return TextField(
+                              onChanged: (value) {
+                                authController.validateForm();
+                              },
+                              controller: authController.emailController,
+                              decoration: InputDecoration(
+                                hintText: "Enter Email",
+                                errorText: authController.emailError.value,
+                              ),
+                            );
+                          }),
                           k1hSizedBox,
                           Align(
                               alignment: Alignment.centerLeft,
