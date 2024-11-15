@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
+import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/models/categories.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
@@ -16,7 +17,7 @@ import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen
 class UploadMemoryController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   var pickedFiles = <File>[].obs;
-  RxString sendTo = "other".obs;
+  RxString sendTo = "others".obs;
   RxBool buttonVisivility = true.obs;
   final recievingUsername = TextEditingController();
   final recievingUserPassword = TextEditingController();
@@ -27,8 +28,8 @@ class UploadMemoryController extends GetxController {
   RxList<Recipient> recipients = <Recipient>[].obs;
   Rx<DateTime> selectedDate = DateTime.now().add(const Duration(days: 1)).obs;
   Rx<TimeOfDay> selectedTime = const TimeOfDay(hour: 0, minute: 0).obs;
-  List<CatagoriesModel> categories = [];
-  Rx<CatagoriesModel?> selectedCatagory = Rx<CatagoriesModel?>(null);
+  List<CategoryModel> categories = [];
+  Rx<CategoryModel?> selectedCatagory = Rx<CategoryModel?>(null);
   List<dynamic> imageUploadData = [];
 
   @override
@@ -128,6 +129,7 @@ class UploadMemoryController extends GetxController {
           files: imageUploadData);
       removeAllFiles();
       ColoredPrint.green("successful upload memory");
+      HomeScreenController().getmemories();
 
       Get.toNamed(MemoryScheduledSucceccfully.routeName);
     } catch (e) {
@@ -183,7 +185,7 @@ class UploadMemoryController extends GetxController {
 
       //ColoredPrint.green(jsonMap['data']['categories'].toString());
       for (var element in jsonMap['data']['categories']) {
-        categories.add(CatagoriesModel.fromJson(element));
+        categories.add(CategoryModel.fromJson(element));
       }
       //ColoredPrint.green(categories[1].toString());
     } on DioException catch (e) {

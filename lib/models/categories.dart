@@ -1,21 +1,18 @@
-class CatagoriesModel {
+class CategoryModel {
   String? sId;
   String? name;
-  bool? isActive;
 
-  CatagoriesModel({this.sId, this.name, this.isActive});
+  CategoryModel({this.sId, this.name});
 
-  CatagoriesModel.fromJson(Map<String, dynamic> json) {
+  CategoryModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
-    isActive = json['isActive'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
-    data['isActive'] = this.isActive;
     return data;
   }
 }

@@ -1,20 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/Bottom_nav_bar_controller.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
-import 'package:remember_my_love_app/controllers/Signup_controller.dart';
-import 'package:remember_my_love_app/models/memoryModel.dart';
-import 'package:remember_my_love_app/services/MemoryServices.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Widgets/Custom_glass_calendar_widget.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/assets.dart';
-import '../../../../widgets/dropdown_calender.dart';
 import 'Widgets/Letter_list_tile_widget.dart';
 import 'Widgets/My_storage_widget.dart';
 
@@ -28,18 +21,18 @@ class HomeScreen extends GetView<HomeScreenController> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
-        ElevatedButton(
-            onPressed: () async {
-              final Map<String, dynamic> jsonMap =
-                  await jsonDecode(Memoryservices.all_mem().toString());
-              for (var element in jsonMap['data']['memories']) {
-                ColoredPrint.red(element);
-                HomeScreenController.memories
-                    .add(MemoryModel.fromJson(element));
-              }
-              ColoredPrint.magenta(HomeScreenController.memories.toString());
-            },
-            child: Text("Test memory all")),
+        // ElevatedButton(
+        //     onPressed: () async {
+        //       final Map<String, dynamic> jsonMap =
+        //           await jsonDecode(Memoryservices.all_mem().toString());
+        //       for (var element in jsonMap['data']['memories']) {
+        //         ColoredPrint.red(element);
+        //         HomeScreenController.memories
+        //             .add(MemoryModel.fromJson(element));
+        //       }
+        //       ColoredPrint.magenta(HomeScreenController.memories.toString());
+        //     },
+        //     child: Text("Test memory all")),
         InkWell(
           onTap: () {
             bottomNavController.changeTab(4);
@@ -77,13 +70,23 @@ class HomeScreen extends GetView<HomeScreenController> {
         const My_storage_widget(),
         CustomGlassCalendarWidget(),
         // YearMonthDropdown(),
-        ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return LetterListTile(picturesCount: picturesCount);
-            })
+        Obx(() {
+          return controller.isloading.value
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: controller.memories.length,
+                  itemBuilder: (context, index) {
+                    return LetterListTile(
+                      description: controller.memories[index].description,
+                      picturesCount: picturesCount,
+                      catagory: controller.memories[index].category,
+                      creator: controller.memories[index].creator,
+                      title: controller.memories[index].title,
+                    );
+                  });
+        })
       ]),
     );
   }

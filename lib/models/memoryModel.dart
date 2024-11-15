@@ -1,16 +1,18 @@
+import 'package:remember_my_love_app/models/categories.dart';
+
 class MemoryModel {
   String? sId;
   String? title;
   String? status;
   String? description;
-  Category? category;
-  Creator? creator;
+  CategoryModel? category;
+  CreatorModel? creator;
   String? deliveryDate;
   bool? isFavorite;
   String? sendTo;
-  List<Recipients>? recipients;
+  List<RecipientsModel>? recipients;
   String? recipientsRelation;
-  List<Files>? files;
+  List<FilesModel>? files;
   String? createdAt;
   String? updatedAt;
   String? month;
@@ -40,24 +42,25 @@ class MemoryModel {
     status = json['status'];
     description = json['description'];
     category = json['category'] != null
-        ? new Category.fromJson(json['category'])
+        ? new CategoryModel.fromJson(json['category'])
         : null;
-    creator =
-        json['creator'] != null ? new Creator.fromJson(json['creator']) : null;
+    creator = json['creator'] != null
+        ? new CreatorModel.fromJson(json['creator'])
+        : null;
     deliveryDate = json['deliveryDate'];
     isFavorite = json['isFavorite'];
     sendTo = json['sendTo'];
     if (json['recipients'] != null) {
-      recipients = <Recipients>[];
+      recipients = <RecipientsModel>[];
       json['recipients'].forEach((v) {
-        recipients!.add(new Recipients.fromJson(v));
+        recipients!.add(new RecipientsModel.fromJson(v));
       });
     }
     recipientsRelation = json['recipientsRelation'];
     if (json['files'] != null) {
-      files = <Files>[];
+      files = <FilesModel>[];
       json['files'].forEach((v) {
-        files!.add(new Files.fromJson(v));
+        files!.add(new FilesModel.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
@@ -96,26 +99,7 @@ class MemoryModel {
   }
 }
 
-class Category {
-  String? sId;
-  String? name;
-
-  Category({this.sId, this.name});
-
-  Category.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    return data;
-  }
-}
-
-class Creator {
+class CreatorModel {
   String? sId;
   String? name;
   String? email;
@@ -123,7 +107,7 @@ class Creator {
   String? photo;
   double? availableStorage;
 
-  Creator(
+  CreatorModel(
       {this.sId,
       this.name,
       this.email,
@@ -131,7 +115,7 @@ class Creator {
       this.photo,
       this.availableStorage});
 
-  Creator.fromJson(Map<String, dynamic> json) {
+  CreatorModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     email = json['email'];
@@ -152,14 +136,14 @@ class Creator {
   }
 }
 
-class Recipients {
+class RecipientsModel {
   String? email;
   String? contact;
   String? sId;
 
-  Recipients({this.email, this.contact, this.sId});
+  RecipientsModel({this.email, this.contact, this.sId});
 
-  Recipients.fromJson(Map<String, dynamic> json) {
+  RecipientsModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     contact = json['contact'];
     sId = json['_id'];
@@ -174,14 +158,14 @@ class Recipients {
   }
 }
 
-class Files {
+class FilesModel {
   String? key;
   double? size;
   String? sId;
 
-  Files({this.key, this.size, this.sId});
+  FilesModel({this.key, this.size, this.sId});
 
-  Files.fromJson(Map<String, dynamic> json) {
+  FilesModel.fromJson(Map<String, dynamic> json) {
     key = json['key'];
     size = json['size'];
     sId = json['_id'];

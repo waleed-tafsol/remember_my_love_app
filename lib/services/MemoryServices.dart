@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import '../constants/ApiConstant.dart';
 
@@ -17,56 +15,33 @@ class Memoryservices {
       required List<Map> recipients,
       required String recipientsRelation,
       required List<dynamic> files}) async {
-    try {
-      Response? response = await ApiService.postRequest(
-        ApiConstants.createMemories,
-        {
-          "title": title,
-          "description": description,
-          "category": category,
-          "date": deliveryDate,
-          "time": deliveryTime,
-          "sendTo": sendTo,
-          "receivingUserName": receivingUserName,
-          "receivingUserPassword": receivingUserPassword,
-          "recipients": recipients,
-          // "recipients": recipients,
-          "recipientsRelation": recipientsRelation,
-          "files": files,
-          // "files": files
-        },
-      );
-      return response?.data;
-    } on DioException catch (e) {
-      if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"] ?? "An error occurred");
-      } else {
-        throw Exception("Network error: ${e.message}");
-      }
-    }
+    Response? response = await ApiService.postRequest(
+      ApiConstants.createMemories,
+      {
+        "title": title,
+        "description": description,
+        "category": category,
+        "date": deliveryDate,
+        "time": deliveryTime,
+        "sendTo": sendTo,
+        "receivingUserName": receivingUserName,
+        "receivingUserPassword": receivingUserPassword,
+        "recipients": recipients,
+        "recipientsRelation": recipientsRelation,
+        "files": files,
+      },
+    );
+    return response?.data;
   }
 
-  static Future<Map<String, dynamic>> all_mem({
-    String? search,
-    String? status,
-    String? favorites,
-    String? year,
-    String? month,
-  }) async {
-    try {
-      Response? response = await ApiService.getRequest(
-        ApiConstants.getAllMemories,
-      );
-      ColoredPrint.green('${response?.data}');
-      return response?.data;
-    } on DioException catch (e) {
-      if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"] ?? "An error occurred");
-      } else {
-        throw Exception("Network error: ${e.message}");
-      }
-    }
-  }
+  // static Future<Map<String, dynamic>?> getAllMemories() async {
+  //   Response? response = await ApiService.getRequest(
+  //     ApiConstants.getAllMemories,
+  //   );
+  //   if (response != null) {
+  //     return response.data;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 }

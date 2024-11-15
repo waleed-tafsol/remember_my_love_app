@@ -4,6 +4,7 @@ import 'package:get/utils.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 
 import '../constants/ApiConstant.dart';
+import '../utills/CustomSnackbar.dart';
 import 'Auth_services.dart';
 
 class ApiService {
@@ -28,6 +29,8 @@ class ApiService {
           await _dio.get(endpoint, options: Options(headers: headers));
       return response;
     } on DioException catch (e) {
+      ColoredPrint.red(
+          "Error: ${e.response.toString()} StatusCode: ${e.response?.statusCode.toString()}    on EndPoint: $endpoint ");
       _handleError(e);
       return null;
     }
@@ -90,28 +93,29 @@ class ApiService {
     if (error.response != null) {
       switch (error.response?.statusCode) {
         case 400:
-          Get.snackbar('Error', error.response?.data["message"]["error"][0]);
+          CustomSnackbar.showError(
+              'Error', error.response?.data["message"]["error"][0]);
           break;
         case 401:
-          Get.snackbar('Error',
+          CustomSnackbar.showError('Error',
               error.response?.data["message"]["error"][0] ?? 'Unauthorized');
           break;
         case 404:
-          Get.snackbar('Error',
+          CustomSnackbar.showError('Error',
               error.response?.data["message"]["error"][0] ?? 'Not found');
           break;
         case 500:
-          Get.snackbar('Error',
+          CustomSnackbar.showError('Error',
               error.response?.data["message"]["error"][0] ?? 'Server error');
           break;
         default:
-          Get.snackbar(
+          CustomSnackbar.showError(
               'Error',
               error.response?.data["message"]["error"][0] ??
                   'Something went wrong');
       }
     } else {
-      Get.snackbar(
+      CustomSnackbar.showError(
           'Error',
           error.response?.data["message"]["error"][0] ??
               'Check your internet connection');

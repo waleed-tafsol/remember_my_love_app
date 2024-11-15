@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/models/categories.dart';
+import 'package:remember_my_love_app/models/memoryModel.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -12,7 +14,35 @@ class LetterListTile extends StatelessWidget {
   const LetterListTile({
     super.key,
     required this.picturesCount,
+    this.id,
+    this.title,
+    this.status,
+    this.description,
+    this.catagory,
+    this.createdAt,
+    this.updatedAt,
+    this.month,
+    this.year,
+    this.creator,
+    this.deliveryDate,
+    this.isFavorite,
+    this.sendTo,
   });
+
+  // final int picturesCount;
+  final String? id;
+  final String? title;
+  final String? status;
+  final String? description;
+  final CategoryModel? catagory;
+  final String? createdAt;
+  final String? updatedAt;
+  final String? month;
+  final String? year;
+  final CreatorModel? creator;
+  final String? deliveryDate;
+  final String? isFavorite;
+  final String? sendTo;
 
   final int picturesCount;
 
@@ -34,7 +64,7 @@ class LetterListTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Letter Title",
+                        title ?? "",
                         style: TextStyleConstants.headlineLargeWhite(context)
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
@@ -58,8 +88,7 @@ class LetterListTile extends StatelessWidget {
               ),
               k1hSizedBox,
               Text(
-                "It is a long established fact that a reader will be distracted by the readable"
-                " content of a page when looking at its layout.",
+                description ?? '',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyleConstants.bodyMediumWhite(context),
