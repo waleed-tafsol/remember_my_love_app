@@ -80,6 +80,74 @@ class AuthService extends GetxService {
     }
   }
 
+  Future<Map<String, dynamic>> forgotPassword(
+    String email,
+  ) async {
+    try {
+      Response response = await _dio.post(
+        ApiConstants.forgotPass,
+        data: {"email": email},
+      );
+      /* authToken = response.data["data"]["token"];
+      _tokenStorage.saveToken(authToken!); 
+      isAuthenticated.value = true;*/
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data["message"]["error"] ?? "An error occurred");
+      } else {
+        throw Exception("Network error: ${e.message}");
+      }
+    }
+  }
+
+  Future<Map<String, dynamic>> verifyOnetime(String email, int code) async {
+    try {
+      Response response = await _dio.patch(
+        ApiConstants.verifyOTP,
+        data: {"email": email, "code": code},
+      );
+      /* authToken = response.data["data"]["token"];
+      _tokenStorage.saveToken(authToken!); 
+      isAuthenticated.value = true;*/
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data["message"]["error"] ?? "An error occurred");
+      } else {
+        throw Exception("Network error: ${e.message}");
+      }
+    }
+  }
+
+  Future<Map<String, dynamic>> resetPass(
+      String email, int code, String password, String confirm_pass) async {
+    try {
+      Response response = await _dio.patch(
+        ApiConstants.resetPass,
+        data: {
+          "email": email,
+          "code": code,
+          "password": password,
+          "passwordConfirm": confirm_pass
+        },
+      );
+      /* authToken = response.data["data"]["token"];
+      _tokenStorage.saveToken(authToken!); 
+      isAuthenticated.value = true;*/
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data["message"]["error"] ?? "An error occurred");
+      } else {
+        throw Exception("Network error: ${e.message}");
+      }
+    }
+  }
+
   Future<void> logout() async {
     Get.dialog(const Center(
       child: CircularProgressIndicator(),

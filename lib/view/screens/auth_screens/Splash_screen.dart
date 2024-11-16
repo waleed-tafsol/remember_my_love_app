@@ -6,6 +6,7 @@ import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
+import 'package:remember_my_love_app/view/screens/auth_screens/forgot_pass_screen.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/widgets/Glass_text_field_with_text_widget.dart';
@@ -223,16 +224,21 @@ class _SplashScreenState extends State<SplashScreen>
                                       context),
                                 ),
                                 const Spacer(),
-                                Text(
-                                  "Forgot Password",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(ForgotPassScreen.routeName);
+                                  },
+                                  child: Text(
+                                    "Forgot Password",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
