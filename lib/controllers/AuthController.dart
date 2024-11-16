@@ -14,6 +14,7 @@ class AuthController extends GetxController {
   TextEditingController passCnfirmController = TextEditingController();
   TextEditingController signupPassController = TextEditingController();
   TextEditingController signupemailController = TextEditingController();
+
   RxBool passwordVisibility = false.obs;
 
   Rx<String?> emailError = Rx<String?>(null);
@@ -22,6 +23,7 @@ class AuthController extends GetxController {
   //Rx<String?> signupPasswordError = Rx<String?>(null);
   Rx<String?> nameError = Rx<String?>(null);
   Rx<String?> passconfrmErr = Rx<String?>(null);
+  //Rx<String?> forgotEmailErr = Rx<String?>(null);
 
   Future<void> login() async {
     if (validateForm()) {
