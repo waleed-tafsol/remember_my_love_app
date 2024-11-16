@@ -4,6 +4,7 @@ import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/models/categories.dart';
+import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Recipient_details_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
@@ -14,8 +15,9 @@ import '../../../../../controllers/Upload_memory_controller.dart';
 import '../../../../widgets/Glass_text_field_with_text_widget.dart';
 
 class WriteAMemoryScreen extends GetView<UploadMemoryController> {
-  const WriteAMemoryScreen({super.key});
+  WriteAMemoryScreen({super.key});
   static const routeName = "WriteAMemoryScreen";
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,68 +36,90 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
             ],
           ),
           CustomGlassmorphicContainer(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GlassTextFieldWithTitle(
-                  title: 'Title',
-                  hintText: "Enter Title",
-                  controller: controller.titleController,
-                ),
-                k1hSizedBox,
-                const Text(
-                  "Select Category",
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: InkWell(
-                    onTap: () {
-                      _showDropdown(context);
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GlassTextFieldWithTitle(
+                    title: 'Title',
+                    hintText: "Enter Title",
+                    controller: controller.titleController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Required';
+                      }
+                      return null;
                     },
-                    child: CustomGlassmorphicContainer(
-                        borderRadius: 8,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 2.h, horizontal: 2.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Obx(() {
-                              return Text(controller.selectedCatagory.value ==
-                                      null
-                                  ? "Catagory"
-                                  : controller.selectedCatagory.value?.name ??
-                                      "");
-                            }),
-                            Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: AppColors.kIconColor,
-                            )
-                          ],
-                        )),
                   ),
-                ),
-                const Text("Description"),
-                k1hSizedBox,
-                SizedBox(
-                  height: 20.h,
-                  width: double.infinity,
-                  child: TextField(
-                    textAlignVertical: const TextAlignVertical(y: -1.0),
-                    expands: true,
-                    maxLines: null,
-                    controller: controller.descriptionController,
-                    decoration: const InputDecoration(
-                      hintText: "Enter Description",
+                  k1hSizedBox,
+                  const Text(
+                    "Select Category",
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: InkWell(
+                      onTap: () {
+                        _showDropdown(context);
+                      },
+                      child: CustomGlassmorphicContainer(
+                          borderRadius: 8,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 2.h, horizontal: 2.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Obx(() {
+                                return Text(controller.selectedCatagory.value ==
+                                        null
+                                    ? "Catagory"
+                                    : controller.selectedCatagory.value?.name ??
+                                        "");
+                              }),
+                              const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: AppColors.kIconColor,
+                              )
+                            ],
+                          )),
                     ),
                   ),
-                ),
-              ],
+                  const Text("Description"),
+                  k1hSizedBox,
+                  SizedBox(
+                    height: 20.h,
+                    width: double.infinity,
+                    child: TextFormField(
+                      textAlignVertical: const TextAlignVertical(y: -1.0),
+                      expands: true,
+                      maxLines: null,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                      controller: controller.descriptionController,
+                      decoration: const InputDecoration(
+                        hintText: "Enter Description",
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           const Spacer(),
           GradientButton(
               onPressed: () {
-                Get.toNamed(RecipientDetailsScreen.routeName);
+                if (_formKey.currentState!.validate()) {
+                  if (controller.selectedCatagory.value != null) {
+                    Get.toNamed(RecipientDetailsScreen.routeName);
+                  } else {
+                    CustomSnackbar.showError(
+                        "Error", "Please Select a catagory");
+                  }
+                }
               },
               text: "Add Recipients",
               gradients: const [Colors.purple, Colors.blue])

@@ -19,75 +19,86 @@ class HomeScreen extends GetView<HomeScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(children: [
-        // ElevatedButton(
-        //     onPressed: () async {
-        //       final Map<String, dynamic> jsonMap =
-        //           await jsonDecode(Memoryservices.all_mem().toString());
-        //       for (var element in jsonMap['data']['memories']) {
-        //         ColoredPrint.red(element);
-        //         HomeScreenController.memories
-        //             .add(MemoryModel.fromJson(element));
-        //       }
-        //       ColoredPrint.magenta(HomeScreenController.memories.toString());
-        //     },
-        //     child: Text("Test memory all")),
-        InkWell(
-          onTap: () {
-            bottomNavController.changeTab(4);
-          },
-          child: CustomGlassmorphicContainer(
-            child: Row(
-              children: [
-                ClipOval(
-                    child: Image.asset(
-                  Image_assets.userImage,
-                  height: 10.h,
-                  width: 10.h,
-                  fit: BoxFit.cover,
-                )),
-                k2wSizedBox,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Hello,",
-                      style: TextStyleConstants.bodyMediumWhite(context),
-                    ),
-                    k1hSizedBox,
-                    Text(
-                      "Michael Jones",
-                      style: TextStyleConstants.displayMediumWhiteBold(context),
-                    ),
-                  ],
-                )
-              ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        // Call the function to reload data
+        await controller.reload();
+      },
+      child: SingleChildScrollView(
+        child: Column(children: [
+          // ElevatedButton(
+          //     onPressed: () async {
+          //       final Map<String, dynamic> jsonMap =
+          //           await jsonDecode(Memoryservices.all_mem().toString());
+          //       for (var element in jsonMap['data']['memories']) {
+          //         ColoredPrint.red(element);
+          //         HomeScreenController.memories
+          //             .add(MemoryModel.fromJson(element));
+          //       }
+          //       ColoredPrint.magenta(HomeScreenController.memories.toString());
+          //     },
+          //     child: Text("Test memory all")),
+          InkWell(
+            onTap: () {
+              bottomNavController.changeTab(4);
+            },
+            child: CustomGlassmorphicContainer(
+              child: Row(
+                children: [
+                  ClipOval(
+                      child: Image.asset(
+                    Image_assets.userImage,
+                    height: 10.h,
+                    width: 10.h,
+                    fit: BoxFit.cover,
+                  )),
+                  k2wSizedBox,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Hello,",
+                        style: TextStyleConstants.bodyMediumWhite(context),
+                      ),
+                      k1hSizedBox,
+                      Obx(() {
+                        return Text(
+                          controller.user.value?.name ?? "------ -------",
+                          style: TextStyleConstants.displayMediumWhiteBold(
+                              context),
+                        );
+                      }),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        const My_storage_widget(),
-        CustomGlassCalendarWidget(),
-        // YearMonthDropdown(),
-        Obx(() {
-          return controller.isloading.value
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: controller.memories.length,
-                  itemBuilder: (context, index) {
-                    return LetterListTile(
-                      description: controller.memories[index].description,
-                      picturesCount: picturesCount,
-                      catagory: controller.memories[index].category,
-                      creator: controller.memories[index].creator,
-                      title: controller.memories[index].title,
-                    );
-                  });
-        })
-      ]),
+          const My_storage_widget(),
+          CustomGlassCalendarWidget(),
+          // YearMonthDropdown(),
+          Obx(() {
+            return controller.isloading.value
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: controller.memories.length,
+                    itemBuilder: (context, index) {
+                      return LetterListTile(
+                        memory: controller.memories[index],
+                        files: controller.memories[index].files ?? [],
+                        description: controller.memories[index].description,
+                        picturesCount: picturesCount,
+                        catagory: controller.memories[index].category,
+                        creator: controller.memories[index].creator,
+                        title: controller.memories[index].title,
+                      );
+                    });
+          })
+        ]),
+      ),
     );
   }
 }

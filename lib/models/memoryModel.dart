@@ -1,5 +1,8 @@
 import 'package:remember_my_love_app/models/categories.dart';
 
+import 'CreatorModel.dart';
+import 'RecipientModel.dart';
+
 class MemoryModel {
   String? sId;
   String? title;
@@ -99,68 +102,9 @@ class MemoryModel {
   }
 }
 
-class CreatorModel {
-  String? sId;
-  String? name;
-  String? email;
-  String? status;
-  String? photo;
-  double? availableStorage;
-
-  CreatorModel(
-      {this.sId,
-      this.name,
-      this.email,
-      this.status,
-      this.photo,
-      this.availableStorage});
-
-  CreatorModel.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-    email = json['email'];
-    status = json['status'];
-    photo = json['photo'];
-    availableStorage = json['availableStorage'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['status'] = this.status;
-    data['photo'] = this.photo;
-    data['availableStorage'] = this.availableStorage;
-    return data;
-  }
-}
-
-class RecipientsModel {
-  String? email;
-  String? contact;
-  String? sId;
-
-  RecipientsModel({this.email, this.contact, this.sId});
-
-  RecipientsModel.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
-    contact = json['contact'];
-    sId = json['_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['contact'] = this.contact;
-    data['_id'] = this.sId;
-    return data;
-  }
-}
-
 class FilesModel {
   String? key;
-  double? size;
+  num? size;
   String? sId;
 
   FilesModel({this.key, this.size, this.sId});

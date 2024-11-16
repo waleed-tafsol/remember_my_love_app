@@ -1,6 +1,6 @@
 class ApiConstants {
   // static const baseUrl = "https://remember-my-love-c7798dc8cf7c.herokuapp.com/";
-  static const baseUrl = "https://7l60bxbl-3059.inc1.devtunnels.ms/";
+  static const baseUrl = "https://remember-my-love-c7798dc8cf7c.herokuapp.com/";
   static const login = "api/v1/auth/login";
   static const logout = "api/v1/auth/logout";
   static const signup = "/api/v1/auth/signup";
@@ -19,6 +19,8 @@ class ApiConstants {
   static const getcategories = "api/v1/category/all";
 // upload media
   static const uploadPictures = "/api/v1/media/uploads";
+  static const getPicture = "https://remember-my-love-bucket.s3.amazonaws.com";
+
   // static const register = "${_baseUrl}api/register";
   // static const profile = "${_baseUrl}api/profile";
   // static const logout = "${_baseUrl}api/logout";

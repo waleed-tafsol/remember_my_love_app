@@ -87,14 +87,14 @@ class Pages {
       case WriteAMemoryScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const WriteAMemoryScreen(),
+          page: () => WriteAMemoryScreen(),
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
       case RecipientDetailsScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const RecipientDetailsScreen(),
+          page: () => RecipientDetailsScreen(),
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );

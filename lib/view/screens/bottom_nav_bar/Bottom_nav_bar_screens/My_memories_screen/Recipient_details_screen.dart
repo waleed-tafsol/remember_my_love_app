@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/utills/Validators.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
@@ -13,152 +14,188 @@ import '../../../../widgets/Custom_rounded_glass_button.dart';
 import '../../../../widgets/Glass_text_field_with_text_widget.dart';
 
 class RecipientDetailsScreen extends GetView<UploadMemoryController> {
-  const RecipientDetailsScreen({super.key});
+  RecipientDetailsScreen({super.key});
   static const routeName = "RecipientDetailsScreen";
-
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                CustomRoundedGlassButton(
-                    icon: Icons.arrow_back_ios_new, ontap: () => Get.back()),
-                k2wSizedBox,
-                Text(
-                  "Recipient's Details",
-                  style: TextStyleConstants.headlineLargeWhite(context),
-                )
-              ],
-            ),
-            CustomGlassmorphicContainer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Row(
                 children: [
-                  const Text(
-                    "Send To",
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: InkWell(
-                      onTap: () {
-                        _showDropdown(context);
+                  CustomRoundedGlassButton(
+                      icon: Icons.arrow_back_ios_new, ontap: () => Get.back()),
+                  k2wSizedBox,
+                  Text(
+                    "Recipient's Details",
+                    style: TextStyleConstants.headlineLargeWhite(context),
+                  )
+                ],
+              ),
+              CustomGlassmorphicContainer(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Send To",
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: InkWell(
+                        onTap: () {
+                          _showDropdown(context);
+                        },
+                        child: CustomGlassmorphicContainer(
+                            borderRadius: 8,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 2.h, horizontal: 2.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Obx(() {
+                                  return Text(controller.sendTo.value);
+                                }),
+                                const Icon(
+                                  Icons.keyboard_arrow_down_outlined,
+                                  color: AppColors.kIconColor,
+                                )
+                              ],
+                            )),
+                      ),
+                    ),
+                    Obx(() {
+                      return controller.sendTo.value == 'Other'
+                          ? GlassTextFieldWithTitle(
+                              title: 'Enter Relation',
+                              hintText: "Family, Friend, Sibling, etc",
+                              controller: controller.recipientRelation,
+                            )
+                          : const SizedBox();
+                    }),
+                    k1hSizedBox,
+                    GlassTextFieldWithTitle(
+                      title: 'Enter Relation',
+                      hintText: "Family, Friend, Sibling, etc",
+                      controller: controller.recipientRelation,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
                       },
-                      child: CustomGlassmorphicContainer(
-                          borderRadius: 8,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 2.h, horizontal: 2.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    k1hSizedBox,
+                    Obx(() {
+                      return Column(
+                        children: List.generate(controller.recipients.length,
+                            (index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Obx(() {
-                                return Text(controller.sendTo.value);
-                              }),
-                              const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AppColors.kIconColor,
+                              Align(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Recipient 0${index + 1}",
+                                      style: TextStyleConstants.bodyMediumWhite(
+                                              context)
+                                          .copyWith(
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                    IconButton(
+                                        color: AppColors.kGlassColor,
+                                        onPressed: () {
+                                          controller.removeRecipient(index);
+                                        },
+                                        icon: const Icon(Icons.remove))
+                                  ],
+                                ),
+                              ),
+                              k1hSizedBox,
+                              GlassTextFieldWithTitle(
+                                title: 'Email',
+                                hintText: "Enter Email",
+                                controller: controller
+                                    .recipients[index].emailController,
+                                validator: (value) {
+                                  emailValidator(value);
+                                },
+                              ),
+                              k1hSizedBox,
+                              GlassTextFieldWithTitle(
+                                title: 'Contact',
+                                hintText: "Enter Phone Number",
+                                controller: controller
+                                    .recipients[index].contactController,
+                                validator: (value) {
+                                  phoneNumberValidator(value);
+                                },
                               )
                             ],
-                          )),
-                    ),
-                  ),
-                  Obx(() {
-                    return controller.sendTo.value == 'Other'
-                        ? GlassTextFieldWithTitle(
-                            title: 'Enter Relation',
-                            hintText: "Family, Friend, Sibling, etc",
-                            controller: controller.recipientRelation,
-                          )
-                        : const SizedBox();
-                  }),
-                  k1hSizedBox,
-                  Obx(() {
-                    return Column(
-                      children:
-                          List.generate(controller.recipients.length, (index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Align(
-                              alignment: Alignment.center,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Recipient 0${index + 1}",
-                                    style: TextStyleConstants.bodyMediumWhite(
-                                            context)
-                                        .copyWith(
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                  IconButton(
-                                      color: AppColors.kGlassColor,
-                                      onPressed: () {
-                                        controller.removeRecipient(index);
-                                      },
-                                      icon: const Icon(Icons.remove))
-                                ],
-                              ),
-                            ),
-                            k1hSizedBox,
-                            GlassTextFieldWithTitle(
-                              title: 'Email',
-                              hintText: "Enter Email",
-                              controller:
-                                  controller.recipients[index].emailController,
-                            ),
-                            k1hSizedBox,
-                            GlassTextFieldWithTitle(
-                              title: 'Contact',
-                              hintText: "Enter Phone Number",
-                              controller: controller
-                                  .recipients[index].contactController,
-                            )
-                          ],
-                        );
-                      }),
-                    );
-                  }),
-                  k1hSizedBox,
-                  Align(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () {
-                        controller.addRecipient();
-                      },
-                      child: Text(
-                        "Add More Recipients +",
-                        style: TextStyleConstants.bodyMediumWhite(context)
-                            .copyWith(
-                          decoration: TextDecoration.underline,
+                          );
+                        }),
+                      );
+                    }),
+                    k1hSizedBox,
+                    Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: () {
+                          controller.addRecipient();
+                        },
+                        child: Text(
+                          "Add More Recipients +",
+                          style: TextStyleConstants.bodyMediumWhite(context)
+                              .copyWith(
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  k1hSizedBox,
-                  GlassTextFieldWithTitle(
-                    title: 'Username',
-                    hintText: "Enter Username",
-                    controller: controller.recievingUsername,
-                  ),
-                  k1hSizedBox,
-                  GlassTextFieldWithTitle(
+                    k1hSizedBox,
+                    GlassTextFieldWithTitle(
+                      title: 'Username',
+                      hintText: "Enter Username",
+                      controller: controller.recievingUsername,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                    ),
+                    k1hSizedBox,
+                    GlassTextFieldWithTitle(
                       title: 'Password',
                       hintText: "Enter Password",
-                      controller: controller.recievingUserPassword)
-                ],
+                      controller: controller.recievingUserPassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            k2hSizedBox,
-            GradientButton(
-                onPressed: () {
-                  Get.toNamed(ScheduleMemoryScreen.routeName);
-                },
-                text: "Send",
-                gradients: const [Colors.purple, Colors.blue]),
-          ],
+              k2hSizedBox,
+              GradientButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Get.toNamed(ScheduleMemoryScreen.routeName);
+                    }
+                  },
+                  text: "Send",
+                  gradients: const [Colors.purple, Colors.blue]),
+            ],
+          ),
         ),
       ),
     );

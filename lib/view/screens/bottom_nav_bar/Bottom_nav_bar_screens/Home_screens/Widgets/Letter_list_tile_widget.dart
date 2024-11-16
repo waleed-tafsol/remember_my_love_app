@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/models/categories.dart';
 import 'package:remember_my_love_app/models/memoryModel.dart';
+import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../../constants/TextConstant.dart';
-import '../../../../../../constants/assets.dart';
 import '../../../../../../constants/constants.dart';
+import '../../../../../../models/CreatorModel.dart';
+import '../../../../../../utills/ConvertDateTime.dart';
 import '../../../../../widgets/Custom_glass_container.dart';
 
 class LetterListTile extends StatelessWidget {
@@ -27,6 +30,8 @@ class LetterListTile extends StatelessWidget {
     this.deliveryDate,
     this.isFavorite,
     this.sendTo,
+    required this.files,
+    required this.memory,
   });
 
   // final int picturesCount;
@@ -39,10 +44,12 @@ class LetterListTile extends StatelessWidget {
   final String? updatedAt;
   final String? month;
   final String? year;
+  final List<FilesModel>? files;
   final CreatorModel? creator;
   final String? deliveryDate;
   final String? isFavorite;
   final String? sendTo;
+  final MemoryModel? memory;
 
   final int picturesCount;
 
@@ -52,7 +59,11 @@ class LetterListTile extends StatelessWidget {
         width: double.infinity,
         child: InkWell(
           onTap: () {
-            Get.toNamed(MemoryDetailScreen.routeName);
+            Get.toNamed(
+              MemoryDetailScreen.routeName,
+              arguments: memory,
+            );
+            // ColoredPrint.magenta();
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +81,7 @@ class LetterListTile extends StatelessWidget {
                       ),
                       k1hSizedBox,
                       Text(
-                        "Friday, 09 July 2024 - 09:00 PM",
+                        formatISOToCustom(memory!.createdAt.toString()),
                         style: TextStyleConstants.bodyMediumWhite(context),
                       )
                     ],
@@ -100,54 +111,58 @@ class LetterListTile extends StatelessWidget {
               ),
               k1hSizedBox,
               // List.generate(5, Container())
-              SizedBox(
-                height: 9.h,
-                width: double.infinity,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: picturesCount >= 3 ? 4 : picturesCount,
-                    itemBuilder: (context, index) {
-                      if (index >= 3) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 1.w),
-                          width: 9.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: const AssetImage(
-                                Image_assets.userImage,
-                              ),
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  Colors.black.withOpacity(0.5),
-                                  BlendMode.darken),
-                            ),
-                          ),
-                          child: Center(
-                              child: Text(
-                            "${(picturesCount - index).toString()} +",
-                            style: TextStyleConstants.bodyLargeWhite(context)
-                                .copyWith(fontWeight: FontWeight.bold),
-                          )),
-                        );
-                      } else {
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 1.w),
-                          width: 9.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: const DecorationImage(
-                                image: AssetImage(
-                                  Image_assets.userImage,
+              files!.isEmpty
+                  ? SizedBox()
+                  : SizedBox(
+                      height: 9.h,
+                      width: double.infinity,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: files!.length >= 3 ? 4 : files!.length,
+                          itemBuilder: (context, index) {
+                            if (index >= 3) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 1.w),
+                                width: 9.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      "${ApiConstants.getPicture}/${files![index].key!}",
+                                    ),
+                                    fit: BoxFit.cover,
+                                    colorFilter: ColorFilter.mode(
+                                        Colors.black.withOpacity(0.5),
+                                        BlendMode.darken),
+                                  ),
                                 ),
-                                fit: BoxFit.cover),
-                          ),
-                        );
-                      }
-                    }),
-              )
+                                child: Center(
+                                    child: Text(
+                                  "${(picturesCount - index).toString()} +",
+                                  style:
+                                      TextStyleConstants.bodyLargeWhite(context)
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                )),
+                              );
+                            } else {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 1.w),
+                                width: 9.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                        "${ApiConstants.getPicture}/${files![index].key!}",
+                                      ),
+                                      fit: BoxFit.cover),
+                                ),
+                              );
+                            }
+                          }),
+                    )
             ],
           ),
         ));

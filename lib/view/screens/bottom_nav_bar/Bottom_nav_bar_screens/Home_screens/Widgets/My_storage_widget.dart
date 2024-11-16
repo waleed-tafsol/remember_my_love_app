@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
+import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../../constants/TextConstant.dart';
 import '../../../../../widgets/Custom_glass_container.dart';
 import '../../../../onboarding_screens/Choose_Your_plan_Screen.dart';
 
-class My_storage_widget extends StatelessWidget {
+class My_storage_widget extends GetView<HomeScreenController> {
   const My_storage_widget({
     super.key,
   });
@@ -36,10 +37,12 @@ class My_storage_widget extends StatelessWidget {
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
                 k1hSizedBox,
-                Text(
-                  "0.08 GB of 1 GB Used",
-                  style: TextStyleConstants.bodyMediumWhite(context),
-                ),
+                Obx(() {
+                  return Text(
+                    "${((controller.user.value?.package?.storage ?? 0) / 1024).toStringAsFixed(0)} GB of ${((controller.user.value?.availableStorage ?? 0) / 1024).toStringAsFixed(0)} GB Available",
+                    style: TextStyleConstants.bodyMediumWhite(context),
+                  );
+                }),
                 k1hSizedBox,
                 Text(
                   "♕ Upgrade to Premium ↗",
@@ -54,13 +57,22 @@ class My_storage_widget extends StatelessWidget {
                 )
               ],
             ),
-            CircularPercentIndicator(
-              radius: 5.h,
-              lineWidth: 5.0,
-              percent: 0.6,
-              center: const Text("60%"),
-              progressColor: Colors.white,
-            )
+            Obx(() {
+              final availableStorage =
+                  controller.user.value?.availableStorage ?? 0;
+              final totalStorage = controller.user.value?.package?.storage ?? 0;
+
+              final percentUsed = availableStorage / totalStorage;
+              final percentRemaining = (1 - percentUsed) * 100;
+              return CircularPercentIndicator(
+                radius: 5.h,
+                lineWidth: 5.0,
+                percent: percentRemaining,
+                center: Text(
+                    "${controller.isloading.value ? 0 : percentRemaining.toStringAsFixed(0)}%"),
+                progressColor: Colors.white,
+              );
+            }),
           ],
         ),
       ),

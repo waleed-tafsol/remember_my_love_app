@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:remember_my_love_app/bindings/Bottom_nav_bar_bindings.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/models/categories.dart';
@@ -129,7 +131,8 @@ class UploadMemoryController extends GetxController {
           files: imageUploadData);
       removeAllFiles();
       ColoredPrint.green("successful upload memory");
-      HomeScreenController().getmemories();
+      final HomeScreenController controller = Get.find();
+      controller.getmemories();
 
       Get.toNamed(MemoryScheduledSucceccfully.routeName);
     } catch (e) {

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
+import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/services/Auth_token_services.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
@@ -15,7 +16,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../Home_screens/Widgets/My_storage_widget.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends GetView<HomeScreenController> {
   const ProfileScreen({super.key});
 
   @override
@@ -49,17 +50,19 @@ class ProfileScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Michael Jones",
-                    style: TextStyleConstants.displayMediumWhiteBold(context),
-                  ),
+                  Obx(() {
+                    return Text(
+                      controller.user.value?.name ?? "------ ----",
+                      style: TextStyleConstants.displayMediumWhiteBold(context),
+                    );
+                  }),
                   k3wSizedBox,
                   SvgPicture.asset(SvgAssets.edit)
                 ],
               ),
               k1hSizedBox,
               Text(
-                "Email:   johndoe@gmail.com",
+                "Email:   ${controller.user.value?.email ?? "xyz@mail.com"}",
                 style: TextStyleConstants.bodyMediumWhite(context),
               ),
             ],

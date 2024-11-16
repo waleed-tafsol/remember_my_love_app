@@ -89,15 +89,19 @@ class AuthService extends GetxService {
           await ApiService.postRequest(ApiConstants.logout, {});
       if (response != null) {
         Get.back();
-        _tokenStorage.deleteToken();
-        authToken = null;
-        isAuthenticated.value = false;
-        CustomSnackbar.showSuccess("Success", response.data["message"]);
-        Get.offAllNamed(SplashScreen.routeName);
+        deleteAuthtokenAndNavigate(message: response.data["message"]);
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<void> deleteAuthtokenAndNavigate({String? message}) async {
+    await _tokenStorage.deleteToken();
+    authToken = null;
+    isAuthenticated.value = false;
+    CustomSnackbar.showSuccess("Success", message ?? "Logged Out");
+    Get.offAllNamed(SplashScreen.routeName);
   }
 }
 

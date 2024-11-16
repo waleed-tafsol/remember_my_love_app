@@ -1,21 +1,19 @@
 import 'package:get/get.dart';
-
-import '../constants/assets.dart';
+import 'package:remember_my_love_app/models/memoryModel.dart';
 
 class MemoryDetailController extends GetxController {
-  final List<String> images = [
-    Image_assets.userImage,
-    Image_assets.animation_cloud_back,
-    Image_assets.animation_cloud_front,
-    Image_assets.scaffold_image,
-  ];
+  final MemoryModel memory;
 
   var selectedImage = ''.obs;
+
+  MemoryDetailController(this.memory);
 
   @override
   void onInit() {
     super.onInit();
-    selectedImage.value = images[0];
+    if (memory.files != null && memory.files!.isNotEmpty) {
+      selectedImage.value = memory.files!.first.key ?? '';
+    }
   }
 
   void selectImage(String image) {
