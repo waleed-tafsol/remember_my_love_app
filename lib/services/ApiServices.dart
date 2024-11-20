@@ -1,9 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/utils.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
-
 import '../constants/ApiConstant.dart';
 import '../utills/CustomSnackbar.dart';
 import 'Auth_services.dart';

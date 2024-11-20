@@ -5,11 +5,15 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
+
+import 'package:remember_my_love_app/services/FirebaseServices.dart';
+import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import '../constants/ApiConstant.dart';
 import 'ApiServices.dart';
 import 'Auth_token_services.dart';
+import 'LocalAuthServices.dart';
 
 class AuthService extends GetxService {
   @override
@@ -30,32 +34,111 @@ class AuthService extends GetxService {
   final Dio _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
 
   var isAuthenticated = false.obs;
-  TokenService _tokenStorage = TokenService();
+  var platform = "".obs;
+  final TokenService _tokenStorage = TokenService();
 
   String? authToken;
 
-  Future<Map<String, dynamic>> Signup(
-      String name, String email, String password, String passCnfrm) async {
+  // Biometric authentication function
+  Future<bool?> loginWithFingerPrint() async {
+    final authenticated = await LocalAuthService.authenticateUser();
+
+    // Get
+    if (authenticated) {
+      try {
+        Response response = await _dio.post(
+          ApiConstants.verifyFingerPrint,
+          data: {
+            "validationKey": FirebaseService.fcmToken,
+          },
+        );
+        if (response != null) {
+          platform.value = "finger";
+          authToken = response.data["data"]["token"];
+          _tokenStorage.saveToken(authToken!);
+          isAuthenticated.value = true;
+          return true;
+        } else {
+          return true;
+          // throw Exception("an error occured");
+        }
+      } on DioException catch (e) {
+        if (e.response != null) {
+          CustomSnackbar.showError("Error",
+              e.response?.data["message"]["error"][0] ?? "An error occurred");
+          return false;
+        } else {
+          CustomSnackbar.showError("Error", "Network error: ${e.message}");
+          return false;
+        }
+      }
+    } else {
+      false;
+    }
+  }
+
+  Future<bool?> loginWithGoogle() async {
+    try {
+      final user = await FirebaseService.signInWithGoogle();
+      if (user != null) {
+        Response response = await _dio.post(
+          ApiConstants.socialLogin,
+          data: {
+            "email": user.email,
+            "displayName": user.displayName,
+            "photo": user.photoURL,
+            "fcmToken": FirebaseService.fcmToken,
+            "validationKey": FirebaseService.fcmToken,
+            "platform": "google"
+          },
+        );
+        platform.value = "google";
+        authToken = response.data["data"]["token"];
+        _tokenStorage.saveToken(authToken!);
+        return false;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      throw Exception();
+    }
+  }
+
+  Future<Map<String, dynamic>?> Signup(
+    String name,
+    String userName,
+    String email,
+    String password,
+    String passCnfrm,
+  ) async {
+    ColoredPrint.green("signup ${FirebaseService.fcmToken.toString()}");
     try {
       Response response = await _dio.post(
         ApiConstants.signup,
         data: {
           "name": name,
+          "username": userName,
           "email": email,
           "password": password,
-          "passwordConfirm": passCnfrm
+          "passwordConfirm": passCnfrm,
+          "validationKey": FirebaseService.fcmToken,
+          "fcmToken": FirebaseService.fcmToken
         },
       );
+      platform.value = "email";
       authToken = response.data["data"]["token"];
       _tokenStorage.saveToken(authToken!);
       isAuthenticated.value = true;
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"] ?? "An error occurred");
+        ColoredPrint.red(e.response.toString());
+        CustomSnackbar.showError("Error",
+            e.response?.data["message"]["error"][0] ?? "An error occurred");
+        return null;
       } else {
-        throw Exception("Network error: ${e.message}");
+        CustomSnackbar.showError("Error", "Network error: ${e.message}");
+        return null;
       }
     }
   }
@@ -66,6 +149,7 @@ class AuthService extends GetxService {
         ApiConstants.login,
         data: {"email": email, "password": password},
       );
+      platform.value = "email";
       authToken = response.data["data"]["token"];
       _tokenStorage.saveToken(authToken!);
       isAuthenticated.value = true;
@@ -155,6 +239,10 @@ class AuthService extends GetxService {
     try {
       final Response? response =
           await ApiService.postRequest(ApiConstants.logout, {});
+      if (platform == "apple") {
+      } else if (platform == "google") {
+        await FirebaseService.signOut();
+      }
       if (response != null) {
         Get.back();
         deleteAuthtokenAndNavigate(message: response.data["message"]);

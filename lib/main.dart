@@ -9,8 +9,15 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'constants/routes.dart';
 import 'constants/theme.dart';
 
+import 'services/FirebaseServices.dart';
+
 void main() async {
+  // Initialize Firebase Messaging background handler
+  // FirebaseService.setupBackgroundHandler();
+
   WidgetsFlutterBinding.ensureInitialized();
+
+  await FirebaseService.initializeFirebase();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

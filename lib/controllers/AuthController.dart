@@ -4,6 +4,7 @@ import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/Questions_screen.dart';
 
 import '../utills/CustomSnackbar.dart';
 
@@ -11,17 +12,20 @@ class AuthController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
   TextEditingController passCnfirmController = TextEditingController();
   TextEditingController signupPassController = TextEditingController();
   TextEditingController signupemailController = TextEditingController();
 
   RxBool passwordVisibility = false.obs;
+  RxBool confirmPasswordVisibility = false.obs;
 
   Rx<String?> emailError = Rx<String?>(null);
   Rx<String?> passwordError = Rx<String?>(null);
   //Rx<String?> signupEmailError = Rx<String?>(null);
   //Rx<String?> signupPasswordError = Rx<String?>(null);
   Rx<String?> nameError = Rx<String?>(null);
+  Rx<String?> userNameError = Rx<String?>(null);
   Rx<String?> passconfrmErr = Rx<String?>(null);
   //Rx<String?> forgotEmailErr = Rx<String?>(null);
 
@@ -38,6 +42,35 @@ class AuthController extends GetxController {
         Get.back();
         CustomSnackbar.showError("Error", e.toString());
       }
+    }
+  }
+
+  Future<void> loginFingerPrint() async {
+    Get.dialog(const Center(child: CircularProgressIndicator()));
+    if (await authService.loginWithFingerPrint() ?? false) {
+      Get.back();
+      CustomSnackbar.showSuccess("Success", "Logged In Successfully");
+      Get.toNamed(BottomNavBarScreen.routeName);
+    } else {
+      Get.back();
+    }
+  }
+
+  Future<void> loginWithGoogle() async {
+    try {
+      Get.dialog(const Center(child: CircularProgressIndicator()));
+
+      if (await authService.loginWithGoogle() ?? false) {
+        Get.back();
+        CustomSnackbar.showSuccess("Success", "Logged In Successfully");
+        Get.toNamed(BottomNavBarScreen.routeName);
+      } else {
+        Get.back();
+        CustomSnackbar.showSuccess("error", "Google SignIn Faild");
+        Get.toNamed(BottomNavBarScreen.routeName);
+      }
+    } catch (e) {
+      Get.back();
     }
   }
 
@@ -63,18 +96,27 @@ class AuthController extends GetxController {
         CustomSnackbar.showError("Error", e.toString());
       }
     } */
+    Get.dialog(
+        Center(
+          child: CircularProgressIndicator(),
+        ),
+        barrierDismissible: false);
     try {
       final response = await authService.Signup(
           nameController.text.trim(),
+          userNameController.text.trim(),
           signupemailController.text.trim(),
-          /* signupPassController.text.trim(),
-          passCnfirmController.text.trim() */
-          "12345678", //hardcoded password
-          "12345678"); //confirmed password
-
+          signupPassController.text.trim(),
+          passCnfirmController.text.trim()
+          // "12345678", //hardcoded password
+          // "12345678"
+          ); //confirmed password
+      if (response != null) {
+        Get.back();
+        CustomSnackbar.showSuccess("Success", "Signup Successful");
+        Get.offNamed(QuestionsScreen.routeName);
+      }
       Get.back();
-      CustomSnackbar.showSuccess("Success", "Signup Successful");
-      Get.offNamed(BottomNavBarScreen.routeName);
     } catch (e) {
       Get.back();
       CustomSnackbar.showError("Error", e.toString());
@@ -100,8 +142,13 @@ class AuthController extends GetxController {
     final isemailValid = validateemail(signupemailController.text);
     final isPasswordValid = validatePassword(signupPassController.text);
     final isNameValid = validateName(nameController.text);
+    final isUserNameValid = validateUserName(userNameController.text);
     final isPassConfirm = revalidatePassword(passCnfirmController.text);
-    return isemailValid && isPasswordValid && isNameValid && isPassConfirm;
+    return isemailValid &&
+        isPasswordValid &&
+        isNameValid &&
+        isPassConfirm &&
+        isUserNameValid;
   }
 
   bool validateName(String Name) {
@@ -110,6 +157,16 @@ class AuthController extends GetxController {
       return false;
     } else {
       nameError.value = '';
+      return true;
+    }
+  }
+
+  bool validateUserName(String Name) {
+    if (Name.isEmpty) {
+      userNameError.value = 'Name is required';
+      return false;
+    } else {
+      userNameError.value = '';
       return true;
     }
   }

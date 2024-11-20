@@ -94,11 +94,10 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
               }
               return GridView.builder(
                 shrinkWrap: true,
-                physics:
-                    const NeverScrollableScrollPhysics(), // Disable scrolling
+                physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Number of columns
-                    childAspectRatio: 1.1, // Aspect ratio of grid items
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.1,
                     mainAxisSpacing: 3.h,
                     crossAxisSpacing: 4.w),
                 itemCount: controller.pickedFiles.length,

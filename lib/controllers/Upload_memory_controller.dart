@@ -6,7 +6,6 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:remember_my_love_app/bindings/Bottom_nav_bar_bindings.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/models/categories.dart';
@@ -97,7 +96,7 @@ class UploadMemoryController extends GetxController {
     try {
       final XFile? file = await _picker.pickImage(source: ImageSource.camera);
       if (file != null) {
-        pickedFiles.add(File(file.path)); // Add picked file to the list
+        pickedFiles.add(File(file.path));
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to take photo or video: $e');
@@ -105,16 +104,21 @@ class UploadMemoryController extends GetxController {
   }
 
   void removeFile(File file) {
-    pickedFiles.remove(file); // Remove file from the list
+    pickedFiles.remove(file);
     print("function ontap");
   }
 
   void removeAllFiles() {
-    pickedFiles.clear(); // Remove file from the list
+    pickedFiles.clear();
   }
 
   Future<void> createMemory() async {
     ColoredPrint.yellow("successful initiated");
+    Get.dialog(
+        Center(
+          child: CircularProgressIndicator(),
+        ),
+        barrierDismissible: false);
     try {
       convertDateTime();
       await Memoryservices.create_mem(
@@ -133,7 +137,7 @@ class UploadMemoryController extends GetxController {
       ColoredPrint.green("successful upload memory");
       final HomeScreenController controller = Get.find();
       controller.getmemories();
-
+      Get.back();
       Get.toNamed(MemoryScheduledSucceccfully.routeName);
     } catch (e) {
       Get.snackbar("ERROR", e.toString());

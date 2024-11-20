@@ -6,6 +6,7 @@ import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
+import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/forgot_pass_screen.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
@@ -265,8 +266,13 @@ class _SplashScreenState extends State<SplashScreen>
                           Row(
                             children: [
                               Expanded(
-                                  child: CustomGlassButton(
-                                child: SvgPicture.asset(SvgAssets.google),
+                                  child: InkWell(
+                                onTap: () {
+                                  authController.loginWithGoogle();
+                                },
+                                child: CustomGlassButton(
+                                  child: SvgPicture.asset(SvgAssets.google),
+                                ),
                               )),
                               k2wSizedBox,
                               Expanded(
@@ -277,13 +283,18 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                           k1hSizedBox,
                           IntrinsicWidth(
-                            child: CustomGlassButton(
-                              padding: EdgeInsets.all(2.w),
-                              borderRadius: BorderRadius.circular(50),
-                              child: Icon(
-                                size: 6.h,
-                                Icons.fingerprint_outlined,
-                                color: Colors.white,
+                            child: GestureDetector(
+                              onTap: () {
+                                authController.loginFingerPrint();
+                              },
+                              child: CustomGlassButton(
+                                padding: EdgeInsets.all(2.w),
+                                borderRadius: BorderRadius.circular(50),
+                                child: Icon(
+                                  size: 6.h,
+                                  Icons.fingerprint_outlined,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),

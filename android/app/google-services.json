@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "364804173127",
+    "project_id": "remember-my-love",
+    "storage_bucket": "remember-my-love.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364804173127:android:006b40b129d135da90b062",
+        "android_client_info": {
+          "package_name": "com.example.remember_my_love_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364804173127-r504ki530iati8a986ulnl840mes8c9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.remember_my_love_app",
+            "certificate_hash": "a9e55a978f747874677b8f67e77e35787efc8119"
+          }
+        },
+        {
+          "client_id": "364804173127-r404bu2o41cltp225e9tbdn270ktpbe0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFaqyXS-mZdkIOUUF7S8EuguCdmzEuu4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364804173127-r404bu2o41cltp225e9tbdn270ktpbe0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "364804173127-ri6rj7sdlouq279a0d4sik1hgp55954u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rememberMyLoveApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,6 @@
 class PackageModel {
   String? sId;
-  double? price;
+  num? price;
   String? summary;
   String? title;
   String? packageType;

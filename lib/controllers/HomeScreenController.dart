@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:remember_my_love_app/models/UserModel.dart';
 import 'package:remember_my_love_app/models/memoryModel.dart';
 
@@ -50,8 +53,29 @@ class HomeScreenController extends GetxController {
     );
     if (response != null) {
       final jsonResponse = response.data["data"];
-      ColoredPrint.green(jsonResponse.toString());
+      // ColoredPrint.green(jsonResponse.toString());
       user.value = UserModel.fromJson(jsonResponse);
+    }
+  }
+
+  Future<void> downloadImages(List<String> urls) async {
+    // Get the device's temporary directory
+    final Directory tempDir = await getTemporaryDirectory();
+
+    for (String url in urls) {
+      // Extract the image file name from the URL
+      final String fileName = url.split('/').last;
+
+      // Define the local file path
+      final File file = File('${tempDir.path}/$fileName');
+
+      // Make a GET request to download the image
+      final Response? response = await ApiService.getRequest(url);
+
+      if (response != null && response.statusCode == 200) {
+        // await file.writeAsBytes(response.bodyBytes);
+        print('Downloaded: ${file.path}');
+      }
     }
   }
 }

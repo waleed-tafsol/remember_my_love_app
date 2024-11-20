@@ -2,7 +2,6 @@ import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:remember_my_love_app/services/MemoryServices.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/TextConstant.dart';
@@ -12,7 +11,6 @@ import '../../../../../controllers/Upload_memory_controller.dart';
 import '../../../../widgets/Custom_glass_container.dart';
 import '../../../../widgets/Custom_rounded_glass_button.dart';
 import '../../../../widgets/custom_scaffold.dart';
-import 'Memory_scheduled_succeccfully.dart';
 
 class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
   const ScheduleMemoryScreen({super.key});
