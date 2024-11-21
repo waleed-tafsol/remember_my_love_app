@@ -67,8 +67,24 @@ class ApiService {
           data: data, options: Options(headers: headers));
       return response.data;
     } on DioException catch (e) {
+      ColoredPrint.red(
+          "Error: ${e.response.toString()} StatusCode: ${e.response?.statusCode.toString()}    on EndPoint: $endpoint ");
       _handleError(e);
       return null;
+    }
+  }
+
+  static Future<Response?> patchRequest(
+      String endpoint, Map<String, dynamic> data) async {
+    try {
+      final headers = await _getHeaders();
+      final response = await _dio.patch(endpoint,
+          data: data, options: Options(headers: headers));
+      return response.data;
+    } on DioException catch (e) {
+      ColoredPrint.red(
+          "Error: ${e.response.toString()} StatusCode: ${e.response?.statusCode.toString()}    on EndPoint: $endpoint ");
+      _handleError(e);
     }
   }
 
@@ -80,6 +96,8 @@ class ApiService {
           await _dio.delete(endpoint, options: Options(headers: headers));
       return response.data;
     } on DioException catch (e) {
+      ColoredPrint.red(
+          "Error: ${e.response.toString()} StatusCode: ${e.response?.statusCode.toString()}    on EndPoint: $endpoint ");
       _handleError(e);
       return null;
     }
@@ -90,8 +108,8 @@ class ApiService {
     if (error.response != null) {
       switch (error.response?.statusCode) {
         case 400:
-          CustomSnackbar.showError(
-              'Error', error.response?.data["message"]["error"][0]);
+          CustomSnackbar.showError('Error',
+              error.response?.data["message"]["error"][0] ?? "server error");
           break;
         case 401:
           authService.deleteAuthtokenAndNavigate();

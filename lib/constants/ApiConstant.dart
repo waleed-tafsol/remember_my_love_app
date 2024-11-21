@@ -8,7 +8,9 @@ class ApiConstants {
   static const forgotPass = "api/v1/auth/forgot-password";
   static const verifyOTP = "api/v1/auth/verify-otp";
   static const resetPass = "api/v1/auth/reset-password";
+  static const changePass = "api/v1/auth/change-password";
   static const verifyFingerPrint = "api/v1/auth/verify-fingerprint";
+  static const updateUser = "api/v1/users/update-me";
   // user RUD
   static const getUserDetails = "api/v1/users/get-me";
   static const updateUserDetails = "api/v1/users/update-me";

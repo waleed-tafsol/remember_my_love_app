@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/bindings/Privacy_policy_bindings.dart';
 import 'package:remember_my_love_app/bindings/Terms_and_conditions_bindings.dart';
+import 'package:remember_my_love_app/bindings/UpdatePasswordScreen_bindings.dart';
+import 'package:remember_my_love_app/bindings/UpdateUserDetails_binding.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/forgot_pass_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Upload_memory_screen.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Update_user_details.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
@@ -36,6 +39,20 @@ class Pages {
           settings: settings,
           page: () => const SplashScreen(),
           binding: SplashBinding(),
+          transition: _routeTransition,
+        );
+      case UpdateUserDetails.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => UpdateUserDetails(),
+          binding: UpdateUserscreenBindings(),
+          transition: _routeTransition,
+        );
+      case UpdatePasswordScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const UpdatePasswordScreen(),
+          binding: UpdatepasswordscreenBindings(),
           transition: _routeTransition,
         );
       case OtpScreen.routeName:
@@ -99,13 +116,6 @@ class Pages {
           settings: settings,
           page: () => MemoryDetailScreen(),
           binding: MemoryDetailBindings(),
-          transition: _routeTransition,
-        );
-      case UpdatePasswordScreen.routeName:
-        return GetPageRoute(
-          settings: settings,
-          page: () => const UpdatePasswordScreen(),
-          // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
       case WriteAMemoryScreen.routeName:

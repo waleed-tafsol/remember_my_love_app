@@ -6,10 +6,11 @@ import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/services/Auth_services.dart';
-import 'package:remember_my_love_app/services/Auth_token_services.dart';
+
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Terms_and_condition_screen.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
+
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Update_user_details.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/update_password_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -57,7 +58,13 @@ class ProfileScreen extends GetView<HomeScreenController> {
                     );
                   }),
                   k3wSizedBox,
-                  SvgPicture.asset(SvgAssets.edit)
+                  GestureDetector(
+                    child: SvgPicture.asset(SvgAssets.edit),
+                    onTap: () {
+                      Get.toNamed(UpdateUserDetails.routeName,
+                          arguments: controller.user.value);
+                    },
+                  )
                 ],
               ),
               k1hSizedBox,

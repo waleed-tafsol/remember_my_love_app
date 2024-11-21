@@ -149,7 +149,7 @@ class AuthService extends GetxService {
         ApiConstants.login,
         data: {"email": email, "password": password},
       );
-      platform.value = "email";
+      // platform.value = "email";
       authToken = response.data["data"]["token"];
       _tokenStorage.saveToken(authToken!);
       isAuthenticated.value = true;
@@ -203,6 +203,33 @@ class AuthService extends GetxService {
       } else {
         throw Exception("Network error: ${e.message}");
       }
+    }
+  }
+
+  Future<void> ChangePass(
+    String curr_pass,
+    String password,
+    String password_cnfrm,
+  ) async {
+    try {
+      Response? response =
+          await ApiService.patchRequest(ApiConstants.changePass, {
+        "password": password,
+        "passwordConfirm": password_cnfrm,
+        "currentPassword": curr_pass
+      });
+      authToken = response!.data["data"];
+      await _tokenStorage.saveToken(authToken!);
+    } catch (e) {
+      // if (e.response != null) {
+      //   CustomSnackbar.showError(e.response?.data["message"] ?? "error",
+      //       e.response?.data["message"]["error"] ?? "some thong went wrong");
+      throw Exception();
+      // } else {
+      //   CustomSnackbar.showError(e.response?.data["message"] ?? "Error",
+      //       e.response?.data["message"]["error"] ?? "some thong went wrong");
+      //   throw Exception();
+      // }
     }
   }
 
