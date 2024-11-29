@@ -143,7 +143,7 @@ class AuthController extends GetxController {
     final isPasswordValid = validatePassword(signupPassController.text);
     final isNameValid = validateName(nameController.text);
     final isUserNameValid = validateUserName(userNameController.text);
-    final isPassConfirm = revalidatePassword(passCnfirmController.text);
+    final isPassConfirm = revalidatePassword();
     return isemailValid &&
         isPasswordValid &&
         isNameValid &&
@@ -184,7 +184,7 @@ class AuthController extends GetxController {
     }
   }
 
-  bool revalidatePassword(String password) {
+  bool revalidatePassword() {
     /* if (!validatePassword(password)) {
       passconfrmErr.value = passwordError.value;
       return false;
@@ -198,7 +198,7 @@ class AuthController extends GetxController {
       passconfrmErr.value = "password didn't match";
       return false;
     } */
-    if (passwordController.text.trim() == passCnfirmController.text.trim()) {
+    if (passwordController.text == passCnfirmController.text) {
       ColoredPrint.green(
           "pass: ${passwordController.text} , cnfrmpass: ${passCnfirmController.text}");
       passconfrmErr.value = "";

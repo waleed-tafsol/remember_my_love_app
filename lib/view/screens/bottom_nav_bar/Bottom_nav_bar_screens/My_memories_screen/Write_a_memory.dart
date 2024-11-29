@@ -137,16 +137,15 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
       context: context,
       position: RelativeRect.fromLTRB(
           50.w, 38.h, 8.w, 0.0), // Adjust position if needed
-      items: controller.categories.map((CategoryModel value) {
-        return PopupMenuItem<CategoryModel>(
+      items: controller.categories.map((Category value) {
+        return PopupMenuItem<Category>(
           value: value,
           child: Container(
-            color: Colors.transparent, // Semi-transparent background
+            color: Colors.transparent,
             padding: const EdgeInsets.all(10),
             child: Text(
               value.name!,
-              style: TextStyleConstants.bodySmallWhite(
-                  context), // White text for contrast
+              style: TextStyleConstants.bodySmallWhite(context),
             ),
           ),
         );

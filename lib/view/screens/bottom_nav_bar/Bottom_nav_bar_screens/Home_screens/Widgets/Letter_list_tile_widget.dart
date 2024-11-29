@@ -10,6 +10,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../../constants/TextConstant.dart';
 import '../../../../../../constants/constants.dart';
 import '../../../../../../models/CreatorModel.dart';
+import '../../../../../../models/FilesModel.dart';
 import '../../../../../../utills/ConvertDateTime.dart';
 import '../../../../../widgets/Custom_glass_container.dart';
 
@@ -39,13 +40,13 @@ class LetterListTile extends StatelessWidget {
   final String? title;
   final String? status;
   final String? description;
-  final CategoryModel? catagory;
+  final Category? catagory;
   final String? createdAt;
   final String? updatedAt;
   final String? month;
   final String? year;
-  final List<FilesModel>? files;
-  final CreatorModel? creator;
+  final List<Files>? files;
+  final Creator? creator;
   final String? deliveryDate;
   final String? isFavorite;
   final String? sendTo;

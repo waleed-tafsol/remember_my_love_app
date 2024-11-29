@@ -252,6 +252,27 @@ class AuthService extends GetxService {
     }
   }
 
+  Future<void> deleteAccount(String userId) async {
+    Get.dialog(const Center(
+      child: CircularProgressIndicator(),
+    ));
+    try {
+      final Response? response =
+          await ApiService.deleteRequest(ApiConstants.deleteUser + userId);
+
+      if (response != null) {
+        if (platform == "apple") {
+        } else if (platform == "google") {
+          await FirebaseService.signOut();
+        }
+        Get.back();
+        deleteAuthtokenAndNavigate(message: response.data["message"]);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> deleteAuthtokenAndNavigate({String? message}) async {
     await _tokenStorage.deleteToken();
     authToken = null;

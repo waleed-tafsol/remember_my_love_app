@@ -1,25 +1,22 @@
-import 'package:remember_my_love_app/models/categories.dart';
-
 import 'CreatorModel.dart';
+import 'FilesModel.dart';
 import 'RecipientModel.dart';
+import 'categories.dart';
 
 class MemoryModel {
   String? sId;
   String? title;
   String? status;
   String? description;
-  CategoryModel? category;
-  CreatorModel? creator;
+  Category? category;
+  Creator? creator;
   String? deliveryDate;
   bool? isFavorite;
   String? sendTo;
-  List<RecipientsModel>? recipients;
-  String? recipientsRelation;
-  List<FilesModel>? files;
+  List<Recipients>? recipients;
+  List<Files>? files;
   String? createdAt;
   String? updatedAt;
-  String? month;
-  String? year;
 
   MemoryModel(
       {this.sId,
@@ -32,12 +29,9 @@ class MemoryModel {
       this.isFavorite,
       this.sendTo,
       this.recipients,
-      this.recipientsRelation,
       this.files,
       this.createdAt,
-      this.updatedAt,
-      this.month,
-      this.year});
+      this.updatedAt});
 
   MemoryModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -45,31 +39,27 @@ class MemoryModel {
     status = json['status'];
     description = json['description'];
     category = json['category'] != null
-        ? new CategoryModel.fromJson(json['category'])
+        ? new Category.fromJson(json['category'])
         : null;
-    creator = json['creator'] != null
-        ? new CreatorModel.fromJson(json['creator'])
-        : null;
+    creator =
+        json['creator'] != null ? new Creator.fromJson(json['creator']) : null;
     deliveryDate = json['deliveryDate'];
     isFavorite = json['isFavorite'];
     sendTo = json['sendTo'];
     if (json['recipients'] != null) {
-      recipients = <RecipientsModel>[];
+      recipients = <Recipients>[];
       json['recipients'].forEach((v) {
-        recipients!.add(new RecipientsModel.fromJson(v));
+        recipients!.add(new Recipients.fromJson(v));
       });
     }
-    recipientsRelation = json['recipientsRelation'];
     if (json['files'] != null) {
-      files = <FilesModel>[];
+      files = <Files>[];
       json['files'].forEach((v) {
-        files!.add(new FilesModel.fromJson(v));
+        files!.add(Files.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    month = json['month'];
-    year = json['year'];
   }
 
   Map<String, dynamic> toJson() {
@@ -90,36 +80,11 @@ class MemoryModel {
     if (this.recipients != null) {
       data['recipients'] = this.recipients!.map((v) => v.toJson()).toList();
     }
-    data['recipientsRelation'] = this.recipientsRelation;
     if (this.files != null) {
       data['files'] = this.files!.map((v) => v.toJson()).toList();
     }
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
-    data['month'] = this.month;
-    data['year'] = this.year;
-    return data;
-  }
-}
-
-class FilesModel {
-  String? key;
-  num? size;
-  String? sId;
-
-  FilesModel({this.key, this.size, this.sId});
-
-  FilesModel.fromJson(Map<String, dynamic> json) {
-    key = json['key'];
-    size = json['size'];
-    sId = json['_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key'] = this.key;
-    data['size'] = this.size;
-    data['_id'] = this.sId;
     return data;
   }
 }

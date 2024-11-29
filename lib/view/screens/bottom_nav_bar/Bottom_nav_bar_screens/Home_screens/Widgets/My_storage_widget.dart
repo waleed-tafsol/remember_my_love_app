@@ -63,11 +63,11 @@ class My_storage_widget extends GetView<HomeScreenController> {
               final totalStorage = controller.user.value?.package?.storage ?? 0;
 
               final percentUsed = availableStorage / totalStorage;
-              final percentRemaining = (1 - percentUsed) * 100;
+              final percentRemaining = percentUsed * 100;
               return CircularPercentIndicator(
                 radius: 5.h,
                 lineWidth: 5.0,
-                percent: percentRemaining,
+                percent: percentUsed,
                 center: Text(
                     "${controller.isloading.value ? 0 : percentRemaining.toStringAsFixed(0)}%"),
                 progressColor: Colors.white,

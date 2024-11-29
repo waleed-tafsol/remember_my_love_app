@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,99 @@ import '../Home_screens/Widgets/My_storage_widget.dart';
 
 class ProfileScreen extends GetView<HomeScreenController> {
   const ProfileScreen({super.key});
+
+  void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  const Color.fromARGB(255, 2, 255, 242).withOpacity(0.3),
+                  const Color.fromARGB(255, 255, 0, 238).withOpacity(0.3),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                    sigmaX: 0,
+                    sigmaY: 13,
+                    tileMode: TileMode.mirror), // Apply the blur effect
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        'Delete Account',
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      k2hSizedBox,
+                      Text(
+                        'Are you sure you want to delete your account? This action is irreversible.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: Colors.white,
+                        ),
+                      ),
+                      k1hSizedBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              authService.deleteAccount(
+                                  controller.user.value?.sId ?? "");
+                            },
+                            child: Text(
+                              'Delete',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +231,7 @@ class ProfileScreen extends GetView<HomeScreenController> {
               margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
-                  // Get.toNamed(UpdatePasswordScreen.routeName);
+                  _showDeleteConfirmationDialog(context);
                 },
                 child: Row(
                   children: [

@@ -1,4 +1,4 @@
-class PackageModel {
+class PackagesModel {
   String? sId;
   num? price;
   String? summary;
@@ -12,7 +12,7 @@ class PackageModel {
   String? updatedAt;
   int? iV;
 
-  PackageModel(
+  PackagesModel(
       {this.sId,
       this.price,
       this.summary,
@@ -26,7 +26,7 @@ class PackageModel {
       this.updatedAt,
       this.iV});
 
-  PackageModel.fromJson(Map<String, dynamic> json) {
+  PackagesModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     price = json['price'];
     summary = json['summary'];

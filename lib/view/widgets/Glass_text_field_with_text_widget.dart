@@ -6,7 +6,8 @@ class GlassTextFieldWithTitle extends StatelessWidget {
   final String title;
   final String? hintText;
   final TextEditingController? controller;
-  final IconData? icon;
+  final Widget? icon;
+  final bool? obscureText;
   final String? Function(String?)? validator; // Add validator function
 
   const GlassTextFieldWithTitle({
@@ -15,7 +16,8 @@ class GlassTextFieldWithTitle extends StatelessWidget {
     this.hintText,
     this.controller,
     this.icon,
-    this.validator, // Accept validator as a parameter
+    this.validator,
+    this.obscureText, // Accept validator as a parameter
   });
 
   @override
@@ -26,10 +28,11 @@ class GlassTextFieldWithTitle extends StatelessWidget {
         Text(title),
         k1hSizedBox,
         TextFormField(
+          obscureText: obscureText ?? false,
           controller: controller,
           decoration: InputDecoration(
             hintText: hintText ?? "",
-            suffixIcon: Icon(icon),
+            suffixIcon: icon,
           ),
           validator: validator, // Attach the validator here
         ),

@@ -1,12 +1,12 @@
-class CreatorModel {
+class Creator {
   String? sId;
   String? name;
   String? email;
   String? status;
   String? photo;
-  double? availableStorage;
+  int? availableStorage;
 
-  CreatorModel(
+  Creator(
       {this.sId,
       this.name,
       this.email,
@@ -14,7 +14,7 @@ class CreatorModel {
       this.photo,
       this.availableStorage});
 
-  CreatorModel.fromJson(Map<String, dynamic> json) {
+  Creator.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     email = json['email'];

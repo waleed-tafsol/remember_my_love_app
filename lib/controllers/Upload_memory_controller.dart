@@ -8,9 +8,9 @@ import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
-import 'package:remember_my_love_app/models/categories.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
+import '../models/categories.dart';
 import '../services/MemoryServices.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Memory_scheduled_succeccfully.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
@@ -29,8 +29,8 @@ class UploadMemoryController extends GetxController {
   RxList<Recipient> recipients = <Recipient>[].obs;
   Rx<DateTime> selectedDate = DateTime.now().add(const Duration(days: 1)).obs;
   Rx<TimeOfDay> selectedTime = const TimeOfDay(hour: 0, minute: 0).obs;
-  List<CategoryModel> categories = [];
-  Rx<CategoryModel?> selectedCatagory = Rx<CategoryModel?>(null);
+  List<Category> categories = [];
+  Rx<Category?> selectedCatagory = Rx<Category?>(null);
   List<dynamic> imageUploadData = [];
 
   @override
@@ -192,7 +192,7 @@ class UploadMemoryController extends GetxController {
 
       //ColoredPrint.green(jsonMap['data']['categories'].toString());
       for (var element in jsonMap['data']['categories']) {
-        categories.add(CategoryModel.fromJson(element));
+        categories.add(Category.fromJson(element));
       }
       //ColoredPrint.green(categories[1].toString());
     } on DioException catch (e) {

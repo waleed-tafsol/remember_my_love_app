@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/bindings/PaymentWebViewBindings.dart';
 import 'package:remember_my_love_app/bindings/Privacy_policy_bindings.dart';
 import 'package:remember_my_love_app/bindings/Terms_and_conditions_bindings.dart';
+import 'package:remember_my_love_app/bindings/UpgradePlanBindings.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/forgot_pass_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Upload_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
@@ -11,9 +13,11 @@ import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/update_password_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentWebView.dart';
 import '../bindings/Bottom_nav_bar_bindings.dart';
 import '../bindings/Memory_detail_bindings.dart';
 import '../bindings/Questions_bindings.dart';
+import '../bindings/Update_Password_bindinga.dart';
 import '../bindings/Upload_memories_bindings.dart';
 import '../bindings/splash_binding.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
@@ -76,8 +80,15 @@ class Pages {
       case ChooseYourPlanScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const ChooseYourPlanScreen(),
-          // binding: SplashBinding(),
+          page: () => ChooseYourPlanScreen(),
+          binding: ChooseYourPlanBindings(),
+          transition: _routeTransition,
+        );
+      case PaymentScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => PaymentScreen(),
+          binding: PaymentWebViewBindings(),
           transition: _routeTransition,
         );
       case ContinueScreen.routeName:
@@ -104,8 +115,8 @@ class Pages {
       case UpdatePasswordScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const UpdatePasswordScreen(),
-          // binding: BottomNavBarBindings(),
+          page: () => UpdatePasswordScreen(),
+          binding: UpdatePasswordBindings(),
           transition: _routeTransition,
         );
       case WriteAMemoryScreen.routeName:

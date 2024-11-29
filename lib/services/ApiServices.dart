@@ -72,6 +72,21 @@ class ApiService {
     }
   }
 
+  static Future<Response?> patchRequest(
+    String endpoint,
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      final headers = await _getHeaders();
+      final response = await _dio.patch(endpoint,
+          data: data, options: Options(headers: headers));
+      return response;
+    } on DioException catch (e) {
+      _handleError(e);
+      return null;
+    }
+  }
+
   // Static DELETE request
   static Future<Response?> deleteRequest(String endpoint) async {
     try {
