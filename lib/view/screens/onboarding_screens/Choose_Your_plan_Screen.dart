@@ -3,9 +3,6 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Questions_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -62,7 +59,7 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
                                 child: Container(
                                   padding: EdgeInsets.symmetric(vertical: 1.h),
                                   // height: ,
-                                  width: 30.w,
+                                  width: 25.w,
                                   decoration: BoxDecoration(
                                     color:
                                         controller.selectedPackage.value?.sId ==
@@ -159,11 +156,12 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
           ),
           const Spacer(),
           Obx(() {
-            return controller.homeController.user.value?.package?.sId !=
+            return controller.homeController.user.value?.package?.sId ==
                         controller.selectedPackage.value?.sId ||
-                    controller.homeController.user.value?.package?.title ==
-                        "free"
-                ? GradientButton(
+                    controller.selectedPackage.value?.sId ==
+                        "6711752199b2f80e34b6acf9"
+                ? SizedBox()
+                : GradientButton(
                     onPressed: () {
                       // arguments["popAfterSuccess"] ?? false
                       //     ?
@@ -192,17 +190,21 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
                       controller.buyPackage();
                     },
                     text: "Select This Plan",
-                    gradients: const [Colors.purpleAccent, Colors.blue])
-                : SizedBox();
+                    gradients: const [Colors.purpleAccent, Colors.blue]);
           }),
           k2hSizedBox,
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Text(
-              "Stick with 1 GB Free Plan",
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          )
+          Obx(() {
+            return controller.homeController.user.value?.package?.sId !=
+                    controller.selectedPackage.value?.sId
+                ? SizedBox()
+                : GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Text(
+                      "Stick with ${(controller.homeController.user.value?.package?.storage ?? 0) / 1024} GB Free Plan",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  );
+          })
         ],
       ),
     );

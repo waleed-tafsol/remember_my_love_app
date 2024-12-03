@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/TextConstant.dart';
-import '../../../../../constants/assets.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../controllers/Memory_detail_controller.dart';
 import '../../../../../models/memoryModel.dart';
@@ -18,12 +16,6 @@ import '../../../../../utills/ConvertDateTime.dart';
 class MemoryDetailScreen extends StatelessWidget {
   MemoryDetailScreen({super.key});
   static const routeName = "MemoryDetailScreen";
-  final List<String> images = [
-    Image_assets.userImage,
-    Image_assets.animation_cloud_back,
-    Image_assets.scaffold_image,
-    Image_assets.animation_cloud_front,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +79,7 @@ class MemoryDetailScreen extends StatelessWidget {
                           return GestureDetector(
                             onTap: () {
                               controller.selectedImage(
-                                  controller.memory.files![index].key);
+                                  controller.memory.files![index]);
                             },
                             child: Container(
                               width: 20.w,
@@ -97,7 +89,7 @@ class MemoryDetailScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                       image: NetworkImage(
-                                        "${ApiConstants.getPicture}/${controller.memory.files![index].key}",
+                                        "${ApiConstants.getPicture}/${controller.memory.files![index]}",
                                       ),
                                       fit: BoxFit.cover)),
                             ),
@@ -128,7 +120,7 @@ class MemoryDetailScreen extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          formatISOToCustom(memory.createdAt.toString()),
+                          formatISOToCustom(memory.deliveryDate.toString()),
                           style: TextStyleConstants.bodySmallWhite(context),
                         ),
                       ],
@@ -144,10 +136,21 @@ class MemoryDetailScreen extends StatelessWidget {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Recipient 0${index + 1} :",
-                                  style: TextStyleConstants.bodyLargeWhite(
-                                      context),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Recipient 0${index + 1} :",
+                                      style: TextStyleConstants.bodyLargeWhite(
+                                          context),
+                                    ),
+                                    Text(
+                                      controller.memory.recipients?[index]
+                                              .recipient?.name ??
+                                          "",
+                                      style: TextStyleConstants.bodyLargeWhite(
+                                          context),
+                                    ),
+                                  ],
                                 ),
 
                                 k1hSizedBox,
@@ -160,8 +163,8 @@ class MemoryDetailScreen extends StatelessWidget {
                                     ),
                                     k1wSizedBox,
                                     Text(
-                                      controller.memory.recipients![index]
-                                              .email ??
+                                      controller.memory.recipients?[index]
+                                              .recipient?.email ??
                                           "",
                                       style: TextStyleConstants.bodyLargeWhite(
                                           context),
@@ -172,14 +175,14 @@ class MemoryDetailScreen extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      "Contact :",
+                                      "User Name :",
                                       style: TextStyleConstants.bodyLargeWhite(
                                           context),
                                     ),
                                     k1wSizedBox,
                                     Text(
-                                      controller.memory.recipients![index]
-                                              .contact ??
+                                      controller.memory.recipients?[index]
+                                              .recipient?.username ??
                                           "",
                                       style: TextStyleConstants.bodyLargeWhite(
                                           context),

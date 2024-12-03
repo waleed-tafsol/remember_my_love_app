@@ -14,7 +14,7 @@ class MemoryModel {
   bool? isFavorite;
   String? sendTo;
   List<Recipients>? recipients;
-  List<Files>? files;
+  List<String>? files;
   String? createdAt;
   String? updatedAt;
 
@@ -53,9 +53,9 @@ class MemoryModel {
       });
     }
     if (json['files'] != null) {
-      files = <Files>[];
+      files = <String>[];
       json['files'].forEach((v) {
-        files!.add(Files.fromJson(v));
+        files!.add(v);
       });
     }
     createdAt = json['createdAt'];
@@ -81,7 +81,7 @@ class MemoryModel {
       data['recipients'] = this.recipients!.map((v) => v.toJson()).toList();
     }
     if (this.files != null) {
-      data['files'] = this.files!.map((v) => v.toJson()).toList();
+      data['files'] = this.files!.map((v) => v).toList();
     }
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;

@@ -20,7 +20,7 @@ class UserModel {
   String? subscriptionStatus;
   String? subscriptionDueDate;
   String? subscriptionStartDate;
-  int? availableStorage;
+  num? availableStorage;
   bool? inAppNotifications;
   String? customerId;
   bool? pushNotifications;

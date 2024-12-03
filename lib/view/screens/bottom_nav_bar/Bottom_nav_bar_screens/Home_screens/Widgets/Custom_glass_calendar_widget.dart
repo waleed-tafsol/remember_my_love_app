@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
+import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../../../../../widgets/dropdown_calender.dart';
 
 class CustomGlassCalendarWidget extends StatelessWidget {
@@ -113,9 +113,11 @@ class CustomGlassCalendarWidget extends StatelessWidget {
             children: <Widget>[
               k2hSizedBox,
               TableCalendar(
-                focusedDay: DateTime.now(),
-                firstDay: DateTime.now().subtract(const Duration(days: 365)),
-                lastDay: DateTime.now().add(const Duration(days: 365)),
+                focusedDay: controller.focusedDay.value,
+                firstDay: controller.focusedDay.value
+                    .subtract(const Duration(days: 365)),
+                lastDay:
+                    controller.focusedDay.value.add(const Duration(days: 365)),
                 headerVisible: false,
                 calendarStyle: const CalendarStyle(
                   todayDecoration: BoxDecoration(
@@ -133,10 +135,35 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                   weekendStyle: TextStyle(color: AppColors.kPrimaryColor),
                 ),
                 headerStyle: const HeaderStyle(),
+                onPageChanged: (focusedDay) {
+                  controller.onTabChange(focusedDay);
+                },
                 onDaySelected: (selectedDay, focusedDay) {
                   // Handle day selection
                   print("Selected day: $selectedDay");
+                  ColoredPrint.green("Focusday day: $focusedDay");
                 },
+                calendarBuilders: CalendarBuilders(
+                    //   markerBuilder: (context, day, events) {
+                    //     // Check if the current day is in the list of marked dates
+                    //     if (markedDates.contains(day)) {
+                    //       // Return a custom widget or decoration to mark the day
+                    //       return Positioned(
+                    //         bottom: 1,
+                    //         right: 1,
+                    //         child: Container(
+                    //           width: 5,
+                    //           height: 5,
+                    //           decoration: BoxDecoration(
+                    //             color: Colors.red, // Use any color to mark the day
+                    //             shape: BoxShape.circle,
+                    //           ),
+                    //         ),
+                    //       );
+                    //     }
+                    //     return null; // Return null if no marking is needed
+                    //   },
+                    ),
               ),
             ],
           ),

@@ -1,20 +1,21 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/models/UserModel.dart';
 import 'package:remember_my_love_app/models/memoryModel.dart';
-
 import 'package:remember_my_love_app/utills/Colored_print.dart';
-
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
 
 class HomeScreenController extends GetxController {
   @override
   void onInit() async {
+    calendarController = Get.find();
     isloading.value = true;
     await getmemories();
     await getUSer();
@@ -25,12 +26,23 @@ class HomeScreenController extends GetxController {
   Rx<UserModel?> user = Rx<UserModel?>(null);
   RxList<MemoryModel> memories = <MemoryModel>[].obs;
   RxBool isloading = false.obs;
+  late CalendarController calendarController;
 
-  Future<void> getmemories() async {
+  Future<void> getmemories({String? year, String? month}) async {
     ColoredPrint.green("Fetching Memories");
+    isloading.value = true;
+    ColoredPrint.green(
+        "Month: ${calendarController.focusedDay.value.month} Year: ${calendarController.focusedDay.value.year}");
     Response? response = await ApiService.getRequest(
-      ApiConstants.getAllMemories,
-    );
+        ApiConstants.getAllMemories,
+        queryParameters: {
+          "month": calendarController.focusedDay.value.month.toString(),
+          "year": calendarController.focusedDay.value.year.toString(),
+          // "search": "all",
+          "status": "all",
+          "favorites": "all",
+          "recipient": "all"
+        });
     if (response != null) {
       List<Map<String, dynamic>> memoryList =
           List<Map<String, dynamic>>.from(response.data["memories"]);
@@ -38,6 +50,7 @@ class HomeScreenController extends GetxController {
       memories.addAll(memoryList
           .map((memoryData) => MemoryModel.fromJson(memoryData))
           .toList());
+      isloading.value = false;
     }
   }
 

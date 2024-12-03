@@ -1,6 +1,6 @@
 class ApiConstants {
   static const baseUrl = "https://7l60bxbl-3059.inc1.devtunnels.ms/";
-  // static const baseUrl = "https://remember-my-love-c7798dc8cf7c.herokuapp.com/";
+  // static const baseUrl = "https://rml-backend-6a1ccbd78c62.herokuapp.com/";
   static const login = "api/v1/auth/login";
   static const socialLogin = "api/v1/auth/social";
   static const logout = "api/v1/auth/logout";
@@ -18,6 +18,7 @@ class ApiConstants {
 
   // Memories CRUD
   static const getAllMemories = "api/v1/memory/all";
+  static const getAllMemoriesImages = "/api/v1/memory/all/images";
   static const findMemories = "api/memory/find/";
   static const createMemories = "api/v1/memory/create";
   // static const findMemories = "api/memory/find/";
@@ -26,6 +27,7 @@ class ApiConstants {
   static const getcategories = "api/v1/category/all";
 // upload media
   static const uploadPictures = "api/v1/media/uploads";
+  static const uploadMimTypes = "/api/v1/media/signed-url";
   static const getPicture = "https://remember-my-love-bucket.s3.amazonaws.com";
 // packcages
   static const getAllPackages = "api/v1/package/all";

@@ -45,7 +45,7 @@ class LetterListTile extends StatelessWidget {
   final String? updatedAt;
   final String? month;
   final String? year;
-  final List<Files>? files;
+  final List<String>? files;
   final Creator? creator;
   final String? deliveryDate;
   final String? isFavorite;
@@ -131,7 +131,7 @@ class LetterListTile extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "${ApiConstants.getPicture}/${files![index].key!}",
+                                      "${ApiConstants.getPicture}/${files![index]}",
                                     ),
                                     fit: BoxFit.cover,
                                     colorFilter: ColorFilter.mode(
@@ -156,7 +156,7 @@ class LetterListTile extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                       image: NetworkImage(
-                                        "${ApiConstants.getPicture}/${files![index].key!}",
+                                        "${ApiConstants.getPicture}/${files![index]}",
                                       ),
                                       fit: BoxFit.cover),
                                 ),
