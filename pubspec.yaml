@@ -59,6 +59,9 @@ dependencies:
   local_auth: ^2.3.0
   google_sign_in: ^6.2.2
   firebase_auth: ^5.3.3
+  aws_s3_upload_lite: ^0.1.5
+
+
 
 dev_dependencies:
   flutter_test:

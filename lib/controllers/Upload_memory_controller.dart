@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:aws_s3_upload_lite/aws_s3_upload_lite.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
@@ -91,15 +92,53 @@ class UploadMemoryController extends GetxController {
       Get.snackbar('Error', 'Failed to pick image or video: $e');
     }
   }
-
+  void getFileExtension(String fileName) {
+    final String mimeType =  ".${fileName.split('.').last}".toLowerCase();
+    print(mimeType);
+  }
   Future<void> takePhotoOrVideo() async {
     try {
       final XFile? file = await _picker.pickImage(source: ImageSource.camera);
       if (file != null) {
         pickedFiles.add(File(file.path));
+        getFileExtension(file.path);
+
+        uploadFileToS3(File(file.path),"https://remember-my-love-bucket.s3.amazonaws.com/c5ac8615-bba8-4c53-83e0-1c76eb26ff1e.image/jpeg?AWSAccessKeyId=AKIA2NK3X2IRTDNYCDZM&Content-Type=image%2Fjpeg&Expires=1732943348&Signature=yrEDbC%2BBXROY8gesSfTlT4NqKOk%3D");
+
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to take photo or video: $e');
+    }
+  }
+
+  Future<void> uploadFileToS3(File file, String presignedUrl) async {
+    try {
+      Dio dio = Dio();
+
+      // Open the file as a stream
+      var stream = file.openRead();
+      var length = await file.length();
+
+      Response response = await dio.put(
+        presignedUrl,
+        data: stream,
+        options: Options(
+          headers: {
+            'Content-Type':
+            'image/jpg', // Content-Type for binary data
+            'Content-Length':
+            length, // Important for setting the correct file length
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        print('File uploaded successfully.');
+      } else {
+        print('Failed to upload file. Status code: ${response.statusCode}');
+      }
+    }  catch (e) {
+      print('Unexpected error: $e');
     }
   }
 
