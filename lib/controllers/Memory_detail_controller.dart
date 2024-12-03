@@ -12,7 +12,7 @@ class MemoryDetailController extends GetxController {
   void onInit() {
     super.onInit();
     if (memory.files != null && memory.files!.isNotEmpty) {
-      selectedImage.value = memory.files!.first.key ?? '';
+      selectedImage.value = memory.files?[0] ?? '';
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
@@ -31,7 +32,8 @@ class UploadMemoryController extends GetxController {
   Rx<TimeOfDay> selectedTime = const TimeOfDay(hour: 0, minute: 0).obs;
   List<Category> categories = [];
   Rx<Category?> selectedCatagory = Rx<Category?>(null);
-  List<dynamic> imageUploadData = [];
+  List<dynamic> imageUploadMimType = [];
+  List<dynamic> successFullFilesUploads = [];
 
   @override
   void onInit() async {
@@ -132,7 +134,9 @@ class UploadMemoryController extends GetxController {
           receivingUserPassword: recievingUserPassword.value.text,
           recipients: recipients.map((recipient) => recipient.toMap()).toList(),
           recipientsRelation: recipientRelation.value.text.trim(),
-          files: imageUploadData);
+          files: []
+          // imageUploadData
+          );
       removeAllFiles();
       ColoredPrint.green("successful upload memory");
       final HomeScreenController controller = Get.find();
@@ -156,33 +160,103 @@ class UploadMemoryController extends GetxController {
     return "$date $time";
   }
 
-  Future<void> uploadMedia() async {
+  Future<void> uploadMimeTypes() async {
     Get.dialog(const Center(child: CircularProgressIndicator()));
 
-    // ColoredPrint.red("Uploading images to cloud");
-    // ColoredPrint.magenta(pickedFiles[0].path);
-    FormData formData = FormData.fromMap({
-      "images": await Future.wait(pickedFiles.map((file) async {
-        final fileBytes = await file.readAsBytes();
-        return MultipartFile.fromBytes(
-          fileBytes,
-          filename: file.path.split('/').last,
-        );
-      }).toList()),
-    });
+    // Get the MIME type for each picked file
+    List<String> mimeTypes = pickedFiles.map((file) {
+      // Get the MIME type using the file extension
+      final mimeType = lookupMimeType(file.path);
+      return mimeType ?? "application/octet-stream";
+    }).toList();
 
+    ColoredPrint.green(mimeTypes.toString());
     Response? response = await ApiService.postRequest(
-      ApiConstants.uploadPictures,
-      formData,
+      ApiConstants.uploadMimTypes,
+      {
+        "mimeTypes": mimeTypes,
+      },
     );
+
     ColoredPrint.green(response.toString());
+
     if (response?.statusCode == 201 && response != null) {
-      imageUploadData = response.data["fileDetails"];
-      ColoredPrint.green("images Uploded Successfully data: $imageUploadData");
+      final jsonresponse = response.data;
+      imageUploadMimType = jsonresponse["data"];
+
+      for (int i = 0; i < imageUploadMimType.length; i++) {
+        await uploadToS3Bucket(imageUploadMimType[i], i, mimeTypes[i]);
+      }
       Get.back();
       Get.toNamed(WriteAMemoryScreen.routeName);
     }
   }
+
+  uploadToS3Bucket(
+      Map<String, dynamic> imageMap, int i, String? mimeType) async {
+    try {
+      // Assuming pickedFiles[i] is your selected file
+      final file = pickedFiles[i];
+      final fileBytes = await file.readAsBytes();
+
+      // Prepare FormData with the key and file
+      // final imageBytes = await MultipartFile.fromBytes(
+      //   fileBytes,
+      //   filename: file.path.split('/').last,
+      // );
+
+      // Upload the file using the put req
+
+      final response = await Dio().put(
+        imageMap["url"],
+        data: fileBytes,
+        options: Options(
+          headers: {
+            "Content-Type": mimeType,
+          },
+        ),
+      );
+
+      // Handle the response
+      if (response?.statusCode == 200 && response != null) {
+        // successFullFilesUploads.add(response.data["fileDetails"]);
+        ColoredPrint.green(
+            "Image uploaded successfully: $successFullFilesUploads");
+      } else {
+        ColoredPrint.red("Failed to upload image: ${response?.statusCode}");
+      }
+    } catch (e) {
+      ColoredPrint.red("Error uploading image: $e");
+    }
+  }
+
+  // Future<void> uploadMedia() async {
+  //   Get.dialog(const Center(child: CircularProgressIndicator()));
+
+  //   // ColoredPrint.red("Uploading images to cloud");
+  //   // ColoredPrint.magenta(pickedFiles[0].path);
+  //   FormData formData = FormData.fromMap({
+  //     "images": await Future.wait(pickedFiles.map((file) async {
+  //       final fileBytes = await file.readAsBytes();
+  //       return MultipartFile.fromBytes(
+  //         fileBytes,
+  //         filename: file.path.split('/').last,
+  //       );
+  //     }).toList()),
+  //   });
+
+  //   Response? response = await ApiService.postRequest(
+  //     ApiConstants.uploadPictures,
+  //     formData,
+  //   );
+  //   ColoredPrint.green(response.toString());
+  //   if (response?.statusCode == 201 && response != null) {
+  //     imageUploadData = response.data["fileDetails"];
+  //     ColoredPrint.green("images Uploded Successfully data: $imageUploadData");
+  //     Get.back();
+  //     Get.toNamed(WriteAMemoryScreen.routeName);
+  //   }
+  // }
 
   Future<void> FetchCategories() async {
     try {

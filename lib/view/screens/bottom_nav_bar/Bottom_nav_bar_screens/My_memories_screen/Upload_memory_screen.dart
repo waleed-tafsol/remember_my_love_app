@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
@@ -138,7 +137,7 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                   ? const SizedBox()
                   : GradientButton(
                       onPressed: () {
-                        controller.uploadMedia();
+                        controller.uploadMimeTypes();
                       },
                       text: "Continue",
                       gradients: const [Colors.purple, Colors.blue]);

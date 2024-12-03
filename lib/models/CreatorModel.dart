@@ -4,7 +4,7 @@ class Creator {
   String? email;
   String? status;
   String? photo;
-  int? availableStorage;
+  num? availableStorage;
 
   Creator(
       {this.sId,

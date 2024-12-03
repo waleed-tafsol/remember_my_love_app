@@ -19,11 +19,17 @@ class ApiService {
     return authService.authToken;
   }
 
-  static Future<Response?> getRequest(String endpoint) async {
+  static Future<Response?> getRequest(String endpoint,
+      {Map<String, String>? queryParameters}) async {
     try {
       final headers = await _getHeaders();
-      Response response =
-          await _dio.get(endpoint, options: Options(headers: headers));
+
+      // Perform the GET request with query parameters if provided
+      Response response = await _dio.get(
+        endpoint,
+        queryParameters: queryParameters,
+        options: Options(headers: headers),
+      );
       return response;
     } on DioException catch (e) {
       ColoredPrint.red(

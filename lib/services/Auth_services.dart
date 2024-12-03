@@ -59,21 +59,23 @@ class AuthService extends GetxService {
           isAuthenticated.value = true;
           return true;
         } else {
-          return true;
-          // throw Exception("an error occured");
+          throw Exception("an error occured");
+          // return false;
         }
       } on DioException catch (e) {
-        if (e.response != null) {
-          CustomSnackbar.showError("Error",
-              e.response?.data["message"]["error"][0] ?? "An error occurred");
-          return false;
-        } else {
-          CustomSnackbar.showError("Error", "Network error: ${e.message}");
-          return false;
-        }
+        throw Exception("an error occured");
+        // if (e.response != null) {
+        // CustomSnackbar.showError("Error",
+        //     e.response?.data["message"]["error"][0] ?? "An error occurred");
+        // return false;
+        // } else {
+        //   CustomSnackbar.showError("Error", "Network error: ${e.message}");
+        //   return false;
+        // }
       }
     } else {
-      false;
+      // false;
+      throw Exception("an error occured");
     }
   }
 
@@ -95,12 +97,12 @@ class AuthService extends GetxService {
         platform.value = "google";
         authToken = response.data["data"]["token"];
         _tokenStorage.saveToken(authToken!);
-        return false;
+        return true;
       } else {
-        return false;
+        throw Exception("an error occured");
       }
     } catch (e) {
-      throw Exception();
+      throw Exception(e);
     }
   }
 

@@ -46,13 +46,19 @@ class AuthController extends GetxController {
   }
 
   Future<void> loginFingerPrint() async {
-    Get.dialog(const Center(child: CircularProgressIndicator()));
-    if (await authService.loginWithFingerPrint() ?? false) {
+    try {
+      Get.dialog(const Center(child: CircularProgressIndicator()));
+      if (await authService.loginWithFingerPrint() ?? false) {
+        Get.back();
+        CustomSnackbar.showSuccess("Success", "Logged In Successfully");
+        Get.toNamed(BottomNavBarScreen.routeName);
+      } else {
+        Get.back();
+        CustomSnackbar.showError("error", "Google SignIn Faild");
+      }
+    } catch (e) {
       Get.back();
-      CustomSnackbar.showSuccess("Success", "Logged In Successfully");
-      Get.toNamed(BottomNavBarScreen.routeName);
-    } else {
-      Get.back();
+      CustomSnackbar.showError("error", "Google SignIn Faild");
     }
   }
 
@@ -66,11 +72,12 @@ class AuthController extends GetxController {
         Get.toNamed(BottomNavBarScreen.routeName);
       } else {
         Get.back();
-        CustomSnackbar.showSuccess("error", "Google SignIn Faild");
-        Get.toNamed(BottomNavBarScreen.routeName);
+        CustomSnackbar.showError("error", "Google SignIn Faild");
+        // Get.toNamed(BottomNavBarScreen.routeName);
       }
     } catch (e) {
       Get.back();
+      CustomSnackbar.showError("error", "Google SignIn Faild");
     }
   }
 

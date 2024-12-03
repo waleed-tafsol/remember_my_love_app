@@ -14,7 +14,6 @@ import 'Widgets/My_storage_widget.dart';
 class HomeScreen extends GetView<HomeScreenController> {
   HomeScreen({super.key});
 
-  final picturesCount = 20;
   final BottomNavController bottomNavController = Get.find();
 
   @override
@@ -26,18 +25,6 @@ class HomeScreen extends GetView<HomeScreenController> {
       },
       child: SingleChildScrollView(
         child: Column(children: [
-          // ElevatedButton(
-          //     onPressed: () async {
-          //       final Map<String, dynamic> jsonMap =
-          //           await jsonDecode(Memoryservices.all_mem().toString());
-          //       for (var element in jsonMap['data']['memories']) {
-          //         ColoredPrint.red(element);
-          //         HomeScreenController.memories
-          //             .add(MemoryModel.fromJson(element));
-          //       }
-          //       ColoredPrint.magenta(HomeScreenController.memories.toString());
-          //     },
-          //     child: Text("Test memory all")),
           InkWell(
             onTap: () {
               bottomNavController.changeTab(4);
@@ -90,7 +77,8 @@ class HomeScreen extends GetView<HomeScreenController> {
                         memory: controller.memories[index],
                         files: controller.memories[index].files ?? [],
                         description: controller.memories[index].description,
-                        picturesCount: picturesCount,
+                        picturesCount:
+                            controller.memories[index].files?.length ?? 0,
                         catagory: controller.memories[index].category,
                         creator: controller.memories[index].creator,
                         title: controller.memories[index].title,
