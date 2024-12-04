@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
@@ -28,8 +29,8 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
             k1hSizedBox,
             Text(
               "It is a long established fact that a reader will "
-              "be distracted by the readable content"
-              " of a page when looking at its layout.",
+                  "be distracted by the readable content"
+                  " of a page when looking at its layout.",
               textAlign: TextAlign.center,
               style: TextStyleConstants.bodyLargeWhite(context),
             ),
@@ -76,16 +77,16 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
             ),
             CustomGlassmorphicContainer(
                 child: InkWell(
-              onTap: () {
-                controller.takePhotoOrVideo();
-              },
-              child: Center(
-                child: Text(
-                  "Take a Photo/Video",
-                  style: TextStyleConstants.bodyLargeWhite(context),
-                ),
-              ),
-            )),
+                  onTap: () {
+                    controller.takePhotoOrVideo();
+                  },
+                  child: Center(
+                    child: Text(
+                      "Take a Photo/Video",
+                      style: TextStyleConstants.bodyLargeWhite(context),
+                    ),
+                  ),
+                )),
             // GridView to display selected images
             Obx(() {
               if (controller.pickedFiles.isEmpty) {
@@ -136,11 +137,11 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
               return controller.pickedFiles.isEmpty
                   ? const SizedBox()
                   : GradientButton(
-                      onPressed: () {
-                        controller.uploadMimeTypes();
-                      },
-                      text: "Continue",
-                      gradients: const [Colors.purple, Colors.blue]);
+                  onPressed: () {
+                    controller.uploadMedia();
+                  },
+                  text: "Continue",
+                  gradients: const [Colors.purple, Colors.blue]);
             }),
           ],
         ),

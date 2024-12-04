@@ -7,6 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/models/UserModel.dart';
+import 'package:remember_my_love_app/models/memories_dates_model.dart';
 import 'package:remember_my_love_app/models/memoryModel.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import '../constants/ApiConstant.dart';
@@ -27,6 +28,7 @@ class HomeScreenController extends GetxController {
   RxList<MemoryModel> memories = <MemoryModel>[].obs;
   RxBool isloading = false.obs;
   late CalendarController calendarController;
+
 
   Future<void> getmemories({String? year, String? month}) async {
     ColoredPrint.green("Fetching Memories");

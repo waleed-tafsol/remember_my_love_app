@@ -11,11 +11,16 @@ import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import '../constants/ApiConstant.dart';
+import '../models/memories_dates_model.dart';
 import 'ApiServices.dart';
 import 'Auth_token_services.dart';
 import 'LocalAuthServices.dart';
 
 class AuthService extends GetxService {
+
+  RxList<MemoriesDatesModels> memoriesDates = <MemoriesDatesModels>[].obs;
+
+
   @override
   void onInit() async {
     await initialize();
@@ -27,8 +32,25 @@ class AuthService extends GetxService {
     if (await _tokenStorage.hasToken()) {
       isAuthenticated.value = true;
       authToken = await _tokenStorage.getToken();
+      await getMemoriesDates();
+
       print("User is authenticated with token: $authToken");
     }
+  }
+
+
+  Future<void> getMemoriesDates () async {
+    Response? response = await ApiService.getRequest(
+        ApiConstants.getMemoriesDates);
+    if (response != null) {
+      memoriesDates.clear();
+      List<Map<String, dynamic>> memoryDatesList =
+      List<Map<String, dynamic>>.from(response.data);
+      memoriesDates.addAll(memoryDatesList
+          .map((date) => MemoriesDatesModels.fromJson(date))
+          .toList()) ;
+    }
+    print(memoriesDates);
   }
 
   final Dio _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));

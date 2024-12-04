@@ -18,6 +18,7 @@ class ApiConstants {
 
   // Memories CRUD
   static const getAllMemories = "api/v1/memory/all";
+  static const getMemoriesDates = "api/v1/memory/calender/memories";
   static const getAllMemoriesImages = "/api/v1/memory/all/images";
   static const findMemories = "api/memory/find/";
   static const createMemories = "api/v1/memory/create";

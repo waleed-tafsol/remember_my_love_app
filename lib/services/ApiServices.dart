@@ -19,6 +19,7 @@ class ApiService {
     return authService.authToken;
   }
 
+
   static Future<Response?> getRequest(String endpoint,
       {Map<String, String>? queryParameters}) async {
     try {

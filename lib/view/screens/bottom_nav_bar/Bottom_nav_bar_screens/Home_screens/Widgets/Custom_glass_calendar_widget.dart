@@ -3,15 +3,26 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
+import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../../../../../../services/Auth_services.dart';
 import '../../../../../widgets/dropdown_calender.dart';
+
+/*List<DateTime> highlightedDates = [
+  DateTime.parse('2024-12-09 00:00:00.000Z'),
+  DateTime.parse('2024-12-07 00:00:00.000Z'),
+  DateTime.parse('2024-12-20 00:00:00.000Z'),
+  DateTime.parse('2024-12-06 00:00:00.000Z')
+];*/
 
 class CustomGlassCalendarWidget extends StatelessWidget {
   CustomGlassCalendarWidget({super.key});
 
   final CalendarController controller = Get.put(CalendarController());
+  final AuthService authService =
+      Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -112,59 +123,68 @@ class CustomGlassCalendarWidget extends StatelessWidget {
             ),
             children: <Widget>[
               k2hSizedBox,
-              TableCalendar(
-                focusedDay: controller.focusedDay.value,
-                firstDay: controller.focusedDay.value
-                    .subtract(const Duration(days: 365)),
-                lastDay:
-                    controller.focusedDay.value.add(const Duration(days: 365)),
-                headerVisible: false,
-                calendarStyle: const CalendarStyle(
-                  todayDecoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    shape: BoxShape.circle,
-                  ),
-                  selectedDecoration: BoxDecoration(
-                    color: Colors.deepPurple,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                rowHeight: 5.h,
-                daysOfWeekStyle: const DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(color: AppColors.kPrimaryColor),
-                  weekendStyle: TextStyle(color: AppColors.kPrimaryColor),
-                ),
-                headerStyle: const HeaderStyle(),
-                onPageChanged: (focusedDay) {
-                  controller.onTabChange(focusedDay);
-                },
-                onDaySelected: (selectedDay, focusedDay) {
-                  // Handle day selection
-                  print("Selected day: $selectedDay");
-                  ColoredPrint.green("Focusday day: $focusedDay");
-                },
-                calendarBuilders: CalendarBuilders(
-                    //   markerBuilder: (context, day, events) {
-                    //     // Check if the current day is in the list of marked dates
-                    //     if (markedDates.contains(day)) {
-                    //       // Return a custom widget or decoration to mark the day
-                    //       return Positioned(
-                    //         bottom: 1,
-                    //         right: 1,
-                    //         child: Container(
-                    //           width: 5,
-                    //           height: 5,
-                    //           decoration: BoxDecoration(
-                    //             color: Colors.red, // Use any color to mark the day
-                    //             shape: BoxShape.circle,
-                    //           ),
-                    //         ),
-                    //       );
-                    //     }
-                    //     return null; // Return null if no marking is needed
-                    //   },
+              Obx(() {
+                return TableCalendar(
+                  focusedDay: controller.focusedDay.value,
+                  firstDay: controller.focusedDay.value
+                      .subtract(const Duration(days: 365)),
+                  lastDay: controller.focusedDay.value
+                      .add(const Duration(days: 365)),
+                  headerVisible: false,
+                  calendarStyle: const CalendarStyle(
+                    todayDecoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      shape: BoxShape.circle,
                     ),
-              ),
+                    selectedDecoration: BoxDecoration(
+                      color: Colors.deepPurple,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  rowHeight: 5.h,
+                  daysOfWeekStyle: const DaysOfWeekStyle(
+                    weekdayStyle: TextStyle(color: AppColors.kPrimaryColor),
+                    weekendStyle: TextStyle(color: AppColors.kPrimaryColor),
+                  ),
+                  headerStyle: const HeaderStyle(),
+                  onPageChanged: (focusedDay) {
+                    controller.onTabChange(focusedDay);
+                  },
+                  //  availableGestures: AvailableGestures.none,
+                  onDaySelected: (selectedDay, focusedDay) {
+                    // Handle day selection
+                    print("Selected day: $selectedDay");
+                    ColoredPrint.green("Focusday day: $focusedDay");
+                  },
+                  calendarBuilders: CalendarBuilders(
+                    markerBuilder: (context, date, events) {
+                      // Check if the current day is in the list of marked dates
+                      int index = authService.memoriesDates.indexWhere((element) =>
+                      element.deliveryDate!.year == date.year &&
+                          element.deliveryDate!.month == date.month &&
+                          element.deliveryDate!.day == date.day);
+                      if (index != -1) {
+                        // Return a custom widget or decoration to mark the day
+                        return Positioned(
+                          bottom: 25,
+                          right: 8,
+                          child: Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: authService.memoriesDates[index].status == 'due'
+                                  ? Colors.red
+                                  : Colors.green, // Highlight color
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        );
+                      }
+                      return null; // Return null if no marking is needed
+                    },
+                  ),
+                );
+              })
             ],
           ),
         ));
