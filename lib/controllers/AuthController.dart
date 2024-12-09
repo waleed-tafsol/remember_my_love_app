@@ -30,18 +30,16 @@ class AuthController extends GetxController {
   //Rx<String?> forgotEmailErr = Rx<String?>(null);
 
   Future<void> login() async {
-    if (validateForm()) {
-      Get.dialog(const Center(child: CircularProgressIndicator()));
-      try {
-        final response = await authService.login(
-            emailController.text.trim(), passwordController.text.trim());
-        Get.back();
-        CustomSnackbar.showSuccess("Success", "Login Successful");
-        Get.offNamed(BottomNavBarScreen.routeName);
-      } catch (e) {
-        Get.back();
-        CustomSnackbar.showError("Error", e.toString());
-      }
+    Get.dialog(const Center(child: CircularProgressIndicator()));
+    try {
+      final response = await authService.login(
+          emailController.text.trim(), passwordController.text.trim());
+      Get.back();
+      CustomSnackbar.showSuccess("Success", "Login Successful");
+      Get.offNamed(BottomNavBarScreen.routeName);
+    } catch (e) {
+      Get.back();
+      CustomSnackbar.showError("Error", e.toString());
     }
   }
 
@@ -77,34 +75,13 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       Get.back();
-      CustomSnackbar.showError("error", "Google SignIn Faild");
+      CustomSnackbar.showError("error", e.toString());
     }
   }
 
   Future<void> signup() async {
-    /* if (signupValidateForm()) {
-      ColoredPrint.blue("entered");
-      Get.dialog(const Center(child: CircularProgressIndicator()));
-      try {
-        final response = await authService.Signup(
-            /* nameController.text.trim(),
-            signupemailController.text.trim(),
-            signupPassController.text.trim(),
-            passCnfirmController.text.trim() */
-            "abc",
-            "123@gmail.com",
-            "12345678",
-            "12345678");
-        Get.back();
-        CustomSnackbar.showSuccess("Success", "Signup Successful");
-        Get.offNamed(BottomNavBarScreen.routeName);
-      } catch (e) {
-        Get.back();
-        CustomSnackbar.showError("Error", e.toString());
-      }
-    } */
     Get.dialog(
-        Center(
+        const Center(
           child: CircularProgressIndicator(),
         ),
         barrierDismissible: false);
@@ -114,17 +91,14 @@ class AuthController extends GetxController {
           userNameController.text.trim(),
           signupemailController.text.trim(),
           signupPassController.text.trim(),
-          passCnfirmController.text.trim()
-          // "12345678", //hardcoded password
-          // "12345678"
-          ); //confirmed password
+          passCnfirmController.text.trim());
       if (response != null) {
         Get.back();
         CustomSnackbar.showSuccess("Success", "Signup Successful");
         Get.offNamed(QuestionsScreen.routeName);
       }
-      Get.back();
     } catch (e) {
+      ColoredPrint.red(e.toString());
       Get.back();
       CustomSnackbar.showError("Error", e.toString());
     }
@@ -139,11 +113,11 @@ class AuthController extends GetxController {
     Get.back();
   }
 
-  bool validateForm() {
-    final isemailValid = validateemail(emailController.text);
-    final isPasswordValid = validatePassword(passwordController.text);
-    return isemailValid && isPasswordValid;
-  }
+  // bool validateForm() {
+  //   final isemailValid = validateemail(emailController.text);
+  //   final isPasswordValid = validatePassword(passwordController.text);
+  //   return isemailValid && isPasswordValid;
+  // }
 
   bool signupValidateForm() {
     final isemailValid = validateemail(signupemailController.text);

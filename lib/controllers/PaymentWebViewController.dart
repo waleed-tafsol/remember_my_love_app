@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
@@ -8,6 +9,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class Paymentwebviewcontroller extends GetxController {
   RxBool isLoading = true.obs;
   late WebViewController controller;
+  HomeScreenController homeController = Get.find();
 
   @override
   void onInit() {
@@ -39,6 +41,7 @@ class Paymentwebviewcontroller extends GetxController {
             if (request.url ==
                 "https://remember-my-love-c7798dc8cf7c.herokuapp.com/api/v1/payment-success") {
               CustomSnackbar.showSuccess("Success", "Payment Successful");
+              homeController.getUSer();
               Get.offAllNamed(BottomNavBarScreen.routeName);
             } else {
               CustomSnackbar.showError("Error", "Error in Payment");

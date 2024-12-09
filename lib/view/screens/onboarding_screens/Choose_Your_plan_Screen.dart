@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/CardsScreen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -160,7 +161,7 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
                         controller.selectedPackage.value?.sId ||
                     controller.selectedPackage.value?.sId ==
                         "6711752199b2f80e34b6acf9"
-                ? SizedBox()
+                ? const SizedBox()
                 : GradientButton(
                     onPressed: () {
                       // arguments["popAfterSuccess"] ?? false
@@ -187,7 +188,8 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
                       //           Get.toNamed(QuestionsScreen.routeName)
                       //     },
                       //   );
-                      controller.buyPackage();
+                      Get.toNamed(CardsScreen.routeName);
+                      // controller.buyPackage();
                     },
                     text: "Select This Plan",
                     gradients: const [Colors.purpleAccent, Colors.blue]);

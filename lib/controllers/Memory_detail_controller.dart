@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:remember_my_love_app/models/memoryModel.dart';
+import 'package:remember_my_love_app/models/MemoryModel.dart';
 
 class MemoryDetailController extends GetxController {
   final MemoryModel memory;

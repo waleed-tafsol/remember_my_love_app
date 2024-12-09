@@ -3,7 +3,7 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../constants/ApiConstant.dart';
-import '../models/memoryModel.dart';
+import '../models/MemoryModel.dart';
 import '../services/ApiServices.dart';
 
 class MyMemoryController extends GetxController {

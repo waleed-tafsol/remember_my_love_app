@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:remember_my_love_app/controllers/forgotPass_controller.dart';
 import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
@@ -10,7 +9,6 @@ import 'package:remember_my_love_app/view/screens/auth_screens/ResetPass_screen.
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 
 import '../view/screens/auth_screens/OTP_screen.dart';
-import 'AuthController.dart';
 
 class Otpcontroller extends GetxController {
   final otpController = ''.obs;
@@ -24,7 +22,6 @@ class Otpcontroller extends GetxController {
   TextEditingController newpasscnfrmController = TextEditingController();
   TextEditingController newresetpassController = TextEditingController();
   TextEditingController newresetpasscnfrmController = TextEditingController();
-  ForgotpassController forgotPassController = Get.find();
 
   @override
   void onInit() {
@@ -59,20 +56,18 @@ class Otpcontroller extends GetxController {
   TextEditingController newPassConfirmController = TextEditingController();
 
   Future<void> forgot_pass() async {
-    if (AuthController().validateemail(forgotemailController.text)) {
-      Get.dialog(const Center(child: CircularProgressIndicator()));
-      try {
-        final response =
-            await authService.forgotPassword(forgotemailController.text.trim());
-        ColoredPrint.red("$response");
-        Get.back();
+    Get.dialog(const Center(child: CircularProgressIndicator()));
+    try {
+      final response =
+          await authService.forgotPassword(forgotemailController.text.trim());
+      ColoredPrint.red("$response");
+      Get.back();
 
-        CustomSnackbar.showSuccess("Success", "Email sent");
-        Get.toNamed(OtpScreen.routeName);
-      } catch (e) {
-        Get.back();
-        CustomSnackbar.showError("Error", e.toString());
-      }
+      CustomSnackbar.showSuccess("Success", "Email sent");
+      Get.toNamed(OtpScreen.routeName);
+    } catch (e) {
+      Get.back();
+      CustomSnackbar.showError("Error", e.toString());
     }
   }
 
@@ -112,19 +107,6 @@ class Otpcontroller extends GetxController {
     final minutes = (seconds / 60).floor();
     final remainingSeconds = seconds % 60;
     return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
-  }
-
-  bool validatePassword(String password) {
-    if (password.isEmpty) {
-      passwordError.value = 'Password is required';
-      return false;
-    } else if (password.length < 8) {
-      passwordError.value = 'Password must be at least 8 characters';
-      return false;
-    } else {
-      passwordError.value = '';
-      return true;
-    }
   }
 
   @override

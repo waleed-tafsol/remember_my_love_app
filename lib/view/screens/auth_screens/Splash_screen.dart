@@ -81,6 +81,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   AuthController authController = Get.find();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -149,161 +150,175 @@ class _SplashScreenState extends State<SplashScreen>
                   child: CustomGlassmorphicContainer(
                       width: _animation2 ? double.maxFinite : 0,
                       height: _animation2 ? double.maxFinite : 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Welcome Back!",
-                            style:
-                                TextStyleConstants.displayMediumWhite(context),
-                          ),
-                          k1hSizedBox,
-                          Text(
-                            "Please Sign in to Continue your journey.",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          k1hSizedBox,
-                          Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text("Email")),
-                          k1hSizedBox,
-                          Obx(() {
-                            return TextField(
-                              onChanged: (value) {
-                                authController.validateForm();
-                              },
-                              controller: authController.emailController,
-                              decoration: InputDecoration(
-                                hintText: "Enter Email",
-                                errorText: authController.emailError.value,
-                              ),
-                            );
-                          }),
-                          k1hSizedBox,
-                          Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text("Password")),
-                          k1hSizedBox,
-                          Obx(() {
-                            return TextField(
-                              onChanged: (value) {
-                                authController.validateForm();
-                              },
-                              controller: authController.passwordController,
-                              obscureText:
-                                  !authController.passwordVisibility.value,
-                              decoration: InputDecoration(
-                                  hintText: "Enter Password",
-                                  errorText: authController.passwordError.value,
-                                  suffixIcon: IconButton(
-                                      onPressed: () {
-                                        authController
-                                                .passwordVisibility.value =
-                                            !authController
-                                                .passwordVisibility.value;
-                                      },
-                                      icon: Icon(authController
-                                              .passwordVisibility.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off))),
-                            );
-                          }),
-                          k1hSizedBox,
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const Icon(
-                                  Icons.check_box_outline_blank,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Welcome Back!",
+                              style: TextStyleConstants.displayMediumWhite(
+                                  context),
+                            ),
+                            k1hSizedBox,
+                            Text(
+                              "Please Sign in to Continue your journey.",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            k1hSizedBox,
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text("Email")),
+                            k1hSizedBox,
+                            Obx(() {
+                              return TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter some text';
+                                  } else if (!GetUtils.isEmail(value)) {
+                                    return 'Invalid Email';
+                                  }
+                                  return null;
+                                },
+                                controller: authController.emailController,
+                                decoration: InputDecoration(
+                                  hintText: "Enter Email",
+                                  errorText: authController.emailError.value,
                                 ),
-                                k1wSizedBox,
-                                Text(
-                                  "Remember me",
-                                  style: TextStyleConstants.bodyMediumWhite(
-                                      context),
-                                ),
-                                const Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(ForgotPassScreen.routeName);
-                                  },
-                                  child: Text(
-                                    "Forgot Password",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,
-                                        ),
+                              );
+                            }),
+                            k1hSizedBox,
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text("Password")),
+                            k1hSizedBox,
+                            Obx(() {
+                              return TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter Password';
+                                  }
+                                  return null;
+                                },
+                                controller: authController.passwordController,
+                                obscureText:
+                                    !authController.passwordVisibility.value,
+                                decoration: InputDecoration(
+                                    hintText: "Enter Password",
+                                    errorText:
+                                        authController.passwordError.value,
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          authController
+                                                  .passwordVisibility.value =
+                                              !authController
+                                                  .passwordVisibility.value;
+                                        },
+                                        icon: Icon(authController
+                                                .passwordVisibility.value
+                                            ? Icons.visibility
+                                            : Icons.visibility_off))),
+                              );
+                            }),
+                            k1hSizedBox,
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Icon(
+                                    Icons.check_box_outline_blank,
                                   ),
-                                )
+                                  k1wSizedBox,
+                                  Text(
+                                    "Remember me",
+                                    style: TextStyleConstants.bodyMediumWhite(
+                                        context),
+                                  ),
+                                  const Spacer(),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(ForgotPassScreen.routeName);
+                                    },
+                                    child: Text(
+                                      "Forgot Password",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                  color: Colors.white,
+                                  height: 0.1.h,
+                                )),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 2.w),
+                                  child: Text("Or",
+                                      style: TextStyleConstants.bodyLargeWhite(
+                                          context)),
+                                ),
+                                Expanded(
+                                    child: Container(
+                                  color: Colors.white,
+                                  height: 0.1.h,
+                                )),
                               ],
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                color: Colors.white,
-                                height: 0.1.h,
-                              )),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 2.w),
-                                child: Text("Or",
-                                    style: TextStyleConstants.bodyLargeWhite(
-                                        context)),
-                              ),
-                              Expanded(
-                                  child: Container(
-                                color: Colors.white,
-                                height: 0.1.h,
-                              )),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: InkWell(
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: InkWell(
+                                  onTap: () {
+                                    authController.loginWithGoogle();
+                                  },
+                                  child: CustomGlassButton(
+                                    child: SvgPicture.asset(SvgAssets.google),
+                                  ),
+                                )),
+                                k2wSizedBox,
+                                Expanded(
+                                    child: CustomGlassButton(
+                                  child: SvgPicture.asset(SvgAssets.apple),
+                                )),
+                              ],
+                            ),
+                            k1hSizedBox,
+                            IntrinsicWidth(
+                              child: GestureDetector(
                                 onTap: () {
-                                  authController.loginWithGoogle();
+                                  authController.loginFingerPrint();
                                 },
                                 child: CustomGlassButton(
-                                  child: SvgPicture.asset(SvgAssets.google),
-                                ),
-                              )),
-                              k2wSizedBox,
-                              Expanded(
-                                  child: CustomGlassButton(
-                                child: SvgPicture.asset(SvgAssets.apple),
-                              )),
-                            ],
-                          ),
-                          k1hSizedBox,
-                          IntrinsicWidth(
-                            child: GestureDetector(
-                              onTap: () {
-                                authController.loginFingerPrint();
-                              },
-                              child: CustomGlassButton(
-                                padding: EdgeInsets.all(2.w),
-                                borderRadius: BorderRadius.circular(50),
-                                child: Icon(
-                                  size: 6.h,
-                                  Icons.fingerprint_outlined,
-                                  color: Colors.white,
+                                  padding: EdgeInsets.all(2.w),
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Icon(
+                                    size: 6.h,
+                                    Icons.fingerprint_outlined,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          k1hSizedBox,
-                          Text(
-                            "Sign In with Touch ID",
-                            style: TextStyleConstants.bodySmallWhite(context),
-                          )
-                        ],
+                            k1hSizedBox,
+                            Text(
+                              "Sign In with Touch ID",
+                              style: TextStyleConstants.bodySmallWhite(context),
+                            )
+                          ],
+                        ),
                       )),
                 ),
                 // k1hSizedBox,
@@ -339,7 +354,9 @@ class _SplashScreenState extends State<SplashScreen>
                 child: GradientButton(
                   onPressed: () {
                     // Get.offAndToNamed(BottomNavBarScreen.routeName);
-                    authController.login();
+                    if (_formKey.currentState!.validate()) {
+                      authController.login();
+                    }
                   },
                   gradients: const [Colors.purple, Colors.blue],
                   text: 'Sign In',

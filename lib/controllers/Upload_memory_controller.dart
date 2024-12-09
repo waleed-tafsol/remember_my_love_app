@@ -9,12 +9,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/models/UserModel.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
-import '../models/categories.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import '../constants/constants.dart';
+import '../models/SearchUserModel.dart';
+import '../models/Categories.dart';
 import '../services/MemoryServices.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Memory_scheduled_succeccfully.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
+import '../view/widgets/CustomGlassDailogBox.dart';
 
 class UploadMemoryController extends GetxController {
   final ImagePicker _picker = ImagePicker();
@@ -33,15 +38,22 @@ class UploadMemoryController extends GetxController {
   List<Category> categories = [];
   Rx<Category?> selectedCatagory = Rx<Category?>(null);
   List<dynamic> imageUploadMimType = [];
-  List<dynamic> successFullFilesUploads = [];
+  List<String> successFullFilesUploads = [];
+  RxList<SearchUserModel> allAvailableUsers = <SearchUserModel>[].obs;
+  RxBool lockAllFields = true.obs;
+  final uploadProgress = Rx<double>(0.0);
 
   @override
   void onInit() async {
     super.onInit();
     await FetchCategories();
     recipients.add(Recipient(
-        emailController: TextEditingController(),
-        contactController: TextEditingController()));
+      emailController: TextEditingController(),
+      contactController: TextEditingController(),
+      passwordController: TextEditingController(),
+      relationController: TextEditingController(),
+      userNameController: TextEditingController(),
+    ));
   }
 
   void check_null(var param) {
@@ -71,8 +83,51 @@ class UploadMemoryController extends GetxController {
 
   void addRecipient() {
     recipients.add(Recipient(
-        emailController: TextEditingController(),
-        contactController: TextEditingController()));
+      emailController: TextEditingController(),
+      contactController: TextEditingController(),
+      passwordController: TextEditingController(),
+      relationController: TextEditingController(),
+      userNameController: TextEditingController(),
+    ));
+  }
+
+  Future<List<SearchUserModel>?> getAvailableUsers(String? email) async {
+    try {
+      Response? response = await ApiService.getRequest(
+        ApiConstants.getAvailableUsers,
+        queryParameters: {
+          "email": email ?? "",
+        },
+      );
+
+      if (response?.data != null && response?.data["data"] != null) {
+        var userList = response?.data["data"]["user"];
+        if (userList is List) {
+          allAvailableUsers.clear();
+          allAvailableUsers.value = userList
+              .map<SearchUserModel>((user) => SearchUserModel.fromJson(user))
+              .toList();
+
+          return allAvailableUsers;
+        } else {
+          Get.snackbar("ERROR", "Invalid user data format received.");
+        }
+      } else {
+        Get.snackbar("ERROR", "No available users found.");
+      }
+    } on DioException catch (e) {
+      // Improved error handling
+      if (e.response != null) {
+        // Show the error message from the API response if available
+        Get.snackbar("ERROR", e.response?.data["message"] ?? e.toString());
+      } else {
+        // If there's no response, show a generic error message
+        Get.snackbar("ERROR", "Something went wrong: ${e.message}");
+      }
+    } catch (e) {
+      // Catch any other errors that might occur (e.g., parsing errors)
+      Get.snackbar("ERROR", "An unexpected error occurred: $e");
+    }
   }
 
   void removeRecipient(int index) {
@@ -85,7 +140,9 @@ class UploadMemoryController extends GetxController {
 
   Future<void> pickImageOrVideo() async {
     try {
-      final XFile? file = await _picker.pickImage(source: ImageSource.gallery);
+      // Let the user choose between picking an image or a video
+      final XFile? file = await _picker.pickMedia();
+
       if (file != null) {
         pickedFiles.add(File(file.path)); // Add picked file to the list
       }
@@ -94,15 +151,70 @@ class UploadMemoryController extends GetxController {
     }
   }
 
-  Future<void> takePhotoOrVideo() async {
+  Future<void> takePhotoOrVideo(BuildContext context) async {
     try {
-      final XFile? file = await _picker.pickImage(source: ImageSource.camera);
-      if (file != null) {
-        pickedFiles.add(File(file.path));
+      final ImagePicker _picker = ImagePicker();
+      final isPhoto = await _showCaptureOptionDialog(context);
+      if (isPhoto) {
+        // Capture a photo
+        final XFile? file = await _picker.pickImage(source: ImageSource.camera);
+        if (file != null) {
+          pickedFiles.add(File(file.path)); // Add the photo file to the list
+          Get.snackbar('Success', 'Photo captured successfully');
+        }
+      } else {
+        // Capture a video
+        final XFile? file = await _picker.pickVideo(source: ImageSource.camera);
+        if (file != null) {
+          pickedFiles.add(File(file.path)); // Add the video file to the list
+          Get.snackbar('Success', 'Video captured successfully');
+        }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to take photo or video: $e');
+      Get.snackbar('Error', 'Failed to capture photo or video: $e');
     }
+  }
+
+  Future<bool> _showCaptureOptionDialog(BuildContext context) async {
+    bool isPhoto = false;
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return GlassMorphicDailogBox(
+          widget: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'Delete Account',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              k2hSizedBox,
+              ElevatedButton(
+                onPressed: () {
+                  isPhoto = true;
+                  Get.back();
+                },
+                child: const Text('Capture Photo'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  isPhoto = false;
+                  Get.back();
+                },
+                child: const Text('Capture Video'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    return isPhoto;
   }
 
   void removeFile(File file) {
@@ -117,26 +229,31 @@ class UploadMemoryController extends GetxController {
   Future<void> createMemory() async {
     ColoredPrint.yellow("successful initiated");
     Get.dialog(
-        Center(
-          child: CircularProgressIndicator(),
+      Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(),
+            Obx(() {
+              return Text(
+                  "${uploadProgress.value.toStringAsFixed(2)}%"); // Display upload progress percentage
+            })
+          ],
         ),
-        barrierDismissible: false);
+      ),
+    );
     try {
       convertDateTime();
       await Memoryservices.create_mem(
-          title: titleController.value.text,
-          description: descriptionController.value.text,
-          category: selectedCatagory.value?.sId ?? "",
-          deliveryDate: date,
-          deliveryTime: time,
-          sendTo: sendTo.string,
-          receivingUserName: recievingUsername.value.text,
-          receivingUserPassword: recievingUserPassword.value.text,
-          recipients: recipients.map((recipient) => recipient.toMap()).toList(),
-          recipientsRelation: recipientRelation.value.text.trim(),
-          files: []
-          // imageUploadData
-          );
+        title: titleController.value.text,
+        description: descriptionController.value.text,
+        category: selectedCatagory.value?.sId ?? "",
+        deliveryDate: date,
+        deliveryTime: time,
+        sendTo: sendTo.string,
+        recipients: recipients.map((recipient) => recipient.toMap()).toList(),
+        files: successFullFilesUploads,
+      );
       removeAllFiles();
       ColoredPrint.green("successful upload memory");
       final HomeScreenController controller = Get.find();
@@ -183,6 +300,20 @@ class UploadMemoryController extends GetxController {
     if (response?.statusCode == 201 && response != null) {
       final jsonresponse = response.data;
       imageUploadMimType = jsonresponse["data"];
+      Get.dialog(
+        Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(),
+              Obx(() {
+                return Text(
+                    "${uploadProgress.value.toStringAsFixed(2)}%"); // Display upload progress percentage
+              })
+            ],
+          ),
+        ),
+      );
 
       for (int i = 0; i < imageUploadMimType.length; i++) {
         await uploadToS3Bucket(imageUploadMimType[i], i, mimeTypes[i]);
@@ -195,18 +326,8 @@ class UploadMemoryController extends GetxController {
   uploadToS3Bucket(
       Map<String, dynamic> imageMap, int i, String? mimeType) async {
     try {
-      // Assuming pickedFiles[i] is your selected file
       final file = pickedFiles[i];
       final fileBytes = await file.readAsBytes();
-
-      // Prepare FormData with the key and file
-      // final imageBytes = await MultipartFile.fromBytes(
-      //   fileBytes,
-      //   filename: file.path.split('/').last,
-      // );
-
-      // Upload the file using the put req
-
       final response = await Dio().put(
         imageMap["url"],
         data: fileBytes,
@@ -218,8 +339,8 @@ class UploadMemoryController extends GetxController {
       );
 
       // Handle the response
-      if (response?.statusCode == 200 && response != null) {
-        // successFullFilesUploads.add(response.data["fileDetails"]);
+      if (response.statusCode == 200) {
+        successFullFilesUploads.add(imageMap["key"]);
         ColoredPrint.green(
             "Image uploaded successfully: $successFullFilesUploads");
       } else {
@@ -282,14 +403,28 @@ class UploadMemoryController extends GetxController {
 class Recipient {
   TextEditingController emailController;
   TextEditingController contactController;
+  TextEditingController passwordController;
+  TextEditingController userNameController;
+  TextEditingController relationController;
+  bool? allFieldsLocked;
 
-  Recipient({required this.emailController, required this.contactController});
+  Recipient(
+      {required this.emailController,
+      required this.relationController,
+      required this.contactController,
+      required this.userNameController,
+      required this.passwordController,
+      this.allFieldsLocked});
 
   // Method to convert Recipient to a Map
   Map<String, String> toMap() {
     return {
       "email": emailController.text.trim(),
       "contact": contactController.text.trim(),
+      "username": emailController.text.trim(),
+      "password":
+          passwordController.text == "" ? passwordController.text : "12345678",
+      "relation": relationController.text.trim(),
     };
   }
 }

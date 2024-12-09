@@ -89,7 +89,7 @@ class ApiService {
       return response;
     } on DioException catch (e) {
       _handleError(e);
-      return null;
+      throw Exception(e);
     }
   }
 

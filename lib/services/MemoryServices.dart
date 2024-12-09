@@ -10,10 +10,7 @@ class Memoryservices {
       required String deliveryDate,
       required String deliveryTime,
       required String sendTo,
-      required String receivingUserName,
-      required String receivingUserPassword,
       required List<Map> recipients,
-      required String recipientsRelation,
       required List<dynamic> files}) async {
     Response? response = await ApiService.postRequest(
       ApiConstants.createMemories,
@@ -24,10 +21,7 @@ class Memoryservices {
         "date": deliveryDate,
         "time": deliveryTime,
         "sendTo": sendTo,
-        "receivingUserName": receivingUserName,
-        "receivingUserPassword": receivingUserPassword,
-        "recipients": recipients,
-        "recipientsRelation": recipientsRelation,
+        "receivers": recipients,
         "files": files,
       },
     );

@@ -12,4 +12,12 @@ class StylesConstants {
     foregroundColor: Colors.white,
     elevation: 4,
   );
+  static final ButtonStyle elevated_b_purplebackground_whiteforeground =
+      ElevatedButton.styleFrom(
+    backgroundColor: Colors.purple,
+    foregroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(30),
+    ),
+  );
 }

@@ -8,6 +8,7 @@ import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../controllers/Upload_memory_controller.dart';
+import '../../../../widgets/VideoPlayerWidget.dart';
 
 class UploadMemoryScreen extends GetView<UploadMemoryController> {
   const UploadMemoryScreen({super.key});
@@ -77,7 +78,7 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
             CustomGlassmorphicContainer(
                 child: InkWell(
               onTap: () {
-                controller.takePhotoOrVideo();
+                controller.takePhotoOrVideo(context);
               },
               child: Center(
                 child: Text(
@@ -95,35 +96,41 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.1,
-                    mainAxisSpacing: 3.h,
-                    crossAxisSpacing: 4.w),
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.1,
+                  mainAxisSpacing: 3.h,
+                  crossAxisSpacing: 4.w,
+                ),
                 itemCount: controller.pickedFiles.length,
                 itemBuilder: (context, index) {
                   final file = controller.pickedFiles[index];
+                  bool isVideo = file.path.endsWith(".mp4");
                   return Stack(
                     children: [
                       Positioned.fill(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.file(
-                            file,
-                            fit: BoxFit.cover,
-                          ),
+                          child: isVideo
+                              ? VideoPlayerWidget(filePathOrFile: file)
+                              : Image.file(
+                                  file,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       Positioned(
-                          right: 2.w,
-                          top: 2,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.red,
-                            child: IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  controller.removeFile(file);
-                                }),
-                          ))
+                        right: 2.w,
+                        top: 2,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.red,
+                          child: IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              controller.removeFile(file);
+                            },
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 },

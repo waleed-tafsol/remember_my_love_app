@@ -1,7 +1,6 @@
 import 'CreatorModel.dart';
-import 'FilesModel.dart';
 import 'RecipientModel.dart';
-import 'categories.dart';
+import 'Categories.dart';
 
 class MemoryModel {
   String? sId;

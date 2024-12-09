@@ -7,11 +7,13 @@ import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.da
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:video_player/video_player.dart';
 import '../../../../../constants/TextConstant.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../controllers/Memory_detail_controller.dart';
-import '../../../../../models/memoryModel.dart';
+import '../../../../../models/MemoryModel.dart';
 import '../../../../../utills/ConvertDateTime.dart';
+import '../../../../widgets/VideoPlayerWidget.dart';
 
 class MemoryDetailScreen extends StatelessWidget {
   MemoryDetailScreen({super.key});
@@ -48,14 +50,24 @@ class MemoryDetailScreen extends StatelessWidget {
                     Stack(
                       children: [
                         Obx(() {
+                          bool isVideo =
+                              controller.selectedImage.endsWith("mp4");
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(20),
-                            child: Image.network(
-                              "${ApiConstants.getPicture}/${controller.selectedImage}",
-                              height: 20.h,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
+                            child: isVideo
+                                ? SizedBox(
+                                    height: 20.h,
+                                    child: VideoPlayerWidget(
+                                      filePathOrFile:
+                                          "${ApiConstants.getPicture}/${controller.selectedImage.value}",
+                                    ),
+                                  )
+                                : Image.network(
+                                    "${ApiConstants.getPicture}/${controller.selectedImage}",
+                                    height: 20.h,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
                           );
                         }),
                         Positioned(
@@ -76,24 +88,16 @@ class MemoryDetailScreen extends StatelessWidget {
                         itemCount: controller.memory.files!.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
+                          final file = controller.memory.files![index];
+                          bool isVideo = file.endsWith("mp4");
                           return GestureDetector(
-                            onTap: () {
-                              controller.selectedImage(
-                                  controller.memory.files![index]);
-                            },
-                            child: Container(
-                              width: 20.w,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 1.h, horizontal: 1.w),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        "${ApiConstants.getPicture}/${controller.memory.files![index]}",
-                                      ),
-                                      fit: BoxFit.cover)),
-                            ),
-                          );
+                              onTap: () {
+                                controller.selectedImage(file);
+                              },
+                              child: MediaWidget(
+                                fileUrl: "${ApiConstants.getPicture}/$file",
+                                isVideo: isVideo,
+                              ));
                         },
                       ),
                     ),
@@ -129,7 +133,6 @@ class MemoryDetailScreen extends StatelessWidget {
                     SizedBox(
                       height: 25.h,
                       child: ListView.builder(
-                          // physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: controller.memory.recipients?.length ?? 0,
                           itemBuilder: (context, index) {
@@ -152,7 +155,6 @@ class MemoryDetailScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-
                                 k1hSizedBox,
                                 Row(
                                   children: [
@@ -189,39 +191,6 @@ class MemoryDetailScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                k1hSizedBox,
-                                // Text(
-                                //   "Recipient 02 :",
-                                //   style: TextStyleConstants.bodyLargeWhite(context),
-                                // ),
-                                // k1hSizedBox,
-                                // Row(
-                                //   children: [
-                                //     Text(
-                                //       "Email :",
-                                //       style: TextStyleConstants.bodyLargeWhite(context),
-                                //     ),
-                                //     k1wSizedBox,
-                                //     Text(
-                                //       "johndoe@gmail.com",
-                                //       style: TextStyleConstants.bodyLargeWhite(context),
-                                //     ),
-                                //   ],
-                                // ),
-                                // k1hSizedBox,
-                                // Row(
-                                //   children: [
-                                //     Text(
-                                //       "Contact :",
-                                //       style: TextStyleConstants.bodyLargeWhite(context),
-                                //     ),
-                                //     k1wSizedBox,
-                                //     Text(
-                                //       "+ 454 5412 3548",
-                                //       style: TextStyleConstants.bodyLargeWhite(context),
-                                //     ),
-                                //   ],
-                                // ),
                               ],
                             );
                           }),
@@ -235,6 +204,67 @@ class MemoryDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MediaWidget extends StatefulWidget {
+  final String fileUrl;
+  final bool isVideo; // Flag to check if the media is a video
+
+  const MediaWidget({Key? key, required this.fileUrl, required this.isVideo})
+      : super(key: key);
+
+  @override
+  _MediaWidgetState createState() => _MediaWidgetState();
+}
+
+class _MediaWidgetState extends State<MediaWidget> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isVideo) {
+      // Initialize VideoPlayerController for network video URL
+      _controller = VideoPlayerController.networkUrl(Uri.parse(widget.fileUrl))
+        ..initialize().then((_) {
+          setState(() {});
+          _controller.setLooping(true);
+        });
+    }
+  }
+
+  @override
+  void dispose() {
+    if (widget.isVideo) {
+      _controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 20.w,
+      margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        image: widget.isVideo
+            ? null
+            : DecorationImage(
+                image: NetworkImage(widget.fileUrl),
+                fit: BoxFit.cover,
+              ),
+      ),
+      child: widget.isVideo
+          ? _controller.value.isInitialized
+              ? AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: VideoPlayer(_controller),
+                )
+              : const Center(child: CircularProgressIndicator())
+          : null,
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/bindings/EditProfileBindings.dart';
+import 'package:remember_my_love_app/bindings/OtopBindings.dart';
 import 'package:remember_my_love_app/bindings/PaymentWebViewBindings.dart';
 import 'package:remember_my_love_app/bindings/Privacy_policy_bindings.dart';
 import 'package:remember_my_love_app/bindings/Terms_and_conditions_bindings.dart';
@@ -14,6 +16,7 @@ import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentWebView.dart';
+import '../bindings/AuthBindings.dart';
 import '../bindings/Bottom_nav_bar_bindings.dart';
 import '../bindings/Memory_detail_bindings.dart';
 import '../bindings/Questions_bindings.dart';
@@ -21,6 +24,7 @@ import '../bindings/Update_Password_bindinga.dart';
 import '../bindings/Upload_memories_bindings.dart';
 import '../bindings/splash_binding.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
+import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/EditProfileScreen.dart';
 import '../view/screens/onboarding_screens/Questions_screen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Memory_scheduled_succeccfully.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Recipient_details_screen.dart';
@@ -45,8 +49,8 @@ class Pages {
       case OtpScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const OtpScreen(),
-          //binding: SplashBinding(),
+          page: () => OtpScreen(),
+          binding: OtpBindings(),
           transition: _routeTransition,
         );
       case ResetpassScreen.routeName:
@@ -59,15 +63,15 @@ class Pages {
       case ForgotPassScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const ForgotPassScreen(),
-          //binding: SplashBinding(),
+          page: () => ForgotPassScreen(),
+          binding: OtpBindings(),
           transition: _routeTransition,
         );
       case SignUpScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const SignUpScreen(),
-          // binding: SplashBinding(),
+          page: () => SignUpScreen(),
+          binding: AuthBindings(),
           transition: _routeTransition,
         );
       case UploadMemoryScreen.routeName:
@@ -173,6 +177,13 @@ class Pages {
           settings: settings,
           page: () => TermsAndConditionScreen(),
           binding: TermsAndConditionBinding(),
+          transition: _routeTransition,
+        );
+      case EditProfileScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => EditProfileScreen(),
+          binding: EditProfileBindings(),
           transition: _routeTransition,
         );
 

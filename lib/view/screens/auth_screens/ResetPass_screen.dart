@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
 import 'package:remember_my_love_app/controllers/OtpController.dart';
-import 'package:remember_my_love_app/controllers/forgotPass_controller.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/OTP_screen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
@@ -14,7 +10,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/TextConstant.dart';
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
-import '../../../controllers/Signup_controller.dart';
 
 class ResetpassScreen extends GetView<Otpcontroller> {
   const ResetpassScreen({super.key});

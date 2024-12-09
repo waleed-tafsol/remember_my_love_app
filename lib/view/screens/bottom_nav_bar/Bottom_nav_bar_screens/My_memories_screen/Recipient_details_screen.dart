@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/models/SearchUserModel.dart';
+import 'package:remember_my_love_app/models/UserModel.dart';
 import 'package:remember_my_love_app/utills/Validators.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:searchfield/searchfield.dart';
 import '../../../../../constants/TextConstant.dart';
 import '../../../../../constants/colors_constants.dart';
 import '../../../../../constants/constants.dart';
@@ -67,27 +70,15 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                             )),
                       ),
                     ),
-                    Obx(() {
-                      return controller.sendTo.value == 'Other'
-                          ? GlassTextFieldWithTitle(
-                              title: 'Enter Relation',
-                              hintText: "Family, Friend, Sibling, etc",
-                              controller: controller.recipientRelation,
-                            )
-                          : const SizedBox();
-                    }),
-                    k1hSizedBox,
-                    GlassTextFieldWithTitle(
-                      title: 'Enter Relation',
-                      hintText: "Family, Friend, Sibling, etc",
-                      controller: controller.recipientRelation,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Required';
-                        }
-                        return null;
-                      },
-                    ),
+                    // Obx(() {
+                    //   return controller.sendTo.value == 'Other'
+                    //       ? GlassTextFieldWithTitle(
+                    //           title: 'Enter Relation',
+                    //           hintText: "Family, Friend, Sibling, etc",
+                    //           controller: controller.recipientRelation,
+                    //         )
+                    //       : const SizedBox();
+                    // }),
                     k1hSizedBox,
                     Obx(() {
                       return Column(
@@ -109,26 +100,87 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       ),
                                     ),
                                     IconButton(
-                                        color: AppColors.kGlassColor,
-                                        onPressed: () {
-                                          controller.removeRecipient(index);
-                                        },
-                                        icon: const Icon(Icons.remove))
+                                      color: AppColors.kGlassColor,
+                                      onPressed: () {
+                                        controller.removeRecipient(index);
+                                      },
+                                      icon: const Icon(Icons.remove),
+                                    )
                                   ],
                                 ),
                               ),
                               k1hSizedBox,
                               GlassTextFieldWithTitle(
-                                title: 'Email',
-                                hintText: "Enter Email",
-                                controller: controller
-                                    .recipients[index].emailController,
+                                title: 'Enter Relation',
+                                hintText: "Family, Friend, Sibling, etc",
+                                controller: controller.recipientRelation,
                                 validator: (value) {
-                                  emailValidator(value);
+                                  if (value == null || value.isEmpty) {
+                                    return 'Required';
+                                  }
+                                  return null;
                                 },
                               ),
                               k1hSizedBox,
+                              Text("Email"),
+                              k1hSizedBox,
+                              SearchField<SearchUserModel>(
+                                onSearchTextChanged: (value) {
+                                  controller.getAvailableUsers(value);
+                                  return null;
+                                },
+                                suggestionItemDecoration: BoxDecoration(
+                                  color: AppColors.kGlassColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                suggestionsDecoration: SuggestionDecoration(
+                                  color: AppColors.kGlassColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                onSuggestionTap:
+                                    (SearchFieldListItem<SearchUserModel> x) {
+                                  controller.recipients[index].emailController
+                                      .text = x.item?.email ?? "";
+                                  controller
+                                      .recipients[index]
+                                      .userNameController
+                                      .text = x.item?.username ?? "";
+                                  controller.recipients[index].contactController
+                                      .text = x.item?.contact ?? "";
+                                  controller.recipients[index]
+                                      .passwordController.text = "";
+                                  controller.recipients[index].allFieldsLocked =
+                                      true;
+                                },
+                                hint: "Enter Email",
+                                validator: (value) {
+                                  emailValidator(value);
+                                },
+                                controller: controller
+                                    .recipients[index].emailController,
+                                suggestions: controller.allAvailableUsers
+                                    .map(
+                                      (e) =>
+                                          SearchFieldListItem<SearchUserModel>(
+                                        e.email ?? "",
+                                        item: e,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            e.email ?? "",
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                              k1hSizedBox,
                               GlassTextFieldWithTitle(
+                                enabled: controller
+                                        .recipients[index].allFieldsLocked ??
+                                    false,
                                 title: 'Contact',
                                 hintText: "Enter Phone Number",
                                 controller: controller
@@ -136,12 +188,50 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                 validator: (value) {
                                   phoneNumberValidator(value);
                                 },
-                              )
+                              ),
+                              k1hSizedBox,
+                              GlassTextFieldWithTitle(
+                                enabled: controller
+                                        .recipients[index].allFieldsLocked ??
+                                    false,
+                                title: 'Username',
+                                hintText: "Enter Username",
+                                controller: controller
+                                    .recipients[index].userNameController,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              k1hSizedBox,
+                              GlassTextFieldWithTitle(
+                                  enabled: controller
+                                          .recipients[index].allFieldsLocked ??
+                                      false,
+                                  title: 'Password',
+                                  hintText: "Enter Password",
+                                  controller: controller
+                                      .recipients[index].passwordController,
+                                  validator: (value) {
+                                    if (controller.recipients[index]
+                                            .allFieldsLocked ??
+                                        false) {
+                                      return null;
+                                    } else {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Required';
+                                      }
+                                      return null;
+                                    }
+                                  }),
                             ],
                           );
                         }),
                       );
                     }),
+
                     k1hSizedBox,
                     Align(
                       alignment: Alignment.center,
@@ -157,30 +247,6 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                           ),
                         ),
                       ),
-                    ),
-                    k1hSizedBox,
-                    GlassTextFieldWithTitle(
-                      title: 'Username',
-                      hintText: "Enter Username",
-                      controller: controller.recievingUsername,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Required';
-                        }
-                        return null;
-                      },
-                    ),
-                    k1hSizedBox,
-                    GlassTextFieldWithTitle(
-                      title: 'Password',
-                      hintText: "Enter Password",
-                      controller: controller.recievingUserPassword,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Required';
-                        }
-                        return null;
-                      },
                     ),
                   ],
                 ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
@@ -11,14 +9,15 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/TextConstant.dart';
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
-import '../../../controllers/Signup_controller.dart';
 
-class SignUpScreen extends GetView<SignupController> {
-  const SignUpScreen({super.key});
+class SignUpScreen extends GetView<AuthController> {
+  SignUpScreen({super.key});
   static const routeName = "SignUpScreen";
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final AuthController authController = Get.find();
+    // AuthController controller = Get.put(AuthController());
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -45,151 +44,167 @@ class SignUpScreen extends GetView<SignupController> {
               CustomGlassmorphicContainer(
                   width: double.maxFinite,
                   // height: 50.h,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Setup Your Profile",
-                        style: TextStyleConstants.displayMediumWhite(context),
-                      ),
-                      k2hSizedBox,
-                      Text(
-                        "Please Sign up to Start your journey.",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      k1hSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Name",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Obx(() {
-                            return TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Enter Name",
-                                  errorText: authController.nameError.value),
-                              onChanged: (value) {
-                                authController.signupValidateForm();
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Setup Your Profile",
+                          style: TextStyleConstants.displayMediumWhite(context),
+                        ),
+                        k2hSizedBox,
+                        Text(
+                          "Please Sign up to Start your journey.",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        k1hSizedBox,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Name",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Name is required";
+                                }
+                                return null;
                               },
-                              controller: authController.nameController,
-                            );
-                          })
-                        ],
-                      ),
-                      k1hSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "User Name",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Obx(() {
-                            return TextField(
                               decoration: InputDecoration(
-                                  hintText: "Enter User Name",
-                                  errorText: authController.nameError.value),
-                              onChanged: (value) {
-                                authController.signupValidateForm();
+                                hintText: "Enter Name",
+                              ),
+                              controller: controller.nameController,
+                            )
+                          ],
+                        ),
+                        k1hSizedBox,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "User Name",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "User Name is required";
+                                }
+                                return null;
                               },
-                              controller: authController.userNameController,
-                            );
-                          })
-                        ],
-                      ),
-                      k1hSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Email",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Obx(() {
-                            return TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Enter Email",
-                                  errorText: authController.emailError.value),
-                              onChanged: (value) {
-                                authController.signupValidateForm();
+                              decoration:
+                                  InputDecoration(hintText: "Enter User Name"),
+                              controller: controller.userNameController,
+                            )
+                          ],
+                        ),
+                        k1hSizedBox,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Email",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Email is required";
+                                } else if (!GetUtils.isEmail(value)) {
+                                  return 'Invalid Email';
+                                }
+                                return null;
                               },
-                              controller: authController.signupemailController,
-                            );
-                          })
-                        ],
-                      ),
-                      k1hSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Password",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Obx(() {
-                            return TextField(
-                              onChanged: (value) {
-                                authController.signupValidateForm();
-                              },
-                              controller: authController.signupPassController,
-                              obscureText:
-                                  !authController.passwordVisibility.value,
-                              decoration: InputDecoration(
-                                  hintText: "Enter Password",
-                                  errorText: authController.passwordError.value,
-                                  suffixIcon: IconButton(
-                                      onPressed: () {
-                                        authController
-                                                .passwordVisibility.value =
-                                            !authController
-                                                .passwordVisibility.value;
-                                      },
-                                      icon: Icon(authController
-                                              .passwordVisibility.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off))),
-                            );
-                          })
-                        ],
-                      ),
-                      k1hSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Confirm Password",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Obx(() {
-                            return TextField(
-                              onChanged: (value) {
-                                authController.signupValidateForm();
-                              },
-                              controller: authController.passCnfirmController,
-                              obscureText: !authController
-                                  .confirmPasswordVisibility.value,
-                              decoration: InputDecoration(
-                                  hintText: "Confirm Your Password",
-                                  errorText: authController.passconfrmErr.value,
-                                  suffixIcon: IconButton(
-                                      onPressed: () {
-                                        authController.confirmPasswordVisibility
-                                                .value =
-                                            !authController
-                                                .confirmPasswordVisibility
-                                                .value;
-                                      },
-                                      icon: Icon(authController
-                                              .confirmPasswordVisibility.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off))),
-                            );
-                          })
-                        ],
-                      ),
-                    ],
+                              decoration: const InputDecoration(
+                                hintText: "Enter Email",
+                              ),
+                              controller: controller.signupemailController,
+                            )
+                          ],
+                        ),
+                        k1hSizedBox,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Password",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Obx(() {
+                              return TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Password is required";
+                                  }
+                                  return null;
+                                },
+                                controller: controller.signupPassController,
+                                obscureText:
+                                    !controller.passwordVisibility.value,
+                                decoration: InputDecoration(
+                                    hintText: "Enter Password",
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          controller.passwordVisibility.value =
+                                              !controller
+                                                  .passwordVisibility.value;
+                                        },
+                                        icon: Icon(
+                                            controller.passwordVisibility.value
+                                                ? Icons.visibility
+                                                : Icons.visibility_off))),
+                              );
+                            })
+                          ],
+                        ),
+                        k1hSizedBox,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Confirm Password",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Obx(() {
+                              return TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Password is required";
+                                  } else if (controller
+                                          .signupPassController.text
+                                          .trim() !=
+                                      value.trim()) {
+                                    return "Password does not match";
+                                  }
+                                  return null;
+                                },
+                                controller: controller.passCnfirmController,
+                                obscureText:
+                                    !controller.confirmPasswordVisibility.value,
+                                decoration: InputDecoration(
+                                    hintText: "Confirm Your Password",
+                                    errorText: controller.passconfrmErr.value,
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          controller.confirmPasswordVisibility
+                                                  .value =
+                                              !controller
+                                                  .confirmPasswordVisibility
+                                                  .value;
+                                        },
+                                        icon: Icon(controller
+                                                .confirmPasswordVisibility.value
+                                            ? Icons.visibility
+                                            : Icons.visibility_off))),
+                              );
+                            })
+                          ],
+                        ),
+                      ],
+                    ),
                   )),
               // const Spacer(),
               GestureDetector(
@@ -218,19 +233,9 @@ class SignUpScreen extends GetView<SignupController> {
                 height: kButtonHeight,
                 child: GradientButton(
                   onPressed: () {
-                    authController.signup();
-                    /* Get.offAllNamed(
-                      ContinueScreen.routeName,
-                      arguments: {
-                        "title": "Welcome Aboard!",
-                        "subtitle":
-                            "We're grateful you've joined our community and taken the first step in preserving your family legacy.",
-                        "callback": () {
-                          Get.toNamed(ChooseYourPlanScreen.routeName,
-                              arguments: {});
-                        }
-                      },
-                    ); */
+                    if (_formKey.currentState!.validate()) {
+                      controller.signup();
+                    }
                   },
                   text: 'Sign Up',
                   gradients: const [

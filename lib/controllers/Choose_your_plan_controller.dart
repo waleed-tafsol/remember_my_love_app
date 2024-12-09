@@ -56,7 +56,7 @@ class ChooseYourPlanController extends GetxController {
     );
     if (response != null) {
       isLoading.value = false;
-      homeController.user.value?.package = selectedPackage.value;
+      // homeController.user.value?.package = selectedPackage.value;
       Get.offAndToNamed(PaymentScreen.routeName,
           arguments: response.data["subscription"]);
     }

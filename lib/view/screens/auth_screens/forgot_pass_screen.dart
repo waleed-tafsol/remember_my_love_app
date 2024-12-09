@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
 import 'package:remember_my_love_app/controllers/OtpController.dart';
-import 'package:remember_my_love_app/controllers/forgotPass_controller.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/OTP_screen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
@@ -14,15 +10,14 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/TextConstant.dart';
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
-import '../../../controllers/Signup_controller.dart';
 
-class ForgotPassScreen extends GetView<Otpcontroller> {
-  const ForgotPassScreen({super.key});
+class ForgotPassScreen extends GetView<AuthController> {
+  ForgotPassScreen({super.key});
   static const routeName = "ForgotPassScreen";
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final ForgotpassController forgotpassController = Get.find();
-    final AuthController authController = Get.find();
+    final Otpcontroller otpController = Get.find();
     return CustomScaffold(
       body: Column(
         children: [
@@ -57,25 +52,37 @@ class ForgotPassScreen extends GetView<Otpcontroller> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   k1hSizedBox,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Email",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      Obx(() {
-                        return TextField(
-                          decoration: InputDecoration(
-                              hintText: "Password will be sent to given email",
-                              errorText: authController.emailError.value),
-                          onChanged: (value) {
-                            authController.validateemail(value);
-                          },
-                          controller: controller.forgotemailController,
-                        );
-                      })
-                    ],
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Email",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Obx(() {
+                          return TextFormField(
+                            decoration: InputDecoration(
+                                hintText:
+                                    "Password will be sent to given email",
+                                errorText: controller.emailError.value),
+                            onChanged: (value) {
+                              _formKey.currentState!.validate();
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Email is required';
+                              } else if (!GetUtils.isEmail(value)) {
+                                return 'Invalid Email';
+                              }
+                              return null;
+                            },
+                            controller: otpController.forgotemailController,
+                          );
+                        })
+                      ],
+                    ),
                   ),
                 ],
               )),
@@ -85,7 +92,9 @@ class ForgotPassScreen extends GetView<Otpcontroller> {
             height: kButtonHeight,
             child: GradientButton(
               onPressed: () {
-                controller.forgot_pass();
+                if (_formKey.currentState!.validate()) {
+                  otpController.forgot_pass();
+                }
               },
               text: 'Send Password',
               gradients: const [

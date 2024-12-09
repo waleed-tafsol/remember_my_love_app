@@ -81,7 +81,7 @@ class UserModel {
     }
     lastSeen = json['lastSeen'];
     package = json['package'] != null
-        ? new PackagesModel.fromJson(json['package'])
+        ? PackagesModel.fromJson(json['package'])
         : null;
     subscription = json['subscription'];
     validationKey = json['validationKey'];

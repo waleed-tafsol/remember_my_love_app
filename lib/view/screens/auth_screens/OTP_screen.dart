@@ -1,14 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
-//import 'package:remember_my_love_app/controllers/Otpcontroller.dart';
+
 import 'package:remember_my_love_app/controllers/OtpController.dart';
-import 'package:remember_my_love_app/controllers/forgotPass_controller.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/ResetPass_screen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
+
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
@@ -17,15 +12,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/TextConstant.dart';
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
-import '../../../controllers/Signup_controller.dart';
 
 class OtpScreen extends GetView<Otpcontroller> {
-  const OtpScreen({super.key});
+  OtpScreen({super.key});
   static const routeName = "OtpScreen";
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final Otpcontroller otpcontroller = Get.find();
-    final ForgotpassController forgotpassController = Get.find();
     final AuthController authController = Get.find();
     return CustomScaffold(
       body: Column(
@@ -56,26 +49,39 @@ class OtpScreen extends GetView<Otpcontroller> {
                     style: TextStyleConstants.displayMediumWhite(context),
                   ),
                   k1hSizedBox,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "New Otp",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      Obx(() {
-                        return TextField(
-                          controller: controller.newpassController,
-                          decoration: InputDecoration(
-                              hintText: "Enter Otp",
-                              errorText: authController.emailError.value),
-                          /* onChanged: (value) {
-                            authController.validateemail(value);
-                          }, */
-                          // controller: otpcontroller.,
-                        );
-                      })
-                    ],
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "New Otp",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Obx(() {
+                          return TextFormField(
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please enter Otp";
+                              } else if (value.length < 6 ||
+                                  !value.isNumericOnly) {
+                                return "Please enter valid Otp";
+                              }
+                              return null;
+                            },
+                            controller: controller.newpassController,
+                            decoration: InputDecoration(
+                                hintText: "Enter Otp",
+                                errorText: authController.emailError.value),
+                            /* onChanged: (value) {
+                              authController.validateemail(value);
+                            }, */
+                            // controller: otpcontroller.,
+                          );
+                        })
+                      ],
+                    ),
                   ),
                   k1hSizedBox,
                   Obx(() => Text(
@@ -114,7 +120,9 @@ class OtpScreen extends GetView<Otpcontroller> {
             height: kButtonHeight,
             child: GradientButton(
               onPressed: () {
-                controller.verifyOtp();
+                if (_formKey.currentState!.validate()) {
+                  controller.verifyOtp();
+                }
               },
               text: 'verify OTP',
               gradients: const [

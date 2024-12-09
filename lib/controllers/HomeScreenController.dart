@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -7,7 +8,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/models/UserModel.dart';
-import 'package:remember_my_love_app/models/memoryModel.dart';
+import 'package:remember_my_love_app/models/MemoryModel.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
@@ -69,6 +70,11 @@ class HomeScreenController extends GetxController {
       // ColoredPrint.green(jsonResponse.toString());
       user.value = UserModel.fromJson(jsonResponse);
     }
+  }
+
+  Saveuser(Map<String, dynamic> data) async {
+    ColoredPrint.green("Saving User Details");
+    user.value = UserModel.fromJson(data["data"]);
   }
 
   Future<void> downloadImages(List<String> urls) async {

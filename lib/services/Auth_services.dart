@@ -83,6 +83,15 @@ class AuthService extends GetxService {
     try {
       final user = await FirebaseService.signInWithGoogle();
       if (user != null) {
+        final data = {
+          "email": user.email,
+          "displayName": user.displayName,
+          "photo": user.photoURL,
+          "fcmToken": FirebaseService.fcmToken,
+          "validationKey": FirebaseService.fcmToken,
+          "platform": "google"
+        };
+        print(data);
         Response response = await _dio.post(
           ApiConstants.socialLogin,
           data: {
@@ -101,8 +110,13 @@ class AuthService extends GetxService {
       } else {
         throw Exception("an error occured");
       }
-    } catch (e) {
-      throw Exception(e);
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data["message"]["error"][0] ?? "An error occurred");
+      } else {
+        throw Exception("Network error: Check Your Internet Connection");
+      }
     }
   }
 
@@ -134,13 +148,10 @@ class AuthService extends GetxService {
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
-        ColoredPrint.red(e.response.toString());
-        CustomSnackbar.showError("Error",
+        throw Exception(
             e.response?.data["message"]["error"][0] ?? "An error occurred");
-        return null;
       } else {
-        CustomSnackbar.showError("Error", "Network error: ${e.message}");
-        return null;
+        throw Exception("Network error Check your Internet Connection");
       }
     }
   }
@@ -161,7 +172,7 @@ class AuthService extends GetxService {
         throw Exception(
             e.response?.data["message"]["error"] ?? "An error occurred");
       } else {
-        throw Exception("Network error: ${e.message}");
+        throw Exception("Network error Check your Internet Connection");
       }
     }
   }
@@ -183,7 +194,7 @@ class AuthService extends GetxService {
         throw Exception(
             e.response?.data["message"]["error"] ?? "An error occurred");
       } else {
-        throw Exception("Network error: ${e.message}");
+        throw Exception("Network error: Check Your Internet Connection");
       }
     }
   }
@@ -203,7 +214,7 @@ class AuthService extends GetxService {
         throw Exception(
             e.response?.data["message"]["error"] ?? "An error occurred");
       } else {
-        throw Exception("Network error: ${e.message}");
+        throw Exception("Network error: Check Your Internet Connection");
       }
     }
   }
@@ -229,7 +240,7 @@ class AuthService extends GetxService {
         throw Exception(
             e.response?.data["message"]["error"] ?? "An error occurred");
       } else {
-        throw Exception("Network error: ${e.message}");
+        throw Exception("Network error: Check Your Internet Connection");
       }
     }
   }
@@ -249,8 +260,13 @@ class AuthService extends GetxService {
         Get.back();
         deleteAuthtokenAndNavigate(message: response.data["message"]);
       }
-    } catch (e) {
-      print(e);
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data["message"]["error"] ?? "An error occurred");
+      } else {
+        throw Exception("Network error: Check Your Internet Connection");
+      }
     }
   }
 
@@ -270,8 +286,13 @@ class AuthService extends GetxService {
         Get.back();
         deleteAuthtokenAndNavigate(message: response.data["message"]);
       }
-    } catch (e) {
-      print(e);
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data["message"]["error"] ?? "An error occurred");
+      } else {
+        throw Exception("Network error: Check Your Internet Connection");
+      }
     }
   }
 
