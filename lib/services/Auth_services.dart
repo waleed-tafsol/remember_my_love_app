@@ -18,7 +18,6 @@ import 'LocalAuthServices.dart';
 
 class AuthService extends GetxService {
 
-  RxList<MemoriesDatesModels> memoriesDates = <MemoriesDatesModels>[].obs;
 
 
   @override
@@ -32,26 +31,12 @@ class AuthService extends GetxService {
     if (await _tokenStorage.hasToken()) {
       isAuthenticated.value = true;
       authToken = await _tokenStorage.getToken();
-      await getMemoriesDates();
 
       print("User is authenticated with token: $authToken");
     }
   }
 
 
-  Future<void> getMemoriesDates () async {
-    Response? response = await ApiService.getRequest(
-        ApiConstants.getMemoriesDates);
-    if (response != null) {
-      memoriesDates.clear();
-      List<Map<String, dynamic>> memoryDatesList =
-      List<Map<String, dynamic>>.from(response.data);
-      memoriesDates.addAll(memoryDatesList
-          .map((date) => MemoriesDatesModels.fromJson(date))
-          .toList()) ;
-    }
-    print(memoriesDates);
-  }
 
   final Dio _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
 

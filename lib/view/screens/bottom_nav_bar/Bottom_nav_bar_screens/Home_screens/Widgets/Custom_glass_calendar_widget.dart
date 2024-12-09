@@ -21,12 +21,11 @@ class CustomGlassCalendarWidget extends StatelessWidget {
   CustomGlassCalendarWidget({super.key});
 
   final CalendarController controller = Get.put(CalendarController());
-  final AuthService authService =
-      Get.find();
+  final HomeScreenController homeScreenController = Get.put(HomeScreenController());
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Container( 
         margin: EdgeInsets.symmetric(vertical: 1.h),
         width: double.infinity,
         decoration: BoxDecoration(
@@ -150,39 +149,46 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                   onPageChanged: (focusedDay) {
                     controller.onTabChange(focusedDay);
                   },
-                  //  availableGestures: AvailableGestures.none,
-                  onDaySelected: (selectedDay, focusedDay) {
+                  // availableGestures: AvailableGestures.none,
+                  onDaySelected: (selectedDay, focusedDay) async {
                     // Handle day selection
-                    print("Selected day: $selectedDay");
-                    ColoredPrint.green("Focusday day: $focusedDay");
+                    await controller.onDaySelected(selectedDay: selectedDay);
                   },
-                  calendarBuilders: CalendarBuilders(
-                    markerBuilder: (context, date, events) {
-                      // Check if the current day is in the list of marked dates
-                      int index = authService.memoriesDates.indexWhere((element) =>
-                      element.deliveryDate!.year == date.year &&
-                          element.deliveryDate!.month == date.month &&
-                          element.deliveryDate!.day == date.day);
-                      if (index != -1) {
-                        // Return a custom widget or decoration to mark the day
-                        return Positioned(
-                          bottom: 25,
-                          right: 8,
-                          child: Container(
-                            width: 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                              color: authService.memoriesDates[index].status == 'due'
-                                  ? Colors.red
-                                  : Colors.green, // Highlight color
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        );
-                      }
-                      return null; // Return null if no marking is needed
-                    },
-                  ),
+                  calendarBuilders: homeScreenController
+                          .memoriesDates.isNotEmpty
+                      ? CalendarBuilders(
+                          defaultBuilder: (context, date, focusedDay) {
+                          int index = homeScreenController.memoriesDates
+                              .indexWhere((element) =>
+                                  element.deliveryDate!.year == date.year &&
+                                  element.deliveryDate!.month == date.month &&
+                                  element.deliveryDate!.day == date.day);
+                          if (index != -1) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color:homeScreenController.memoriesDates[index].status == 'due'? Colors.red:
+                                  Colors.green,
+                                  borderRadius: BorderRadius.circular(40),
+                                 /* border: Border.all(
+                                   *//* color: homeScreenController.memoriesDates[index].status == 'due'
+                                        ? Colors.red
+                                        : Colors.green,
+                                    width: 2,*//*
+                                  ),*/
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  '${date.day}',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
+                          }
+                          return null;
+                        })
+                      : CalendarBuilders(),
                 );
               })
             ],
