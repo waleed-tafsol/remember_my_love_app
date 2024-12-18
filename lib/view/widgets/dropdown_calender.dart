@@ -123,12 +123,7 @@ class YearMonthDropdown extends GetWidget<CalendarController> {
       }).toList(),
     ).then((String? newValue) {
       if (newValue != null) {
-        // Handle dropdown value change
         print("Selected year: $newValue");
-        // Update focusedDay to the first day of the selected month
-        // setState(() {
-
-        // });
       }
     });
   }

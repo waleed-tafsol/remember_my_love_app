@@ -12,7 +12,7 @@ class MemoryModel {
   String? deliveryDate;
   bool? isFavorite;
   String? sendTo;
-  List<Recipients>? recipients;
+  List<Recipients?>? recipients;
   List<String>? files;
   String? createdAt;
   String? updatedAt;
@@ -77,7 +77,9 @@ class MemoryModel {
     data['isFavorite'] = this.isFavorite;
     data['sendTo'] = this.sendTo;
     if (this.recipients != null) {
-      data['recipients'] = this.recipients!.map((v) => v.toJson()).toList();
+      data['recipients'] = this.recipients?.map((v) {
+        v != null ? v.toJson() : Recipients();
+      }).toList();
     }
     if (this.files != null) {
       data['files'] = this.files!.map((v) => v).toList();

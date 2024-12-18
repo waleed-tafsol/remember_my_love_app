@@ -1,6 +1,3 @@
-import 'dart:ffi';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -18,6 +15,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../constants/ApiConstant.dart';
 import '../../../../widgets/CustomGlassDailogBox.dart';
+import '../../../onboarding_screens/CardsScreen.dart';
 import '../Home_screens/Widgets/My_storage_widget.dart';
 
 class ProfileScreen extends GetView<HomeScreenController> {
@@ -214,6 +212,27 @@ class ProfileScreen extends GetView<HomeScreenController> {
               margin: const EdgeInsets.symmetric(vertical: 0),
               child: InkWell(
                 onTap: () {
+                  Get.toNamed(CardsScreen.routeName);
+                },
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.credit_card_outlined,
+                      color: Colors.white,
+                    ),
+                    k3wSizedBox,
+                    Text(
+                      "Payment",
+                      style: TextStyleConstants.bodyMediumWhite(context),
+                    ),
+                  ],
+                ),
+              )),
+          k2hSizedBox,
+          CustomGlassmorphicContainer(
+              margin: const EdgeInsets.symmetric(vertical: 0),
+              child: InkWell(
+                onTap: () {
                   _showDeleteConfirmationDialog(context);
                 },
                 child: Row(
@@ -235,7 +254,7 @@ class ProfileScreen extends GetView<HomeScreenController> {
             margin: const EdgeInsets.symmetric(vertical: 0),
             child: InkWell(
                 onTap: () {
-                   authService.logout();
+                  authService.logout();
                   //TokenService().deleteToken();
                 },
                 child: Row(

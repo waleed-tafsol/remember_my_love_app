@@ -5,8 +5,21 @@ import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../../../utills/ConvertDateTime.dart';
+
 class NotificationListTile extends StatelessWidget {
-  const NotificationListTile({super.key});
+  const NotificationListTile(
+      {super.key,
+      required this.title,
+      required this.subTitle,
+      required this.id,
+      required this.seen,
+      required this.updatedAt});
+  final String title;
+  final String subTitle;
+  final String id;
+  final bool seen;
+  final String updatedAt;
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +39,12 @@ class NotificationListTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "William Manager",
+              title,
               style: TextStyleConstants.bodyLargeWhite(context),
             ),
             k1hSizedBox,
             Text(
-              "It is a long established fact that",
+              subTitle,
               style: TextStyleConstants.bodyLargeWhite(context),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -40,7 +53,7 @@ class NotificationListTile extends StatelessWidget {
         ),
         const Spacer(),
         Text(
-          '2m',
+          convertTimeToMinutesAgo(updatedAt),
           style: TextStyleConstants.bodySmallWhite(context),
         )
       ],

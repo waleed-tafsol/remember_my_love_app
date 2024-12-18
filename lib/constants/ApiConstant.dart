@@ -9,8 +9,8 @@ class ApiConstants {
   static const forgotPass = "auth/forgot-password";
   static const verifyOTP = "auth/verify-otp";
   static const resetPass = "auth/reset-password";
-  static const updatePassword = "/auth/change-password";
-  static const deleteUser = "/users/delete/";
+  static const updatePassword = "auth/change-password";
+  static const deleteUser = "users/delete/";
   static const verifyFingerPrint = "auth/verify-fingerprint";
   // user RUD
   static const getUserDetails = "users/get-me";
@@ -19,8 +19,10 @@ class ApiConstants {
 
   // Memories CRUD
   static const getAllMemories = "memory/all";
-  static const getAllMemoriesImages = "/memory/all/images";
-  static const findMemories = "api/memory/find/";
+  static const getMemoryDetailByImage = "memory/";
+  static const getMemoriesDates = "memory/calender/memories";
+  static const getAllMemoriesImages = "memory/all/images";
+  static const findMemories = "memory/find/";
   static const createMemories = "memory/create";
   // static const findMemories = "api/memory/find/";
 
@@ -28,11 +30,18 @@ class ApiConstants {
   static const getcategories = "category/all";
 // upload media
   static const uploadPictures = "media/uploads";
-  static const uploadMimTypes = "/media/signed-url";
+  static const uploadMimTypes = "media/signed-url";
   static const getPicture = "https://remember-my-love-bucket.s3.amazonaws.com";
 // packcages
   static const getAllPackages = "package/all";
-  static const buySubscription = "/package/buy-subscription";
+  static const buySubscription = "package/buy-subscription";
+  // cards
+  static const getAllCards = "users/payment-methods";
+  static const attatchCard = "users/attach-card";
+  static const deAttatchCard = "users/detach-card";
+  static const setDefaltCard = "users/default-card";
+  // notification
+  static const getAllNotification = "/api/v1/notifications";
   // static const profile = "${_baseUrl}api/profile";
   // static const logout = "${_baseUrl}api/logout";
   // static const qanswers = "${_baseUrl}api/questions-and-answers";

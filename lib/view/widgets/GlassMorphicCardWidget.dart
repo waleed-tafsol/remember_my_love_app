@@ -42,7 +42,7 @@ class GlassmorphicCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         "Logo",
                         style: TextStyle(
                           fontSize: 18,
@@ -59,9 +59,9 @@ class GlassmorphicCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Card number
-                  Text(
+                  const Text(
                     "1234 5678 9101 1121",
                     style: TextStyle(
                       fontSize: 22,
@@ -69,7 +69,7 @@ class GlassmorphicCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Card expiry date and owner's name
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,7 +94,7 @@ class GlassmorphicCard extends StatelessWidget {
               ),
             ),
             // Chip icon
-            Positioned(
+            const Positioned(
               bottom: 15,
               left: 20,
               child: Icon(

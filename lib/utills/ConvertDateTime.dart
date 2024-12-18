@@ -47,3 +47,33 @@ String formatISOToCustom(String isoTime) {
   // Combine into desired format
   return "$dayName, $day $monthName $year - ${hour.toString().padLeft(2, '0')}:$minute $period";
 }
+
+String convertTimeToMinutesAgo(String timeString) {
+  // Regular expression to match the time string (e.g., "2 hours 30 minutes")
+  RegExp regExp = RegExp(r"(\d+)\s*(hours?|minute?s?)");
+  Iterable<RegExpMatch> matches = regExp.allMatches(timeString);
+
+  int hours = 0;
+  int minutes = 0;
+
+  // Iterate through all matches to extract hours and minutes
+  for (var match in matches) {
+    if (match.group(2)?.contains("hour") ?? false) {
+      hours = int.parse(match.group(1)!);
+    } else if (match.group(2)?.contains("minute") ?? false) {
+      minutes = int.parse(match.group(1)!);
+    }
+  }
+
+  // Get the current time
+  DateTime now = DateTime.now();
+
+  // Calculate the time difference by subtracting hours and minutes
+  DateTime targetTime = now.subtract(Duration(hours: hours, minutes: minutes));
+
+  // Calculate the difference in minutes
+  int minutesAgo = now.difference(targetTime).inMinutes;
+
+  // Return the result as a formatted string
+  return "$minutesAgo m";
+}

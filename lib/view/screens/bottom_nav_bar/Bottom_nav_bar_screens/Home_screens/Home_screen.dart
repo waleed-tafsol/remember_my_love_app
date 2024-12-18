@@ -4,10 +4,11 @@ import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/Bottom_nav_bar_controller.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Widgets/Custom_glass_calendar_widget.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../../constants/assets.dart';
+import '../../../../../constants/ApiConstant.dart';
 import 'Widgets/Letter_list_tile_widget.dart';
 import 'Widgets/My_storage_widget.dart';
 
@@ -33,8 +34,8 @@ class HomeScreen extends GetView<HomeScreenController> {
               child: Row(
                 children: [
                   ClipOval(
-                      child: Image.asset(
-                    Image_assets.userImage,
+                      child: Image.network(
+                    "${ApiConstants.getPicture}/${controller.user.value?.photo ?? ""}",
                     height: 10.h,
                     width: 10.h,
                     fit: BoxFit.cover,

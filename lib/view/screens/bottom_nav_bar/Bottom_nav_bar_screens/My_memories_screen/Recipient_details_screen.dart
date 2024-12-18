@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/models/SearchUserModel.dart';
-import 'package:remember_my_love_app/models/UserModel.dart';
 import 'package:remember_my_love_app/utills/Validators.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -141,16 +140,6 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                     (SearchFieldListItem<SearchUserModel> x) {
                                   controller.recipients[index].emailController
                                       .text = x.item?.email ?? "";
-                                  controller
-                                      .recipients[index]
-                                      .userNameController
-                                      .text = x.item?.username ?? "";
-                                  controller.recipients[index].contactController
-                                      .text = x.item?.contact ?? "";
-                                  controller.recipients[index]
-                                      .passwordController.text = "";
-                                  controller.recipients[index].allFieldsLocked =
-                                      true;
                                 },
                                 hint: "Enter Email",
                                 validator: (value) {
@@ -178,9 +167,6 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                               ),
                               k1hSizedBox,
                               GlassTextFieldWithTitle(
-                                enabled: controller
-                                        .recipients[index].allFieldsLocked ??
-                                    false,
                                 title: 'Contact',
                                 hintText: "Enter Phone Number",
                                 controller: controller
@@ -189,43 +175,6 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                   phoneNumberValidator(value);
                                 },
                               ),
-                              k1hSizedBox,
-                              GlassTextFieldWithTitle(
-                                enabled: controller
-                                        .recipients[index].allFieldsLocked ??
-                                    false,
-                                title: 'Username',
-                                hintText: "Enter Username",
-                                controller: controller
-                                    .recipients[index].userNameController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Required';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              k1hSizedBox,
-                              GlassTextFieldWithTitle(
-                                  enabled: controller
-                                          .recipients[index].allFieldsLocked ??
-                                      false,
-                                  title: 'Password',
-                                  hintText: "Enter Password",
-                                  controller: controller
-                                      .recipients[index].passwordController,
-                                  validator: (value) {
-                                    if (controller.recipients[index]
-                                            .allFieldsLocked ??
-                                        false) {
-                                      return null;
-                                    } else {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Required';
-                                      }
-                                      return null;
-                                    }
-                                  }),
                             ],
                           );
                         }),

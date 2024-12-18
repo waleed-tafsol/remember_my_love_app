@@ -21,7 +21,7 @@ class Memoryservices {
         "date": deliveryDate,
         "time": deliveryTime,
         "sendTo": sendTo,
-        "receivers": recipients,
+        "recipients": recipients,
         "files": files,
       },
     );

@@ -145,7 +145,7 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                   ? const SizedBox()
                   : GradientButton(
                       onPressed: () {
-                        controller.uploadMedia();
+                        controller.uploadMimeTypes();
                       },
                       text: "Continue",
                       gradients: const [Colors.purple, Colors.blue]);

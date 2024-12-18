@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -9,9 +8,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/models/UserModel.dart';
 import 'package:remember_my_love_app/models/memories_dates_model.dart';
-import 'package:remember_my_love_app/models/memoryModel.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import '../constants/ApiConstant.dart';
+import '../models/MemoryModel.dart';
 import '../services/ApiServices.dart';
 
 class HomeScreenController extends GetxController {
@@ -19,7 +18,7 @@ class HomeScreenController extends GetxController {
   void onInit() async {
     calendarController = Get.find();
     isloading.value = true;
-    await getMemoriesDates();
+    await callMemoriesDates();
     await getmemories();
     await getUSer();
     isloading.value = false;
@@ -33,7 +32,7 @@ class HomeScreenController extends GetxController {
   RxBool isloading = false.obs;
   late CalendarController calendarController;
 
-  Future<void> getMemoriesDates() async {
+  Future<void> callMemoriesDates() async {
     Response? response =
         await ApiService.getRequest(ApiConstants.getMemoriesDates);
     if (response != null) {

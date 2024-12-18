@@ -59,8 +59,9 @@ dependencies:
   local_auth: ^2.3.0
   google_sign_in: ^6.2.2
   firebase_auth: ^5.3.3
-  searchfield: ^1.2.0
-  flutter_credit_card: ^4.0.1
+  searchfield: ^1.2.1
+  u_credit_card: ^1.4.0
+  shimmer: ^3.0.0
 
 
 

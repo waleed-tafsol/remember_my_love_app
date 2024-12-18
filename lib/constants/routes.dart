@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/bindings/CardsBindings.dart';
 import 'package:remember_my_love_app/bindings/EditProfileBindings.dart';
 import 'package:remember_my_love_app/bindings/OtopBindings.dart';
 import 'package:remember_my_love_app/bindings/PaymentWebViewBindings.dart';
@@ -25,6 +26,7 @@ import '../bindings/Upload_memories_bindings.dart';
 import '../bindings/splash_binding.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/EditProfileScreen.dart';
+import '../view/screens/onboarding_screens/CardsScreen.dart';
 import '../view/screens/onboarding_screens/Questions_screen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Memory_scheduled_succeccfully.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Recipient_details_screen.dart';
@@ -184,6 +186,13 @@ class Pages {
           settings: settings,
           page: () => EditProfileScreen(),
           binding: EditProfileBindings(),
+          transition: _routeTransition,
+        );
+      case CardsScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => CardsScreen(),
+          binding: CardsBindings(),
           transition: _routeTransition,
         );
 

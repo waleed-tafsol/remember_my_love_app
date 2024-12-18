@@ -6,9 +6,9 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
-import 'package:remember_my_love_app/models/UserModel.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -49,9 +49,7 @@ class UploadMemoryController extends GetxController {
     recipients.add(Recipient(
       emailController: TextEditingController(),
       contactController: TextEditingController(),
-      passwordController: TextEditingController(),
       relationController: TextEditingController(),
-      userNameController: TextEditingController(),
     ));
   }
 
@@ -84,9 +82,7 @@ class UploadMemoryController extends GetxController {
     recipients.add(Recipient(
       emailController: TextEditingController(),
       contactController: TextEditingController(),
-      passwordController: TextEditingController(),
       relationController: TextEditingController(),
-      userNameController: TextEditingController(),
     ));
   }
 
@@ -228,17 +224,8 @@ class UploadMemoryController extends GetxController {
   Future<void> createMemory() async {
     ColoredPrint.yellow("successful initiated");
     Get.dialog(
-      Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const CircularProgressIndicator(),
-            Obx(() {
-              return Text(
-                  "${uploadProgress.value.toStringAsFixed(2)}%"); // Display upload progress percentage
-            })
-          ],
-        ),
+      const Center(
+        child: CircularProgressIndicator(),
       ),
     );
     try {
@@ -276,41 +263,32 @@ class UploadMemoryController extends GetxController {
     return "$date $time";
   }
 
-  Future<void> uploadMedia() async {
+  Future<void> uploadMimeTypes() async {
     Get.dialog(const Center(child: CircularProgressIndicator()));
 
-    // ColoredPrint.red("Uploading images to cloud");
-    // ColoredPrint.magenta(pickedFiles[0].path);
-    FormData formData = FormData.fromMap({
-      "images": await Future.wait(pickedFiles.map((file) async {
-        final fileBytes = await file.readAsBytes();
-        return MultipartFile.fromBytes(
-          fileBytes,
-          filename: file.path.split('/').last,
-        );
-      }).toList()),
-    });
+    // Get the MIME type for each picked file
+    List<String> mimeTypes = pickedFiles.map((file) {
+      // Get the MIME type using the file extension
+      final mimeType = lookupMimeType(file.path);
+      return mimeType ?? "application/octet-stream";
+    }).toList();
 
+    ColoredPrint.green(mimeTypes.toString());
     Response? response = await ApiService.postRequest(
-      ApiConstants.uploadPictures,
-      formData,
+      ApiConstants.uploadMimTypes,
+      {
+        "mimeTypes": mimeTypes,
+      },
     );
+
     ColoredPrint.green(response.toString());
+
     if (response?.statusCode == 201 && response != null) {
       final jsonresponse = response.data;
       imageUploadMimType = jsonresponse["data"];
       Get.dialog(
-        Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircularProgressIndicator(),
-              Obx(() {
-                return Text(
-                    "${uploadProgress.value.toStringAsFixed(2)}%"); // Display upload progress percentage
-              })
-            ],
-          ),
+        const Center(
+          child: CircularProgressIndicator(),
         ),
       );
 
@@ -337,7 +315,6 @@ class UploadMemoryController extends GetxController {
         ),
       );
 
-      // Handle the response
       if (response.statusCode == 200) {
         successFullFilesUploads.add(imageMap["key"]);
         ColoredPrint.green(
@@ -402,18 +379,14 @@ class UploadMemoryController extends GetxController {
 class Recipient {
   TextEditingController emailController;
   TextEditingController contactController;
-  TextEditingController passwordController;
-  TextEditingController userNameController;
-  TextEditingController relationController;
-  bool? allFieldsLocked;
 
-  Recipient(
-      {required this.emailController,
-      required this.relationController,
-      required this.contactController,
-      required this.userNameController,
-      required this.passwordController,
-      this.allFieldsLocked});
+  TextEditingController relationController;
+
+  Recipient({
+    required this.emailController,
+    required this.relationController,
+    required this.contactController,
+  });
 
   // Method to convert Recipient to a Map
   Map<String, String> toMap() {
@@ -421,8 +394,6 @@ class Recipient {
       "email": emailController.text.trim(),
       "contact": contactController.text.trim(),
       "username": emailController.text.trim(),
-      "password":
-          passwordController.text == "" ? passwordController.text : "12345678",
       "relation": relationController.text.trim(),
     };
   }

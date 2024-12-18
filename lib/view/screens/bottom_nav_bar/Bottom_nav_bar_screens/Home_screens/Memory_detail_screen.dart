@@ -130,71 +130,93 @@ class MemoryDetailScreen extends StatelessWidget {
                       ],
                     ),
                     k1hSizedBox,
-                    SizedBox(
-                      height: 25.h,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: controller.memory.recipients?.length ?? 0,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Recipient 0${index + 1} :",
-                                      style: TextStyleConstants.bodyLargeWhite(
-                                          context),
-                                    ),
-                                    Text(
-                                      controller.memory.recipients?[index]
-                                              .recipient?.name ??
-                                          "",
-                                      style: TextStyleConstants.bodyLargeWhite(
-                                          context),
-                                    ),
-                                  ],
-                                ),
-                                k1hSizedBox,
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Email :",
-                                      style: TextStyleConstants.bodyLargeWhite(
-                                          context),
-                                    ),
-                                    k1wSizedBox,
-                                    Text(
-                                      controller.memory.recipients?[index]
-                                              .recipient?.email ??
-                                          "",
-                                      style: TextStyleConstants.bodyLargeWhite(
-                                          context),
-                                    ),
-                                  ],
-                                ),
-                                k1hSizedBox,
-                                Row(
-                                  children: [
-                                    Text(
-                                      "User Name :",
-                                      style: TextStyleConstants.bodyLargeWhite(
-                                          context),
-                                    ),
-                                    k1wSizedBox,
-                                    Text(
-                                      controller.memory.recipients?[index]
-                                              .recipient?.username ??
-                                          "",
-                                      style: TextStyleConstants.bodyLargeWhite(
-                                          context),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          }),
-                    ),
+                    controller.memory.recipients == null
+                        ? SizedBox()
+                        : SizedBox(
+                            height: 25.h,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount:
+                                    controller.memory.recipients?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Row(
+                                      //   children: [
+                                      //     Text(
+                                      //       "Recipient 0${index + 1} :",
+                                      //       style: TextStyleConstants.bodyLargeWhite(
+                                      //           context),
+                                      //     ),
+                                      //     Text(
+                                      //       controller.memory.recipients?[index]
+                                      //               .recipient?.name ??
+                                      //           "",
+                                      //       style: TextStyleConstants.bodyLargeWhite(
+                                      //           context),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                      k1hSizedBox,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Email :",
+                                            style: TextStyleConstants
+                                                .bodyLargeWhite(context),
+                                          ),
+                                          k1wSizedBox,
+                                          // Text(
+                                          //   controller.memory.recipients?[index]
+                                          //           .email ??
+                                          //       "",
+                                          //   style: TextStyleConstants.bodyLargeWhite(
+                                          //       context),
+                                          // ),
+                                        ],
+                                      ),
+                                      k1hSizedBox,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Contact :",
+                                            style: TextStyleConstants
+                                                .bodyLargeWhite(context),
+                                          ),
+                                          k1wSizedBox,
+                                          // Text(
+                                          //   controller.memory.recipients?[index]
+                                          //           .contact ??
+                                          //       "",
+                                          //   style: TextStyleConstants.bodyLargeWhite(
+                                          //       context),
+                                          // ),
+                                        ],
+                                      ),
+                                      // k1hSizedBox,
+                                      // Row(
+                                      //   children: [
+                                      //     Text(
+                                      //       "User Name :",
+                                      //       style: TextStyleConstants.bodyLargeWhite(
+                                      //           context),
+                                      //     ),
+                                      //     k1wSizedBox,
+                                      //     Text(
+                                      //       controller.memory.recipients?[index]
+                                      //               . ??
+                                      //           "",
+                                      //       style: TextStyleConstants.bodyLargeWhite(
+                                      //           context),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                    ],
+                                  );
+                                }),
+                          ),
                   ],
                 )),
             GradientButton(

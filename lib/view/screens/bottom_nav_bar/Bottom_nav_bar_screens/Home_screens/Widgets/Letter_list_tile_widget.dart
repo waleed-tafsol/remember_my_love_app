@@ -3,14 +3,12 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/models/Categories.dart';
 import 'package:remember_my_love_app/models/MemoryModel.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../../constants/TextConstant.dart';
 import '../../../../../../constants/constants.dart';
 import '../../../../../../models/CreatorModel.dart';
-import '../../../../../../models/FilesModel.dart';
 import '../../../../../../utills/ConvertDateTime.dart';
 import '../../../../../widgets/Custom_glass_container.dart';
 
@@ -32,7 +30,7 @@ class LetterListTile extends StatelessWidget {
     this.isFavorite,
     this.sendTo,
     required this.files,
-    required this.memory,
+    this.memory,
   });
 
   // final int picturesCount;

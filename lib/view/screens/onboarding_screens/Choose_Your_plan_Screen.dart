@@ -29,7 +29,7 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
       body: Column(
         children: [
           Text(
-            arguments["title"] ?? "Choose Your Plan",
+            arguments?["title"] ?? "Choose Your Plan",
             style: Theme.of(context).textTheme.displaySmall,
           ),
           k1hSizedBox,
@@ -188,7 +188,10 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
                       //           Get.toNamed(QuestionsScreen.routeName)
                       //     },
                       //   );
-                      Get.toNamed(CardsScreen.routeName);
+                      Get.toNamed(
+                        CardsScreen.routeName,
+                        arguments: controller.selectedPackage.value?.sId,
+                      );
                       // controller.buyPackage();
                     },
                     text: "Select This Plan",

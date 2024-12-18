@@ -10,5 +10,9 @@ class AppColors {
   // static const Color kBlue300 = Color(0xFFA8DADC);
   static const Color kIconColor = Colors.white;
   static const Color kpurple = Colors.purple;
+  static Color kgradientBlue =
+      const Color.fromARGB(255, 2, 255, 242).withOpacity(0.3);
+  static Color kgradientPurple =
+      const Color.fromARGB(255, 255, 0, 238).withOpacity(0.3);
   static Color kSecondaryColor = const Color(0xff515BD6);
 }

@@ -19,13 +19,10 @@ class ApiService {
     return authService.authToken;
   }
 
-
   static Future<Response?> getRequest(String endpoint,
       {Map<String, String>? queryParameters}) async {
     try {
       final headers = await _getHeaders();
-
-      // Perform the GET request with query parameters if provided
       Response response = await _dio.get(
         endpoint,
         queryParameters: queryParameters,
