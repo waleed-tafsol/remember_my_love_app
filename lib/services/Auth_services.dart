@@ -11,11 +11,15 @@ import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import '../constants/ApiConstant.dart';
+import '../models/memories_dates_model.dart';
 import 'ApiServices.dart';
 import 'Auth_token_services.dart';
 import 'LocalAuthServices.dart';
 
 class AuthService extends GetxService {
+
+
+
   @override
   void onInit() async {
     await initialize();
@@ -27,9 +31,12 @@ class AuthService extends GetxService {
     if (await _tokenStorage.hasToken()) {
       isAuthenticated.value = true;
       authToken = await _tokenStorage.getToken();
+
       print("User is authenticated with token: $authToken");
     }
   }
+
+
 
   final Dio _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
 

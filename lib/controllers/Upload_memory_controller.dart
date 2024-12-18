@@ -6,7 +6,6 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mime/mime.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/models/UserModel.dart';
@@ -277,26 +276,26 @@ class UploadMemoryController extends GetxController {
     return "$date $time";
   }
 
-  Future<void> uploadMimeTypes() async {
+  Future<void> uploadMedia() async {
     Get.dialog(const Center(child: CircularProgressIndicator()));
 
-    // Get the MIME type for each picked file
-    List<String> mimeTypes = pickedFiles.map((file) {
-      // Get the MIME type using the file extension
-      final mimeType = lookupMimeType(file.path);
-      return mimeType ?? "application/octet-stream";
-    }).toList();
+    // ColoredPrint.red("Uploading images to cloud");
+    // ColoredPrint.magenta(pickedFiles[0].path);
+    FormData formData = FormData.fromMap({
+      "images": await Future.wait(pickedFiles.map((file) async {
+        final fileBytes = await file.readAsBytes();
+        return MultipartFile.fromBytes(
+          fileBytes,
+          filename: file.path.split('/').last,
+        );
+      }).toList()),
+    });
 
-    ColoredPrint.green(mimeTypes.toString());
     Response? response = await ApiService.postRequest(
-      ApiConstants.uploadMimTypes,
-      {
-        "mimeTypes": mimeTypes,
-      },
+      ApiConstants.uploadPictures,
+      formData,
     );
-
     ColoredPrint.green(response.toString());
-
     if (response?.statusCode == 201 && response != null) {
       final jsonresponse = response.data;
       imageUploadMimType = jsonresponse["data"];

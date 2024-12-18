@@ -8,7 +8,8 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/models/UserModel.dart';
-import 'package:remember_my_love_app/models/MemoryModel.dart';
+import 'package:remember_my_love_app/models/memories_dates_model.dart';
+import 'package:remember_my_love_app/models/memoryModel.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
@@ -18,6 +19,7 @@ class HomeScreenController extends GetxController {
   void onInit() async {
     calendarController = Get.find();
     isloading.value = true;
+    await getMemoriesDates();
     await getmemories();
     await getUSer();
     isloading.value = false;
@@ -26,10 +28,26 @@ class HomeScreenController extends GetxController {
 
   Rx<UserModel?> user = Rx<UserModel?>(null);
   RxList<MemoryModel> memories = <MemoryModel>[].obs;
+  RxList<MemoriesDatesModels> memoriesDates = <MemoriesDatesModels>[].obs;
+
   RxBool isloading = false.obs;
   late CalendarController calendarController;
 
-  Future<void> getmemories({String? year, String? month}) async {
+  Future<void> getMemoriesDates() async {
+    Response? response =
+        await ApiService.getRequest(ApiConstants.getMemoriesDates);
+    if (response != null) {
+      memoriesDates.clear();
+      List<Map<String, dynamic>> memoryDatesList =
+          List<Map<String, dynamic>>.from(response.data);
+      memoriesDates.addAll(memoryDatesList
+          .map((date) => MemoriesDatesModels.fromJson(date))
+          .toList());
+    }
+    print(memoriesDates);
+  }
+
+  Future<void> getmemories({String? year, String? month, String? day}) async {
     ColoredPrint.green("Fetching Memories");
     isloading.value = true;
     ColoredPrint.green(
@@ -39,6 +57,7 @@ class HomeScreenController extends GetxController {
         queryParameters: {
           "month": calendarController.focusedDay.value.month.toString(),
           "year": calendarController.focusedDay.value.year.toString(),
+          "date": calendarController.focusedDay.value.day.toString(),
           // "search": "all",
           "status": "all",
           "favorites": "all",

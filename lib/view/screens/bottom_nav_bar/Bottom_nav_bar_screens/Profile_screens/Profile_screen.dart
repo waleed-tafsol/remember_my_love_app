@@ -235,8 +235,8 @@ class ProfileScreen extends GetView<HomeScreenController> {
             margin: const EdgeInsets.symmetric(vertical: 0),
             child: InkWell(
                 onTap: () {
-                  authService.logout();
-                  // TokenService().deleteToken();
+                   authService.logout();
+                  //TokenService().deleteToken();
                 },
                 child: Row(
                   children: [

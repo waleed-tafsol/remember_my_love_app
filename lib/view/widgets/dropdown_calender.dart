@@ -69,7 +69,10 @@ class YearMonthDropdown extends GetWidget<CalendarController> {
             spacing: 1.w,
             children: controller.months.map((month) {
               return GestureDetector(
-                onTap: () => controller.changeMonth(month),
+                onTap: () {
+                  controller.changeMonth(month);
+                  Get.back();
+                },
                 child: CustomGlassmorphicContainer(
                   padding:
                       const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
