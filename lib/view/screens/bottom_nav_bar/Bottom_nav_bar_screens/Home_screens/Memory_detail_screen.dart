@@ -55,13 +55,15 @@ class MemoryDetailScreen extends StatelessWidget {
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: isVideo
-                                ? SizedBox(
-                                    height: 20.h,
-                                    child: VideoPlayerWidget(
-                                      filePathOrFile:
-                                          "${ApiConstants.getPicture}/${controller.selectedImage.value}",
-                                    ),
-                                  )
+                                ?
+                                //  SizedBox(
+                                //     height: 20.h,
+                                //     child: VideoPlayerWidget(
+                                //       filePathOrFile:
+                                //           "${ApiConstants.getPicture}/${controller.selectedImage.value}",
+                                //     ),
+                                //   )
+                                SizedBox()
                                 : Image.network(
                                     "${ApiConstants.getPicture}/${controller.selectedImage}",
                                     height: 20.h,

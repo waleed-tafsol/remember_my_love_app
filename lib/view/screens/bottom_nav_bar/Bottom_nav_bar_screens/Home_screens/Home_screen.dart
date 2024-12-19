@@ -33,13 +33,16 @@ class HomeScreen extends GetView<HomeScreenController> {
             child: CustomGlassmorphicContainer(
               child: Row(
                 children: [
-                  ClipOval(
-                      child: Image.network(
-                    "${ApiConstants.getPicture}/${controller.user.value?.photo ?? ""}",
-                    height: 10.h,
-                    width: 10.h,
-                    fit: BoxFit.cover,
-                  )),
+                  ClipOval(child: Obx(() {
+                    return controller.user.value?.photo == null
+                        ? SizedBox()
+                        : Image.network(
+                            controller.user.value?.photo ?? "",
+                            height: 10.h,
+                            width: 10.h,
+                            fit: BoxFit.cover,
+                          );
+                  })),
                   k2wSizedBox,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

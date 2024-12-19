@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
@@ -78,8 +77,8 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
             ),
             CustomGlassmorphicContainer(
                 child: InkWell(
-              onTap: () {
-                controller.takePhotoOrVideo(context);
+              onTap: () async {
+                await controller.showCaptureOptionDialog(context);
               },
               child: Center(
                 child: Text(
@@ -88,7 +87,6 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                 ),
               ),
             )),
-            // GridView to display selected images
             Obx(() {
               if (controller.pickedFiles.isEmpty) {
                 return const SizedBox();

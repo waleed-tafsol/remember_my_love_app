@@ -49,7 +49,7 @@ class AuthController extends GetxController {
       if (await authService.loginWithFingerPrint() ?? false) {
         Get.back();
         CustomSnackbar.showSuccess("Success", "Logged In Successfully");
-        Get.toNamed(BottomNavBarScreen.routeName);
+        Get.offNamed(BottomNavBarScreen.routeName);
       } else {
         Get.back();
         CustomSnackbar.showError("error", "Google SignIn Faild");
@@ -67,7 +67,7 @@ class AuthController extends GetxController {
       if (await authService.loginWithGoogle() ?? false) {
         Get.back();
         CustomSnackbar.showSuccess("Success", "Logged In Successfully");
-        Get.toNamed(BottomNavBarScreen.routeName);
+        Get.offNamed(BottomNavBarScreen.routeName);
       } else {
         Get.back();
         CustomSnackbar.showError("error", "Google SignIn Faild");
@@ -204,4 +204,4 @@ class AuthController extends GetxController {
 
   bool get isAuthenticated => authService.isAuthenticated.value;
 }
-// 
+//

@@ -11,6 +11,7 @@ import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
+import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../constants/constants.dart';
 import '../models/SearchUserModel.dart';
@@ -146,33 +147,7 @@ class UploadMemoryController extends GetxController {
     }
   }
 
-  Future<void> takePhotoOrVideo(BuildContext context) async {
-    try {
-      final ImagePicker _picker = ImagePicker();
-      final isPhoto = await _showCaptureOptionDialog(context);
-      if (isPhoto) {
-        // Capture a photo
-        final XFile? file = await _picker.pickImage(source: ImageSource.camera);
-        if (file != null) {
-          pickedFiles.add(File(file.path)); // Add the photo file to the list
-          Get.snackbar('Success', 'Photo captured successfully');
-        }
-      } else {
-        // Capture a video
-        final XFile? file = await _picker.pickVideo(source: ImageSource.camera);
-        if (file != null) {
-          pickedFiles.add(File(file.path)); // Add the video file to the list
-          Get.snackbar('Success', 'Video captured successfully');
-        }
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to capture photo or video: $e');
-    }
-  }
-
-  Future<bool> _showCaptureOptionDialog(BuildContext context) async {
-    bool isPhoto = false;
-
+  Future showCaptureOptionDialog(BuildContext context) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -180,26 +155,39 @@ class UploadMemoryController extends GetxController {
           widget: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
-                'Delete Account',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              k2hSizedBox,
               ElevatedButton(
-                onPressed: () {
-                  isPhoto = true;
+                onPressed: () async {
                   Get.back();
+                  try {
+                    final XFile? file = await _picker.pickImage(
+                        source: ImageSource.camera,
+                        imageQuality: 50,
+                        maxWidth: 640,
+                        maxHeight: 480);
+                    if (file != null) {
+                      pickedFiles.add(File(file.path));
+                      // Get.snackbar('Success', 'Photo captured successfully');
+                    }
+                  } catch (e) {
+                    CustomSnackbar.showError(
+                        'Error', 'Failed to capture photo or video: $e');
+                  }
                 },
                 child: const Text('Capture Photo'),
               ),
               ElevatedButton(
-                onPressed: () {
-                  isPhoto = false;
+                onPressed: () async {
                   Get.back();
+                  try {
+                    final XFile? file =
+                        await _picker.pickVideo(source: ImageSource.camera);
+                    if (file != null) {
+                      pickedFiles.add(File(file.path));
+                    }
+                  } catch (e) {
+                    CustomSnackbar.showError(
+                        'Error', 'Failed to capture photo or video: $e');
+                  }
                 },
                 child: const Text('Capture Video'),
               ),
@@ -208,8 +196,6 @@ class UploadMemoryController extends GetxController {
         );
       },
     );
-
-    return isPhoto;
   }
 
   void removeFile(File file) {

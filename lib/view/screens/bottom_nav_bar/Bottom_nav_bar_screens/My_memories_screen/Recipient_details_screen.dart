@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/models/SearchUserModel.dart';
@@ -19,6 +21,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
   RecipientDetailsScreen({super.key});
   static const routeName = "RecipientDetailsScreen";
   final _formKey = GlobalKey<FormState>();
+  Timer? _debounceTimer;
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -125,8 +128,15 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                               k1hSizedBox,
                               SearchField<SearchUserModel>(
                                 onSearchTextChanged: (value) {
-                                  controller.getAvailableUsers(value);
-                                  return null;
+                                  // Cancel the previous timer (if any)
+                                  if (_debounceTimer != null) {
+                                    _debounceTimer?.cancel();
+                                  }
+
+                                  _debounceTimer =
+                                      Timer(Duration(milliseconds: 500), () {
+                                    controller.getAvailableUsers(value);
+                                  });
                                 },
                                 suggestionItemDecoration: BoxDecoration(
                                   color: AppColors.kGlassColor,

@@ -142,7 +142,7 @@ class _SplashScreenState extends State<SplashScreen>
                 )),
 
             AnimatedContainer(
-              height: _animation2 ? 65.h : 0,
+              height: _animation2 ? 62.h : 0,
               width: _animation2 ? double.maxFinite : 0,
               duration: const Duration(milliseconds: 2000),
               child: Column(children: [

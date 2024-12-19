@@ -94,7 +94,6 @@ class ProfileScreen extends GetView<HomeScreenController> {
               style: TextStyleConstants.displayMediumWhite(context)),
           k2hSizedBox,
           CustomGlassmorphicContainer(
-              // height: 27.h,
               child: InkWell(
             onTap: () {
               Get.toNamed(EditProfileScreen.routeName);
@@ -109,7 +108,7 @@ class ProfileScreen extends GetView<HomeScreenController> {
                   child: Obx(() {
                     return ClipOval(
                         child: Image.network(
-                      "${ApiConstants.getPicture}/${controller.user.value?.photo ?? ""}",
+                      controller.user.value?.photo ?? "",
                       height: 12.h,
                       width: 12.h,
                       fit: BoxFit.cover,
