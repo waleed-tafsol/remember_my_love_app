@@ -97,7 +97,7 @@ class ApiService {
       final headers = await _getHeaders();
       final response =
           await _dio.delete(endpoint, options: Options(headers: headers));
-      return response.data;
+      return response;
     } on DioException catch (e) {
       _handleError(e);
       return null;

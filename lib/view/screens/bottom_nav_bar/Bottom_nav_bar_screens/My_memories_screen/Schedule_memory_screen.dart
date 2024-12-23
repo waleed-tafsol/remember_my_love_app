@@ -199,13 +199,17 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
           const Spacer(),
           Obx(() {
             return controller.buttonVisivility.value
-                ? GradientButton(
-                    onPressed: () {
-                      // controller.removeAllFiles();
-                      controller.createMemory();
-                    },
-                    text: "Send",
-                    gradients: const [Colors.purple, Colors.blue])
+                ? controller.isloading.value
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : GradientButton(
+                        onPressed: () {
+                          // controller.removeAllFiles();
+                          controller.createMemory();
+                        },
+                        text: "Send",
+                        gradients: const [Colors.purple, Colors.blue])
                 : const SizedBox();
           }),
         ],

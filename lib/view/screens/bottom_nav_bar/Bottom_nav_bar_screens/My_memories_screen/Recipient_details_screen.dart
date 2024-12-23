@@ -72,141 +72,144 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                             )),
                       ),
                     ),
-                    // Obx(() {
-                    //   return controller.sendTo.value == 'Other'
-                    //       ? GlassTextFieldWithTitle(
-                    //           title: 'Enter Relation',
-                    //           hintText: "Family, Friend, Sibling, etc",
-                    //           controller: controller.recipientRelation,
-                    //         )
-                    //       : const SizedBox();
-                    // }),
                     k1hSizedBox,
                     Obx(() {
-                      return Column(
-                        children: List.generate(controller.recipients.length,
-                            (index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Row(
+                      return controller.sendTo == "self"
+                          ? SizedBox.shrink()
+                          : Column(
+                              children: List.generate(
+                                  controller.recipients.length, (index) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Recipient 0${index + 1}",
-                                      style: TextStyleConstants.bodyMediumWhite(
-                                              context)
-                                          .copyWith(
-                                        decoration: TextDecoration.underline,
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "Recipient 0${index + 1}",
+                                            style: TextStyleConstants
+                                                    .bodyMediumWhite(context)
+                                                .copyWith(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            color: AppColors.kGlassColor,
+                                            onPressed: () {
+                                              controller.removeRecipient(index);
+                                            },
+                                            icon: const Icon(Icons.remove),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                    IconButton(
-                                      color: AppColors.kGlassColor,
-                                      onPressed: () {
-                                        controller.removeRecipient(index);
+                                    k1hSizedBox,
+                                    GlassTextFieldWithTitle(
+                                      title: 'Enter Relation',
+                                      hintText: "Family, Friend, Sibling, etc",
+                                      controller: controller.recipientRelation,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Required';
+                                        }
+                                        return null;
                                       },
-                                      icon: const Icon(Icons.remove),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              k1hSizedBox,
-                              GlassTextFieldWithTitle(
-                                title: 'Enter Relation',
-                                hintText: "Family, Friend, Sibling, etc",
-                                controller: controller.recipientRelation,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Required';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              k1hSizedBox,
-                              Text("Email"),
-                              k1hSizedBox,
-                              SearchField<SearchUserModel>(
-                                onSearchTextChanged: (value) {
-                                  // Cancel the previous timer (if any)
-                                  if (_debounceTimer != null) {
-                                    _debounceTimer?.cancel();
-                                  }
+                                    ),
+                                    k1hSizedBox,
+                                    Text("Email"),
+                                    k1hSizedBox,
+                                    SearchField<SearchUserModel>(
+                                      onSearchTextChanged: (value) {
+                                        if (_debounceTimer != null) {
+                                          _debounceTimer?.cancel();
+                                        }
 
-                                  _debounceTimer =
-                                      Timer(Duration(milliseconds: 500), () {
-                                    controller.getAvailableUsers(value);
-                                  });
-                                },
-                                suggestionItemDecoration: BoxDecoration(
-                                  color: AppColors.kGlassColor,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                suggestionsDecoration: SuggestionDecoration(
-                                  color: AppColors.kGlassColor,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                onSuggestionTap:
-                                    (SearchFieldListItem<SearchUserModel> x) {
-                                  controller.recipients[index].emailController
-                                      .text = x.item?.email ?? "";
-                                },
-                                hint: "Enter Email",
-                                validator: (value) {
-                                  emailValidator(value);
-                                },
-                                controller: controller
-                                    .recipients[index].emailController,
-                                suggestions: controller.allAvailableUsers
-                                    .map(
-                                      (e) =>
-                                          SearchFieldListItem<SearchUserModel>(
-                                        e.email ?? "",
-                                        item: e,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            e.email ?? "",
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                        ),
+                                        _debounceTimer = Timer(
+                                            Duration(milliseconds: 1000), () {
+                                          controller.getAvailableUsers(value);
+                                        });
+                                      },
+                                      suggestionItemDecoration: BoxDecoration(
+                                        color: AppColors.kGlassColor,
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                    )
-                                    .toList(),
-                              ),
-                              k1hSizedBox,
-                              GlassTextFieldWithTitle(
-                                title: 'Contact',
-                                hintText: "Enter Phone Number",
-                                controller: controller
-                                    .recipients[index].contactController,
-                                validator: (value) {
-                                  phoneNumberValidator(value);
-                                },
-                              ),
-                            ],
-                          );
-                        }),
-                      );
+                                      suggestionsDecoration:
+                                          SuggestionDecoration(
+                                        color: AppColors.kGlassColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      onSuggestionTap:
+                                          (SearchFieldListItem<SearchUserModel>
+                                              x) {
+                                        controller
+                                            .recipients[index]
+                                            .emailController
+                                            .text = x.item?.email ?? "";
+                                      },
+                                      hint: "Enter Email",
+                                      validator: (value) {
+                                        emailValidator(value);
+                                      },
+                                      controller: controller
+                                          .recipients[index].emailController,
+                                      suggestions: controller.allAvailableUsers
+                                          .map(
+                                            (e) => SearchFieldListItem<
+                                                SearchUserModel>(
+                                              e.email ?? "",
+                                              item: e,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  e.email ?? "",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                    k1hSizedBox,
+                                    GlassTextFieldWithTitle(
+                                      title: 'Contact',
+                                      hintText: "Enter Phone Number",
+                                      keyboardType: TextInputType.phone,
+                                      controller: controller
+                                          .recipients[index].contactController,
+                                      validator: (value) {
+                                        phoneNumberValidator(value);
+                                      },
+                                    ),
+                                  ],
+                                );
+                              }),
+                            );
                     }),
-
                     k1hSizedBox,
-                    Align(
-                      alignment: Alignment.center,
-                      child: InkWell(
-                        onTap: () {
-                          controller.addRecipient();
-                        },
-                        child: Text(
-                          "Add More Recipients +",
-                          style: TextStyleConstants.bodyMediumWhite(context)
-                              .copyWith(
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ),
+                    Obx(() {
+                      return controller.sendTo == "self"
+                          ? SizedBox.shrink()
+                          : Align(
+                              alignment: Alignment.center,
+                              child: InkWell(
+                                onTap: () {
+                                  controller.addRecipient();
+                                },
+                                child: Text(
+                                  "Add More Recipients +",
+                                  style: TextStyleConstants.bodyMediumWhite(
+                                          context)
+                                      .copyWith(
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            );
+                    }),
                   ],
                 ),
               ),
@@ -236,7 +239,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
       position: RelativeRect.fromLTRB(
           50.w, 20.h, 8.w, 0.0), // Adjust position if needed
       items: <String>[
-        'same',
+        'self',
         'others',
       ].map((String value) {
         return PopupMenuItem<String>(
@@ -254,7 +257,6 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
       }).toList(),
     ).then((String? newValue) {
       if (newValue != null) {
-        // Handle dropdown value change
         controller.sendTo.value = newValue;
         print(newValue);
       }

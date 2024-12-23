@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
+import 'package:remember_my_love_app/view/screens/auth_screens/RegisterWithGoogle.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Questions_screen.dart';
@@ -66,6 +67,7 @@ class AuthController extends GetxController {
 
       if (await authService.loginWithGoogle() ?? false) {
         Get.back();
+
         CustomSnackbar.showSuccess("Success", "Logged In Successfully");
         Get.offNamed(BottomNavBarScreen.routeName);
       } else {

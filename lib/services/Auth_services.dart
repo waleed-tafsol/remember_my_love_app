@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -9,17 +10,15 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:remember_my_love_app/services/FirebaseServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
+import 'package:remember_my_love_app/view/screens/auth_screens/RegisterWithGoogle.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import '../constants/ApiConstant.dart';
-import '../models/memories_dates_model.dart';
+
 import 'ApiServices.dart';
 import 'Auth_token_services.dart';
 import 'LocalAuthServices.dart';
 
 class AuthService extends GetxService {
-
-
-
   @override
   void onInit() async {
     await initialize();
@@ -35,8 +34,6 @@ class AuthService extends GetxService {
       print("User is authenticated with token: $authToken");
     }
   }
-
-
 
   final Dio _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
 
@@ -98,7 +95,7 @@ class AuthService extends GetxService {
           "validationKey": FirebaseService.fcmToken,
           "platform": "google"
         };
-        print(data);
+
         Response response = await _dio.post(
           ApiConstants.socialLogin,
           data: {
@@ -110,6 +107,11 @@ class AuthService extends GetxService {
             "platform": "google"
           },
         );
+
+        if (response.data?["data"]?["user"]?["firstLogin"] ?? false) {
+          Get.toNamed(RegisterwithgoogleScreen.routeName);
+        }
+
         platform.value = "google";
         authToken = response.data["data"]["token"];
         _tokenStorage.saveToken(authToken!);
@@ -206,6 +208,23 @@ class AuthService extends GetxService {
     }
   }
 
+  Future<Response> registerwithgoogle(String contact, String name) async {
+    try {
+      Response response = await _dio.patch(
+        ApiConstants.updateUserDetails,
+        data: {"contact": contact, "name": name},
+      );
+      platform.value = "google";
+      authToken = response.data["data"]["token"];
+      _tokenStorage.saveToken(authToken!);
+      return response;
+    } catch (e) {
+      ColoredPrint.red(e.toString());
+      Get.back();
+      throw e;
+    }
+  }
+
   Future<Map<String, dynamic>> verifyOnetime(String email, int code) async {
     try {
       Response response = await _dio.patch(
@@ -284,6 +303,7 @@ class AuthService extends GetxService {
     try {
       final Response? response =
           await ApiService.deleteRequest(ApiConstants.deleteUser + userId);
+      ColoredPrint.red(response?.data?.toString() ?? "");
 
       if (response != null) {
         if (platform == "apple") {
@@ -291,7 +311,7 @@ class AuthService extends GetxService {
           await FirebaseService.signOut();
         }
         Get.back();
-        deleteAuthtokenAndNavigate(message: response.data["message"]);
+        deleteAuthtokenAndNavigate(message: response.data["data"]["message"]);
       }
     } on DioException catch (e) {
       if (e.response != null) {

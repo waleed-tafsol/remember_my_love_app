@@ -15,8 +15,4 @@ class MemoryDetailController extends GetxController {
       selectedImage.value = memory.files?[0] ?? '';
     }
   }
-
-  void selectImage(String image) {
-    selectedImage.value = image;
-  }
 }

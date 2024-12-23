@@ -62,7 +62,9 @@ dependencies:
   searchfield: ^1.2.1
   u_credit_card: ^1.4.0
   shimmer: ^3.0.0
-  video_thumbnail: ^0.5.3
+  get_thumbnail_video: ^0.7.2
+  chewie: ^1.8.5
+
 
 
 

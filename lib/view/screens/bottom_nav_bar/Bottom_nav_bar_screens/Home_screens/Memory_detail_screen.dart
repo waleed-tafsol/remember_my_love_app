@@ -7,13 +7,13 @@ import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.da
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:video_player/video_player.dart';
 import '../../../../../constants/TextConstant.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../controllers/Memory_detail_controller.dart';
 import '../../../../../models/MemoryModel.dart';
 import '../../../../../utills/ConvertDateTime.dart';
 import '../../../../widgets/VideoPlayerWidget.dart';
+import '../../../VideoplayerScreen.dart';
 
 class MemoryDetailScreen extends StatelessWidget {
   MemoryDetailScreen({super.key});
@@ -55,17 +55,14 @@ class MemoryDetailScreen extends StatelessWidget {
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: isVideo
-                                ?
-                                //  SizedBox(
-                                //     height: 20.h,
-                                //     child: VideoPlayerWidget(
-                                //       filePathOrFile:
-                                //           "${ApiConstants.getPicture}/${controller.selectedImage.value}",
-                                //     ),
-                                //   )
-                                SizedBox()
+                                ? SizedBox(
+                                    height: 20.h,
+                                    child: NetworkVideoPlayerWidget(
+                                      videoUrl: controller.selectedImage.value,
+                                    ),
+                                  )
                                 : Image.network(
-                                    "${ApiConstants.getPicture}/${controller.selectedImage}",
+                                    "${ApiConstants.getPicture}/${controller.selectedImage.value}",
                                     height: 20.h,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
@@ -82,6 +79,7 @@ class MemoryDetailScreen extends StatelessWidget {
                         )
                       ],
                     ),
+                    k1hSizedBox,
                     SizedBox(
                       height: 10.h,
                       width: double.infinity,
@@ -92,14 +90,32 @@ class MemoryDetailScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final file = controller.memory.files![index];
                           bool isVideo = file.endsWith("mp4");
-                          return GestureDetector(
-                              onTap: () {
-                                controller.selectedImage(file);
-                              },
-                              child: MediaWidget(
-                                fileUrl: "${ApiConstants.getPicture}/$file",
-                                isVideo: isVideo,
-                              ));
+                          return isVideo
+                              ? Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 1.w),
+                                  child: SizedBox(
+                                    width: 9.h,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: NetworkVideoPlayerWidget(
+                                        videoUrl: file,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 1.w),
+                                  width: 9.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                          "${ApiConstants.getPicture}/${file}",
+                                        ),
+                                        fit: BoxFit.cover),
+                                  ),
+                                );
                         },
                       ),
                     ),
@@ -133,7 +149,7 @@ class MemoryDetailScreen extends StatelessWidget {
                     ),
                     k1hSizedBox,
                     controller.memory.recipients == null
-                        ? SizedBox()
+                        ? const SizedBox()
                         : SizedBox(
                             height: 25.h,
                             child: ListView.builder(
@@ -145,22 +161,22 @@ class MemoryDetailScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      // Row(
-                                      //   children: [
-                                      //     Text(
-                                      //       "Recipient 0${index + 1} :",
-                                      //       style: TextStyleConstants.bodyLargeWhite(
-                                      //           context),
-                                      //     ),
-                                      //     Text(
-                                      //       controller.memory.recipients?[index]
-                                      //               .recipient?.name ??
-                                      //           "",
-                                      //       style: TextStyleConstants.bodyLargeWhite(
-                                      //           context),
-                                      //     ),
-                                      //   ],
-                                      // ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Recipient 0${index + 1} :",
+                                            style: TextStyleConstants
+                                                .bodyLargeWhite(context),
+                                          ),
+                                          Text(
+                                            controller.memory.recipients?[index]
+                                                    ?.relation ??
+                                                "",
+                                            style: TextStyleConstants
+                                                .bodyLargeWhite(context),
+                                          ),
+                                        ],
+                                      ),
                                       k1hSizedBox,
                                       Row(
                                         children: [
@@ -170,13 +186,13 @@ class MemoryDetailScreen extends StatelessWidget {
                                                 .bodyLargeWhite(context),
                                           ),
                                           k1wSizedBox,
-                                          // Text(
-                                          //   controller.memory.recipients?[index]
-                                          //           .email ??
-                                          //       "",
-                                          //   style: TextStyleConstants.bodyLargeWhite(
-                                          //       context),
-                                          // ),
+                                          Text(
+                                            controller.memory.recipients?[index]
+                                                    ?.email ??
+                                                "",
+                                            style: TextStyleConstants
+                                                .bodyLargeWhite(context),
+                                          ),
                                         ],
                                       ),
                                       k1hSizedBox,
@@ -188,13 +204,13 @@ class MemoryDetailScreen extends StatelessWidget {
                                                 .bodyLargeWhite(context),
                                           ),
                                           k1wSizedBox,
-                                          // Text(
-                                          //   controller.memory.recipients?[index]
-                                          //           .contact ??
-                                          //       "",
-                                          //   style: TextStyleConstants.bodyLargeWhite(
-                                          //       context),
-                                          // ),
+                                          Text(
+                                            controller.memory.recipients?[index]
+                                                    ?.contact ??
+                                                "",
+                                            style: TextStyleConstants
+                                                .bodyLargeWhite(context),
+                                          ),
                                         ],
                                       ),
                                       // k1hSizedBox,
@@ -207,8 +223,8 @@ class MemoryDetailScreen extends StatelessWidget {
                                       //     ),
                                       //     k1wSizedBox,
                                       //     Text(
-                                      //       controller.memory.recipients?[index]
-                                      //               . ??
+                                      //       controller.memory.recipients?[index].
+                                      //                ??
                                       //           "",
                                       //       style: TextStyleConstants.bodyLargeWhite(
                                       //           context),
@@ -244,51 +260,36 @@ class MediaWidget extends StatefulWidget {
 }
 
 class _MediaWidgetState extends State<MediaWidget> {
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.isVideo) {
-      // Initialize VideoPlayerController for network video URL
-      _controller = VideoPlayerController.networkUrl(Uri.parse(widget.fileUrl))
-        ..initialize().then((_) {
-          setState(() {});
-          _controller.setLooping(true);
-        });
-    }
-  }
-
-  @override
-  void dispose() {
-    if (widget.isVideo) {
-      _controller.dispose();
-    }
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 20.w,
-      margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        image: widget.isVideo
-            ? null
-            : DecorationImage(
-                image: NetworkImage(widget.fileUrl),
-                fit: BoxFit.cover,
-              ),
-      ),
-      child: widget.isVideo
-          ? _controller.value.isInitialized
-              ? AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
+    return GestureDetector(
+      onTap: () {
+        if (widget.isVideo) {
+          Get.toNamed(VideoPlayerScreen.routeName, arguments: widget.fileUrl);
+        }
+      },
+      child: Container(
+        width: 200,
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: widget.isVideo
+              ? DecorationImage(
+                  image: NetworkImage(widget.fileUrl),
+                  fit: BoxFit.cover,
                 )
-              : const Center(child: CircularProgressIndicator())
-          : null,
+              : null,
+        ),
+        child: widget.isVideo
+            ? const Center(
+                child: Icon(
+                  Icons.play_circle_fill,
+                  size: 50,
+                  color: Colors.white,
+                ),
+              )
+            : null,
+      ),
     );
   }
 }

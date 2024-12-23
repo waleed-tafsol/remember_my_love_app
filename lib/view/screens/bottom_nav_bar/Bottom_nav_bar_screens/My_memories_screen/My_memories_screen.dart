@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
+import 'package:remember_my_love_app/view/widgets/VideoPlayerWidget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shimmer/shimmer.dart'; // Import shimmer package
-import '../../../../../constants/ApiConstant.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../../controllers/MyMemoriesController.dart';
 import '../../../auth_screens/Splash_screen.dart';
+import '../Home_screens/Memory_detail_screen.dart';
 
 class MyMemoriesScreen extends GetView<MyMemoryController> {
   const MyMemoriesScreen({super.key});
@@ -119,42 +121,57 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                   ),
                   itemCount: controller.images.length,
                   itemBuilder: (context, index) {
+                    final file = controller.images[index];
+                    bool isVideo = file.endsWith("mp4");
                     return InkWell(
                       onTap: () {
                         controller.fetchMemoryAndPassItToDetailScreen(
                             controller.images[index]);
                       },
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 1.w),
-                        width: 9.h,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            "${ApiConstants.getPicture}/${controller.images[index]}",
-                            fit: BoxFit.cover,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              } else {
-                                return Shimmer.fromColors(
-                                  baseColor: AppColors.kgradientBlue,
-                                  highlightColor: AppColors.kgradientPurple,
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 1.w),
-                                    width: 9.h,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                      ),
+                      child: isVideo
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 1.w),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: NetworkVideoPlayerWidget(
+                                  videoUrl: "${ApiConstants.getPicture}/$file",
+                                ),
+                              ),
+                            )
+                          : Container(
+                              margin: EdgeInsets.symmetric(horizontal: 1.w),
+                              width: 9.h,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  "${ApiConstants.getPicture}/${controller.images[index]}",
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    } else {
+                                      return Shimmer.fromColors(
+                                        baseColor: AppColors.kgradientBlue,
+                                        highlightColor:
+                                            AppColors.kgradientPurple,
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 1.w),
+                                          width: 9.h,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
                     );
                   },
                 ),

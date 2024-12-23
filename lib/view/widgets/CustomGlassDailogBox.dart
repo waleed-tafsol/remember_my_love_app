@@ -16,6 +16,7 @@ class GlassMorphicDailogBox extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: Container(
         decoration: BoxDecoration(
+          border: Border.all(color: Colors.white24),
           gradient: LinearGradient(
             colors: [
               const Color.fromARGB(255, 2, 255, 242).withOpacity(0.3),
@@ -30,7 +31,7 @@ class GlassMorphicDailogBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: BackdropFilter(
             filter: ImageFilter.blur(
-                sigmaX: 0,
+                sigmaX: 13,
                 sigmaY: 13,
                 tileMode: TileMode.mirror), // Apply the blur effect
             child: Container(

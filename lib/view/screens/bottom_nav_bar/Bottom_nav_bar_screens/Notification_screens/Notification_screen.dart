@@ -30,8 +30,8 @@ class NotificationScreen extends GetView<NotificationController> {
                         title: controller.notification[index].title ?? "",
                         subTitle: controller.notification[index].message ?? "",
                         id: controller.notification[index].sId ?? "",
-                        updatedAt:
-                            controller.notification[index].updatedAt ?? "",
+                        createdAt:
+                            controller.notification[index].createdAt ?? "",
                         seen: controller.notification[index].seen ?? false,
                       );
                     },

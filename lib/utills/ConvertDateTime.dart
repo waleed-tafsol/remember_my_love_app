@@ -48,32 +48,26 @@ String formatISOToCustom(String isoTime) {
   return "$dayName, $day $monthName $year - ${hour.toString().padLeft(2, '0')}:$minute $period";
 }
 
-String convertTimeToMinutesAgo(String timeString) {
-  // Regular expression to match the time string (e.g., "2 hours 30 minutes")
-  RegExp regExp = RegExp(r"(\d+)\s*(hours?|minute?s?)");
-  Iterable<RegExpMatch> matches = regExp.allMatches(timeString);
-
-  int hours = 0;
-  int minutes = 0;
-
-  // Iterate through all matches to extract hours and minutes
-  for (var match in matches) {
-    if (match.group(2)?.contains("hour") ?? false) {
-      hours = int.parse(match.group(1)!);
-    } else if (match.group(2)?.contains("minute") ?? false) {
-      minutes = int.parse(match.group(1)!);
-    }
-  }
+String convertTimeToMinutesAgo(String isoDateTime) {
+  // Parse the ISO 8601 string into a DateTime object
+  DateTime receivedTime = DateTime.parse(isoDateTime);
 
   // Get the current time
   DateTime now = DateTime.now();
 
-  // Calculate the time difference by subtracting hours and minutes
-  DateTime targetTime = now.subtract(Duration(hours: hours, minutes: minutes));
-
   // Calculate the difference in minutes
-  int minutesAgo = now.difference(targetTime).inMinutes;
+  int minutesAgo = now.difference(receivedTime).inMinutes;
 
   // Return the result as a formatted string
-  return "$minutesAgo m";
+  if (minutesAgo == 0) {
+    return "Just now";
+  } else if (minutesAgo < 60) {
+    return "$minutesAgo min ago";
+  } else if (minutesAgo < 1440) {
+    int hoursAgo = minutesAgo ~/ 60;
+    return "$hoursAgo hr${hoursAgo > 1 ? 's' : ''} ago";
+  } else {
+    int daysAgo = minutesAgo ~/ 1440;
+    return "$daysAgo day${daysAgo > 1 ? 's' : ''} ago";
+  }
 }

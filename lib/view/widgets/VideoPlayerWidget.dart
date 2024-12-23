@@ -1,150 +1,94 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-// import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:get/get.dart';
+import '../../controllers/localVideoPlayerWidgetController.dart';
+import '../screens/VideoplayerScreen.dart';
 
-class VideoPlayerWidget extends StatefulWidget {
-  final dynamic filePathOrFile;
-  const VideoPlayerWidget({Key? key, required this.filePathOrFile})
+class LocalVideoPlayerWidget extends StatelessWidget {
+  final String filePath; // Local file path to the video
+
+  const LocalVideoPlayerWidget({Key? key, required this.filePath})
       : super(key: key);
 
   @override
-  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+  Widget build(BuildContext context) {
+    final VideoThumbnailController controller =
+        Get.put(VideoThumbnailController());
+    controller.generateThumbnailForLocalVideo(filePath);
+    void _onPlayButtonPressed() {
+      Get.toNamed(VideoPlayerScreen.routeName, arguments: filePath);
+    }
+
+    return GestureDetector(
+      onTap: _onPlayButtonPressed,
+      child: Obx(() {
+        // Using GetX to observe the thumbnailPath for changes
+        if (controller.thumbnailPath.value == null) {
+          return const Center(
+              child: CircularProgressIndicator()); // Show loading indicator
+        } else {
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: FileImage(File(controller.thumbnailPath.value!)),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.play_circle_fill, // Play button icon
+                color: Colors.white,
+                size: 50,
+              ),
+            ),
+          );
+        }
+      }),
+    );
+  }
 }
 
-class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
-  late VideoPlayerController _controller;
+class NetworkVideoPlayerWidget extends StatelessWidget {
+  final String videoUrl;
 
-  late Future<String> _thumbnailPath;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Generate the thumbnail if it's a local file
-    // if (widget.filePathOrFile is File) {
-    //   _thumbnailPath = _generateThumbnail(widget.filePathOrFile);
-    // }
-
-    // // Initialize the video controller
-    // if (widget.filePathOrFile is File) {
-    //   _controller = VideoPlayerController.file(widget.filePathOrFile)
-    //     ..initialize().then((_) {
-    //       setState(() {});
-    //     });
-    // } else if (widget.filePathOrFile is String) {
-    //   _controller =
-    //       VideoPlayerController.networkUrl(Uri.parse(widget.filePathOrFile))
-    //         ..initialize().then((_) {
-    //           setState(() {});
-    //         });
-    // }
-  }
-
-  // Generate the thumbnail for local video files
-  Future<String> _generateThumbnail(File videoFile) async {
-    // final thumbnail = await VideoThumbnail.thumbnailFile(
-    //   video: videoFile.path,
-    //   thumbnailPath: (await Directory.systemTemp.createTemp()).path,
-    //   imageFormat: ImageFormat.JPEG,
-    //   quality: 75,
-    // );
-    return "thumbnail";
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-
-  // Show the video in full-screen dialog
-  // void _showVideoDialog(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       bool isDialogPlaying = _controller.value.isPlaying;
-  //       return StatefulBuilder(
-  //         builder: (context, setStateDialog) {
-  //           return Stack(
-  //             alignment: Alignment.center,
-  //             // fit: StackFit.expand,
-  //             children: [
-  //               Center(child: VideoPlayer(_controller)),
-  //               IconButton(
-  //                 icon: Icon(
-  //                   isDialogPlaying ? Icons.pause : Icons.play_arrow,
-  //                   color: Colors.white,
-  //                   size: 40,
-  //                 ),
-  //                 onPressed: () {
-  //                   setStateDialog(() {
-  //                     if (isDialogPlaying) {
-  //                       _controller.pause();
-  //                     } else {
-  //                       _controller.play();
-  //                     }
-  //                     isDialogPlaying = !isDialogPlaying;
-  //                   });
-  //                 },
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
+  const NetworkVideoPlayerWidget({Key? key, required this.videoUrl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // _showVideoDialog(context);
-      },
-      child: _controller.value.isInitialized
-          ? Stack(
-              alignment: Alignment.center,
-              children: [
-                FutureBuilder<String>(
-                  future: _thumbnailPath,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return Image.file(
-                        File(snapshot.data!),
-                        fit: BoxFit.cover,
-                      );
-                    }
-                    return const CircularProgressIndicator();
-                  },
-                ),
-                // : Transform.rotate(
-                //     angle: pi / 2,
-                //     child: Image.network(
-                //       widget.filePathOrFile is String
-                //           ? widget.filePathOrFile
-                //           : '',
-                //       fit: BoxFit.cover,
-                //     ),
-                //   ),
-                // IconButton(
-                //   icon: const Icon(
-                //     Icons.play_circle_fill,
-                //     color: Colors.white,
-                //     size: 50,
-                //   ),
-                //   onPressed: () {
-                //     setState(() {
-                //       _controller.play();
+    // Instantiate the VideoThumbnailController and set the thumbnail for network video
+    final VideoThumbnailController controller =
+        Get.put(VideoThumbnailController());
+    controller.setThumbnailForNetworkVideo(videoUrl);
 
-                //       _showVideoDialog(context);
-                //     });
-                //   },
-                // ),
-              ],
-            )
-          : const Center(child: CircularProgressIndicator()),
+    // Navigate to the VideoPlayerScreen and pass the video URL
+    void _onPlayButtonPressed() {
+      Get.toNamed(VideoPlayerScreen.routeName, arguments: videoUrl);
+    }
+
+    return GestureDetector(
+      onTap: _onPlayButtonPressed,
+      child: Obx(() {
+        if (controller.thumbnailPath.value == null) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: FileImage(File(controller.thumbnailPath.value!)),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.play_circle_fill,
+                color: Colors.white,
+                size: 50,
+              ),
+            ),
+          );
+        }
+      }),
     );
   }
 }

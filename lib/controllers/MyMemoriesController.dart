@@ -5,6 +5,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../constants/ApiConstant.dart';
+import '../models/MemoryModel.dart';
 import '../services/ApiServices.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 
@@ -31,17 +32,24 @@ class MyMemoryController extends GetxController {
   Future<void> fetchMemories() async {
     isLoading.value = true;
     try {
-      final endpoint =
-          '${ApiConstants.getAllMemoriesImages}${selectedFilter.value == "All" ? "" : selectedFilter.value == "Created for me" ? "?createdByYou=false" : "?createdByYou=true"}';
-      Response? response = await ApiService.getRequest(endpoint);
+      final endpoint = ApiConstants.getAllMemories;
+      Response? response =
+          await ApiService.getRequest(endpoint, queryParameters: {
+        "createdForYou": selectedFilter.value == "Created for me"
+            ? "true"
+            : selectedFilter.value == "Created by me"
+                ? "false"
+                : "all",
+      });
+      List<dynamic> jsonMemories = response!.data["memories"];
       if (response != null) {
-        List<dynamic> responseData = response.data["images"];
+        List<dynamic> listofFirstImage = jsonMemories.map((item) {
+          return item["files"][0];
+        }).toList();
         images.clear();
-        responseData.forEach((element) {
+        listofFirstImage.forEach((element) {
           images.add(element);
         });
-
-        isLoading.value = false;
       }
       isLoading.value = false;
     } catch (e) {
@@ -58,24 +66,23 @@ class MyMemoryController extends GetxController {
       barrierDismissible: false,
     );
     try {
-      Response? response = await ApiService.getRequest(
-        ApiConstants.getMemoryDetailByImage + imageKey!,
-      );
+      Response? response = await ApiService.postRequest(
+          ApiConstants.getMemoryDetailByImage, {"file": imageKey});
       if (response != null) {
-        // Get.back();
-        // final memory = MemoryModel.fromJson(response.data);
+        Get.back();
+        final memory = MemoryModel.fromJson(response.data);
         Get.toNamed(
           MemoryDetailScreen.routeName,
-          // arguments: memory,
+          arguments: memory,
         );
 
         isLoading.value = false;
       }
       isLoading.value = false;
     } catch (e) {
-      isLoading.value = false;
-    } finally {
       Get.back();
+      Get.back();
+      isLoading.value = false;
     }
   }
 }

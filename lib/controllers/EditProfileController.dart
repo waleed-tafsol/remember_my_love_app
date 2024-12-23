@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -17,24 +15,28 @@ import '../constants/ApiConstant.dart';
 import '../constants/constants.dart';
 import '../services/ApiServices.dart';
 import '../utills/Colored_print.dart';
+import '../view/widgets/CustomGlassDailogBox.dart';
 import 'HomeScreenController.dart';
 
 class EditProfileController extends GetxController {
-  @override
-  void onInit() async {
-    super.onInit();
-    homeScreenController = Get.find();
-  }
+  late HomeScreenController homeScreenController;
 
-  // TextEditingController nameController = TextEditingController(text: homeScreenController.user.value?.name);
   TextEditingController nameController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
   TextEditingController contactController = TextEditingController();
-  late HomeScreenController homeScreenController;
 
   RxBool isLoading = false.obs;
   RxBool isImageUploading = false.obs;
+
+  @override
+  void onInit() async {
+    super.onInit();
+    homeScreenController = Get.find<HomeScreenController>();
+
+    nameController.text = homeScreenController.user.value?.name ?? '';
+    userNameController.text = homeScreenController.user.value?.username ?? '';
+    contactController.text = homeScreenController.user.value?.contact ?? '';
+  }
 
   Future<void> upateMe() async {
     isLoading.value = true;
@@ -44,16 +46,12 @@ class EditProfileController extends GetxController {
         "name": nameController.value.text.isEmpty
             ? homeScreenController.user.value?.name ?? ""
             : nameController.value.text,
-        "email": emailController.value.text.isEmpty
-            ? homeScreenController.user.value?.email ?? ""
-            : emailController.value.text,
         "username": userNameController.value.text.isEmpty
             ? homeScreenController.user.value?.username ?? ""
             : userNameController.value.text,
         "contact": contactController.value.text.isEmpty
             ? homeScreenController.user.value?.contact ?? ""
             : contactController.value.text,
-        "photo": homeScreenController.user.value?.photo
       });
       if (response != null) {
         // homeScreenController.Saveuser(response.data);
@@ -97,90 +95,60 @@ class EditProfileController extends GetxController {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  const Color.fromARGB(255, 2, 255, 242).withOpacity(0.3),
-                  const Color.fromARGB(255, 255, 0, 238).withOpacity(0.3),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                    sigmaX: 0,
-                    sigmaY: 13,
-                    tileMode: TileMode.mirror), // Apply the blur effect
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Upload Image',
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      k2hSizedBox,
-                      Text(
-                        'Please select the image source',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.white,
-                        ),
-                      ),
-                      k1hSizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              _pickImage(ImageSource.camera);
-                              Get.back();
-                            },
-                            child: Text(
-                              'Camera',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              _pickImage(ImageSource.gallery);
-                              Get.back();
-                            },
-                            child: Text(
-                              'Gallery',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+        return GlassMorphicDailogBox(
+          widget: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'Upload Image',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
-            ),
+              k2hSizedBox,
+              Text(
+                'Please select the image source',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: Colors.white,
+                ),
+              ),
+              k1hSizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      _pickImage(ImageSource.camera);
+                      Get.back();
+                    },
+                    child: Text(
+                      'Camera',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _pickImage(ImageSource.gallery);
+                      Get.back();
+                    },
+                    child: Text(
+                      'Gallery',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         );
       },

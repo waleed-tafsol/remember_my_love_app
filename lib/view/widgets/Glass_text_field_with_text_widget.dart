@@ -8,6 +8,7 @@ class GlassTextFieldWithTitle extends StatelessWidget {
   final TextEditingController? controller;
   final Widget? icon;
   final bool? obscureText;
+  final TextInputType? keyboardType;
   final bool? enabled;
   final String? Function(String?)? validator; // Add validator function
 
@@ -19,7 +20,8 @@ class GlassTextFieldWithTitle extends StatelessWidget {
     this.icon,
     this.enabled,
     this.validator,
-    this.obscureText, // Accept validator as a parameter
+    this.obscureText,
+    this.keyboardType, // Accept validator as a parameter
   });
 
   @override
@@ -31,6 +33,7 @@ class GlassTextFieldWithTitle extends StatelessWidget {
         k1hSizedBox,
         TextFormField(
           enabled: enabled,
+          keyboardType: keyboardType,
           obscureText: obscureText ?? false,
           controller: controller,
           decoration: InputDecoration(

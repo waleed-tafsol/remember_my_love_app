@@ -1,7 +1,8 @@
 class ApiConstants {
-  // static const baseUrl = "https://7l60bxbl-3059.inc1.devtunnels.ms/api/v1/";
+  // static const baseUrl =
+  //     "https://cc7f-2407-aa80-14-e3cc-b88b-e98a-ac38-c2a.ngrok-free.app/api/v1/";
   static const baseUrl =
-      "https://rml-backend-6a1ccbd78c62.herokuapp.com/api/v1/";
+      "https://remember-my-love-7be82b8be06b.herokuapp.com/api/v1/";
   static const login = "auth/login";
   static const socialLogin = "auth/social";
   static const logout = "auth/logout";
@@ -19,7 +20,7 @@ class ApiConstants {
 
   // Memories CRUD
   static const getAllMemories = "memory/all";
-  static const getMemoryDetailByImage = "memory/";
+  static const getMemoryDetailByImage = "memory/get/";
   static const getMemoriesDates = "memory/calender/memories";
   static const getAllMemoriesImages = "memory/all/images";
   static const findMemories = "memory/find/";
@@ -41,7 +42,7 @@ class ApiConstants {
   static const deAttatchCard = "users/detach-card";
   static const setDefaltCard = "users/default-card";
   // notification
-  static const getAllNotification = "/api/v1/notifications";
+  static const getAllNotification = "/notifications";
   // static const profile = "${_baseUrl}api/profile";
   // static const logout = "${_baseUrl}api/logout";
   // static const qanswers = "${_baseUrl}api/questions-and-answers";

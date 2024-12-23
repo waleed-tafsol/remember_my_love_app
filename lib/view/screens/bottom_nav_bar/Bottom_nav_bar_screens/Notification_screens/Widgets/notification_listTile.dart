@@ -14,12 +14,12 @@ class NotificationListTile extends StatelessWidget {
       required this.subTitle,
       required this.id,
       required this.seen,
-      required this.updatedAt});
+      required this.createdAt});
   final String title;
   final String subTitle;
   final String id;
   final bool seen;
-  final String updatedAt;
+  final String createdAt;
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +35,29 @@ class NotificationListTile extends StatelessWidget {
           ),
         ),
         k3wSizedBox,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyleConstants.bodyLargeWhite(context),
-            ),
-            k1hSizedBox,
-            Text(
-              subTitle,
-              style: TextStyleConstants.bodyLargeWhite(context),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyleConstants.bodyLargeWhite(context),
+              ),
+              k1hSizedBox,
+              Expanded(
+                child: Text(
+                  subTitle,
+                  style: TextStyleConstants.bodyLargeWhite(context),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+            ],
+          ),
         ),
-        const Spacer(),
+        // const Spacer(),
         Text(
-          convertTimeToMinutesAgo(updatedAt),
+          convertTimeToMinutesAgo(createdAt),
           style: TextStyleConstants.bodySmallWhite(context),
         )
       ],

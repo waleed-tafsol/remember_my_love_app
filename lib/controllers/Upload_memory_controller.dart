@@ -8,11 +8,13 @@ import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
+import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../constants/TextConstant.dart';
 import '../constants/constants.dart';
 import '../models/SearchUserModel.dart';
 import '../models/Categories.dart';
@@ -29,6 +31,7 @@ class UploadMemoryController extends GetxController {
   final recievingUsername = TextEditingController();
   final recievingUserPassword = TextEditingController();
   final recipientRelation = TextEditingController();
+  RxBool isloading = false.obs;
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -137,7 +140,7 @@ class UploadMemoryController extends GetxController {
   Future<void> pickImageOrVideo() async {
     try {
       // Let the user choose between picking an image or a video
-      final XFile? file = await _picker.pickMedia();
+      final XFile? file = await _picker.pickMedia(imageQuality: 20);
 
       if (file != null) {
         pickedFiles.add(File(file.path)); // Add picked file to the list
@@ -155,41 +158,64 @@ class UploadMemoryController extends GetxController {
           widget: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              ElevatedButton(
-                onPressed: () async {
-                  Get.back();
-                  try {
-                    final XFile? file = await _picker.pickImage(
-                        source: ImageSource.camera,
-                        imageQuality: 50,
-                        maxWidth: 640,
-                        maxHeight: 480);
-                    if (file != null) {
-                      pickedFiles.add(File(file.path));
-                      // Get.snackbar('Success', 'Photo captured successfully');
-                    }
-                  } catch (e) {
-                    CustomSnackbar.showError(
-                        'Error', 'Failed to capture photo or video: $e');
-                  }
-                },
-                child: const Text('Capture Photo'),
+              Text(
+                "Take a Photo/Video",
+                style: TextStyleConstants.bodyLargeWhite(context),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  Get.back();
-                  try {
-                    final XFile? file =
-                        await _picker.pickVideo(source: ImageSource.camera);
-                    if (file != null) {
-                      pickedFiles.add(File(file.path));
-                    }
-                  } catch (e) {
-                    CustomSnackbar.showError(
-                        'Error', 'Failed to capture photo or video: $e');
-                  }
-                },
-                child: const Text('Capture Video'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      Get.back();
+                      try {
+                        final XFile? file = await _picker.pickImage(
+                            source: ImageSource.camera,
+                            imageQuality: 20,
+                            maxWidth: 640,
+                            maxHeight: 480);
+                        if (file != null) {
+                          pickedFiles.add(File(file.path));
+                          // Get.snackbar('Success', 'Photo captured successfully');
+                        }
+                      } catch (e) {
+                        CustomSnackbar.showError(
+                            'Error', 'Failed to capture photo or video: $e');
+                      }
+                    },
+                    child: Text(
+                      'Image',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      Get.back();
+                      try {
+                        final XFile? file = await _picker.pickVideo(
+                          source: ImageSource.camera,
+                          maxDuration: Duration(seconds: 10),
+                        );
+                        if (file != null) {
+                          pickedFiles.add(File(file.path));
+                        }
+                      } catch (e) {
+                        CustomSnackbar.showError(
+                            'Error', 'Failed to capture photo or video: $e');
+                      }
+                    },
+                    child: Text(
+                      'Video',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -200,8 +226,9 @@ class UploadMemoryController extends GetxController {
 
   void removeFile(File file) {
     pickedFiles.remove(file);
-    print("function ontap");
   }
+
+  HomeScreenController homeController = Get.find();
 
   void removeAllFiles() {
     pickedFiles.clear();
@@ -209,11 +236,7 @@ class UploadMemoryController extends GetxController {
 
   Future<void> createMemory() async {
     ColoredPrint.yellow("successful initiated");
-    Get.dialog(
-      const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    isloading.value = true;
     try {
       convertDateTime();
       await Memoryservices.create_mem(
@@ -222,8 +245,10 @@ class UploadMemoryController extends GetxController {
         category: selectedCatagory.value?.sId ?? "",
         deliveryDate: date,
         deliveryTime: time,
-        sendTo: sendTo.string,
-        recipients: recipients.map((recipient) => recipient.toMap()).toList(),
+        sendTo: sendTo.value == "self" ? "same" : "others",
+        recipients: sendTo == "self"
+            ? null
+            : recipients.map((recipient) => recipient.toMap()).toList(),
         files: successFullFilesUploads,
       );
       removeAllFiles();
@@ -231,9 +256,12 @@ class UploadMemoryController extends GetxController {
       final HomeScreenController controller = Get.find();
       controller.getmemories();
       Get.back();
+      isloading.value = false;
       Get.toNamed(MemoryScheduledSucceccfully.routeName);
+      homeController.callMemoriesDates();
     } catch (e) {
-      Get.snackbar("ERROR", e.toString());
+      isloading.value = false;
+      // Get.back();
     }
   }
 

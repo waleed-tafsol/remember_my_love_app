@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/models/Categories.dart';
 import 'package:remember_my_love_app/models/MemoryModel.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
+import 'package:remember_my_love_app/view/widgets/VideoPlayerWidget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../../../../constants/ApiConstant.dart';
 import '../../../../../../constants/TextConstant.dart';
 import '../../../../../../constants/constants.dart';
 import '../../../../../../models/CreatorModel.dart';
@@ -33,7 +34,6 @@ class LetterListTile extends StatelessWidget {
     this.memory,
   });
 
-  // final int picturesCount;
   final String? id;
   final String? title;
   final String? status;
@@ -88,13 +88,17 @@ class LetterListTile extends StatelessWidget {
                   CustomRoundedGlassButton(icon: Icons.email, ontap: () {})
                 ],
               ),
-
               k2hSizedBox,
               const Divider(),
               k2hSizedBox,
-              Text(
-                "Description :",
-                style: TextStyleConstants.bodyMediumWhite(context),
+              Row(
+                children: [
+                  Text(
+                    "Description :",
+                    style: TextStyleConstants.bodyMediumWhite(context),
+                  ),
+                  k1wSizedBox,
+                ],
               ),
               k1hSizedBox,
               Text(
@@ -109,7 +113,6 @@ class LetterListTile extends StatelessWidget {
                 style: TextStyleConstants.bodyMediumWhite(context),
               ),
               k1hSizedBox,
-              // List.generate(5, Container())
               files!.isEmpty
                   ? SizedBox()
                   : SizedBox(
@@ -119,46 +122,83 @@ class LetterListTile extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: files!.length >= 3 ? 4 : files!.length,
+                          itemCount: files!.length >= 4 ? 4 : files!.length,
                           itemBuilder: (context, index) {
+                            final file = files![index];
+                            bool isVideo = file.endsWith("mp4");
                             if (index >= 3) {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 1.w),
-                                width: 9.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      "${ApiConstants.getPicture}/${files![index]}",
-                                    ),
-                                    fit: BoxFit.cover,
-                                    colorFilter: ColorFilter.mode(
-                                        Colors.black.withOpacity(0.5),
-                                        BlendMode.darken),
-                                  ),
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  "${(picturesCount - index).toString()} +",
-                                  style:
-                                      TextStyleConstants.bodyLargeWhite(context)
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                )),
-                              );
-                            } else {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 1.w),
-                                width: 9.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        "${ApiConstants.getPicture}/${files![index]}",
+                              return isVideo
+                                  ?
+                                  // SizedBox()
+                                  Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 1.w),
+                                      child: SizedBox(
+                                        width: 9.h,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: NetworkVideoPlayerWidget(
+                                            videoUrl: file,
+                                          ),
+                                        ),
                                       ),
-                                      fit: BoxFit.cover),
-                                ),
-                              );
+                                    )
+                                  : Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 1.w),
+                                      width: 9.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                            files![index],
+                                          ),
+                                          fit: BoxFit.cover,
+                                          colorFilter: ColorFilter.mode(
+                                              Colors.black.withOpacity(0.5),
+                                              BlendMode.darken),
+                                        ),
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        "${(picturesCount - index).toString()} +",
+                                        style: TextStyleConstants
+                                                .bodyLargeWhite(context)
+                                            .copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      )),
+                                    );
+                            } else {
+                              return isVideo
+                                  ? Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 1.w),
+                                      child: SizedBox(
+                                        width: 9.h,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: NetworkVideoPlayerWidget(
+                                            videoUrl:
+                                                "${ApiConstants.getPicture}/${file}",
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 1.w),
+                                      width: 9.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                              "${ApiConstants.getPicture}/${files![index]}",
+                                            ),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    );
                             }
                           }),
                     )
@@ -167,9 +207,6 @@ class LetterListTile extends StatelessWidget {
         ));
   }
 }
-
-
-
 
 // class CustomAppBar extends AppBar {
 //   final String title;

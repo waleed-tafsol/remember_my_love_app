@@ -77,8 +77,8 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
             ),
             CustomGlassmorphicContainer(
                 child: InkWell(
-              onTap: () async {
-                await controller.showCaptureOptionDialog(context);
+              onTap: () {
+                controller.showCaptureOptionDialog(context);
               },
               child: Center(
                 child: Text(
@@ -110,7 +110,9 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: isVideo
-                              ? VideoPlayerWidget(filePathOrFile: file)
+                              ? LocalVideoPlayerWidget(
+                                  filePath: file.path,
+                                )
                               : Image.file(
                                   file,
                                   fit: BoxFit.cover,
