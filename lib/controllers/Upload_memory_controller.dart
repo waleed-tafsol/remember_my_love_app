@@ -37,7 +37,7 @@ class UploadMemoryController extends GetxController {
   final descriptionController = TextEditingController();
   RxList<Recipient> recipients = <Recipient>[].obs;
   Rx<DateTime> selectedDate = DateTime.now().add(const Duration(days: 1)).obs;
-  Rx<TimeOfDay> selectedTime = const TimeOfDay(hour: 0, minute: 0).obs;
+  String selectedFormatedDate = "";
   List<Category> categories = [];
   Rx<Category?> selectedCatagory = Rx<Category?>(null);
   List<dynamic> imageUploadMimType = [];
@@ -62,13 +62,13 @@ class UploadMemoryController extends GetxController {
   }
 
   // Function to change the value of the DateTime variable
-  void updateSelectedDate(DateTime newDate) {
-    selectedDate.value = newDate;
-  }
+  // void updateSelectedDate(DateTime newDate) {
+  //   selectedDate.value = newDate;
+  // }
 
-  void updateSelectedTime(TimeOfDay newTime) {
-    selectedTime.value = newTime;
-  }
+  // void updateSelectedTime(TimeOfDay newTime) {
+  //   selectedTime.value = newTime;
+  // }
 
   // void recievingUsername(TextEditingValue RecievingUsername) {
   //   recievingUsername.value = RecievingUsername;
@@ -238,13 +238,12 @@ class UploadMemoryController extends GetxController {
     ColoredPrint.yellow("successful initiated");
     isloading.value = true;
     try {
-      convertDateTime();
+      // convertDateTime();
       await Memoryservices.create_mem(
         title: titleController.value.text,
         description: descriptionController.value.text,
         category: selectedCatagory.value?.sId ?? "",
-        deliveryDate: date,
-        deliveryTime: time,
+        deliveryDate: selectedFormatedDate,
         sendTo: sendTo.value == "self" ? "same" : "others",
         recipients: sendTo == "self"
             ? null
@@ -265,17 +264,17 @@ class UploadMemoryController extends GetxController {
     }
   }
 
-  String date = "";
-  String time = "";
+  // String date = "";
+  // String time = "";
 
-  String convertDateTime() {
-    date =
-        "${selectedDate.value.year.toString().padLeft(4, '0')}-${selectedDate.value.month.toString().padLeft(2, '0')}-${selectedDate.value.day.toString().padLeft(2, '0')}";
-    time =
-        "${selectedTime.value.hour.toString().padLeft(2, '0')}:${selectedTime.value.minute.toString().padLeft(2, '0')}";
+  // String convertDateTime() {
+  //   date =
+  //       "${selectedDate.value.year.toString().padLeft(4, '0')}-${selectedDate.value.month.toString().padLeft(2, '0')}-${selectedDate.value.day.toString().padLeft(2, '0')}";
+  //   time =
+  //       "${selectedTime.value.hour.toString().padLeft(2, '0')}:${selectedTime.value.minute.toString().padLeft(2, '0')}";
 
-    return "$date $time";
-  }
+  //   return "$date $time";
+  // }
 
   Future<void> uploadMimeTypes() async {
     Get.dialog(const Center(child: CircularProgressIndicator()));

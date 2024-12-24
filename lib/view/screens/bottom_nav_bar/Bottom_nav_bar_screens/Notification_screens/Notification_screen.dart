@@ -27,12 +27,7 @@ class NotificationScreen extends GetView<NotificationController> {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return NotificationListTile(
-                        title: controller.notification[index].title ?? "",
-                        subTitle: controller.notification[index].message ?? "",
-                        id: controller.notification[index].sId ?? "",
-                        createdAt:
-                            controller.notification[index].createdAt ?? "",
-                        seen: controller.notification[index].seen ?? false,
+                        notification: controller.notification[index],
                       );
                     },
                   );

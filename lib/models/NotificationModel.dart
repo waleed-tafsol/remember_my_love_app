@@ -63,17 +63,18 @@ class NotificationModel {
 }
 
 class Payload {
-  String? memoryId;
+  String? id;
 
-  Payload({this.memoryId});
+  Payload({this.id});
 
   Payload.fromJson(Map<String, dynamic> json) {
-    memoryId = json['memoryId'];
+    id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['memoryId'] = this.memoryId;
+
+    data['id'] = this.id;
     return data;
   }
 }

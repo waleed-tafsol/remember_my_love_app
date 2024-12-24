@@ -8,7 +8,6 @@ class Memoryservices {
     required String description,
     required String category,
     required String deliveryDate,
-    required String deliveryTime,
     required String sendTo,
     List<Map>? recipients,
     required List<dynamic> files,
@@ -18,8 +17,7 @@ class Memoryservices {
       "title": title,
       "description": description,
       "category": category,
-      "date": deliveryDate,
-      "time": deliveryTime,
+      "deliveryDate": deliveryDate,
       "sendTo": sendTo,
       "files": files,
     };

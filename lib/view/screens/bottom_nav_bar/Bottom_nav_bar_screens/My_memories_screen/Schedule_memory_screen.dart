@@ -2,12 +2,15 @@ import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/TextConstant.dart';
 import '../../../../../constants/colors_constants.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../controllers/Upload_memory_controller.dart';
+import '../../../../../utills/ConvertDateTime.dart';
 import '../../../../widgets/Custom_glass_container.dart';
 import '../../../../widgets/Custom_rounded_glass_button.dart';
 import '../../../../widgets/custom_scaffold.dart';
@@ -69,28 +72,21 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                             ),
                           ),
                         ),
-                        // buttonContent: GradientButton(
-                        //     onPressed: () {},
-                        //     text: "save",
-                        //     gradients: [
-                        //       Colors.white,
-                        //       Colors.white,
-                        //     ]),
                         dateOrder: DatePickerDateOrder.mdy,
                         initialDateTime: controller.selectedDate.value,
-                        minDateTime: DateTime.now(),
-
+                        minDateTime: controller.selectedDate.value
+                            .subtract(Duration(days: 1)),
                         pickerTextStyle: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
                           fontSize: 17.sp,
                         ),
                         onChange: (index) {
-                          print(index);
+                          controller.selectedDate.value = index;
                         },
                         onSubmit: (index) {
                           print(index);
-                          controller.updateSelectedDate(index);
+                          // controller.updateSelectedDate(index);
                           controller.buttonVisivility.value = true;
                         },
                         onClose: () {
@@ -107,8 +103,8 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Obx(() {
-                              return Text(
-                                  "${controller.selectedDate.value.year} : ${controller.selectedDate.value.month} : ${controller.selectedDate.value.day}");
+                              return Text(DateFormat('yyyy:MM:dd')
+                                  .format(controller.selectedDate.value));
                             }),
                             const Icon(
                               Icons.event,
@@ -152,20 +148,22 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           ),
                         ),
                         initialTime: Time(
-                            hours: controller.selectedTime.value.hour,
-                            minutes: controller.selectedTime.value.minute),
+                            hours: controller.selectedDate.value.hour,
+                            minutes: controller.selectedDate.value.minute),
                         pickerTextStyle: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
                           fontSize: 17.sp,
                         ),
                         onChange: (index) {
+                          controller.selectedDate.value = index;
                           print(index);
                         },
                         onSubmit: (index) {
-                          print(index);
-                          controller.updateSelectedTime(
-                              TimeOfDay.fromDateTime(index));
+                          print(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+                              .format(controller.selectedDate.value));
+                          // controller.updateSelectedTime(
+                          //     TimeOfDay.fromDateTime(index));
                           controller.buttonVisivility.value = true;
                         },
                         onClose: () {
@@ -182,8 +180,8 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Obx(() {
-                              return Text(controller.selectedTime.value
-                                  .format(context));
+                              return Text(DateFormat('hh:mm a')
+                                  .format(controller.selectedDate.value));
                             }),
                             const Icon(
                               Icons.access_time,
@@ -205,7 +203,12 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                       )
                     : GradientButton(
                         onPressed: () {
-                          // controller.removeAllFiles();
+                          final formateddate =
+                              DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+                                      .format(controller.selectedDate.value) +
+                                  formattedTimeZoneOffset(
+                                      controller.selectedDate.value);
+                          controller.selectedFormatedDate = formateddate;
                           controller.createMemory();
                         },
                         text: "Send",

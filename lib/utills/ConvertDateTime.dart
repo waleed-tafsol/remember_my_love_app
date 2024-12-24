@@ -71,3 +71,16 @@ String convertTimeToMinutesAgo(String isoDateTime) {
     return "$daysAgo day${daysAgo > 1 ? 's' : ''} ago";
   }
 }
+
+String formattedTimeZoneOffset(DateTime time) {
+  String twoDigits(int n) {
+    if (n >= 10) return '$n';
+    return '0$n';
+  }
+
+  final duration = time.timeZoneOffset,
+      hours = duration.inHours,
+      minutes = duration.inMinutes.remainder(60).abs().toInt();
+
+  return '${hours > 0 ? '+' : '-'}${twoDigits(hours.abs())}:${twoDigits(minutes)}';
+}
