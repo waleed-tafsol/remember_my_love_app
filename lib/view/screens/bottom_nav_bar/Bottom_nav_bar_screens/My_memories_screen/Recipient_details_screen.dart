@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:remember_my_love_app/models/SearchUserModel.dart';
 import 'package:remember_my_love_app/utills/Validators.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
@@ -16,6 +17,7 @@ import '../../../../../controllers/Upload_memory_controller.dart';
 import '../../../../widgets/Custom_glass_container.dart';
 import '../../../../widgets/Custom_rounded_glass_button.dart';
 import '../../../../widgets/Glass_text_field_with_text_widget.dart';
+import '../../../../widgets/GlassintelPhoneField.dart';
 
 class RecipientDetailsScreen extends GetView<UploadMemoryController> {
   RecipientDetailsScreen({super.key});
@@ -127,7 +129,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                         }
 
                                         _debounceTimer = Timer(
-                                            Duration(milliseconds: 1000), () {
+                                            Duration(milliseconds: 500), () {
                                           controller.getAvailableUsers(value);
                                         });
                                       },
@@ -174,16 +176,69 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                           .toList(),
                                     ),
                                     k1hSizedBox,
-                                    GlassTextFieldWithTitle(
-                                      title: 'Contact',
-                                      hintText: "Enter Phone Number",
-                                      keyboardType: TextInputType.phone,
+                                    Text("Contact"),
+                                    k1hSizedBox,
+                                    IntlPhoneField(
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        hintStyle: TextStyle(
+                                          fontSize: 15.sp,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 4.w, horizontal: 1.h),
+                                        filled: true,
+                                        hintText: "Enter Phone Number",
+                                        focusedBorder: InputBorder.none,
+                                        fillColor: AppColors.kTextfieldColor,
+                                      ),
                                       controller: controller
                                           .recipients[index].contactController,
+                                      disableLengthCheck: true,
+                                      showDropdownIcon: false,
                                       validator: (value) {
-                                        phoneNumberValidator(value);
+                                        if (value == null ||
+                                            value.number.isEmpty) {
+                                          return 'Please enter a phone number';
+                                        }
+
+                                        if (value.number.length > 15) {
+                                          return 'Please enter a valid phone number with at most 15 digits';
+                                        }
+
+                                        return null;
                                       },
-                                    ),
+                                      initialCountryCode: 'BH',
+                                      languageCode: "en",
+                                      onChanged: (phone) {},
+                                      onCountryChanged: (country) {},
+                                    )
+                                    // PhoneNumberField(
+                                    //   controller: controller
+                                    //       .recipients[index].contactController,
+                                    //   disableLengthCheck: true,
+                                    //   showDropdownIcon: false,
+                                    //   validator: (value) {
+                                    //     if (value == null ||
+                                    //         value.number.isEmpty) {
+                                    //       return 'Please enter a phone number';
+                                    //     }
+
+                                    //     if (value.number.length < 10) {
+                                    //       return 'Please enter a valid phone number with at least 10 digits';
+                                    //     }
+
+                                    //     return null;
+                                    //   },
+                                    //   initialCountryCode: 'BH',
+                                    //   languageCode: "en",
+                                    //   onChanged: (phone) {},
+                                    // ),
                                   ],
                                 );
                               }),

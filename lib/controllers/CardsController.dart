@@ -4,9 +4,11 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/route_manager.dart';
 import 'package:remember_my_love_app/models/PaymentMethodModel.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
 import '../utills/Colored_print.dart';
+import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/SuccesScreen.dart';
 import '../view/screens/onboarding_screens/PaymentWebView.dart';
 import 'Choose_your_plan_controller.dart';
 import 'HomeScreenController.dart';
@@ -94,21 +96,22 @@ class CardsController extends GetxController {
     }
   }
 
-  Future<void> buyPackage() async {
-    ChooseYourPlanController chooseYoyourPlanController = Get.find();
-    isLoading.value = true;
-    ColoredPrint.green("Buying Package");
-    Response? response = await ApiService.patchRequest(
-      ApiConstants.buySubscription,
-      {
-        "packageId": chooseYoyourPlanController.selectedPackage.value?.sId,
-      },
-    );
-    if (response != null) {
-      isLoading.value = false;
-      // homeController.user.value?.package = selectedPackage.value;
-      Get.offAndToNamed(PaymentScreen.routeName,
-          arguments: response.data["url"]);
-    }
-  }
+  // Future<void> buyPackage() async {
+  //   ChooseYourPlanController chooseYoyourPlanController = Get.find();
+  //   isLoading.value = true;
+  //   ColoredPrint.green("Buying Package");
+  //   Response? response = await ApiService.patchRequest(
+  //     ApiConstants.buySubscription,
+  //     {
+  //       "packageId": chooseYoyourPlanController.selectedPackage.value?.sId,
+  //     },
+  //   );
+  //   Get.offNamedUntil(SuccessScreen.routeName,
+  //       (route) => route.settings.name == BottomNavBarScreen.routeName,
+  //       arguments: {
+  //         "title": "Congrats ",
+  //         "subtitle": "Your Plan has been upgraded successfully",
+  //       });
+  //   isLoading.value = false;
+  // }
 }

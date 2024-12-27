@@ -9,6 +9,7 @@ import 'package:remember_my_love_app/view/widgets/VideoPlayerWidget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../controllers/MyMemoriesController.dart';
+import '../../../../widgets/CachedNetworkImageWidget.dart';
 import '../../../auth_screens/Splash_screen.dart';
 import '../Home_screens/Memory_detail_screen.dart';
 
@@ -138,37 +139,17 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                                 ),
                               ),
                             )
-                          : Container(
-                              margin: EdgeInsets.symmetric(horizontal: 1.w),
-                              width: 9.h,
+                          : Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 1.w),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  "${ApiConstants.getPicture}/${controller.images[index]}",
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    } else {
-                                      return Shimmer.fromColors(
-                                        baseColor: AppColors.kgradientBlue,
-                                        highlightColor:
-                                            AppColors.kgradientPurple,
-                                        child: Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 1.w),
-                                          width: 9.h,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  },
+                                child: SizedBox(
+                                  width: 9.h,
+                                  child: CachedNetworkImageWidget(
+                                    fit: BoxFit.cover,
+                                    imageUrl:
+                                        "${ApiConstants.getPicture}/${controller.images[index]}",
+                                  ),
                                 ),
                               ),
                             ),

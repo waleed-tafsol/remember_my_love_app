@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/StyleConstants.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
@@ -12,6 +13,7 @@ import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../../constants/colors_constants.dart';
 import '../../../../../utills/CustomSnackbar.dart';
 import '../../../../widgets/gradient_button.dart';
 
@@ -139,17 +141,41 @@ class EditProfileScreen extends GetView<EditProfileController> {
                         "Contact",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      TextFormField(
+                      IntlPhoneField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          hintStyle: TextStyle(
+                            fontSize: 15.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 4.w, horizontal: 1.h),
+                          filled: true,
+                          hintText: "Enter Phone Number",
+                          focusedBorder: InputBorder.none,
+                          fillColor: AppColors.kTextfieldColor,
+                        ),
+                        controller: controller.contactController,
+                        disableLengthCheck: true,
+                        showDropdownIcon: false,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please enter a contact";
+                          if (value == null || value.number.isEmpty) {
+                            return 'Please enter a phone number';
+                          }
+
+                          if (value.number.length > 15) {
+                            return 'Please enter a valid phone number with at most 15 digits';
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                          hintText: "Enter Contact",
-                        ),
-                        controller: controller.contactController,
+                        initialCountryCode: 'BH',
+                        languageCode: "en",
+                        onChanged: (phone) {},
+                        onCountryChanged: (country) {},
                       )
                     ],
                   ),

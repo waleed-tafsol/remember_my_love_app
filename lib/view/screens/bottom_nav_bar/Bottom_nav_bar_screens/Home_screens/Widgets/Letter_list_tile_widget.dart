@@ -11,6 +11,7 @@ import '../../../../../../constants/TextConstant.dart';
 import '../../../../../../constants/constants.dart';
 import '../../../../../../models/CreatorModel.dart';
 import '../../../../../../utills/ConvertDateTime.dart';
+import '../../../../../widgets/CachedNetworkImageWidget.dart';
 import '../../../../../widgets/Custom_glass_container.dart';
 
 class LetterListTile extends StatelessWidget {
@@ -144,30 +145,32 @@ class LetterListTile extends StatelessWidget {
                                         ),
                                       ),
                                     )
-                                  : Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 1.w),
-                                      width: 9.h,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            files![index],
+                                  : Stack(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 1.w),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: SizedBox(
+                                              width: 9.h,
+                                              child: CachedNetworkImageWidget(
+                                                fit: BoxFit.cover,
+                                                imageUrl: files![index],
+                                              ),
+                                            ),
                                           ),
-                                          fit: BoxFit.cover,
-                                          colorFilter: ColorFilter.mode(
-                                              Colors.black.withOpacity(0.5),
-                                              BlendMode.darken),
                                         ),
-                                      ),
-                                      child: Center(
-                                          child: Text(
-                                        "${(picturesCount - index).toString()} +",
-                                        style: TextStyleConstants
-                                                .bodyLargeWhite(context)
-                                            .copyWith(
-                                                fontWeight: FontWeight.bold),
-                                      )),
+                                        Center(
+                                            child: Text(
+                                          "${(picturesCount - index).toString()} +",
+                                          style: TextStyleConstants
+                                                  .bodyLargeWhite(context)
+                                              .copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                        )),
+                                      ],
                                     );
                             } else {
                               return isVideo
@@ -186,17 +189,19 @@ class LetterListTile extends StatelessWidget {
                                         ),
                                       ),
                                     )
-                                  : Container(
-                                      margin:
+                                  : Padding(
+                                      padding:
                                           EdgeInsets.symmetric(horizontal: 1.w),
-                                      width: 9.h,
-                                      decoration: BoxDecoration(
+                                      child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                              "${ApiConstants.getPicture}/${files![index]}",
-                                            ),
-                                            fit: BoxFit.cover),
+                                        child: SizedBox(
+                                          width: 9.h,
+                                          child: CachedNetworkImageWidget(
+                                            fit: BoxFit.cover,
+                                            imageUrl:
+                                                "${ApiConstants.getPicture}/${files![index]}",
+                                          ),
+                                        ),
                                       ),
                                     );
                             }

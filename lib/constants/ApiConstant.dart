@@ -1,8 +1,8 @@
 class ApiConstants {
-  // static const baseUrl =
-  //     "https://91d3-2407-aa80-14-e3cc-31da-bcb5-5717-c9d8.ngrok-free.app/api/v1/";
   static const baseUrl =
-      "https://remember-my-love-7be82b8be06b.herokuapp.com/api/v1/";
+      "https://2a78-2407-aa80-14-e3cc-641c-922f-e204-bbdb.ngrok-free.app/api/v1/";
+  // static const baseUrl =
+  //     "https://remember-my-love-7be82b8be06b.herokuapp.com/api/v1/";
   static const login = "auth/login";
   static const socialLogin = "auth/social";
   static const logout = "auth/logout";
@@ -35,7 +35,7 @@ class ApiConstants {
   static const getPicture = "https://remember-my-love-bucket.s3.amazonaws.com";
 // packcages
   static const getAllPackages = "package/all";
-  static const buySubscription = "package/buy-subscription";
+  static const buySubscription = "users/update-subscription";
   // cards
   static const getAllCards = "users/payment-methods";
   static const attatchCard = "users/attach-card";

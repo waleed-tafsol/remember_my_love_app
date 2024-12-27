@@ -8,7 +8,7 @@ import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Widgets/Custom_glass_calendar_widget.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../../constants/ApiConstant.dart';
+import '../../../../widgets/CachedNetworkImageWidget.dart';
 import 'Widgets/Letter_list_tile_widget.dart';
 import 'Widgets/My_storage_widget.dart';
 
@@ -36,8 +36,8 @@ class HomeScreen extends GetView<HomeScreenController> {
                   ClipOval(child: Obx(() {
                     return controller.user.value?.photo == null
                         ? SizedBox()
-                        : Image.network(
-                            controller.user.value?.photo ?? "",
+                        : CachedNetworkImageWidget(
+                            imageUrl: controller.user.value?.photo ?? "",
                             height: 10.h,
                             width: 10.h,
                             fit: BoxFit.cover,

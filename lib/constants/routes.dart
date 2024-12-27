@@ -31,7 +31,7 @@ import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memor
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/EditProfileScreen.dart';
 import '../view/screens/onboarding_screens/CardsScreen.dart';
 import '../view/screens/onboarding_screens/Questions_screen.dart';
-import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Memory_scheduled_succeccfully.dart';
+import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/SuccesScreen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Recipient_details_screen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import '../view/screens/auth_screens/sign_up_screen.dart';
@@ -149,10 +149,10 @@ class Pages {
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );
-      case MemoryScheduledSucceccfully.routeName:
+      case SuccessScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const MemoryScheduledSucceccfully(),
+          page: () => const SuccessScreen(),
           // binding: BottomNavBarBindings(),
           transition: _routeTransition,
         );

@@ -6,6 +6,8 @@ import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/SuccesScreen.dart';
+
 class Paymentwebviewcontroller extends GetxController {
   RxBool isLoading = true.obs;
   late WebViewController controller;
@@ -32,6 +34,7 @@ class Paymentwebviewcontroller extends GetxController {
           },
           onHttpError: (HttpResponseError error) {
             // Handle HTTP errors
+            isLoading.value = false; // Stops the loading indicator
           },
           onWebResourceError: (WebResourceError error) {
             // Handle web resource errors
@@ -40,9 +43,25 @@ class Paymentwebviewcontroller extends GetxController {
             ColoredPrint.green(request.url);
             if (request.url ==
                 "https://remember-my-love-c7798dc8cf7c.herokuapp.com/api/v1/payment-success") {
-              CustomSnackbar.showSuccess("Success", "Payment Successful");
               homeController.getUSer();
-              Get.offAllNamed(BottomNavBarScreen.routeName);
+              Get.offNamedUntil(
+                  SuccessScreen.routeName,
+                  (route) =>
+                      route.settings.name == BottomNavBarScreen.routeName,
+                  arguments: {
+                    "title": "Success",
+                    "subTitle": "Payment has been done successfully.",
+                  });
+            } else if (request.url ==
+                "https://7l60bxbl-3059.inc1.devtunnels.ms/api/v1/card-attach/success") {
+              Get.offNamedUntil(
+                  SuccessScreen.routeName,
+                  (route) =>
+                      route.settings.name == BottomNavBarScreen.routeName,
+                  arguments: {
+                    "title": "Success",
+                    "subTitle": "Card has been attached successfully.",
+                  });
             } else {
               CustomSnackbar.showError("Error", "Error in Payment");
               Get.back();

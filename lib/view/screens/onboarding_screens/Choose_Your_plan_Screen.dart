@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/CardsScreen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -157,50 +156,25 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
           ),
           const Spacer(),
           Obx(() {
-            return controller.homeController.user.value?.package?.sId ==
-                        controller.selectedPackage.value?.sId ||
-                    controller.selectedPackage.value?.sId ==
-                        "6711752199b2f80e34b6acf9"
+            return (controller.homeController.user.value?.package?.sId ==
+                            controller.selectedPackage.value?.sId ||
+                        controller.selectedPackage.value?.sId ==
+                            "6711752199b2f80e34b6acf9") ||
+                    controller.isLoading.value
                 ? const SizedBox()
                 : GradientButton(
                     onPressed: () {
-                      // arguments["popAfterSuccess"] ?? false
-                      //     ?
-                      //  Get.toNamed(
-                      //     ContinueScreen.routeName,
-                      //     arguments: {
-                      //       "title": "Congrats ",
-                      //       "subtitle":
-                      //           "Your Plan has been upgraded successfully",
-                      //       "callback": () => Get.until((route) =>
-                      //           Get.currentRoute ==
-                      //           BottomNavBarScreen.routeName)
-                      //     },
-                      //   )
-                      // : Get.offAllNamed(
-                      //     ContinueScreen.routeName,
-                      //     arguments: {
-                      //       "title": "Grateful for Every Moment",
-                      //       "subtitle": "We're excited to share that your picture will be the cover of a special"
-                      //           "collection of cherished memories and videos, which will be delivered"
-                      //           "to your loved ones at a time you choose, allowing you to share those precious moments with them.",
-                      //       "callback": () =>
-                      //           Get.toNamed(QuestionsScreen.routeName)
-                      //     },
-                      //   );
-                      Get.toNamed(
-                        CardsScreen.routeName,
-                        arguments: controller.selectedPackage.value?.sId,
-                      );
-                      // controller.buyPackage();
+                      controller.buyPackage(
+                          controller.selectedPackage.value?.sId ?? "");
                     },
                     text: "Select This Plan",
                     gradients: const [Colors.purpleAccent, Colors.blue]);
           }),
           k2hSizedBox,
           Obx(() {
-            return controller.homeController.user.value?.package?.sId !=
-                    controller.selectedPackage.value?.sId
+            return (controller.homeController.user.value?.package?.sId !=
+                        controller.selectedPackage.value?.sId) ||
+                    controller.isLoading.value
                 ? SizedBox()
                 : GestureDetector(
                     onTap: () => Get.back(),

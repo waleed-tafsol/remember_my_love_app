@@ -9,12 +9,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/constants.dart';
 import '../../Bottom_nav_bar.dart';
 
-class MemoryScheduledSucceccfully extends StatelessWidget {
-  const MemoryScheduledSucceccfully({super.key});
-  static const routeName = "MemoryScheduledSucceccfully";
+class SuccessScreen extends StatelessWidget {
+  const SuccessScreen({super.key});
+  static const routeName = "SuccessScreen";
 
   @override
   Widget build(BuildContext context) {
+    final arg = Get.arguments ?? null;
     return CustomScaffold(
       body: Column(
         children: [
@@ -45,7 +46,7 @@ class MemoryScheduledSucceccfully extends StatelessWidget {
             height: 8.h,
           ),
           Text(
-            "Memory Schedule Successful",
+            arg == null ? "Memory Schedule Successful" : arg["title"],
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
@@ -54,8 +55,9 @@ class MemoryScheduledSucceccfully extends StatelessWidget {
           ),
           k1hSizedBox,
           Text(
-            " It is a long established fact that a reader will be distracted"
-            " by the readable content of a page when looking at its layout.",
+            arg == null
+                ? "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+                : arg["subTitle"] ?? "Default subtitle here",
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!

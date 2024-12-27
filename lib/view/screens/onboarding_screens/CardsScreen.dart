@@ -126,12 +126,14 @@ class CardsScreen extends GetView<CardsController> {
                     );
             }),
           ),
-          Get.arguments == null
-              ? SizedBox()
-              : GradientButton(
-                  onPressed: () {},
-                  text: "Proceed To Payment",
-                  gradients: const [Colors.purple, Colors.blue])
+          // Get.arguments == null
+          //     ? SizedBox()
+          //     : GradientButton(
+          //         onPressed: () {
+          //           controller.buyPackage();
+          //         },
+          //         text: "Proceed To Payment",
+          //         gradients: const [Colors.purple, Colors.blue])
         ],
       ),
     );

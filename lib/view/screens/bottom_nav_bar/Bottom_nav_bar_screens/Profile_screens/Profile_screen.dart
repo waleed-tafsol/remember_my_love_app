@@ -10,6 +10,7 @@ import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Terms_and_condition_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/update_password_screen.dart';
+import 'package:remember_my_love_app/view/widgets/CachedNetworkImageWidget.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -107,8 +108,8 @@ class ProfileScreen extends GetView<HomeScreenController> {
                   backgroundColor: Colors.white,
                   child: Obx(() {
                     return ClipOval(
-                        child: Image.network(
-                      controller.user.value?.photo ?? "",
+                        child: CachedNetworkImageWidget(
+                      imageUrl: controller.user.value?.photo ?? "",
                       height: 12.h,
                       width: 12.h,
                       fit: BoxFit.cover,

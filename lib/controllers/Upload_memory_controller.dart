@@ -13,13 +13,14 @@ import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../constants/TextConstant.dart';
 import '../constants/constants.dart';
 import '../models/SearchUserModel.dart';
 import '../models/Categories.dart';
 import '../services/MemoryServices.dart';
-import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Memory_scheduled_succeccfully.dart';
+import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/SuccesScreen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
 import '../view/widgets/CustomGlassDailogBox.dart';
 
@@ -95,14 +96,14 @@ class UploadMemoryController extends GetxController {
       Response? response = await ApiService.getRequest(
         ApiConstants.getAvailableUsers,
         queryParameters: {
-          "email": email ?? "",
+          "search": email ?? "",
         },
       );
 
       if (response?.data != null && response?.data["data"] != null) {
+        allAvailableUsers.clear();
         var userList = response?.data["data"]["user"];
         if (userList is List) {
-          allAvailableUsers.clear();
           allAvailableUsers.value = userList
               .map<SearchUserModel>((user) => SearchUserModel.fromJson(user))
               .toList();
@@ -256,7 +257,12 @@ class UploadMemoryController extends GetxController {
       controller.getmemories();
       Get.back();
       isloading.value = false;
-      Get.toNamed(MemoryScheduledSucceccfully.routeName);
+      Get.offNamedUntil(SuccessScreen.routeName,
+          (route) => route.settings.name == BottomNavBarScreen.routeName,
+          arguments: {
+            "title": "Memory Created",
+            "message": "Memory has been created successfully.",
+          });
       homeController.callMemoriesDates();
     } catch (e) {
       isloading.value = false;
