@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/TextConstant.dart';
 import '../../../constants/constants.dart';
 import '../../../controllers/CardsController.dart';
+import '../../widgets/Custom_rounded_glass_button.dart';
 import '../../widgets/custom_scaffold.dart';
 import 'package:u_credit_card/u_credit_card.dart';
 
@@ -22,8 +23,20 @@ class CardsScreen extends GetView<CardsController> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Payment Methods",
-              style: TextStyleConstants.displayMediumWhite(context)),
+          Row(
+            children: [
+              CustomRoundedGlassButton(
+                  icon: Icons.arrow_back_ios_new,
+                  ontap: () {
+                    Get.back();
+                  }),
+              k2wSizedBox,
+              Text("Payment Methods",
+                  style: TextStyleConstants.headlineLargeWhite(context)),
+              const Spacer(),
+            ],
+          ),
+
           k2hSizedBox,
           Expanded(
             child: Obx(() {

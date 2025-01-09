@@ -19,6 +19,7 @@ class NotificationListTile extends GetView<NotificationController> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        controller.callSeen(notification.sId ?? "");
         if (notification.flag == "memory") {
           controller.fetchMemoryAndPassItToDetailScreen(
               notification.payload?[0].id ?? "");
@@ -52,19 +53,39 @@ class NotificationListTile extends GetView<NotificationController> {
                 Expanded(
                   child: Text(
                     notification.message ?? "",
-                    style: TextStyleConstants.bodyLargeWhite(context),
+                    style: TextStyleConstants.bodyMediumWhite(context),
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                    maxLines: 2,
                   ),
                 ),
               ],
             ),
           ),
+          k3wSizedBox,
           // const Spacer(),
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     notification.seen ?? false
+          //         ? const SizedBox.shrink()
+          //         : Container(
+          //             height: 1.5.h,
+          //             width: 1.5.h,
+          //             decoration: const BoxDecoration(
+          //               shape: BoxShape.circle,
+          //               color: Colors.white38,
+          //             ),
+          //           ),
+          //     Text(
+          //       convertTimeToMinutesAgo(notification.createdAt ?? ""),
+          //       style: TextStyleConstants.bodySmallWhite(context),
+          //     ),
+          //   ],
+          // )
           Text(
             convertTimeToMinutesAgo(notification.createdAt ?? ""),
             style: TextStyleConstants.bodySmallWhite(context),
-          )
+          ),
         ],
       )),
     );

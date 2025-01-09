@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/TextConstant.dart';
@@ -103,7 +102,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Obx(() {
-                              return Text(DateFormat('yyyy:MM:dd')
+                              return Text(DateFormat('dd/MM/yyyy')
                                   .format(controller.selectedDate.value));
                             }),
                             const Icon(
@@ -160,10 +159,6 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           print(index);
                         },
                         onSubmit: (index) {
-                          print(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
-                              .format(controller.selectedDate.value));
-                          // controller.updateSelectedTime(
-                          //     TimeOfDay.fromDateTime(index));
                           controller.buttonVisivility.value = true;
                         },
                         onClose: () {
@@ -209,7 +204,9 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                                   formattedTimeZoneOffset(
                                       controller.selectedDate.value);
                           controller.selectedFormatedDate = formateddate;
-                          controller.createMemory();
+                          controller.reschedualMemory.value == null
+                              ? controller.createMemory()
+                              : controller.updateMemory();
                         },
                         text: "Send",
                         gradients: const [Colors.purple, Colors.blue])

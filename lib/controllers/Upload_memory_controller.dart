@@ -10,13 +10,16 @@ import 'package:mime/mime.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/controllers/MyMemoriesController.dart';
+import 'package:remember_my_love_app/models/MemoryModel.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
+import 'package:remember_my_love_app/services/Auth_services.dart';
+import 'package:remember_my_love_app/services/Auth_token_services.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../constants/TextConstant.dart';
-import '../constants/constants.dart';
 import '../models/SearchUserModel.dart';
 import '../models/Categories.dart';
 import '../services/MemoryServices.dart';
@@ -31,35 +34,71 @@ class UploadMemoryController extends GetxController {
   RxBool buttonVisivility = true.obs;
   final recievingUsername = TextEditingController();
   final recievingUserPassword = TextEditingController();
-  final recipientRelation = TextEditingController();
   RxBool isloading = false.obs;
+  RxBool isapproved = true.obs;
+  Rx<MemoryModel?> reschedualMemory = Rx<MemoryModel?>(null);
+  RxList<String> reschedualMemoryFiles = <String>[].obs;
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   RxList<Recipient> recipients = <Recipient>[].obs;
   Rx<DateTime> selectedDate = DateTime.now().add(const Duration(days: 1)).obs;
   String selectedFormatedDate = "";
-  List<Category> categories = [];
-  Rx<Category?> selectedCatagory = Rx<Category?>(null);
+  RxList<CategoryModel> categories = <CategoryModel>[].obs;
+  Rx<CategoryModel?> selectedCatagory = Rx<CategoryModel?>(null);
   List<dynamic> imageUploadMimType = [];
   List<String> successFullFilesUploads = [];
   RxList<SearchUserModel> allAvailableUsers = <SearchUserModel>[].obs;
-  RxBool lockAllFields = true.obs;
-  final uploadProgress = Rx<double>(0.0);
 
   @override
   void onInit() async {
     super.onInit();
-    await FetchCategories();
-    recipients.add(Recipient(
-      emailController: TextEditingController(),
-      contactController: TextEditingController(),
-      relationController: TextEditingController(),
-    ));
+    await FetchCategories().then(
+      (value) {
+        if (Get.arguments != null) {
+          reschedualMemory.value = Get.arguments as MemoryModel;
+          setMemoryData();
+        } else {
+          recipients.add(Recipient(
+            emailController: TextEditingController(),
+            ccp: "+92",
+            contactController: TextEditingController(),
+            relationController: TextEditingController(),
+          ));
+        }
+      },
+    );
   }
 
-  void check_null(var param) {
-    return param != null ? param : Exception("null field found");
+  setMemoryData() {
+    titleController.text = reschedualMemory.value?.title ?? "";
+    descriptionController.text = reschedualMemory.value?.description ?? "";
+    selectedDate.value =
+        DateTime.parse(reschedualMemory.value?.deliveryDate ?? "");
+    selectedCatagory.value = categories.firstWhere(
+        (element) => element.sId == reschedualMemory.value?.category!.sId);
+    if (reschedualMemory.value?.sendTo == "same") {
+      sendTo.value = "self";
+    } else {
+      sendTo.value = "others";
+      if (reschedualMemory.value?.recipients?.isNotEmpty == true) {
+        recipients.clear();
+        reschedualMemory.value?.recipients?.forEach((element) {
+          recipients.add(Recipient(
+            emailController: TextEditingController(text: element?.email),
+            ccp: element?.cc ?? "",
+            contactController: TextEditingController(text: element?.contact),
+            relationController: TextEditingController(text: element?.relation),
+          ));
+        });
+      }
+    }
+    if (reschedualMemory.value?.files?.isNotEmpty == true) {
+      reschedualMemoryFiles.clear();
+      reschedualMemory.value?.files?.forEach((element) {
+        reschedualMemoryFiles.add(element);
+      });
+    }
   }
 
   // Function to change the value of the DateTime variable
@@ -79,13 +118,10 @@ class UploadMemoryController extends GetxController {
   //   recievingUserPassword.value = RecievingUserpassword;
   // }
 
-  void reciepint_relation(TextEditingValue relation) {
-    recipientRelation.value = relation;
-  }
-
   void addRecipient() {
     recipients.add(Recipient(
       emailController: TextEditingController(),
+      ccp: "+92",
       contactController: TextEditingController(),
       relationController: TextEditingController(),
     ));
@@ -141,7 +177,7 @@ class UploadMemoryController extends GetxController {
   Future<void> pickImageOrVideo() async {
     try {
       // Let the user choose between picking an image or a video
-      final XFile? file = await _picker.pickMedia(imageQuality: 20);
+      final XFile? file = await _picker.pickMedia(imageQuality: 100);
 
       if (file != null) {
         pickedFiles.add(File(file.path)); // Add picked file to the list
@@ -198,7 +234,6 @@ class UploadMemoryController extends GetxController {
                       try {
                         final XFile? file = await _picker.pickVideo(
                           source: ImageSource.camera,
-                          maxDuration: Duration(seconds: 10),
                         );
                         if (file != null) {
                           pickedFiles.add(File(file.path));
@@ -225,6 +260,16 @@ class UploadMemoryController extends GetxController {
     );
   }
 
+  Future<void> deleteFileFromAws() async {
+    if (successFullFilesUploads.isNotEmpty) {
+      await ApiService.patchRequest(ApiConstants.deleteMemoryFromS3, {
+        "files": successFullFilesUploads.map((file) => file).toList(),
+      });
+      TokenService tokenService = TokenService();
+      tokenService.deleteVideosKeys();
+    }
+  }
+
   void removeFile(File file) {
     pickedFiles.remove(file);
   }
@@ -236,7 +281,7 @@ class UploadMemoryController extends GetxController {
   }
 
   Future<void> createMemory() async {
-    ColoredPrint.yellow("successful initiated");
+    ColoredPrint.yellow("create Memory initiated");
     isloading.value = true;
     try {
       // convertDateTime();
@@ -254,16 +299,56 @@ class UploadMemoryController extends GetxController {
       removeAllFiles();
       ColoredPrint.green("successful upload memory");
       final HomeScreenController controller = Get.find();
-      controller.getmemories();
-      Get.back();
+
+      controller.callMemoriesDates();
+      // Get.back();
       isloading.value = false;
+      TokenService tokenService = TokenService();
+      await tokenService.deleteVideosKeys();
+      // homeController.callMemoriesDates();
+      // myMemoryController.fetchMemories();
       Get.offNamedUntil(SuccessScreen.routeName,
           (route) => route.settings.name == BottomNavBarScreen.routeName,
           arguments: {
             "title": "Memory Created",
-            "message": "Memory has been created successfully.",
+            "subTitle": "Memory has been created successfully.",
           });
+    } catch (e) {
+      isloading.value = false;
+      // Get.back();
+    }
+  }
+
+  Future<void> updateMemory() async {
+    ColoredPrint.yellow("update memory initiated");
+    isloading.value = true;
+    try {
+      // convertDateTime();
+      await Memoryservices.update_mem(
+        id: reschedualMemory.value?.sId ?? "",
+        title: titleController.value.text,
+        description: descriptionController.value.text,
+        category: selectedCatagory.value?.sId ?? "",
+        deliveryDate: selectedFormatedDate,
+        sendTo: sendTo.value == "self" ? "same" : "others",
+        recipients: sendTo == "self"
+            ? null
+            : recipients.map((recipient) => recipient.toMap()).toList(),
+        files: successFullFilesUploads,
+      );
+      removeAllFiles();
+      ColoredPrint.green("successful Updated memory");
+      final HomeScreenController controller = Get.find();
+      controller.getmemories();
+      Get.back();
+      isloading.value = false;
       homeController.callMemoriesDates();
+      Get.offNamedUntil(SuccessScreen.routeName,
+          (route) => route.settings.name == BottomNavBarScreen.routeName,
+          arguments: {
+            "title": "Memory Updated",
+            "subTitle": "Memory has been Updated successfully.",
+          });
     } catch (e) {
       isloading.value = false;
       // Get.back();
@@ -285,6 +370,13 @@ class UploadMemoryController extends GetxController {
   Future<void> uploadMimeTypes() async {
     Get.dialog(const Center(child: CircularProgressIndicator()));
 
+    if (pickedFiles.isEmpty) {
+      Get.back();
+      Get.toNamed(WriteAMemoryScreen.routeName);
+      successFullFilesUploads.addAll(reschedualMemoryFiles);
+      return;
+    }
+
     // Get the MIME type for each picked file
     List<String> mimeTypes = pickedFiles.map((file) {
       // Get the MIME type using the file extension
@@ -305,14 +397,14 @@ class UploadMemoryController extends GetxController {
     if (response?.statusCode == 201 && response != null) {
       final jsonresponse = response.data;
       imageUploadMimType = jsonresponse["data"];
-      Get.dialog(
-        const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      ColoredPrint.green(
+          "Mime types uploaded successfully: $imageUploadMimType");
 
       for (int i = 0; i < imageUploadMimType.length; i++) {
         await uploadToS3Bucket(imageUploadMimType[i], i, mimeTypes[i]);
+      }
+      if (reschedualMemoryFiles.isNotEmpty) {
+        successFullFilesUploads.addAll(reschedualMemoryFiles);
       }
       Get.back();
       Get.toNamed(WriteAMemoryScreen.routeName);
@@ -338,6 +430,8 @@ class UploadMemoryController extends GetxController {
         successFullFilesUploads.add(imageMap["key"]);
         ColoredPrint.green(
             "Image uploaded successfully: $successFullFilesUploads");
+        final tokenservices = TokenService();
+        tokenservices.saveVideosKeys(successFullFilesUploads);
       } else {
         ColoredPrint.red("Failed to upload image: ${response?.statusCode}");
       }
@@ -382,7 +476,7 @@ class UploadMemoryController extends GetxController {
 
       //ColoredPrint.green(jsonMap['data']['categories'].toString());
       for (var element in jsonMap['data']['categories']) {
-        categories.add(Category.fromJson(element));
+        categories.add(CategoryModel.fromJson(element));
       }
       //ColoredPrint.green(categories[1].toString());
     } on DioException catch (e) {
@@ -393,16 +487,33 @@ class UploadMemoryController extends GetxController {
       }
     }
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    titleController.dispose();
+    descriptionController.dispose();
+    recievingUsername.dispose();
+    recievingUserPassword.dispose();
+    recipients.forEach((element) {
+      element.emailController.dispose();
+      element.contactController.dispose();
+      element.relationController.dispose();
+    });
+    super.dispose();
+  }
 }
 
 class Recipient {
   TextEditingController emailController;
+  String ccp;
   TextEditingController contactController;
 
   TextEditingController relationController;
 
   Recipient({
     required this.emailController,
+    required this.ccp,
     required this.relationController,
     required this.contactController,
   });
@@ -411,6 +522,7 @@ class Recipient {
   Map<String, String> toMap() {
     return {
       "email": emailController.text.trim(),
+      "cc": ccp,
       "contact": contactController.text.trim(),
       "username": emailController.text.trim(),
       "relation": relationController.text.trim(),

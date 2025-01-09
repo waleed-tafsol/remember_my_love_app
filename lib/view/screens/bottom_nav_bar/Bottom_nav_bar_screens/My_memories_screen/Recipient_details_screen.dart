@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:remember_my_love_app/models/SearchUserModel.dart';
+import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/utills/Validators.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -17,7 +18,6 @@ import '../../../../../controllers/Upload_memory_controller.dart';
 import '../../../../widgets/Custom_glass_container.dart';
 import '../../../../widgets/Custom_rounded_glass_button.dart';
 import '../../../../widgets/Glass_text_field_with_text_widget.dart';
-import '../../../../widgets/GlassintelPhoneField.dart';
 
 class RecipientDetailsScreen extends GetView<UploadMemoryController> {
   RecipientDetailsScreen({super.key});
@@ -77,7 +77,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                     k1hSizedBox,
                     Obx(() {
                       return controller.sendTo == "self"
-                          ? SizedBox.shrink()
+                          ? const SizedBox.shrink()
                           : Column(
                               children: List.generate(
                                   controller.recipients.length, (index) {
@@ -111,7 +111,8 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                     GlassTextFieldWithTitle(
                                       title: 'Enter Relation',
                                       hintText: "Family, Friend, Sibling, etc",
-                                      controller: controller.recipientRelation,
+                                      controller: controller
+                                          .recipients[index].relationController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Required';
@@ -120,7 +121,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       },
                                     ),
                                     k1hSizedBox,
-                                    Text("Email"),
+                                    const Text("Email"),
                                     k1hSizedBox,
                                     SearchField<SearchUserModel>(
                                       onSearchTextChanged: (value) {
@@ -129,7 +130,8 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                         }
 
                                         _debounceTimer = Timer(
-                                            Duration(milliseconds: 500), () {
+                                            const Duration(milliseconds: 500),
+                                            () {
                                           controller.getAvailableUsers(value);
                                         });
                                       },
@@ -167,7 +169,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                                     const EdgeInsets.all(8.0),
                                                 child: Text(
                                                   e.email ?? "",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.black),
                                                 ),
                                               ),
@@ -176,78 +178,86 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                           .toList(),
                                     ),
                                     k1hSizedBox,
-                                    Text("Contact"),
-                                    k1hSizedBox,
-                                    IntlPhoneField(
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        hintStyle: TextStyle(
-                                          fontSize: 15.sp,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 4.w, horizontal: 1.h),
-                                        filled: true,
-                                        hintText: "Enter Phone Number",
-                                        focusedBorder: InputBorder.none,
-                                        fillColor: AppColors.kTextfieldColor,
-                                      ),
+                                    GlassTextFieldWithTitle(
+                                      title: 'Contact',
+                                      hintText: "Enter Contact",
                                       controller: controller
                                           .recipients[index].contactController,
-                                      disableLengthCheck: true,
-                                      showDropdownIcon: false,
+                                      keyboardType: TextInputType.phone,
                                       validator: (value) {
-                                        if (value == null ||
-                                            value.number.isEmpty) {
+                                        if (value == null || value.isEmpty) {
                                           return 'Please enter a phone number';
+                                        } else if (value.length < 10) {
+                                          return 'Please enter a valid phone number with at least 10 digits';
+                                        } else {
+                                          return null;
                                         }
-
-                                        if (value.number.length > 15) {
-                                          return 'Please enter a valid phone number with at most 15 digits';
-                                        }
-
-                                        return null;
                                       },
-                                      initialCountryCode: 'BH',
-                                      languageCode: "en",
-                                      onChanged: (phone) {},
-                                      onCountryChanged: (country) {},
-                                    )
-                                    // PhoneNumberField(
-                                    //   controller: controller
-                                    //       .recipients[index].contactController,
-                                    //   disableLengthCheck: true,
-                                    //   showDropdownIcon: false,
-                                    //   validator: (value) {
-                                    //     if (value == null ||
-                                    //         value.number.isEmpty) {
-                                    //       return 'Please enter a phone number';
-                                    //     }
-
-                                    //     if (value.number.length < 10) {
-                                    //       return 'Please enter a valid phone number with at least 10 digits';
-                                    //     }
-
-                                    //     return null;
-                                    //   },
-                                    //   initialCountryCode: 'BH',
-                                    //   languageCode: "en",
-                                    //   onChanged: (phone) {},
-                                    // ),
+                                      prefixWidget: CountryCodePicker(
+                                        onChanged: (value) => controller
+                                            .recipients[index]
+                                            .ccp = value.toString(),
+                                        textStyle: TextStyle(
+                                            fontSize: 15.sp,
+                                            color: Colors.white),
+                                        dialogTextStyle: TextStyle(
+                                            fontSize: 15.sp,
+                                            color: Colors.black),
+                                        searchStyle: TextStyle(
+                                            fontSize: 15.sp,
+                                            color: Colors.black),
+                                        searchDecoration: InputDecoration(
+                                            hintText: 'Search',
+                                            prefixIcon: const Icon(
+                                              Icons.search,
+                                              color: Colors.black,
+                                            ),
+                                            hintStyle: TextStyle(
+                                                fontSize: 15.sp,
+                                                color: Colors.black),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20))),
+                                        initialSelection:
+                                            controller.recipients[index].ccp,
+                                        favorite: ['+1', 'US'],
+                                        showCountryOnly: false,
+                                        showOnlyCountryWhenClosed: false,
+                                        alignLeft: false,
+                                      ),
+                                    ),
                                   ],
                                 );
                               }),
                             );
                     }),
-                    k1hSizedBox,
+                    k2hSizedBox,
+                    Obx(() {
+                      return controller.sendTo != "self"
+                          ? Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      controller.isapproved.value =
+                                          !controller.isapproved.value;
+                                    },
+                                    icon: Icon(controller.isapproved.value
+                                        ? Icons.check_box
+                                        : Icons.check_box_outline_blank)),
+                                Expanded(
+                                  child: Text(
+                                    "By checking this box, I confirm that I have obtained the recipient’s consent to be contacted via +18553944249.",
+                                    style: TextStyle(fontSize: 13.sp),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const SizedBox.shrink();
+                    }),
+                    k2hSizedBox,
                     Obx(() {
                       return controller.sendTo == "self"
-                          ? SizedBox.shrink()
+                          ? const SizedBox.shrink()
                           : Align(
                               alignment: Alignment.center,
                               child: InkWell(
@@ -272,7 +282,10 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
               GradientButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Get.toNamed(ScheduleMemoryScreen.routeName);
+                      controller.isapproved.value
+                          ? Get.toNamed(ScheduleMemoryScreen.routeName)
+                          : CustomSnackbar.showError(
+                              "Error", "Please select the checkbox to proceed");
                     }
                   },
                   text: "Send",

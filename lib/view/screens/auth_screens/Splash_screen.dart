@@ -6,11 +6,9 @@ import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
-import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/forgot_pass_screen.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
-import 'package:remember_my_love_app/view/widgets/Glass_text_field_with_text_widget.dart';
+
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -90,6 +88,7 @@ class _SplashScreenState extends State<SplashScreen>
         FocusScope.of(context).unfocus();
       },
       child: CustomScaffold(
+        padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 4.w),
         body: AnimatedAlign(
           curve: Curves.elasticIn,
           duration: const Duration(milliseconds: 2000),
@@ -146,7 +145,7 @@ class _SplashScreenState extends State<SplashScreen>
                   )),
 
               AnimatedContainer(
-                height: _animation2 ? 62.h : 0,
+                height: _animation2 ? 65.h : 0,
                 width: _animation2 ? double.maxFinite : 0,
                 duration: const Duration(milliseconds: 2000),
                 child: Column(children: [
@@ -231,8 +230,16 @@ class _SplashScreenState extends State<SplashScreen>
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    const Icon(
-                                      Icons.check_box_outline_blank,
+                                    IconButton(
+                                      onPressed: () =>
+                                          authController.rememberMe.value =
+                                              !authController.rememberMe.value,
+                                      icon: Obx(() {
+                                        return Icon(authController
+                                                .rememberMe.value
+                                            ? Icons.check_box
+                                            : Icons.check_box_outline_blank);
+                                      }),
                                     ),
                                     k1wSizedBox,
                                     Text(
@@ -283,6 +290,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Expanded(
                                       child: InkWell(
@@ -293,11 +301,11 @@ class _SplashScreenState extends State<SplashScreen>
                                       child: SvgPicture.asset(SvgAssets.google),
                                     ),
                                   )),
-                                  k2wSizedBox,
-                                  Expanded(
-                                      child: CustomGlassButton(
-                                    child: SvgPicture.asset(SvgAssets.apple),
-                                  )),
+                                  // k2wSizedBox,
+                                  // Expanded(
+                                  //     child: CustomGlassButton(
+                                  //   child: SvgPicture.asset(SvgAssets.apple),
+                                  // )),
                                 ],
                               ),
                               k1hSizedBox,
@@ -307,7 +315,7 @@ class _SplashScreenState extends State<SplashScreen>
                                     authController.loginFingerPrint();
                                   },
                                   child: CustomGlassButton(
-                                    padding: EdgeInsets.all(2.w),
+                                    padding: EdgeInsets.all(1.w),
                                     borderRadius: BorderRadius.circular(50),
                                     child: Icon(
                                       size: 6.h,

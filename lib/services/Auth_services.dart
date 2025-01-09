@@ -16,6 +16,7 @@ import '../constants/ApiConstant.dart';
 
 import 'ApiServices.dart';
 import 'Auth_token_services.dart';
+import 'KeyStoreServices.dart';
 import 'LocalAuthServices.dart';
 
 class AuthService extends GetxService {
@@ -49,11 +50,14 @@ class AuthService extends GetxService {
 
     // Get
     if (authenticated) {
+      final DeviceKeyManager _deviceKeyManager = DeviceKeyManager();
+      final key = await _deviceKeyManager.generateDeviceSpecificKey();
       try {
         Response response = await _dio.post(
           ApiConstants.verifyFingerPrint,
           data: {
-            "validationKey": FirebaseService.fcmToken,
+            "validationKey": key,
+            "fcmToken": FirebaseService.fcmToken,
           },
         );
         if (response != null) {
@@ -67,7 +71,8 @@ class AuthService extends GetxService {
           // return false;
         }
       } on DioException catch (e) {
-        throw Exception("an error occured");
+        throw Exception(
+            e.response?.data["message"]["error"][0] ?? "An error occurred");
         // if (e.response != null) {
         // CustomSnackbar.showError("Error",
         //     e.response?.data["message"]["error"][0] ?? "An error occurred");
@@ -87,15 +92,6 @@ class AuthService extends GetxService {
     try {
       final user = await FirebaseService.signInWithGoogle();
       if (user != null) {
-        final data = {
-          "email": user.email,
-          "displayName": user.displayName,
-          "photo": user.photoURL,
-          "fcmToken": FirebaseService.fcmToken,
-          "validationKey": FirebaseService.fcmToken,
-          "platform": "google"
-        };
-
         Response response = await _dio.post(
           ApiConstants.socialLogin,
           data: {
@@ -103,7 +99,6 @@ class AuthService extends GetxService {
             "displayName": user.displayName,
             "photo": user.photoURL,
             "fcmToken": FirebaseService.fcmToken,
-            "validationKey": FirebaseService.fcmToken,
             "platform": "google"
           },
         );
@@ -165,15 +160,20 @@ class AuthService extends GetxService {
     }
   }
 
-  Future<Map<String, dynamic>> login(String email, String password) async {
+  Future<Map<String, dynamic>> login(
+      String email, String password, bool rememberMe) async {
     try {
       Response response = await _dio.post(
         ApiConstants.login,
-        data: {"email": email, "password": password},
+        data: {
+          "email": email,
+          "password": password,
+          "fcmToken": FirebaseService.fcmToken
+        },
       );
       platform.value = "email";
       authToken = response.data["data"]["token"];
-      _tokenStorage.saveToken(authToken!);
+      rememberMe ? _tokenStorage.saveToken(authToken!) : null;
       isAuthenticated.value = true;
       return response.data;
     } on DioException catch (e) {
@@ -212,7 +212,11 @@ class AuthService extends GetxService {
     try {
       Response response = await _dio.patch(
         ApiConstants.updateUserDetails,
-        data: {"contact": contact, "name": name},
+        data: {
+          "contact": contact,
+          "name": name,
+          "fcmToken": FirebaseService.fcmToken
+        },
       );
       platform.value = "google";
       authToken = response.data["data"]["token"];
@@ -271,13 +275,15 @@ class AuthService extends GetxService {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout({String? platform}) async {
     Get.dialog(const Center(
       child: CircularProgressIndicator(),
     ));
     try {
       final Response? response =
-          await ApiService.postRequest(ApiConstants.logout, {});
+          await ApiService.postRequest(ApiConstants.logout, {
+        "fcmToken": FirebaseService.fcmToken,
+      });
       if (platform == "apple") {
       } else if (platform == "google") {
         await FirebaseService.signOut();

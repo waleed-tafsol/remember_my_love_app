@@ -1,30 +1,37 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import '../constants/ApiConstant.dart';
+import '../models/Categories.dart';
 import '../models/MemoryModel.dart';
 import '../services/ApiServices.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 
 class MyMemoryController extends GetxController {
-  RxList<String> images = <String>[].obs;
+  RxList<String> by_me_images = <String>[].obs;
+  RxList<String> for_me_images = <String>[].obs;
   RxBool isLoading = false.obs;
 
   @override
   void onInit() {
     super.onInit();
+    categories.add(CategoryModel(sId: "all", name: "All"));
+    fetchCategories();
     fetchMemories();
   }
 
-  List<String> filters = ["All", "Created for me", "Created by me"];
-  RxString selectedFilter = "All".obs;
+  RxString selectedFilter = "Created By You".obs;
 
-  void changeFilter(String value) {
-    if (selectedFilter.value != value) {
-      selectedFilter.value = value;
+  void changeCatagory(CategoryModel value) {
+    if (selectedCatagory.value != value) {
+      selectedCatagory.value = value;
       fetchMemories();
     }
   }
@@ -35,20 +42,20 @@ class MyMemoryController extends GetxController {
       final endpoint = ApiConstants.getAllMemories;
       Response? response =
           await ApiService.getRequest(endpoint, queryParameters: {
-        "createdForYou": selectedFilter.value == "Created for me"
-            ? "true"
-            : selectedFilter.value == "Created by me"
-                ? "false"
-                : "all",
+        "category": selectedCatagory.value?.sId ?? "all",
       });
       List<dynamic> jsonMemories = response!.data["memories"];
+
       if (response != null) {
-        List<dynamic> listofFirstImage = jsonMemories.map((item) {
-          return item["files"][0];
-        }).toList();
-        images.clear();
-        listofFirstImage.forEach((element) {
-          images.add(element);
+        final HomeScreenController homeController = Get.find();
+        by_me_images.clear();
+        for_me_images.clear();
+        jsonMemories.forEach((item) {
+          if (item["creator"]["_id"] == homeController.user.value?.sId) {
+            by_me_images.add(item["files"][0]);
+          } else {
+            for_me_images.add(item["files"][0]);
+          }
         });
       }
       isLoading.value = false;
@@ -81,8 +88,34 @@ class MyMemoryController extends GetxController {
       isLoading.value = false;
     } catch (e) {
       Get.back();
-      Get.back();
       isLoading.value = false;
+    }
+  }
+
+  RxList<CategoryModel> categories = <CategoryModel>[].obs;
+  Rx<CategoryModel?> selectedCatagory = Rx<CategoryModel?>(null);
+  RxBool isCategoriesLoading = false.obs;
+
+  Future<void> fetchCategories() async {
+    isCategoriesLoading.value = true;
+    try {
+      Response? response =
+          await ApiService.getRequest(ApiConstants.getcategories);
+      final Map<String, dynamic> jsonMap = jsonDecode(response!.toString());
+
+      //ColoredPrint.green(jsonMap['data']['categories'].toString());
+      for (var element in jsonMap['data']['categories']) {
+        categories.add(CategoryModel.fromJson(element));
+      }
+      //ColoredPrint.green(categories[1].toString());
+      isCategoriesLoading.value = false;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        Get.snackbar("ERROR", e.toString());
+      } else {
+        Get.snackbar("ERROR", "Some thing Went wrong");
+      }
+      isCategoriesLoading.value = false;
     }
   }
 }

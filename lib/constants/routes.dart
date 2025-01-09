@@ -10,6 +10,7 @@ import 'package:remember_my_love_app/bindings/UpgradePlanBindings.dart';
 import 'package:remember_my_love_app/bindings/VideoPlayerBindings.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/forgot_pass_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Upload_memory_screen.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/FingerPrintScreen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/Continue_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/Privacy_policy_screen.dart';
@@ -21,6 +22,7 @@ import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentWebV
 import 'package:video_player/video_player.dart';
 import '../bindings/AuthBindings.dart';
 import '../bindings/Bottom_nav_bar_bindings.dart';
+import '../bindings/FingerPrintScreenBindings.dart';
 import '../bindings/Memory_detail_bindings.dart';
 import '../bindings/Questions_bindings.dart';
 import '../bindings/Update_Password_bindinga.dart';
@@ -82,7 +84,7 @@ class Pages {
       case UploadMemoryScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const UploadMemoryScreen(),
+          page: () => UploadMemoryScreen(),
           binding: UploadMemoriesBindings(),
           transition: _routeTransition,
         );
@@ -96,7 +98,7 @@ class Pages {
       case PaymentScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => PaymentScreen(),
+          page: () => const PaymentScreen(),
           binding: PaymentWebViewBindings(),
           transition: _routeTransition,
         );
@@ -110,8 +112,15 @@ class Pages {
       case BottomNavBarScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const BottomNavBarScreen(),
+          page: () => BottomNavBarScreen(),
           binding: BottomNavBarBindings(),
+          transition: _routeTransition,
+        );
+      case FingerPrintScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const FingerPrintScreen(),
+          binding: FingerPrintScreenBindings(),
           transition: _routeTransition,
         );
       case MemoryDetailScreen.routeName:
@@ -180,7 +189,7 @@ class Pages {
       case TermsAndConditionScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => TermsAndConditionScreen(),
+          page: () => const TermsAndConditionScreen(),
           binding: TermsAndConditionBinding(),
           transition: _routeTransition,
         );
@@ -194,14 +203,14 @@ class Pages {
       case CardsScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => CardsScreen(),
+          page: () => const CardsScreen(),
           binding: CardsBindings(),
           transition: _routeTransition,
         );
       case VideoPlayerScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => VideoPlayerScreen(),
+          page: () => const VideoPlayerScreen(),
           binding: VideoPlayerBinding(),
           transition: _routeTransition,
         );

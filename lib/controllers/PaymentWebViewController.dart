@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
@@ -41,8 +42,7 @@ class Paymentwebviewcontroller extends GetxController {
           },
           onNavigationRequest: (NavigationRequest request) {
             ColoredPrint.green(request.url);
-            if (request.url ==
-                "https://remember-my-love-c7798dc8cf7c.herokuapp.com/api/v1/payment-success") {
+            if (request.url == "${ApiConstants.baseUrl}payment-success") {
               homeController.getUSer();
               Get.offNamedUntil(
                   SuccessScreen.routeName,
@@ -53,7 +53,7 @@ class Paymentwebviewcontroller extends GetxController {
                     "subTitle": "Payment has been done successfully.",
                   });
             } else if (request.url ==
-                "https://7l60bxbl-3059.inc1.devtunnels.ms/api/v1/card-attach/success") {
+                "${ApiConstants.baseUrl}card-attach/success") {
               Get.offNamedUntil(
                   SuccessScreen.routeName,
                   (route) =>

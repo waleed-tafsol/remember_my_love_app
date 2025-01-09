@@ -4,10 +4,8 @@ import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../../../../../services/Auth_services.dart';
 import '../../../../../widgets/dropdown_calender.dart';
 
 /*List<DateTime> highlightedDates = [
@@ -21,11 +19,12 @@ class CustomGlassCalendarWidget extends StatelessWidget {
   CustomGlassCalendarWidget({super.key});
 
   final CalendarController controller = Get.put(CalendarController());
-  final HomeScreenController homeScreenController = Get.put(HomeScreenController());
+  final HomeScreenController homeScreenController =
+      Get.put(HomeScreenController());
 
   @override
   Widget build(BuildContext context) {
-    return Container( 
+    return Container(
         margin: EdgeInsets.symmetric(vertical: 1.h),
         width: double.infinity,
         decoration: BoxDecoration(
@@ -112,12 +111,12 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                     }),
                   );
                 }),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.filter_alt_outlined,
-                      color: Theme.of(context).iconTheme.color,
-                    ))
+                // IconButton(
+                //     onPressed: () {},
+                //     icon: Icon(
+                //       Icons.filter_alt_outlined,
+                //       color: Theme.of(context).iconTheme.color,
+                //     ))
               ],
             ),
             children: <Widget>[
@@ -168,14 +167,17 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color:homeScreenController.memoriesDates[index].status == 'due'? Colors.red:
-                                  Colors.green,
+                                  color: homeScreenController
+                                              .memoriesDates[index].status ==
+                                          'due'
+                                      ? Colors.red
+                                      : Colors.green,
                                   borderRadius: BorderRadius.circular(40),
-                                 /* border: Border.all(
-                                   *//* color: homeScreenController.memoriesDates[index].status == 'due'
+                                  /* border: Border.all(
+                                   */ /* color: homeScreenController.memoriesDates[index].status == 'due'
                                         ? Colors.red
                                         : Colors.green,
-                                    width: 2,*//*
+                                    width: 2,*/ /*
                                   ),*/
                                 ),
                                 alignment: Alignment.center,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
-
 import '../../controllers/VideoPlayerScreenController.dart';
 
 class VideoPlayerScreen extends GetView<VideoPlayerScreenController> {
@@ -19,7 +18,7 @@ class VideoPlayerScreen extends GetView<VideoPlayerScreenController> {
       appBar: AppBar(
         backgroundColor: Colors.black.withOpacity(0.7),
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () {
             Get.back(); // Close the full-screen player
           },
@@ -29,8 +28,20 @@ class VideoPlayerScreen extends GetView<VideoPlayerScreenController> {
         child: Obx(() {
           // Check if the video is initialized
           if (controller.isInitialized.value) {
-            return Chewie(
-              controller: controller.chewieController,
+            return Stack(
+              children: [
+                Chewie(
+                  controller: controller.chewieController,
+                ),
+
+                if (controller.isBuffering.value)
+                  const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  ),
+                // Show play/pause status if necessary
+              ],
             );
           } else {
             return const Center(child: CircularProgressIndicator());

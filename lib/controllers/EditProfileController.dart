@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -24,6 +22,7 @@ class EditProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
+  TextEditingController ccController = TextEditingController();
 
   RxBool isLoading = false.obs;
   RxBool isImageUploading = false.obs;
@@ -36,6 +35,7 @@ class EditProfileController extends GetxController {
     nameController.text = homeScreenController.user.value?.name ?? '';
     userNameController.text = homeScreenController.user.value?.username ?? '';
     contactController.text = homeScreenController.user.value?.contact ?? '';
+    ccController.text = homeScreenController.user.value?.cc ?? '+92';
   }
 
   Future<void> upateMe() async {
@@ -43,18 +43,12 @@ class EditProfileController extends GetxController {
     try {
       Response? response =
           await ApiService.patchRequest(ApiConstants.updateUserDetails, {
-        "name": nameController.value.text.isEmpty
-            ? homeScreenController.user.value?.name ?? ""
-            : nameController.value.text,
-        "username": userNameController.value.text.isEmpty
-            ? homeScreenController.user.value?.username ?? ""
-            : userNameController.value.text,
-        "contact": contactController.value.text.isEmpty
-            ? homeScreenController.user.value?.contact ?? ""
-            : contactController.value.text,
+        "name": nameController.value.text,
+        "username": userNameController.value.text,
+        "contact": contactController.value.text,
+        "cc": ccController.value.text,
       });
       if (response != null) {
-        // homeScreenController.Saveuser(response.data);
         homeScreenController.getUSer();
         isLoading.value = false;
         Get.back();
@@ -168,8 +162,6 @@ class EditProfileController extends GetxController {
     try {
       // Get the MIME type for each picked file
       final mimeTypes = lookupMimeType(pickedFile.value!.path);
-
-      ColoredPrint.green(mimeTypes.toString());
       Response? response = await ApiService.postRequest(
         ApiConstants.uploadMimTypes,
         {

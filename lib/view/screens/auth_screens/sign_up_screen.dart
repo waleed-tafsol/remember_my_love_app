@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
@@ -85,18 +86,21 @@ class SignUpScreen extends GetView<AuthController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "User Name",
+                              "UserName",
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             TextFormField(
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return "User Name is required";
+                                  return "UserName is required";
                                 }
                                 return null;
                               },
                               decoration:
                                   InputDecoration(hintText: "Enter User Name"),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.deny(RegExp(r"\s")),
+                              ],
                               controller: controller.userNameController,
                             )
                           ],

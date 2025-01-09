@@ -6,9 +6,9 @@ import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../controllers/Choose_your_plan_controller.dart';
 import '../../widgets/Custom_glass_container.dart';
+import '../../widgets/Custom_rounded_glass_button.dart';
 
 class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
   ChooseYourPlanScreen({super.key});
@@ -27,6 +27,14 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
     return CustomScaffold(
       body: Column(
         children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: CustomRoundedGlassButton(
+                icon: Icons.arrow_back_ios_new,
+                ontap: () {
+                  Get.back();
+                }),
+          ),
           Text(
             arguments?["title"] ?? "Choose Your Plan",
             style: Theme.of(context).textTheme.displaySmall,
@@ -172,17 +180,40 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
           }),
           k2hSizedBox,
           Obx(() {
-            return (controller.homeController.user.value?.package?.sId !=
-                        controller.selectedPackage.value?.sId) ||
-                    controller.isLoading.value
-                ? SizedBox()
-                : GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Text(
-                      "Stick with ${(controller.homeController.user.value?.package?.storage ?? 0) / 1024} GB Free Plan",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  );
+            final user = controller.homeController.user.value;
+            if (user == null || user.subscriptionDueDate == null) {
+              return SizedBox();
+            }
+
+            final subDueDate = DateTime.parse(user.subscriptionDueDate ?? "");
+            final isBefore = DateTime.now().isBefore(subDueDate);
+            final isCancelled = user.subscriptionStatus == "canceled";
+
+            // If package is different or still loading, no button is shown
+            if (controller.homeController.user.value?.package?.sId !=
+                    controller.selectedPackage.value?.sId ||
+                controller.isLoading.value) {
+              return SizedBox();
+            }
+
+            return GradientButton(
+              onPressed: () {
+                if (isCancelled) {
+                  if (isBefore) {
+                    controller.renewSubscription(); // Renew after the due date
+                  } else {
+                    // controller.resumeSubscription();  // Optionally, resume before the due date
+                  }
+                } else {
+                  controller
+                      .cancelSubscription(); // Cancel the active subscription
+                }
+              },
+              text: isCancelled
+                  ? (isBefore ? "Renew Subscription" : "")
+                  : "Cancel Subscription",
+              gradients: const [Colors.purpleAccent, Colors.blue],
+            );
           })
         ],
       ),

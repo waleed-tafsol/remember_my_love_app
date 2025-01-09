@@ -7,7 +7,7 @@ class MemoryModel {
   String? title;
   String? status;
   String? description;
-  Category? category;
+  CategoryModel? category;
   Creator? creator;
   String? deliveryDate;
   bool? isFavorite;
@@ -15,6 +15,7 @@ class MemoryModel {
   List<Recipients?>? recipients;
   List<String>? files;
   String? createdAt;
+  String? adjustedDeliveryDate;
   String? updatedAt;
 
   MemoryModel(
@@ -30,6 +31,7 @@ class MemoryModel {
       this.recipients,
       this.files,
       this.createdAt,
+      this.adjustedDeliveryDate,
       this.updatedAt});
 
   MemoryModel.fromJson(Map<String, dynamic> json) {
@@ -38,7 +40,7 @@ class MemoryModel {
     status = json['status'];
     description = json['description'];
     category = json['category'] != null
-        ? new Category.fromJson(json['category'])
+        ? new CategoryModel.fromJson(json['category'])
         : null;
     creator =
         json['creator'] != null ? new Creator.fromJson(json['creator']) : null;
@@ -58,6 +60,7 @@ class MemoryModel {
       });
     }
     createdAt = json['createdAt'];
+    adjustedDeliveryDate = json['adjustedDeliveryDate'];
     updatedAt = json['updatedAt'];
   }
 

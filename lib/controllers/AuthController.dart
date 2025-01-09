@@ -20,6 +20,7 @@ class AuthController extends GetxController {
 
   RxBool passwordVisibility = false.obs;
   RxBool confirmPasswordVisibility = false.obs;
+  RxBool rememberMe = false.obs;
 
   Rx<String?> emailError = Rx<String?>(null);
   Rx<String?> passwordError = Rx<String?>(null);
@@ -33,8 +34,8 @@ class AuthController extends GetxController {
   Future<void> login() async {
     Get.dialog(const Center(child: CircularProgressIndicator()));
     try {
-      final response = await authService.login(
-          emailController.text.trim(), passwordController.text.trim());
+      final response = await authService.login(emailController.text.trim(),
+          passwordController.text.trim(), rememberMe.value);
       Get.back();
       CustomSnackbar.showSuccess("Success", "Login Successful");
       Get.offNamed(BottomNavBarScreen.routeName);
@@ -57,7 +58,7 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       Get.back();
-      CustomSnackbar.showError("error", "Google SignIn Faild");
+      CustomSnackbar.showError("Error", e.toString());
     }
   }
 
@@ -106,14 +107,14 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> logout() async {
-    Get.dialog(const Center(
-      child: CircularProgressIndicator(),
-    ));
-    await authService.logout();
-    Get.offNamed(SplashScreen.routeName);
-    Get.back();
-  }
+  // Future<void> logout() async {
+  //   Get.dialog(const Center(
+  //     child: CircularProgressIndicator(),
+  //   ));
+  //   await authService.logout();
+  //   Get.offNamed(SplashScreen.routeName);
+  //   Get.back();
+  // }
 
   // bool validateForm() {
   //   final isemailValid = validateemail(emailController.text);

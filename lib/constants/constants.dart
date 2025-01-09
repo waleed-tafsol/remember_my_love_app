@@ -10,6 +10,9 @@ final k4hSizedBox = SizedBox(
 final k2hSizedBox = SizedBox(
   height: 2.h,
 );
+final k05hSizedBox = SizedBox(
+  height: 0.5.h,
+);
 final k1hSizedBox = SizedBox(
   height: 1.h,
 );

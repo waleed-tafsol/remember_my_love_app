@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class NotificationModel {
   String? sId;
   String? senderMode;
@@ -36,7 +38,7 @@ class NotificationModel {
       });
     }
     title = json['title'];
-    seen = json['seen'];
+    seen = json['seen'] ?? false;
     receiver = json['receiver'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];

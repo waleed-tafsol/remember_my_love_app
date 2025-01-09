@@ -26,7 +26,7 @@ class YearMonthDropdown extends GetWidget<CalendarController> {
                   Icons.arrow_left,
                   color: Theme.of(context).iconTheme.color,
                 ),
-                onPressed: controller.incrementYear,
+                onPressed: controller.decrementYear,
               ),
               InkWell(
                 onTap: () {
@@ -60,7 +60,7 @@ class YearMonthDropdown extends GetWidget<CalendarController> {
                   Icons.arrow_right,
                   color: Theme.of(context).iconTheme.color,
                 ),
-                onPressed: controller.decrementYear,
+                onPressed: controller.incrementYear,
               ),
             ],
           ),

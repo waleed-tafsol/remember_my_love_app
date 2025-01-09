@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Upload_memory_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -12,8 +13,8 @@ import '../../../../../constants/constants.dart';
 import '../../../../../controllers/Memory_detail_controller.dart';
 import '../../../../../models/MemoryModel.dart';
 import '../../../../../utills/ConvertDateTime.dart';
+import '../../../../widgets/CachedNetworkImageWidget.dart';
 import '../../../../widgets/VideoPlayerWidget.dart';
-import '../../../VideoplayerScreen.dart';
 
 class MemoryDetailScreen extends StatelessWidget {
   MemoryDetailScreen({super.key});
@@ -40,6 +41,18 @@ class MemoryDetailScreen extends StatelessWidget {
                 k2wSizedBox,
                 Text("My Memories",
                     style: TextStyleConstants.headlineLargeWhite(context)),
+                const Spacer(),
+                Obx(() {
+                  return controller.isloading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : CustomRoundedGlassButton(
+                          icon: Icons.delete,
+                          ontap: () {
+                            controller.deleteMemory();
+                          });
+                }),
               ],
             ),
             CustomGlassmorphicContainer(
@@ -58,25 +71,29 @@ class MemoryDetailScreen extends StatelessWidget {
                                 ? SizedBox(
                                     height: 20.h,
                                     child: NetworkVideoPlayerWidget(
-                                      videoUrl: controller.selectedImage.value,
+                                      videoUrl:
+                                          "${ApiConstants.getPicture}/${controller.selectedImage}",
                                     ),
                                   )
-                                : Image.network(
-                                    "${ApiConstants.getPicture}/${controller.selectedImage.value}",
-                                    height: 20.h,
+                                : SizedBox(
                                     width: double.infinity,
-                                    fit: BoxFit.cover,
+                                    height: 20.h,
+                                    child: CachedNetworkImageWidget(
+                                      fit: BoxFit.cover,
+                                      imageUrl:
+                                          "${ApiConstants.getPicture}/${controller.selectedImage.value}",
+                                    ),
                                   ),
                           );
                         }),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: CustomRoundedGlassButton(
-                            icon: Icons.more_horiz,
-                            ontap: () {},
-                          ),
-                        )
+                        // Positioned(
+                        //   top: 0,
+                        //   right: 0,
+                        //   child: CustomRoundedGlassButton(
+                        //     icon: Icons.more_horiz,
+                        //     ontap: () {},
+                        //   ),
+                        // )
                       ],
                     ),
                     k1hSizedBox,
@@ -99,31 +116,35 @@ class MemoryDetailScreen extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
                                       child: NetworkVideoPlayerWidget(
-                                        videoUrl: file,
+                                        videoUrl:
+                                            "${ApiConstants.getPicture}/$file",
                                       ),
                                     ),
                                   ),
                                 )
-                              : Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 1.w),
-                                  width: 9.h,
-                                  decoration: BoxDecoration(
+                              : Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 1.w),
+                                  child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                          "${ApiConstants.getPicture}/${file}",
-                                        ),
-                                        fit: BoxFit.cover),
+                                    child: SizedBox(
+                                      width: 9.h,
+                                      child: CachedNetworkImageWidget(
+                                        fit: BoxFit.cover,
+                                        imageUrl:
+                                            "${ApiConstants.getPicture}/$file",
+                                      ),
+                                    ),
                                   ),
                                 );
                         },
                       ),
                     ),
+                    k1hSizedBox,
                     Text(
-                      "Description :",
+                      "Description : ",
                       style: TextStyleConstants.bodyLargeWhite(context),
                     ),
-                    k1hSizedBox,
                     Text(
                       controller.memory.description ?? "",
                       style: TextStyleConstants.bodyMediumWhite(context),
@@ -142,7 +163,28 @@ class MemoryDetailScreen extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          formatISOToCustom(memory.deliveryDate.toString()),
+                          formatISOToCustom(
+                              memory.adjustedDeliveryDate.toString()),
+                          style: TextStyleConstants.bodySmallWhite(context),
+                        ),
+                      ],
+                    ),
+                    k1hSizedBox,
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.schedule,
+                          color: AppColors.kIconColor,
+                        ),
+                        k2wSizedBox,
+                        Text(
+                          "Created On",
+                          style: TextStyleConstants.bodySmallWhite(context),
+                        ),
+                        const Spacer(),
+                        Text(
+                          formatISOToCustomWithLocal(
+                              memory.createdAt.toString()),
                           style: TextStyleConstants.bodySmallWhite(context),
                         ),
                       ],
@@ -164,7 +206,7 @@ class MemoryDetailScreen extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(
-                                            "Recipient 0${index + 1} :",
+                                            "Recipient 0${index + 1} : ",
                                             style: TextStyleConstants
                                                 .bodyLargeWhite(context),
                                           ),
@@ -177,15 +219,15 @@ class MemoryDetailScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      k1hSizedBox,
+                                      k05hSizedBox,
                                       Row(
                                         children: [
                                           Text(
-                                            "Email :",
+                                            "Email : ",
                                             style: TextStyleConstants
                                                 .bodyLargeWhite(context),
                                           ),
-                                          k1wSizedBox,
+                                          k05hSizedBox,
                                           Text(
                                             controller.memory.recipients?[index]
                                                     ?.email ??
@@ -195,22 +237,20 @@ class MemoryDetailScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      k1hSizedBox,
+                                      k05hSizedBox,
                                       Row(
                                         children: [
                                           Text(
-                                            "Contact :",
+                                            "Contact : ",
                                             style: TextStyleConstants
                                                 .bodyLargeWhite(context),
                                           ),
                                           k1wSizedBox,
                                           Text(
-                                            controller.memory.recipients?[index]
-                                                    ?.contact ??
-                                                "",
+                                            "${controller.memory.recipients?[index]?.cc ?? ""}${controller.memory.recipients?[index]?.contact ?? ""}",
                                             style: TextStyleConstants
                                                 .bodyLargeWhite(context),
-                                          ),
+                                          )
                                         ],
                                       ),
                                       // k1hSizedBox,
@@ -238,57 +278,14 @@ class MemoryDetailScreen extends StatelessWidget {
                   ],
                 )),
             GradientButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(UploadMemoryScreen.routeName,
+                      arguments: controller.memory);
+                },
                 text: "Reschedule Memory",
                 gradients: const [Colors.purple, Colors.blue])
           ],
         ),
-      ),
-    );
-  }
-}
-
-class MediaWidget extends StatefulWidget {
-  final String fileUrl;
-  final bool isVideo; // Flag to check if the media is a video
-
-  const MediaWidget({Key? key, required this.fileUrl, required this.isVideo})
-      : super(key: key);
-
-  @override
-  _MediaWidgetState createState() => _MediaWidgetState();
-}
-
-class _MediaWidgetState extends State<MediaWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (widget.isVideo) {
-          Get.toNamed(VideoPlayerScreen.routeName, arguments: widget.fileUrl);
-        }
-      },
-      child: Container(
-        width: 200,
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: widget.isVideo
-              ? DecorationImage(
-                  image: NetworkImage(widget.fileUrl),
-                  fit: BoxFit.cover,
-                )
-              : null,
-        ),
-        child: widget.isVideo
-            ? const Center(
-                child: Icon(
-                  Icons.play_circle_fill,
-                  size: 50,
-                  color: Colors.white,
-                ),
-              )
-            : null,
       ),
     );
   }

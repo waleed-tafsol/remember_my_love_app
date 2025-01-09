@@ -30,6 +30,7 @@ class SvgAssets {
   static const String apple = '${_assets}apple.svg';
   static const String google = '${_assets}google.svg';
   static const String edit = '${_assets}edit.svg';
+  static const String search = '${_assets}search.svg';
 }
 
 class LottieAssets {

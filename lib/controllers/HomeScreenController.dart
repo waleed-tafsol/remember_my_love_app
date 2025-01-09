@@ -75,6 +75,8 @@ class HomeScreenController extends GetxController {
 
   Future<void> reload() async {
     await getmemories();
+    await callMemoriesDates();
+
     await getUSer();
   }
 

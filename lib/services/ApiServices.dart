@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import '../constants/ApiConstant.dart';
+import '../utills/ConvertDateTime.dart';
 import '../utills/CustomSnackbar.dart';
 import 'Auth_services.dart';
 
@@ -12,6 +13,7 @@ class ApiService {
     return {
       'Authorization': 'Bearer $authToken',
       'Content-Type': 'application/json',
+      'offSet': getOffsetInHours(),
     };
   }
 
@@ -33,7 +35,8 @@ class ApiService {
       ColoredPrint.red(
           "Error: ${e.response.toString()} StatusCode: ${e.response?.statusCode.toString()}    on EndPoint: $endpoint ");
       _handleError(e);
-      return null;
+      throw Exception(e.response?.data["message"]["error"][0] ??
+          'Check your internet connection');
     }
   }
 
@@ -115,8 +118,7 @@ class ApiService {
         case 401:
           authService.deleteAuthtokenAndNavigate();
           // Get.offAllNamed(SignUpScreen.routeName);
-          CustomSnackbar.showError('Error',
-              error.response?.data["message"]["error"][0] ?? 'Unauthorized');
+
           break;
         case 404:
           CustomSnackbar.showError('Error',

@@ -6,6 +6,7 @@ class UserModel {
   String? username;
   String? email;
   String? contact;
+  String? cc;
   String? role;
   String? platform;
   String? status;
@@ -34,6 +35,7 @@ class UserModel {
       this.username,
       this.email,
       this.contact,
+      this.cc,
       this.role,
       this.platform,
       this.status,
@@ -62,6 +64,7 @@ class UserModel {
     username = json['username'];
     email = json['email'];
     contact = json['contact'];
+    cc = json['cc'];
     role = json['role'];
     platform = json['platform'];
     status = json['status'];
@@ -104,6 +107,7 @@ class UserModel {
     data['username'] = this.username;
     data['email'] = this.email;
     data['contact'] = this.contact;
+    data['cc'] = this.contact;
     data['role'] = this.role;
     data['platform'] = this.platform;
     data['status'] = this.status;

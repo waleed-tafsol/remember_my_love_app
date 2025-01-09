@@ -1,9 +1,24 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
-import '../firebase_options.dart'; // Import the generated firebase options file
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
+import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/My_memories_screen.dart';
+import '../constants/ApiConstant.dart';
+import '../controllers/NotificationController.dart';
+import '../firebase_options.dart';
+import '../models/MemoryModel.dart';
+import '../models/NotificationModel.dart';
+import '../view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
+import 'ApiServices.dart';
 
 class FirebaseService {
   // Singleton pattern
@@ -80,22 +95,42 @@ class FirebaseService {
     try {
       await _googleSignIn.signOut();
       await _firebaseAuth.signOut();
-      ColoredPrint.green("Signed out successfully.");
+      ColoredPrint.green("Firebase Signed out successfully.");
     } catch (e) {
       ColoredPrint.red("Error signing out: $e");
     }
   }
 
   // Push Notification Setup
-  static void _setupPushNotifications() {
+  static void _setupPushNotifications() async {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      ColoredPrint.magenta(
-          'Received a message in the foreground: ${message.notification?.title}');
+      ColoredPrint.green("message recived");
+      if (message.data.isNotEmpty) {
+        NotificationController notificationController = Get.find();
+        notificationController.handleNotification(message);
+      }
     });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      ColoredPrint.magenta(
-          'Opened app from notification: ${message.notification?.title}');
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      Map<String, dynamic> jsondata = jsonDecode(message.data["payload"]);
+
+      // final receivedNotification = NotificationModel.fromJson(jsondata);
+      ColoredPrint.green("onMessageOpenedApp: $jsondata");
+      if (jsondata['flag'] == 'memory') {
+        try {
+          Response? response = await ApiService.getRequest(
+              ApiConstants.findMemories + jsondata['payload'][0]['id']);
+          final memory = MemoryModel.fromJson(response?.data);
+          Get.toNamed(
+            MemoryDetailScreen.routeName,
+            arguments: memory,
+          );
+        } catch (e) {}
+      } else if (jsondata['payload']['flag'] == 'subscription') {
+        Get.toNamed(ChooseYourPlanScreen.routeName);
+      } else {
+        null;
+      }
     });
   }
 
@@ -107,6 +142,19 @@ class FirebaseService {
     if (message.notification != null) {
       ColoredPrint.magenta(
           'Background message: ${message.notification?.title}');
+
+      // Check if the memoryId exists in the payload
+
+      Map<String, dynamic> jsondata = jsonDecode(message.data["payload"]);
+
+      final receivedNotification = NotificationModel.fromJson(jsondata);
+      String? memoryId = message.data['memoryId'];
+      if (memoryId != null) {
+        ColoredPrint.green(
+            "Navigating to Memory Detail with memoryId: $memoryId");
+        // Navigate to MemoryDetailScreen with memoryId as a parameter
+        Get.toNamed(MemoryDetailScreen.routeName, arguments: memoryId);
+      }
     } else {
       ColoredPrint.magenta('Background message with no notification');
     }

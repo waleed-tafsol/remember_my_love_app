@@ -1,6 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_thumbnail_video/index.dart';
+import 'package:get_thumbnail_video/video_thumbnail.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:remember_my_love_app/utills/Colored_print.dart';
 import '../../controllers/localVideoPlayerWidgetController.dart';
 import '../screens/VideoplayerScreen.dart';
 
@@ -48,47 +52,90 @@ class LocalVideoPlayerWidget extends StatelessWidget {
   }
 }
 
-class NetworkVideoPlayerWidget extends StatelessWidget {
+class NetworkVideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
 
-  const NetworkVideoPlayerWidget({Key? key, required this.videoUrl})
+  NetworkVideoPlayerWidget({Key? key, required this.videoUrl})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    // Instantiate the VideoThumbnailController and set the thumbnail for network video
-    final VideoThumbnailController controller =
-        Get.put(VideoThumbnailController());
-    controller.setThumbnailForNetworkVideo(videoUrl);
+  State<NetworkVideoPlayerWidget> createState() =>
+      _NetworkVideoPlayerWidgetState();
+}
 
-    // Navigate to the VideoPlayerScreen and pass the video URL
+class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
+  String thumbnailPath = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    setThumbnailForNetworkVideo(widget.videoUrl);
+    super.initState();
+  }
+
+  void setThumbnailForNetworkVideo(String videoUrl) async {
+    // Get the cache directory
+    Directory cacheDir = await getTemporaryDirectory();
+
+    // Define the thumbnail cache path
+    String thumbnailCachePath =
+        '${cacheDir.path}/thumbnail_cache/${videoUrl.hashCode}.jpg';
+
+    // Check if the thumbnail already exists in cache
+    final File cachedThumbnail = File(thumbnailCachePath);
+    if (await cachedThumbnail.exists()) {
+      // If thumbnail exists, use the cached thumbnail
+      setState(() {
+        thumbnailPath = thumbnailCachePath;
+      });
+      ColoredPrint.green('Thumbnail retrieved from cache: $thumbnailCachePath');
+    } else {
+      final fileName = await VideoThumbnail.thumbnailFile(
+        video: videoUrl,
+        thumbnailPath: (await getTemporaryDirectory()).path,
+        imageFormat: ImageFormat.JPEG,
+        quality: 75,
+      );
+      final cacheDirPath = Directory('${cacheDir.path}/thumbnail_cache');
+      if (!await cacheDirPath.exists()) {
+        await cacheDirPath.create(recursive: true);
+      }
+      if (fileName != null) {
+        final File thumbnailFile = File(thumbnailCachePath);
+        await thumbnailFile.writeAsBytes(await fileName.readAsBytes());
+        setState(() {
+          thumbnailPath = thumbnailCachePath;
+        });
+        ColoredPrint.green('Thumbnail saved in cache: $thumbnailCachePath');
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     void _onPlayButtonPressed() {
-      Get.toNamed(VideoPlayerScreen.routeName, arguments: videoUrl);
+      Get.toNamed(VideoPlayerScreen.routeName, arguments: widget.videoUrl);
+      ColoredPrint.blue(thumbnailPath);
     }
 
     return GestureDetector(
-      onTap: _onPlayButtonPressed,
-      child: Obx(() {
-        if (controller.thumbnailPath.value == null) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          return Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: FileImage(File(controller.thumbnailPath.value!)),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: const Center(
-              child: Icon(
-                Icons.play_circle_fill,
-                color: Colors.white,
-                size: 50,
-              ),
-            ),
-          );
-        }
-      }),
-    );
+        onTap: _onPlayButtonPressed,
+        child: thumbnailPath.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: FileImage(File(thumbnailPath)),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.play_circle_fill,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                ),
+              ));
   }
 }

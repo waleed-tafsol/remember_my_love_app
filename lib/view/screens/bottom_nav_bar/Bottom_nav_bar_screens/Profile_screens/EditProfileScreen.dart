@@ -1,20 +1,22 @@
 import 'dart:io';
 
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/StyleConstants.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/EditProfileController.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
+import 'package:remember_my_love_app/view/widgets/CachedNetworkImageWidget.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../../constants/colors_constants.dart';
 import '../../../../../utills/CustomSnackbar.dart';
+import '../../../../widgets/Custom_rounded_glass_button.dart';
+import '../../../../widgets/Glass_text_field_with_text_widget.dart';
 import '../../../../widgets/gradient_button.dart';
 
 class EditProfileScreen extends GetView<EditProfileController> {
@@ -31,8 +33,18 @@ class EditProfileScreen extends GetView<EditProfileController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Edit Profile",
-                style: TextStyleConstants.displayMediumWhite(context)),
+            Row(
+              children: [
+                CustomRoundedGlassButton(
+                    icon: Icons.arrow_back_ios_new,
+                    ontap: () {
+                      Get.back();
+                    }),
+                k2wSizedBox,
+                Text("Edit Profile",
+                    style: TextStyleConstants.headlineLargeWhite(context)),
+              ],
+            ),
             k2hSizedBox,
             CustomGlassmorphicContainer(
                 // height: 27.h,
@@ -64,13 +76,18 @@ class EditProfileScreen extends GetView<EditProfileController> {
                                           width: 12.h,
                                           fit: BoxFit.cover,
                                         )
-                                      : Image.network(
-                                          controller.homeScreenController.user
-                                                  .value?.photo ??
-                                              "",
-                                          height: 12.h,
-                                          width: 12.h,
-                                          fit: BoxFit.cover,
+                                      : AbsorbPointer(
+                                          child: CachedNetworkImageWidget(
+                                            imageUrl: controller
+                                                    .homeScreenController
+                                                    .user
+                                                    .value
+                                                    ?.photo ??
+                                                "",
+                                            height: 12.h,
+                                            width: 12.h,
+                                            fit: BoxFit.cover,
+                                          ),
                                         );
                                 }),
                               ),
@@ -116,68 +133,68 @@ class EditProfileScreen extends GetView<EditProfileController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "User Name",
+                        "UserName",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       TextFormField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Please enter your user name";
+                            return "Please enter your UserName";
                           }
                           return null;
                         },
                         decoration: const InputDecoration(
                           hintText: "Enter User Name",
                         ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r"\s")),
+                        ],
                         controller: controller.userNameController,
                       )
                     ],
                   ),
                   k1hSizedBox,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Contact",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      IntlPhoneField(
-                        decoration: InputDecoration(
+                  GlassTextFieldWithTitle(
+                    title: 'Contact',
+                    hintText: "Enter Contact",
+                    controller: controller.contactController,
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a phone number';
+                      } else if (value.length < 10) {
+                        return 'Please enter a valid phone number with at least 10 digits';
+                      } else {
+                        return null;
+                      }
+                    },
+                    prefixWidget: CountryCodePicker(
+                      onChanged: (value) {
+                        controller.ccController.text =
+                            value.dialCode.toString();
+                      },
+                      textStyle:
+                          TextStyle(fontSize: 15.sp, color: Colors.white),
+                      dialogTextStyle:
+                          TextStyle(fontSize: 15.sp, color: Colors.black),
+                      searchStyle:
+                          TextStyle(fontSize: 15.sp, color: Colors.black),
+                      searchDecoration: InputDecoration(
+                          hintText: 'Search',
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: Colors.black,
+                          ),
+                          hintStyle:
+                              TextStyle(fontSize: 15.sp, color: Colors.black),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          hintStyle: TextStyle(
-                            fontSize: 15.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 4.w, horizontal: 1.h),
-                          filled: true,
-                          hintText: "Enter Phone Number",
-                          focusedBorder: InputBorder.none,
-                          fillColor: AppColors.kTextfieldColor,
-                        ),
-                        controller: controller.contactController,
-                        disableLengthCheck: true,
-                        showDropdownIcon: false,
-                        validator: (value) {
-                          if (value == null || value.number.isEmpty) {
-                            return 'Please enter a phone number';
-                          }
-
-                          if (value.number.length > 15) {
-                            return 'Please enter a valid phone number with at most 15 digits';
-                          }
-                          return null;
-                        },
-                        initialCountryCode: 'BH',
-                        languageCode: "en",
-                        onChanged: (phone) {},
-                        onCountryChanged: (country) {},
-                      )
-                    ],
+                              borderRadius: BorderRadius.circular(20))),
+                      initialSelection: controller.ccController.value.text,
+                      favorite: ['+1', 'us'],
+                      showCountryOnly: false,
+                      showOnlyCountryWhenClosed: false,
+                      alignLeft: false,
+                    ),
                   ),
                   k1hSizedBox,
                   Column(
@@ -196,7 +213,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                             hintText: controller
                                     .homeScreenController.user.value?.email ??
                                 "",
-                            hintStyle: TextStyle(color: Colors.white30)),
+                            hintStyle: const TextStyle(color: Colors.white30)),
                       )
                     ],
                   ),

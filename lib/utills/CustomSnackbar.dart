@@ -3,7 +3,11 @@ import 'package:get/get.dart';
 
 class CustomSnackbar {
   // Success Snackbar
-  static void showSuccess(String title, String message) {
+  static void showSuccess(
+    String title,
+    String message, {
+    OnTap? onTap, // Use the correct callback type here
+  }) {
     Get.snackbar(
       title,
       message,
@@ -14,6 +18,7 @@ class CustomSnackbar {
       margin: const EdgeInsets.all(16),
       borderRadius: 8,
       duration: const Duration(seconds: 3),
+      onTap: onTap,
     );
   }
 

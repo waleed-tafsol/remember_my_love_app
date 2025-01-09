@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/models/Categories.dart';
 import 'package:remember_my_love_app/models/MemoryModel.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
@@ -14,7 +15,7 @@ import '../../../../../../utills/ConvertDateTime.dart';
 import '../../../../../widgets/CachedNetworkImageWidget.dart';
 import '../../../../../widgets/Custom_glass_container.dart';
 
-class LetterListTile extends StatelessWidget {
+class LetterListTile extends GetView<CalendarController> {
   const LetterListTile({
     super.key,
     required this.picturesCount,
@@ -39,7 +40,7 @@ class LetterListTile extends StatelessWidget {
   final String? title;
   final String? status;
   final String? description;
-  final Category? catagory;
+  final CategoryModel? catagory;
   final String? createdAt;
   final String? updatedAt;
   final String? month;
@@ -68,145 +69,166 @@ class LetterListTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title ?? "",
-                        style: TextStyleConstants.headlineLargeWhite(context)
-                            .copyWith(fontWeight: FontWeight.bold),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title ?? "",
+                            style:
+                                TextStyleConstants.headlineLargeWhite(context)
+                                    .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          k1hSizedBox,
+                          Text(
+                            formatISOToCustom(
+                                memory!.adjustedDeliveryDate.toString()),
+                            style: TextStyleConstants.bodyMediumWhite(context),
+                          )
+                        ],
                       ),
-                      k1hSizedBox,
-                      Text(
-                        formatISOToCustom(memory!.createdAt.toString()),
-                        style: TextStyleConstants.bodyMediumWhite(context),
+                    ),
+                    CustomRoundedGlassButton(icon: Icons.email, ontap: () {})
+                  ],
+                ),
+              ),
+              Obx(() {
+                return controller.calendarHidden.value
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          k2hSizedBox,
+                          const Divider(),
+                          k1hSizedBox,
+                          Text(
+                            "Description : ${description ?? ''}",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyleConstants.bodyMediumWhite(context),
+                          ),
+                          k1hSizedBox,
+                          Text(
+                            "Attachments :",
+                            style: TextStyleConstants.bodyMediumWhite(context),
+                          ),
+                          k1hSizedBox,
+                          files!.isEmpty
+                              ? SizedBox()
+                              : SizedBox(
+                                  height: 9.h,
+                                  width: double.infinity,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: files!.length >= 4
+                                          ? 4
+                                          : files!.length,
+                                      itemBuilder: (context, index) {
+                                        final file = files![index];
+                                        bool isVideo = file.endsWith("mp4");
+                                        if (index >= 3) {
+                                          return isVideo
+                                              ? Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 1.w),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    child: AbsorbPointer(
+                                                      child:
+                                                          NetworkVideoPlayerWidget(
+                                                        videoUrl:
+                                                            "${ApiConstants.getPicture}/$file",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : SizedBox(
+                                                  width: 9.h,
+                                                  child: Stack(
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    1.w),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          child:
+                                                              CachedNetworkImageWidget(
+                                                            fit: BoxFit.cover,
+                                                            imageUrl:
+                                                                files![index],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Center(
+                                                        child: Text(
+                                                          "${(picturesCount - index).toString()} +",
+                                                          style: TextStyleConstants
+                                                                  .bodyLargeWhite(
+                                                                      context)
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                        } else {
+                                          return isVideo
+                                              ? Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 1.w),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    child: AbsorbPointer(
+                                                      child:
+                                                          NetworkVideoPlayerWidget(
+                                                        videoUrl:
+                                                            "${ApiConstants.getPicture}/$file",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 1.w),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    child: SizedBox(
+                                                      width: 9.h,
+                                                      child:
+                                                          CachedNetworkImageWidget(
+                                                        fit: BoxFit.cover,
+                                                        imageUrl:
+                                                            "${ApiConstants.getPicture}/${files![index]}",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                        }
+                                      }),
+                                )
+                        ],
                       )
-                    ],
-                  ),
-                  CustomRoundedGlassButton(icon: Icons.email, ontap: () {})
-                ],
-              ),
-              k2hSizedBox,
-              const Divider(),
-              k2hSizedBox,
-              Row(
-                children: [
-                  Text(
-                    "Description :",
-                    style: TextStyleConstants.bodyMediumWhite(context),
-                  ),
-                  k1wSizedBox,
-                ],
-              ),
-              k1hSizedBox,
-              Text(
-                description ?? '',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyleConstants.bodyMediumWhite(context),
-              ),
-              k1hSizedBox,
-              Text(
-                "Attachments :",
-                style: TextStyleConstants.bodyMediumWhite(context),
-              ),
-              k1hSizedBox,
-              files!.isEmpty
-                  ? SizedBox()
-                  : SizedBox(
-                      height: 9.h,
-                      width: double.infinity,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: files!.length >= 4 ? 4 : files!.length,
-                          itemBuilder: (context, index) {
-                            final file = files![index];
-                            bool isVideo = file.endsWith("mp4");
-                            if (index >= 3) {
-                              return isVideo
-                                  ?
-                                  // SizedBox()
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 1.w),
-                                      child: SizedBox(
-                                        width: 9.h,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: NetworkVideoPlayerWidget(
-                                            videoUrl: file,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Stack(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 1.w),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: SizedBox(
-                                              width: 9.h,
-                                              child: CachedNetworkImageWidget(
-                                                fit: BoxFit.cover,
-                                                imageUrl: files![index],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                            child: Text(
-                                          "${(picturesCount - index).toString()} +",
-                                          style: TextStyleConstants
-                                                  .bodyLargeWhite(context)
-                                              .copyWith(
-                                                  fontWeight: FontWeight.bold),
-                                        )),
-                                      ],
-                                    );
-                            } else {
-                              return isVideo
-                                  ? Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 1.w),
-                                      child: SizedBox(
-                                        width: 9.h,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: NetworkVideoPlayerWidget(
-                                            videoUrl:
-                                                "${ApiConstants.getPicture}/${file}",
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 1.w),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: SizedBox(
-                                          width: 9.h,
-                                          child: CachedNetworkImageWidget(
-                                            fit: BoxFit.cover,
-                                            imageUrl:
-                                                "${ApiConstants.getPicture}/${files![index]}",
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                            }
-                          }),
-                    )
+                    : SizedBox.shrink();
+              }),
             ],
           ),
         ));

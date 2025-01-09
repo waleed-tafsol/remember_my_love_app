@@ -71,4 +71,35 @@ class ChooseYourPlanController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future<void> cancelSubscription() async {
+    isLoading.value = true;
+    try {
+      Response? response =
+          await ApiService.patchRequest(ApiConstants.cancelSubscription, {});
+      if (response?.data != null) {
+        homeController.getUSer();
+      }
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> renewSubscription() async {
+    isLoading.value = true;
+    ColoredPrint.green("Fetching Packages");
+    try {
+      Response? response =
+          await ApiService.patchRequest(ApiConstants.renewSubscription, {});
+      if (response != null) {
+        if (response.data != null) {
+          homeController.getUSer();
+        }
+        isLoading.value = false;
+      }
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
 }
