@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -18,10 +21,88 @@ class CardsController extends GetxController {
   HomeScreenController homeController = Get.find();
   RxString selectedCardId = "".obs;
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  RxString cardNumber = ''.obs;
+  RxString expiryDate = ''.obs;
+  RxString cardHolderName = ''.obs;
+  RxString cvvCode = ''.obs;
+  RxBool isCvvFocused = false.obs;
+  RxString cardType = ''.obs;
+
   @override
   void onInit() async {
     await getAllCards();
     super.onInit();
+  }
+
+  void onCreditCardModelChange(CreditCardModel? creditCardModel) {
+    cardNumber.value = creditCardModel!.cardNumber;
+    expiryDate.value = creditCardModel.expiryDate;
+    cardHolderName.value = creditCardModel.cardHolderName;
+    cvvCode.value = creditCardModel.cvvCode;
+    isCvvFocused.value = creditCardModel.isCvvFocused;
+  }
+
+  Future<void> confirmPayment() async {
+    try {
+      // Confirm the payment
+      final paymentIntent = await Stripe.instance.confirmPayment(
+         paymentIntentClientSecret: 'pi_3QfUPk2MzUnaJMmg10PkMVPW_secret_YQra52M8IPfnPvdqZoT3g5XPp',
+      );
+
+      // Handle successful payment
+      print('Payment successful: ${paymentIntent.toJson()}');
+    } catch (error) {
+      // Handle error
+      print('Payment failed: $error');
+    }
+  }
+
+  Future<bool> callAddCard() async {
+    try {
+      isLoading.value = true;
+      final List<String> expMonthYear = expiryDate.value.split('/');
+      print(expMonthYear);
+      await Stripe.instance.dangerouslyUpdateCardDetails(CardDetails(
+        number: cardNumber.value,
+        cvc: cvvCode.value,
+        expirationMonth: int.parse(expMonthYear[0]),
+        expirationYear: int.parse(expMonthYear[1]),
+      ));
+
+      var token = await Stripe.instance.createToken(
+        CreateTokenParams.card(
+          params: CardTokenParams(
+            name: cardHolderName.value,
+            /*address: Address(
+            */ /*line1: "abc",
+            line2: "xyz",
+            city: "Alpha",
+            state: "Beta",
+            country: "xy",
+            postalCode: "237482",*/ /*
+          ),*/
+            currency: "usd",
+            type: TokenType.Card,
+          ),
+        ),
+      );
+
+      String tokenId = token.id;
+
+      final payment = await Stripe.instance.createPaymentMethod(
+        params: PaymentMethodParams.card(
+            paymentMethodData: PaymentMethodData.fromJson(
+                {"type": "card", "card[token]": tokenId})),
+      );
+
+      print(payment.id);
+      return true;
+    } catch (exception) {
+      isLoading.value = false;
+      return false;
+    }
   }
 
   RxList<PaymentMethodModel> paymentMethodModel = <PaymentMethodModel>[].obs;
@@ -96,22 +177,10 @@ class CardsController extends GetxController {
     }
   }
 
-  // Future<void> buyPackage() async {
-  //   ChooseYourPlanController chooseYoyourPlanController = Get.find();
-  //   isLoading.value = true;
-  //   ColoredPrint.green("Buying Package");
-  //   Response? response = await ApiService.patchRequest(
-  //     ApiConstants.buySubscription,
-  //     {
-  //       "packageId": chooseYoyourPlanController.selectedPackage.value?.sId,
-  //     },
-  //   );
-  //   Get.offNamedUntil(SuccessScreen.routeName,
-  //       (route) => route.settings.name == BottomNavBarScreen.routeName,
-  //       arguments: {
-  //         "title": "Congrats ",
-  //         "subtitle": "Your Plan has been upgraded successfully",
-  //       });
-  //   isLoading.value = false;
-  // }
+  void clearCardData() {
+    cardNumber.value = "";
+    expiryDate.value = "";
+    cardHolderName.value = "";
+    cvvCode.value = "";
+  }
 }

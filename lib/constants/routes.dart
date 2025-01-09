@@ -29,6 +29,7 @@ import '../bindings/Update_Password_bindinga.dart';
 import '../bindings/Upload_memories_bindings.dart';
 import '../bindings/splash_binding.dart';
 import '../view/screens/VideoplayerScreen.dart';
+import '../view/screens/add_card_screen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/EditProfileScreen.dart';
 import '../view/screens/onboarding_screens/CardsScreen.dart';
@@ -204,6 +205,13 @@ class Pages {
         return GetPageRoute(
           settings: settings,
           page: () => const CardsScreen(),
+          binding: CardsBindings(),
+          transition: _routeTransition,
+        );
+      case AddCardScreen.routeName:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const AddCardScreen(),
           binding: CardsBindings(),
           transition: _routeTransition,
         );
