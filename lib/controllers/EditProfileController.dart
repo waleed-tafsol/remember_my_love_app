@@ -35,7 +35,7 @@ class EditProfileController extends GetxController {
     nameController.text = homeScreenController.user.value?.name ?? '';
     userNameController.text = homeScreenController.user.value?.username ?? '';
     contactController.text = homeScreenController.user.value?.contact ?? '';
-    ccController.text = homeScreenController.user.value?.cc ?? '+92';
+    ccController.text = homeScreenController.user.value?.cc ?? '+1';
   }
 
   Future<void> upateMe() async {

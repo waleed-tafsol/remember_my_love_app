@@ -1,8 +1,8 @@
 class ApiConstants {
-  // static const baseUrl =
-  //     "https://b46b-2407-aa80-14-4505-2132-bf6c-3fc9-5963.ngrok-free.app/api/v1/";
   static const baseUrl =
-      "https://remember-my-love-7be82b8be06b.herokuapp.com/api/v1/";
+      "https://454a-2407-aa80-14-64a9-7171-707b-5c72-83fe.ngrok-free.app/api/v1/";
+  // static const baseUrl =
+  //     "https://remember-my-love-7be82b8be06b.herokuapp.com/api/v1/";
   static const login = "auth/login";
   static const socialLogin = "auth/social";
   static const logout = "auth/logout";

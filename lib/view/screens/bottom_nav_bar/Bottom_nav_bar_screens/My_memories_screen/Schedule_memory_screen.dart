@@ -154,9 +154,16 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           fontWeight: FontWeight.bold,
                           fontSize: 17.sp,
                         ),
-                        onChange: (index) {
-                          controller.selectedDate.value = index;
-                          print(index);
+                        onChange: (time) {
+                          DateTime currentDate = controller.selectedDate.value;
+                          controller.selectedDate.value = DateTime(
+                            currentDate.year,
+                            currentDate.month,
+                            currentDate.day,
+                            time.hour,
+                            time.minute,
+                          );
+                          // print(index);
                         },
                         onSubmit: (index) {
                           controller.buttonVisivility.value = true;
