@@ -1,4 +1,4 @@
-package com.example.remember_my_love_app
+package com.remembermylove.tafsol
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

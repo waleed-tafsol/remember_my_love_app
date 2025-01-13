@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:364804173127:android:006b40b129d135da90b062",
         "android_client_info": {
-          "package_name": "com.example.remember_my_love_app"
+          "package_name": "com.remembermylove.tafsol"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "364804173127-r504ki530iati8a986ulnl840mes8c9h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.remember_my_love_app",
+            "package_name": "com.remembermylove.tafsol",
             "certificate_hash": "a9e55a978f747874677b8f67e77e35787efc8119"
           }
         },
