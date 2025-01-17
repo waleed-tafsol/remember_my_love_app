@@ -1,6 +1,6 @@
 class ApiConstants {
   static const baseUrl =
-      "https://454a-2407-aa80-14-64a9-7171-707b-5c72-83fe.ngrok-free.app/api/v1/";
+      "https://7349-2407-aa80-14-7526-217a-235a-1f2-a6fd.ngrok-free.app/api/v1/";
   // static const baseUrl =
   //     "https://remember-my-love-7be82b8be06b.herokuapp.com/api/v1/";
   static const login = "auth/login";
@@ -37,11 +37,13 @@ class ApiConstants {
   static const deleteMemoryFromS3 = "media/delete";
 // packcages
   static const getAllPackages = "package/all";
-  static const buySubscription = "users/update-subscription";
+  static const buySubscription = "users/test/buy-subscription";
   static const renewSubscription = "users/renew-subscription";
   static const cancelSubscription = "users/cancel-Subscription";
+  static const updateSubscription = "users/update-subscription";
   // cards
   static const getAllCards = "users/payment-methods";
+  static const getDefaltCard = "users/default-card";
   static const attatchCard = "users/attach-card";
   static const deAttatchCard = "users/detach-card";
   static const setDefaltCard = "users/default-card";

@@ -7,7 +7,7 @@ class PaymentMethodModel {
   final bool livemode;
   final Map<String, dynamic> metadata;
   final String type;
-  final String name;
+  final String? name;
 
   PaymentMethodModel({
     required this.id,

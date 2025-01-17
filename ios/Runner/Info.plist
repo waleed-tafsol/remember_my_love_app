@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera for capturing videos.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>We need access to your contacts to display them.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library so we can pick videos.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

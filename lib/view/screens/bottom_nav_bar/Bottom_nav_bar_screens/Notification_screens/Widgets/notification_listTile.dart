@@ -10,6 +10,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../../controllers/NotificationController.dart';
 import '../../../../../../models/NotificationModel.dart';
 import '../../../../../../utills/ConvertDateTime.dart';
+import '../../../../../widgets/CachedNetworkImageWidget.dart';
 
 class NotificationListTile extends GetView<NotificationController> {
   const NotificationListTile({super.key, required this.notification});
@@ -33,8 +34,8 @@ class NotificationListTile extends GetView<NotificationController> {
           child: Row(
         children: [
           ClipOval(
-            child: Image.asset(
-              Image_assets.userImage,
+            child: CachedNetworkImageWidget(
+              imageUrl: controller.homeScreenController.user.value?.photo ?? "",
               height: 6.h,
               width: 6.h,
               fit: BoxFit.cover,

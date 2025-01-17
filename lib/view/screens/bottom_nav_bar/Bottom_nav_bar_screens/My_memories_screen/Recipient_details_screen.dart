@@ -1,9 +1,10 @@
 import 'dart:async';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/models/SearchUserModel.dart';
+import 'package:remember_my_love_app/services/Contact_picker_services.dart';
+import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/utills/Validators.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
@@ -24,6 +25,50 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
   static const routeName = "RecipientDetailsScreen";
   final _formKey = GlobalKey<FormState>();
   Timer? _debounceTimer;
+  final ContactPickerService _contactPickerService = ContactPickerService();
+
+  Future<void> handleContactSelection(int index) async {
+    try {
+      bool permissionGranted =
+          await ContactPickerService().requestPermissions();
+
+      if (permissionGranted) {
+        final contact = await _contactPickerService.openDevicePhoneBook();
+
+        if (contact.phones?.isNotEmpty ?? false) {
+          String? phoneNumber = contact.phones!.first.value;
+
+          if (phoneNumber != null) {
+            // Remove all white spaces from the phone number
+
+            if (phoneNumber.startsWith('+')) {
+              // Extract country code
+              String countryCode = phoneNumber.split(' ')[0];
+              phoneNumber = phoneNumber.replaceFirst(countryCode, '');
+              phoneNumber = phoneNumber.replaceAll(' ', '');
+              phoneNumber = phoneNumber.replaceAll('-', '');
+
+              controller.recipients[index].ccp.value = countryCode;
+              // Remove country code from the phone number
+            } else if (phoneNumber.startsWith('0')) {
+              // Remove leading '0' and set default country code
+              phoneNumber = phoneNumber.substring(1);
+              controller.recipients[index].ccp.value = "+92";
+            }
+
+            // Update the contactController with the cleaned phone number
+            controller.recipients[index].contactController.text = phoneNumber;
+          }
+        } else {
+          throw Exception(
+              "No phone number available for the selected contact.");
+        }
+      }
+    } catch (e) {
+      CustomSnackbar.showError("Error", e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -193,38 +238,57 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                           return null;
                                         }
                                       },
-                                      prefixWidget: CountryCodePicker(
-                                        onChanged: (value) => controller
-                                            .recipients[index]
-                                            .ccp = value.toString(),
-                                        textStyle: TextStyle(
+                                      prefixWidget: Obx(() {
+                                        return CountryCodePicker(
+                                          onChanged: (value) => controller
+                                              .recipients[index]
+                                              .ccp
+                                              .value = value.toString(),
+                                          textStyle: TextStyle(
                                             fontSize: 15.sp,
-                                            color: Colors.white),
-                                        dialogTextStyle: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          dialogTextStyle: TextStyle(
                                             fontSize: 15.sp,
-                                            color: Colors.black),
-                                        searchStyle: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                          searchStyle: TextStyle(
                                             fontSize: 15.sp,
-                                            color: Colors.black),
-                                        searchDecoration: InputDecoration(
+                                            color: Colors.black,
+                                          ),
+                                          searchDecoration: InputDecoration(
                                             hintText: 'Search',
                                             prefixIcon: const Icon(
                                               Icons.search,
                                               color: Colors.black,
                                             ),
                                             hintStyle: TextStyle(
-                                                fontSize: 15.sp,
-                                                color: Colors.black),
+                                              fontSize: 15.sp,
+                                              color: Colors.black,
+                                            ),
                                             border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20))),
-                                        initialSelection:
-                                            controller.recipients[index].ccp,
-                                        favorite: ['+1', 'US'],
-                                        showCountryOnly: false,
-                                        showOnlyCountryWhenClosed: false,
-                                        alignLeft: false,
-                                      ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                          ),
+                                          initialSelection: controller
+                                                      .recipients[index]
+                                                      .ccp
+                                                      .value ==
+                                                  "+1"
+                                              ? 'US' // Set 'US' as the default country when ccp is empty
+                                              : controller
+                                                  .recipients[index].ccp.value,
+                                          favorite: ['+1', 'US'],
+                                          showCountryOnly: false,
+                                          showOnlyCountryWhenClosed: false,
+                                          alignLeft: false,
+                                        );
+                                      }),
+                                      suffixIcon: IconButton(
+                                          onPressed: () =>
+                                              handleContactSelection(index),
+                                          icon: Icon(Icons.dialpad_outlined)),
                                     ),
                                   ],
                                 );

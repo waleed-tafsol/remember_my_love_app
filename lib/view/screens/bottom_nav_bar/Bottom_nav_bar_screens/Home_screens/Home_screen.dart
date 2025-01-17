@@ -60,37 +60,43 @@ class HomeScreen extends GetView<HomeScreenController> {
                           );
                   })),
                   k2wSizedBox,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Hello,",
-                        style: TextStyleConstants.bodyMediumWhite(context),
-                      ),
-                      k1hSizedBox,
-                      Obx(() {
-                        return controller.user.value == null
-                            ? Shimmer.fromColors(
-                                baseColor: AppColors.kgradientBlue,
-                                highlightColor: AppColors.kgradientPurple,
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 1.w),
-                                  height: 4.h,
-                                  width: 40.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ))
-                            : Text(
-                                controller.user.value?.name ?? "------ -------",
-                                style:
-                                    TextStyleConstants.displayMediumWhiteBold(
-                                        context),
-                              );
-                      }),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Hello,",
+                          style: TextStyleConstants.bodyMediumWhite(context),
+                        ),
+                        k1hSizedBox,
+                        Obx(() {
+                          return controller.user.value == null
+                              ? Shimmer.fromColors(
+                                  baseColor: AppColors.kgradientBlue,
+                                  highlightColor: AppColors.kgradientPurple,
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 1.w),
+                                    height: 4.h,
+                                    width: 40.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ))
+                              : Text(
+                                  controller.user.value?.name ??
+                                      "------ -------",
+                                  style:
+                                      TextStyleConstants.displayMediumWhiteBold(
+                                          context),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                );
+                        }),
+                      ],
+                    ),
                   )
                 ],
               ),

@@ -61,7 +61,7 @@ class UploadMemoryController extends GetxController {
         } else {
           recipients.add(Recipient(
             emailController: TextEditingController(),
-            ccp: "+1",
+            ccp: "+1".obs,
             contactController: TextEditingController(),
             relationController: TextEditingController(),
           ));
@@ -86,7 +86,7 @@ class UploadMemoryController extends GetxController {
         reschedualMemory.value?.recipients?.forEach((element) {
           recipients.add(Recipient(
             emailController: TextEditingController(text: element?.email),
-            ccp: element?.cc ?? "",
+            ccp: element?.cc?.obs ?? "+92".obs,
             contactController: TextEditingController(text: element?.contact),
             relationController: TextEditingController(text: element?.relation),
           ));
@@ -121,7 +121,7 @@ class UploadMemoryController extends GetxController {
   void addRecipient() {
     recipients.add(Recipient(
       emailController: TextEditingController(),
-      ccp: "+92",
+      ccp: "+92".obs,
       contactController: TextEditingController(),
       relationController: TextEditingController(),
     ));
@@ -506,7 +506,7 @@ class UploadMemoryController extends GetxController {
 
 class Recipient {
   TextEditingController emailController;
-  String ccp;
+  RxString ccp;
   TextEditingController contactController;
 
   TextEditingController relationController;
@@ -522,7 +522,7 @@ class Recipient {
   Map<String, String> toMap() {
     return {
       "email": emailController.text.trim(),
-      "cc": ccp,
+      "cc": ccp.value,
       "contact": contactController.text.trim(),
       "username": emailController.text.trim(),
       "relation": relationController.text.trim(),

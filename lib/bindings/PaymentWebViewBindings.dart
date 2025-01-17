@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/controllers/PaymentWebViewController.dart';
 
-class PaymentWebViewBindings extends Bindings {
+class PaymentBindings extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<Paymentwebviewcontroller>(() => Paymentwebviewcontroller());
+    Get.lazyPut<Paymentcontroller>(() => Paymentcontroller());
   }
 }

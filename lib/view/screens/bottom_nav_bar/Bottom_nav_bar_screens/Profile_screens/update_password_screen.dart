@@ -44,7 +44,7 @@ class UpdatePasswordScreen extends GetView<UpdatePasswordController> {
                   title: "Current Password",
                   hintText: "Enter current password",
                   obscureText: !controller.currentpasswordVisibility.value,
-                  icon: IconButton(
+                  suffixIcon: IconButton(
                       onPressed: () {
                         controller.currentpasswordVisibility.value =
                             !controller.currentpasswordVisibility.value;
@@ -67,7 +67,7 @@ class UpdatePasswordScreen extends GetView<UpdatePasswordController> {
                   title: "New Password",
                   hintText: "Enter new password",
                   obscureText: !controller.newpasswordVisibility.value,
-                  icon: IconButton(
+                  suffixIcon: IconButton(
                       onPressed: () {
                         controller.newpasswordVisibility.value =
                             !controller.newpasswordVisibility.value;
@@ -90,7 +90,7 @@ class UpdatePasswordScreen extends GetView<UpdatePasswordController> {
                   title: "Confirm Password",
                   hintText: "Enter confirm password",
                   obscureText: !controller.confirmpasswordVisibility.value,
-                  icon: IconButton(
+                  suffixIcon: IconButton(
                       onPressed: () {
                         controller.confirmpasswordVisibility.value =
                             !controller.confirmpasswordVisibility.value;

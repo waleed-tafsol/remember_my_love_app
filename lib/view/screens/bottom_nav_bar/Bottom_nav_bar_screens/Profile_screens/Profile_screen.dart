@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pay/pay.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
@@ -209,7 +211,7 @@ class ProfileScreen extends GetView<HomeScreenController> {
                         ],
                       ),
                     ))
-                : SizedBox(),
+                : const SizedBox(),
             k2hSizedBox,
             CustomGlassmorphicContainer(
                 margin: const EdgeInsets.symmetric(vertical: 0),
@@ -295,6 +297,18 @@ class ProfileScreen extends GetView<HomeScreenController> {
                   ),
                 )),
             k2hSizedBox,
+            // PayButton()
+            // k2hSizedBox,
+            // SizedBox(
+            //   height: 10.h,
+            //   child: PlatformPayButton(
+            //     type: PlatformButtonType.buy,
+            //     onPressed: () {
+            //       startGooglePay();
+            //     },
+            //   ),
+            // ),
+            // k2hSizedBox,
             CustomGlassmorphicContainer(
                 margin: const EdgeInsets.symmetric(vertical: 0),
                 child: InkWell(
@@ -346,5 +360,52 @@ class ProfileScreen extends GetView<HomeScreenController> {
         ),
       ),
     );
+  }
+
+  Future<void> startGooglePay() async {
+    final googlePaySupported = await Stripe.instance
+        .isPlatformPaySupported(googlePay: const IsGooglePaySupportedParams());
+    if (googlePaySupported) {
+      try {
+        // final response = await fetchPaymentIntentClientSecret();
+        // final clientSecret = response['clientSecret'];
+        // 2.present google pay sheet
+        await Stripe.instance.confirmPlatformPayPaymentIntent(
+            clientSecret: "clientSecret",
+            confirmParams: const PlatformPayConfirmParams.googlePay(
+              googlePay: GooglePayParams(
+                testEnv: true,
+                merchantName: 'Example Merchant Name',
+                merchantCountryCode: 'Es',
+                currencyCode: 'EUR',
+              ),
+            )
+            // PresentGooglePayParams(clientSecret: clientSecret),
+            );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(
+        //       content: Text('Google Pay payment succesfully completed')),
+        // );
+      } catch (e) {
+        if (e is StripeException) {
+          // log('Error during google pay',
+          //     error: e.error, stackTrace: StackTrace.current);
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(content: Text('Error: ${e.error}')),
+          // );
+        } else {
+          // log('Error during google pay',
+          //     error: e, stackTrace: (e as Error?)?.stackTrace);
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(content: Text('Error: $e')),
+          // );
+        }
+      }
+    } else {
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //       content: Text('Google pay is not supported on this device')),
+      // );
+    }
   }
 }

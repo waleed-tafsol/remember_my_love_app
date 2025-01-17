@@ -4,7 +4,7 @@
             "android": {
                 "default": {
                     "projectId": "remember-my-love",
-                    "appId": "1:364804173127:android:006b40b129d135da90b062",
+                    "appId": "1:364804173127:android:3ac05e20820ea5dd90b062",
                     "fileOutput": "android/app/google-services.json"
                 }
             },
@@ -12,8 +12,8 @@
                 "lib/firebase_options.dart": {
                     "projectId": "remember-my-love",
                     "configurations": {
-                        "android": "1:364804173127:android:006b40b129d135da90b062",
-                        "ios": "1:364804173127:ios:d5ab1a5bbb5c2a7790b062"
+                        "android": "1:364804173127:android:3ac05e20820ea5dd90b062",
+                        "ios": "1:364804173127:ios:066dc5738849afa490b062"
                     }
                 }
             }

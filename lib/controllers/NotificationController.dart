@@ -23,9 +23,10 @@ class NotificationController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool unRead = false.obs;
   RxList<NotificationModel> notification = <NotificationModel>[].obs;
-
+  late HomeScreenController homeScreenController;
   @override
   void onInit() async {
+    homeScreenController = Get.find();
     await getNotification();
     super.onInit();
   }

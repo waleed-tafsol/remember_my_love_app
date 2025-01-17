@@ -18,12 +18,10 @@ import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/update_password_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentWebView.dart';
-import 'package:video_player/video_player.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentScreen.dart';
 import '../bindings/AuthBindings.dart';
 import '../bindings/Bottom_nav_bar_bindings.dart';
 import '../bindings/FingerPrintScreenBindings.dart';
-import '../bindings/Memory_detail_bindings.dart';
 import '../bindings/Questions_bindings.dart';
 import '../bindings/Update_Password_bindinga.dart';
 import '../bindings/Upload_memories_bindings.dart';
@@ -100,7 +98,7 @@ class Pages {
         return GetPageRoute(
           settings: settings,
           page: () => const PaymentScreen(),
-          binding: PaymentWebViewBindings(),
+          binding: PaymentBindings(),
           transition: _routeTransition,
         );
       case ContinueScreen.routeName:
@@ -211,7 +209,7 @@ class Pages {
       case AddCardScreen.routeName:
         return GetPageRoute(
           settings: settings,
-          page: () => const AddCardScreen(),
+          page: () => AddCardScreen(),
           binding: CardsBindings(),
           transition: _routeTransition,
         );

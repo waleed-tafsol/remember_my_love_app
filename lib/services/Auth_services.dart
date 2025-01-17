@@ -111,9 +111,7 @@ class AuthService extends GetxService {
         authToken = response.data["data"]["token"];
         _tokenStorage.saveToken(authToken!);
         return true;
-      } else {
-        throw Exception("an error occured");
-      }
+      } else {}
     } on DioException catch (e) {
       if (e.response != null) {
         throw Exception(
@@ -141,7 +139,6 @@ class AuthService extends GetxService {
           "email": email,
           "password": password,
           "passwordConfirm": passCnfrm,
-          "validationKey": FirebaseService.fcmToken,
           "fcmToken": FirebaseService.fcmToken
         },
       );
@@ -308,7 +305,9 @@ class AuthService extends GetxService {
     ));
     try {
       final Response? response =
-          await ApiService.deleteRequest(ApiConstants.deleteUser + userId);
+          await ApiService.patchRequest(ApiConstants.updateUserDetails, {
+        "status": "user-deactivated",
+      });
       ColoredPrint.red(response?.data?.toString() ?? "");
 
       if (response != null) {

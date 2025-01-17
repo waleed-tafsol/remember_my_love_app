@@ -7,13 +7,15 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/route_manager.dart';
 import 'package:remember_my_love_app/models/PaymentMethodModel.dart';
+import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/CardsScreen.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
 import '../utills/Colored_print.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/SuccesScreen.dart';
-import '../view/screens/onboarding_screens/PaymentWebView.dart';
-import 'Choose_your_plan_controller.dart';
+import '../view/screens/onboarding_screens/PaymentScreen.dart';
 import 'HomeScreenController.dart';
 
 class CardsController extends GetxController {
@@ -46,9 +48,19 @@ class CardsController extends GetxController {
 
   Future<void> confirmPayment() async {
     try {
+      final List<String> expMonthYear = expiryDate.value.split('/');
+
+      await Stripe.instance.dangerouslyUpdateCardDetails(CardDetails(
+        number: cardNumber.value,
+        cvc: cvvCode.value,
+        expirationMonth: int.parse(expMonthYear[0]),
+        expirationYear: int.parse(expMonthYear[1]),
+      ));
+
       // Confirm the payment
       final paymentIntent = await Stripe.instance.confirmPayment(
-         paymentIntentClientSecret: 'pi_3QfUPk2MzUnaJMmg10PkMVPW_secret_YQra52M8IPfnPvdqZoT3g5XPp',
+        paymentIntentClientSecret:
+            'pi_3QfUPk2MzUnaJMmg10PkMVPW_secret_YQra52M8IPfnPvdqZoT3g5XPp',
       );
 
       // Handle successful payment
@@ -63,7 +75,7 @@ class CardsController extends GetxController {
     try {
       isLoading.value = true;
       final List<String> expMonthYear = expiryDate.value.split('/');
-      print(expMonthYear);
+
       await Stripe.instance.dangerouslyUpdateCardDetails(CardDetails(
         number: cardNumber.value,
         cvc: cvvCode.value,
@@ -71,33 +83,44 @@ class CardsController extends GetxController {
         expirationYear: int.parse(expMonthYear[1]),
       ));
 
-      var token = await Stripe.instance.createToken(
-        CreateTokenParams.card(
-          params: CardTokenParams(
-            name: cardHolderName.value,
-            /*address: Address(
-            */ /*line1: "abc",
-            line2: "xyz",
-            city: "Alpha",
-            state: "Beta",
-            country: "xy",
-            postalCode: "237482",*/ /*
-          ),*/
-            currency: "usd",
-            type: TokenType.Card,
-          ),
-        ),
-      );
+      // var token = await Stripe.instance.createToken(
+      //   CreateTokenParams.card(
+      //     params: CardTokenParams(
+      //       name: cardHolderName.value,
+      //       currency: "usd",
+      //       type: TokenType.Card,
+      //     ),
+      //   ),
+      // );
 
-      String tokenId = token.id;
+      // String tokenId = token.id;
+
+      final billingDetails = BillingDetails(
+        name: cardHolderName.value, // Cardholder's name
+        email: homeController.user.value?.email,
+      );
 
       final payment = await Stripe.instance.createPaymentMethod(
-        params: PaymentMethodParams.card(
-            paymentMethodData: PaymentMethodData.fromJson(
-                {"type": "card", "card[token]": tokenId})),
+          params: PaymentMethodParams.card(
+              paymentMethodData:
+                  PaymentMethodData(billingDetails: billingDetails)));
+      print(payment.id);
+
+      Response? response = await ApiService.postRequest(
+          ApiConstants.attatchCard, {"paymentMethodId": payment.id});
+      isLoading.value = false;
+      bool routeExists = Get.routeTree.routes.any(
+        (route) => route.name == ChooseYourPlanScreen.routeName,
       );
 
-      print(payment.id);
+      routeExists
+          ? Get.offNamedUntil(ChooseYourPlanScreen.routeName, (route) {
+              return route.settings.name == BottomNavBarScreen.routeName;
+            })
+          : Get.offNamedUntil(CardsScreen.routeName, (route) {
+              return route.settings.name == BottomNavBarScreen.routeName;
+            });
+
       return true;
     } catch (exception) {
       isLoading.value = false;

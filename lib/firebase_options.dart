@@ -50,22 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBFaqyXS-mZdkIOUUF7S8EuguCdmzEuu4Q',
-    appId: '1:364804173127:android:006b40b129d135da90b062',
-    messagingSenderId: '364804173127',
-    projectId: 'remember-my-love',
-    storageBucket: 'remember-my-love.firebasestorage.app',
+    apiKey: 'AIzaSyAhdRyfBEjPvwe5YXupAgSfFHWUr4aIidk',
+    appId: '1:878006363985:android:5d3a122163baa495989570',
+    messagingSenderId: '878006363985',
+    projectId: 'remember-my-love-c3472',
+    storageBucket: 'remember-my-love-c3472.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyChASBdOfGB1cu5Er_eJYxFstFuBfyNHwY',
-    appId: '1:364804173127:ios:d5ab1a5bbb5c2a7790b062',
-    messagingSenderId: '364804173127',
-    projectId: 'remember-my-love',
-    storageBucket: 'remember-my-love.firebasestorage.app',
-    androidClientId: '364804173127-k73iaegav3mg5n5fr8a62khvkdpharv7.apps.googleusercontent.com',
-    iosClientId: '364804173127-ri6rj7sdlouq279a0d4sik1hgp55954u.apps.googleusercontent.com',
-    iosBundleId: 'com.example.rememberMyLoveApp',
+    apiKey: 'AIzaSyDCRoTnahnnzUAL5-DqHkXoPICeTg4JYpI',
+    appId: '1:878006363985:ios:81cf84f155874553989570',
+    messagingSenderId: '878006363985',
+    projectId: 'remember-my-love-c3472',
+    storageBucket: 'remember-my-love-c3472.firebasestorage.app',
+    iosBundleId: 'com.remembermylove.tafsol',
   );
 
 }

@@ -166,17 +166,26 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
           Obx(() {
             return (controller.homeController.user.value?.package?.sId ==
                             controller.selectedPackage.value?.sId ||
-                        controller.selectedPackage.value?.sId ==
-                            "6711752199b2f80e34b6acf9") ||
+                        controller.selectedPackage.value?.packageType ==
+                            "free") ||
                     controller.isLoading.value
                 ? const SizedBox()
-                : GradientButton(
-                    onPressed: () {
-                      controller.buyPackage(
-                          controller.selectedPackage.value?.sId ?? "");
-                    },
-                    text: "Select This Plan",
-                    gradients: const [Colors.purpleAccent, Colors.blue]);
+                : controller.homeController.user.value?.package?.packageType ==
+                        "free"
+                    ? GradientButton(
+                        onPressed: () async {
+                          await controller.buyPackage(
+                              controller.selectedPackage.value?.sId ?? "");
+                        },
+                        text: "Select Subscription",
+                        gradients: const [Colors.purpleAccent, Colors.blue])
+                    : GradientButton(
+                        onPressed: () async {
+                          await controller.updateSubscription(
+                              controller.selectedPackage.value?.sId ?? "");
+                        },
+                        text: "Update Subscription",
+                        gradients: const [Colors.purpleAccent, Colors.blue]);
           }),
           k2hSizedBox,
           Obx(() {

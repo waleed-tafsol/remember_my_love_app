@@ -6,13 +6,12 @@ import 'package:get/route_manager.dart';
 import 'package:remember_my_love_app/controllers/PaymentWebViewController.dart';
 import 'package:remember_my_love_app/models/PackageModel.dart';
 import 'package:remember_my_love_app/models/PaymentMethodModel.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentWebView.dart';
+import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentScreen.dart';
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
 import '../utills/Colored_print.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/SuccesScreen.dart';
-import '../view/screens/onboarding_screens/CardsScreen.dart';
 import 'HomeScreenController.dart';
 
 class ChooseYourPlanController extends GetxController {
@@ -47,29 +46,29 @@ class ChooseYourPlanController extends GetxController {
     }
   }
 
-  Future<void> buyPackage(String packageSid) async {
-    isLoading.value = true;
-    ColoredPrint.green("Fetching Packages");
+  Future<void> updateSubscription(String package) async {
     try {
-      Response? response = await ApiService.patchRequest(
-          ApiConstants.buySubscription, {"packageId": packageSid});
-      if (response != null) {
-        if (response.data["url"] != null) {
-          Get.toNamed(PaymentScreen.routeName, arguments: response.data["url"]);
-        } else {
-          homeController.getUSer();
-          Get.offNamedUntil(SuccessScreen.routeName,
-              (route) => route.settings.name == BottomNavBarScreen.routeName,
-              arguments: {
-                "title": "Congrats",
-                "subTitle": "Your Plan has been upgraded successfully",
-              });
-        }
-        isLoading.value = false;
-      }
+      isLoading.value = true;
+      await ApiService.patchRequest(
+          ApiConstants.updateSubscription, {"packageId": package});
+      await homeController.getUSer();
+      Get.offNamedUntil(SuccessScreen.routeName,
+          (route) => route.settings.name == BottomNavBarScreen.routeName,
+          arguments: {
+            "title": "Successfull",
+            "subTitle": "Subscription Updated successfully.",
+          });
     } catch (e) {
+    } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> buyPackage(String packageSid) async {
+    final selectedPackage =
+        packages.firstWhere((element) => element.sId == packageSid);
+    Get.toNamed(PaymentScreen.routeName, arguments: selectedPackage);
+    //
   }
 
   Future<void> cancelSubscription() async {
