@@ -11,7 +11,6 @@ import '../../constants/colors_constants.dart';
 import '../../constants/constants.dart';
 import '../../controllers/CardsController.dart';
 import '../widgets/Custom_rounded_glass_button.dart';
-import '../widgets/Glass_text_field_with_text_widget.dart';
 
 class AddCardScreen extends GetView<CardsController> {
   static const routeName = "AddCardScreen";
@@ -68,7 +67,7 @@ class AddCardScreen extends GetView<CardsController> {
                       : null,*/
                 //glassmorphismConfig: Glassmorphism.defaultConfig(),
                 //backgroundImage: 'assets/card_bg.png',
-                obscureCardNumber: true,
+                obscureCardNumber: false,
                 obscureInitialCardNumber: true,
                 obscureCardCvv: true,
                 isHolderNameVisible: true,
@@ -105,7 +104,7 @@ class AddCardScreen extends GetView<CardsController> {
                 onCreditCardModelChange: controller.onCreditCardModelChange,
                 autovalidateMode: AutovalidateMode.always,
                 obscureCvv: true,
-                obscureNumber: true,
+                obscureNumber: false,
                 isHolderNameVisible: true,
                 isCardNumberVisible: true,
                 isExpiryDateVisible: true,

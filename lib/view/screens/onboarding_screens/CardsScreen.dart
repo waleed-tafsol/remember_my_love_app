@@ -135,7 +135,7 @@ class CardsScreen extends GetView<CardsController> {
                                           .paymentMethodModel[index].name ??
                                       "",
                                   cardNumber:
-                                      "123456789123 ${controller.paymentMethodModel[index].card.last4}",
+                                      "•••• •••• •••• ${controller.paymentMethodModel[index].card.last4}",
                                   showValidFrom: false,
                                   validThru:
                                       '${controller.paymentMethodModel[index].card.expMonth}/${controller.paymentMethodModel[index].card.expYear.toString().substring(2)}',
