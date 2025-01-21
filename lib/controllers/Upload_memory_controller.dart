@@ -121,7 +121,7 @@ class UploadMemoryController extends GetxController {
   void addRecipient() {
     recipients.add(Recipient(
       emailController: TextEditingController(),
-      ccp: "+92".obs,
+      ccp: "+1".obs,
       contactController: TextEditingController(),
       relationController: TextEditingController(),
     ));
