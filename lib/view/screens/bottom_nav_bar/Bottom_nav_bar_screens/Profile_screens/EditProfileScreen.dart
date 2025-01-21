@@ -26,8 +26,6 @@ class EditProfileScreen extends GetView<EditProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    ColoredPrint.green(
-        "${ApiConstants.getPicture}/${controller.homeScreenController.user.value?.photo ?? ""}");
     return CustomScaffold(
       body: SingleChildScrollView(
         child: Column(

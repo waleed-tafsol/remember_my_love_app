@@ -10,13 +10,12 @@ import 'package:remember_my_love_app/models/PaymentMethodModel.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/CardsScreen.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
 import '../utills/Colored_print.dart';
-import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/SuccesScreen.dart';
 import '../view/screens/onboarding_screens/PaymentScreen.dart';
 import 'HomeScreenController.dart';
+import 'PaymentController.dart';
 
 class CardsController extends GetxController {
   RxBool isLoading = false.obs;
@@ -31,9 +30,11 @@ class CardsController extends GetxController {
   RxString cvvCode = ''.obs;
   RxBool isCvvFocused = false.obs;
   RxString cardType = ''.obs;
+  bool fromPaymentScreen = false;
 
   @override
   void onInit() async {
+    fromPaymentScreen = Get.arguments ?? false;
     await getAllCards();
     super.onInit();
   }
@@ -57,17 +58,13 @@ class CardsController extends GetxController {
         expirationYear: int.parse(expMonthYear[1]),
       ));
 
-      // Confirm the payment
       final paymentIntent = await Stripe.instance.confirmPayment(
         paymentIntentClientSecret:
             'pi_3QfUPk2MzUnaJMmg10PkMVPW_secret_YQra52M8IPfnPvdqZoT3g5XPp',
       );
-
-      // Handle successful payment
-      print('Payment successful: ${paymentIntent.toJson()}');
     } catch (error) {
       // Handle error
-      print('Payment failed: $error');
+      CustomSnackbar.showError("Error", 'Payment failed: $error');
     }
   }
 
@@ -96,7 +93,7 @@ class CardsController extends GetxController {
       // String tokenId = token.id;
 
       final billingDetails = BillingDetails(
-        name: cardHolderName.value, // Cardholder's name
+        name: cardHolderName.value,
         email: homeController.user.value?.email,
       );
 
@@ -104,25 +101,42 @@ class CardsController extends GetxController {
           params: PaymentMethodParams.card(
               paymentMethodData:
                   PaymentMethodData(billingDetails: billingDetails)));
-      print(payment.id);
 
-      Response? response = await ApiService.postRequest(
+      await ApiService.postRequest(
           ApiConstants.attatchCard, {"paymentMethodId": payment.id});
       isLoading.value = false;
-      bool routeExists = Get.routeTree.routes.any(
-        (route) => route.name == ChooseYourPlanScreen.routeName,
-      );
 
-      routeExists
-          ? Get.offNamedUntil(ChooseYourPlanScreen.routeName, (route) {
-              return route.settings.name == BottomNavBarScreen.routeName;
-            })
+      // // Check if PaymentScreen is in the navigation stack by inspecting the history
+      // bool isPaymentScreenInStack = false;
+
+      // for (var route in Get.routing.) {
+      //   if (route.settings.name == PaymentScreen.routeName) {
+      //     isPaymentScreenInStack = true;
+      //     break; // No need to check further once found
+      //   }
+      // }
+
+      // // If PaymentScreen is found in the stack, fetch cards
+      // if (isPaymentScreenInStack) {
+      //   await paymentcontroller.getCards();
+      // }
+
+      if (Get.routing.previous == PaymentScreen.routeName) {
+        Paymentcontroller paymentcontroller = Get.find();
+        await paymentcontroller.getCards();
+      }
+
+      fromPaymentScreen
+          ? Get.offNamedUntil(CardsScreen.routeName, (route) {
+              return route.settings.name == PaymentScreen.routeName;
+            }, arguments: true)
           : Get.offNamedUntil(CardsScreen.routeName, (route) {
               return route.settings.name == BottomNavBarScreen.routeName;
             });
 
       return true;
     } catch (exception) {
+      CustomSnackbar.showError("Error", 'Payment failed: $exception');
       isLoading.value = false;
       return false;
     }
@@ -173,6 +187,11 @@ class CardsController extends GetxController {
       ColoredPrint.green("Adding a new card");
       Response? response = await ApiService.postRequest(
           ApiConstants.setDefaltCard, {"paymentMethodId": id});
+      if (fromPaymentScreen) {
+        Paymentcontroller paymentcontroller = Get.find();
+        await paymentcontroller.getCards();
+      }
+
       if (response != null) {
         await getAllCards();
       }

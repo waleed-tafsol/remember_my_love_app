@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:ffi';
-
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -12,7 +10,6 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/models/PackageModel.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/CardsScreen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../constants/ApiConstant.dart';
 import '../models/PaymentMethodModel.dart';
@@ -29,13 +26,18 @@ class Paymentcontroller extends GetxController {
   Rxn<PaymentMethodModel> defaultCard = Rxn<PaymentMethodModel>();
   late PackagesModel selectedPackage;
   String pmId = "";
+  RxString renewUpdateOrBuySub = "Renew".obs;
 
   @override
   void onInit() async {
     super.onInit();
-    Get.arguments != null
-        ? selectedPackage = Get.arguments as PackagesModel
-        : null;
+    if (Get.arguments != null) {
+      renewUpdateOrBuySub.value =
+          Get.arguments["renewUpdateOrBuySub"] as String;
+
+      selectedPackage = Get.arguments["package"] as PackagesModel;
+    }
+
     await getCards();
   }
 
@@ -43,7 +45,6 @@ class Paymentcontroller extends GetxController {
     isLoading.value = true;
 
     try {
-      ColoredPrint.green("Fetching cards");
       Response? response = await ApiService.getRequest(
         ApiConstants.getDefaltCard,
       );
@@ -62,6 +63,49 @@ class Paymentcontroller extends GetxController {
       isLoading.value = false;
     }
   }
+
+//   final String defaultGooglePay = '''{
+//   "provider": "google_pay",
+//   "data": {
+//     "environment": "TEST",
+//     "apiVersion": 2,
+//     "apiVersionMinor": 0,
+//     "allowedPaymentMethods": [
+//       {
+//         "type": "CARD",
+//         "parameters": {
+//           "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+//           "allowedCardNetworks": ["MASTERCARD", "VISA"]
+//         },
+//         "tokenizationSpecification": {
+//           "type": "PAYMENT_GATEWAY",
+//           "parameters": {
+//             "gateway": "stripe",
+//             "stripe:version": "2024-12-18.acacia",
+//             "stripe:publishableKey": "pk_test_51Q9zEn2MzUnaJMmgba4Kn8VJoESujuQtspIE7AqIJXNhjs9HB7F2pHCe6tiNIAfYKmQ9H43hWmPbjpQOY9ovZrfz00xWvqjHVA"
+//           }
+//         }
+//       }
+//     ]
+//   }
+// }''';
+
+  // Future<void> onGooglePayResult(paymentResult) async {
+  //   // final response = await fetchPaymentIntentClientSecret();
+  //   final clientSecret = "response['clientSecret']";
+  //   final token =
+  //       paymentResult['paymentMethodData']['tokenizationData']['token'];
+  //   final tokenJson = Map.castFrom(json.decode(token));
+
+  //   final params = PaymentMethodParams.cardFromToken(
+  //     paymentMethodData: tokenJson['id'],
+  //   );
+  //   // Confirm Google pay payment method
+  //   await Stripe.instance.confirmPayment(
+  //     paymentIntentClientSecret: clientSecret,
+  //     data: params,
+  //   );
+  // }
 
   Future<void> confirmPayment(String clientSecret) async {
     try {
@@ -92,7 +136,6 @@ class Paymentcontroller extends GetxController {
           CustomSnackbar.showError("Error", e.toString());
         }
       } else if (paymentIntent.status == PaymentIntentsStatus.Succeeded) {
-        // Handle success if no further action was required
         Get.offNamedUntil(SuccessScreen.routeName,
             (route) => route.settings.name == BottomNavBarScreen.routeName,
             arguments: {
@@ -107,6 +150,46 @@ class Paymentcontroller extends GetxController {
     } catch (error) {
       print('Payment failed: $error');
       // Handle error
+    }
+  }
+
+  Future<void> renewSubscription() async {
+    isLoading.value = true;
+    try {
+      Response? response =
+          await ApiService.patchRequest(ApiConstants.renewSubscription, {});
+      if (response != null) {
+        if (response.data != null) {
+          homeController.getUSer();
+          Get.offNamedUntil(SuccessScreen.routeName,
+              (route) => route.settings.name == BottomNavBarScreen.routeName,
+              arguments: {
+                "title": "Successful",
+                "subTitle": "Subscription renewed Successfully.",
+              });
+        }
+        isLoading.value = false;
+      }
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> updateSubscription() async {
+    try {
+      isLoading.value = true;
+      await ApiService.patchRequest(
+          ApiConstants.updateSubscription, {"packageId": selectedPackage.sId});
+      await homeController.getUSer();
+      Get.offNamedUntil(SuccessScreen.routeName,
+          (route) => route.settings.name == BottomNavBarScreen.routeName,
+          arguments: {
+            "title": "Successful",
+            "subTitle": "Subscription Updated Successfully.",
+          });
+    } catch (e) {
+    } finally {
+      isLoading.value = false;
     }
   }
 

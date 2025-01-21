@@ -1,50 +1,57 @@
-import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter/material.dart';
 
 class ContactPickerService {
   // Request permissions to access contacts
   Future<bool> requestPermissions() async {
-    var status = await Permission.contacts.request();
-    if (status.isGranted) {
+    bool permissionGranted = await FlutterContacts.requestPermission();
+    if (permissionGranted) {
       return true; // Permission granted
-    } else if (status.isDenied) {
+    } else {
+      if (await Permission.contacts.isPermanentlyDenied) {
+        openAppSettings(); // Open settings to enable permission
+      }
       return false; // Permission denied
-    } else if (status.isPermanentlyDenied) {
-      openAppSettings(); // Open settings to enable permission
-      return false;
     }
-    return false;
   }
 
+  // Open device phone book to pick a contact
   Future<Contact> openDevicePhoneBook() async {
     try {
-      Contact? contact = await ContactsService.openDeviceContactPicker();
-
-      return contact != null ? contact : throw Exception('No contact selected');
+      if (await FlutterContacts.requestPermission()) {
+        Contact? contact = await FlutterContacts.openExternalPick();
+        if (contact != null) {
+          return contact;
+        } else {
+          throw Exception('No contact selected');
+        }
+      } else {
+        throw Exception('Permission denied to access contacts');
+      }
     } catch (e) {
-      throw Exception('No contact selected: $e');
+      throw Exception('Failed to open contacts: $e');
     }
   }
 
-  // Fetch a page of contacts with pagination
-  Future<List<Contact?>> pickContactsPage(int startIndex, int pageSize) async {
+  // Fetch contacts with pagination (not natively supported, simulate with slicing)
+  Future<List<Contact>> pickContactsPage(int startIndex, int pageSize) async {
     try {
-      // Fetch contacts starting from the startIndex, limited by pageSize
-      Iterable<Contact> contacts = await ContactsService.getContacts(
-        withThumbnails: false,
-        // pageSize: pageSize,
-        // offset: startIndex,
-      );
-      if (contacts.isNotEmpty) {
-        return contacts.toList();
+      if (await FlutterContacts.requestPermission()) {
+        List<Contact> contacts = await FlutterContacts.getContacts(
+          withProperties: true,
+          withThumbnail: false,
+        );
+        return contacts.sublist(
+          startIndex,
+          (startIndex + pageSize).clamp(0, contacts.length),
+        );
+      } else {
+        throw Exception('Permission denied to access contacts');
       }
     } catch (e) {
       throw Exception('Failed to fetch contacts: $e');
     }
-    return [];
   }
 
   // Show the bottom sheet to select a contact with a search field and pagination
@@ -54,7 +61,7 @@ class ContactPickerService {
       // Show a loading dialog while contacts are being fetched
       showDialog(
         context: context,
-        barrierDismissible: false, // Prevent dismissing by tapping outside
+        barrierDismissible: false,
         builder: (context) => const Center(
           child: CircularProgressIndicator(),
         ),
@@ -64,7 +71,7 @@ class ContactPickerService {
         const int pageSize = 20;
         int startIndex = 0;
 
-        List<Contact?> contacts = await pickContactsPage(startIndex, pageSize);
+        List<Contact> contacts = await pickContactsPage(startIndex, pageSize);
         Navigator.pop(context);
         showModalBottomSheet(
           context: context,
@@ -73,16 +80,14 @@ class ContactPickerService {
               builder: (context, setState) {
                 TextEditingController searchController =
                     TextEditingController();
-                List<Contact?> filteredContacts = contacts;
+                List<Contact> filteredContacts = contacts;
 
                 void filterContacts(String query) {
                   setState(() {
                     filteredContacts = contacts
-                        .where((contact) =>
-                            contact?.displayName
-                                ?.toLowerCase()
-                                .contains(query.toLowerCase()) ??
-                            false)
+                        .where((contact) => contact.displayName
+                            .toLowerCase()
+                            .contains(query.toLowerCase()))
                         .toList();
                   });
                 }
@@ -92,7 +97,7 @@ class ContactPickerService {
                     startIndex += pageSize;
                   });
 
-                  List<Contact?> newContacts =
+                  List<Contact> newContacts =
                       await pickContactsPage(startIndex, pageSize);
                   setState(() {
                     contacts.addAll(newContacts);
@@ -120,7 +125,7 @@ class ContactPickerService {
                       Text(
                         'Select a contact:',
                         style: TextStyle(
-                            fontSize: 18.sp,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
@@ -131,10 +136,9 @@ class ContactPickerService {
                             if (index < filteredContacts.length) {
                               final contact = filteredContacts[index];
                               return ListTile(
-                                title: Text(contact?.displayName ??
-                                    'No name available'),
+                                title: Text(contact.displayName),
                                 onTap: () {
-                                  onSelectContact(contact!);
+                                  onSelectContact(contact);
                                   Navigator.pop(context);
                                 },
                               );

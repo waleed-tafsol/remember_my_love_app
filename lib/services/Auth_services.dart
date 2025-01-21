@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
@@ -87,9 +88,10 @@ class AuthService extends GetxService {
     }
   }
 
-  Future<bool?> loginWithGoogle() async {
+  Future<String?> loginWithGoogle() async {
+    User? user;
     try {
-      final user = await FirebaseService.signInWithGoogle();
+      user = await FirebaseService.signInWithGoogle();
       if (user != null) {
         Response response = await _dio.post(
           ApiConstants.socialLogin,
@@ -102,16 +104,22 @@ class AuthService extends GetxService {
           },
         );
 
-        if (response.data?["data"]?["user"]?["firstLogin"] ?? false) {
-          Get.toNamed(RegisterwithgoogleScreen.routeName);
-        }
-
         platform.value = "google";
         authToken = response.data["data"]["token"];
         _tokenStorage.saveToken(authToken!);
-        return true;
-      } else {}
+        if (response.data?["data"]?["user"]?["firstLogin"] ?? false) {
+          return "firstLogin";
+        } else {
+          return "true";
+        }
+      } else {
+        return "false";
+      }
     } on DioException catch (e) {
+      if (user != null) {
+        FirebaseService.signOut();
+      }
+
       if (e.response != null) {
         throw Exception(
             e.response?.data["message"]["error"][0] ?? "An error occurred");

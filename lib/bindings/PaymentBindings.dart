@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:remember_my_love_app/controllers/PaymentWebViewController.dart';
+import 'package:remember_my_love_app/controllers/PaymentController.dart';
 
 class PaymentBindings extends Bindings {
   @override

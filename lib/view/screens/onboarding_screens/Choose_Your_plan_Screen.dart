@@ -7,8 +7,10 @@ import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controllers/Choose_your_plan_controller.dart';
+import '../../../utills/TextUtills.dart';
 import '../../widgets/Custom_glass_container.dart';
 import '../../widgets/Custom_rounded_glass_button.dart';
+import 'PaymentScreen.dart';
 
 class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
   ChooseYourPlanScreen({super.key});
@@ -78,7 +80,7 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
                                   ),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    e.packageType ?? "",
+                                    capitalize(e.packageType ?? ""),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -174,15 +176,20 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
                         "free"
                     ? GradientButton(
                         onPressed: () async {
-                          await controller.buyPackage(
-                              controller.selectedPackage.value?.sId ?? "");
+                          await controller.buyPackage();
                         },
                         text: "Select Subscription",
                         gradients: const [Colors.purpleAccent, Colors.blue])
                     : GradientButton(
                         onPressed: () async {
-                          await controller.updateSubscription(
-                              controller.selectedPackage.value?.sId ?? "");
+                          // await controller.updateSubscription(
+                          //     controller.selectedPackage.value?.sId ?? "");
+                          Get.toNamed(PaymentScreen.routeName, arguments: {
+                            "renewUpdateOrBuySub": "Update",
+                            "package": controller.selectedPackage.value
+                          });
+                          // await controller.buyPackage(
+                          //     controller.selectedPackage.value?.sId ?? "");
                         },
                         text: "Update Subscription",
                         gradients: const [Colors.purpleAccent, Colors.blue]);
@@ -206,16 +213,23 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
             }
 
             return GradientButton(
-              onPressed: () {
+              onPressed: () async {
                 if (isCancelled) {
                   if (isBefore) {
-                    controller.renewSubscription(); // Renew after the due date
+                    // controller.renewSubscription();
+                    Get.toNamed(PaymentScreen.routeName, arguments: {
+                      "renewUpdateOrBuySub": "Renew",
+                      "package": controller.selectedPackage.value
+                    });
+                    // await controller.buyPackage(
+                    //     controller.selectedPackage.value?.sId ?? "");
                   } else {
                     // controller.resumeSubscription();  // Optionally, resume before the due date
                   }
                 } else {
-                  controller
-                      .cancelSubscription(); // Cancel the active subscription
+                  controller.cancelSubscription();
+                  // await controller
+                  //     .buyPackage(controller.selectedPackage.value?.sId ?? "");
                 }
               },
               text: isCancelled

@@ -3,7 +3,7 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/route_manager.dart';
-import 'package:remember_my_love_app/controllers/PaymentWebViewController.dart';
+import 'package:remember_my_love_app/controllers/PaymentController.dart';
 import 'package:remember_my_love_app/models/PackageModel.dart';
 import 'package:remember_my_love_app/models/PaymentMethodModel.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentScreen.dart';
@@ -46,28 +46,29 @@ class ChooseYourPlanController extends GetxController {
     }
   }
 
-  Future<void> updateSubscription(String package) async {
-    try {
-      isLoading.value = true;
-      await ApiService.patchRequest(
-          ApiConstants.updateSubscription, {"packageId": package});
-      await homeController.getUSer();
-      Get.offNamedUntil(SuccessScreen.routeName,
-          (route) => route.settings.name == BottomNavBarScreen.routeName,
-          arguments: {
-            "title": "Successfull",
-            "subTitle": "Subscription Updated successfully.",
-          });
-    } catch (e) {
-    } finally {
-      isLoading.value = false;
-    }
-  }
+  // Future<void> updateSubscription(String package) async {
+  //   try {
+  //     isLoading.value = true;
+  //     await ApiService.patchRequest(
+  //         ApiConstants.updateSubscription, {"packageId": package});
+  //     await homeController.getUSer();
+  //     Get.offNamedUntil(SuccessScreen.routeName,
+  //         (route) => route.settings.name == BottomNavBarScreen.routeName,
+  //         arguments: {
+  //           "title": "Successfull",
+  //           "subTitle": "Subscription Updated successfully.",
+  //         });
+  //   } catch (e) {
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
 
-  Future<void> buyPackage(String packageSid) async {
-    final selectedPackage =
-        packages.firstWhere((element) => element.sId == packageSid);
-    Get.toNamed(PaymentScreen.routeName, arguments: selectedPackage);
+  Future<void> buyPackage() async {
+    Get.toNamed(PaymentScreen.routeName, arguments: {
+      "renewUpdateOrBuySub": "Buy",
+      "package": selectedPackage.value
+    });
     //
   }
 
@@ -77,7 +78,13 @@ class ChooseYourPlanController extends GetxController {
       Response? response =
           await ApiService.patchRequest(ApiConstants.cancelSubscription, {});
       if (response?.data != null) {
-        homeController.getUSer();
+        await homeController.getUSer();
+        Get.offNamedUntil(SuccessScreen.routeName,
+            (route) => route.settings.name == BottomNavBarScreen.routeName,
+            arguments: {
+              "title": "Successful",
+              "subTitle": "Subscription cancelled Successfully.",
+            });
       }
       isLoading.value = false;
     } catch (e) {
@@ -85,20 +92,20 @@ class ChooseYourPlanController extends GetxController {
     }
   }
 
-  Future<void> renewSubscription() async {
-    isLoading.value = true;
-    ColoredPrint.green("Fetching Packages");
-    try {
-      Response? response =
-          await ApiService.patchRequest(ApiConstants.renewSubscription, {});
-      if (response != null) {
-        if (response.data != null) {
-          homeController.getUSer();
-        }
-        isLoading.value = false;
-      }
-    } catch (e) {
-      isLoading.value = false;
-    }
-  }
+  // Future<void> renewSubscription() async {
+  //   isLoading.value = true;
+  //   ColoredPrint.green("Fetching Packages");
+  //   try {
+  //     Response? response =
+  //         await ApiService.patchRequest(ApiConstants.renewSubscription, {});
+  //     if (response != null) {
+  //       if (response.data != null) {
+  //         homeController.getUSer();
+  //       }
+  //       isLoading.value = false;
+  //     }
+  //   } catch (e) {
+  //     isLoading.value = false;
+  //   }
+  // }
 }

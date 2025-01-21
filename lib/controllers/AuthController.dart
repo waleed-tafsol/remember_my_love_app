@@ -65,12 +65,16 @@ class AuthController extends GetxController {
   Future<void> loginWithGoogle() async {
     try {
       Get.dialog(const Center(child: CircularProgressIndicator()));
-
-      if (await authService.loginWithGoogle() ?? false) {
+      final isfirstTime = await authService.loginWithGoogle();
+      if (isfirstTime == "true") {
         Get.back();
-
         CustomSnackbar.showSuccess("Success", "Logged In Successfully");
+
         Get.offNamed(BottomNavBarScreen.routeName);
+      } else if (isfirstTime == "firstLogin") {
+        Get.back();
+        CustomSnackbar.showSuccess("Success", "Logged In Successfully");
+        Get.offNamed(QuestionsScreen.routeName);
       } else {
         Get.back();
         CustomSnackbar.showError("error", "Google SignIn Faild");

@@ -440,34 +440,6 @@ class UploadMemoryController extends GetxController {
     }
   }
 
-  // Future<void> uploadMedia() async {
-  //   Get.dialog(const Center(child: CircularProgressIndicator()));
-
-  //   // ColoredPrint.red("Uploading images to cloud");
-  //   // ColoredPrint.magenta(pickedFiles[0].path);
-  //   FormData formData = FormData.fromMap({
-  //     "images": await Future.wait(pickedFiles.map((file) async {
-  //       final fileBytes = await file.readAsBytes();
-  //       return MultipartFile.fromBytes(
-  //         fileBytes,
-  //         filename: file.path.split('/').last,
-  //       );
-  //     }).toList()),
-  //   });
-
-  //   Response? response = await ApiService.postRequest(
-  //     ApiConstants.uploadPictures,
-  //     formData,
-  //   );
-  //   ColoredPrint.green(response.toString());
-  //   if (response?.statusCode == 201 && response != null) {
-  //     imageUploadData = response.data["fileDetails"];
-  //     ColoredPrint.green("images Uploded Successfully data: $imageUploadData");
-  //     Get.back();
-  //     Get.toNamed(WriteAMemoryScreen.routeName);
-  //   }
-  // }
-
   Future<void> FetchCategories() async {
     try {
       Response? response =

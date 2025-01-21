@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/bindings/CardsBindings.dart';
 import 'package:remember_my_love_app/bindings/EditProfileBindings.dart';
 import 'package:remember_my_love_app/bindings/OtopBindings.dart';
-import 'package:remember_my_love_app/bindings/PaymentWebViewBindings.dart';
+import 'package:remember_my_love_app/bindings/PaymentBindings.dart';
 import 'package:remember_my_love_app/bindings/Privacy_policy_bindings.dart';
 import 'package:remember_my_love_app/bindings/Terms_and_conditions_bindings.dart';
 import 'package:remember_my_love_app/bindings/UpgradePlanBindings.dart';

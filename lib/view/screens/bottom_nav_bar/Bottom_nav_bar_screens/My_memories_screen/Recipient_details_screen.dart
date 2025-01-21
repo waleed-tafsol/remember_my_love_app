@@ -35,30 +35,22 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
       if (permissionGranted) {
         final contact = await _contactPickerService.openDevicePhoneBook();
 
-        if (contact.phones?.isNotEmpty ?? false) {
-          String? phoneNumber = contact.phones!.first.value;
+        if (contact.phones.isNotEmpty) {
+          String? phoneNumber = contact.phones.first.number;
 
-          if (phoneNumber != null) {
-            // Remove all white spaces from the phone number
-
-            if (phoneNumber.startsWith('+')) {
-              // Extract country code
-              String countryCode = phoneNumber.split(' ')[0];
-              phoneNumber = phoneNumber.replaceFirst(countryCode, '');
-              phoneNumber = phoneNumber.replaceAll(' ', '');
-              phoneNumber = phoneNumber.replaceAll('-', '');
-
-              controller.recipients[index].ccp.value = countryCode;
-              // Remove country code from the phone number
-            } else if (phoneNumber.startsWith('0')) {
-              // Remove leading '0' and set default country code
-              phoneNumber = phoneNumber.substring(1);
-              controller.recipients[index].ccp.value = "+92";
-            }
-
-            // Update the contactController with the cleaned phone number
-            controller.recipients[index].contactController.text = phoneNumber;
+          if (phoneNumber.startsWith('+')) {
+            String countryCode = phoneNumber.split(' ')[0];
+            phoneNumber = phoneNumber.replaceFirst(countryCode, '');
+            phoneNumber = phoneNumber.replaceAll(' ', '');
+            phoneNumber = phoneNumber.replaceAll('-', '');
+            controller.recipients[index].ccp.value = countryCode;
+          } else if (phoneNumber.startsWith('0')) {
+            phoneNumber = phoneNumber.replaceFirst('0', '');
+            phoneNumber = phoneNumber.replaceAll(' ', '');
+            phoneNumber = phoneNumber.replaceAll('-', '');
+            controller.recipients[index].ccp.value = "+92";
           }
+          controller.recipients[index].contactController.text = phoneNumber;
         } else {
           throw Exception(
               "No phone number available for the selected contact.");
