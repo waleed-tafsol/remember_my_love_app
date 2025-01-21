@@ -133,10 +133,16 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(20),
                                       child: isVideo
-                                          ? NetworkVideoPlayerWidget(
-                                              videoUrl:
-                                                  "${ApiConstants.getPicture}/$file",
-                                            )
+                                          ? Stack(
+                                            children: [
+                                              NetworkVideoPlayerWidget(
+                                                   videoUrl:
+                                                      "${ApiConstants.getPicture}/$file", showController: false,
+                                                ),
+                                              Center(child: Icon(Icons.play_circle))
+
+                                            ],
+                                          )
                                           : CachedNetworkImageWidget(
                                               fit: BoxFit.cover,
                                               imageUrl:

@@ -18,6 +18,7 @@ import '../../../../widgets/VideoPlayerWidget.dart';
 
 class MemoryDetailScreen extends StatelessWidget {
   MemoryDetailScreen({super.key});
+
   static const routeName = "MemoryDetailScreen";
 
   @override
@@ -70,9 +71,15 @@ class MemoryDetailScreen extends StatelessWidget {
                             child: isVideo
                                 ? SizedBox(
                                     height: 20.h,
-                                    child: NetworkVideoPlayerWidget(
-                                      videoUrl:
-                                          "${ApiConstants.getPicture}/${controller.selectedImage}",
+                                    child: Stack(
+                                      children: [
+                                        NetworkVideoPlayerWidget(
+                                          videoUrl:
+                                              "${ApiConstants.getPicture}/${controller.selectedImage}",
+                                          showController: false,
+                                        ),
+                                        Center(child: Icon(Icons.play_circle))
+                                      ],
                                     ),
                                   )
                                 : SizedBox(
@@ -115,9 +122,15 @@ class MemoryDetailScreen extends StatelessWidget {
                                     width: 9.h,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
-                                      child: NetworkVideoPlayerWidget(
-                                        videoUrl:
-                                            "${ApiConstants.getPicture}/$file",
+                                      child: Stack(
+                                        children: [
+                                          NetworkVideoPlayerWidget(
+                                            videoUrl:
+                                                "${ApiConstants.getPicture}/$file",
+                                            showController: false,
+                                          ),
+                                          Center(child: Icon(Icons.play_circle))
+                                        ],
                                       ),
                                     ),
                                   ),

@@ -1,10 +1,14 @@
 import 'dart:io';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_thumbnail_video/index.dart';
 import 'package:get_thumbnail_video/video_thumbnail.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:video_player/video_player.dart';
+import '../../constants/colors_constants.dart';
 import '../../controllers/localVideoPlayerWidgetController.dart';
 import '../screens/VideoplayerScreen.dart';
 
@@ -52,90 +56,63 @@ class LocalVideoPlayerWidget extends StatelessWidget {
   }
 }
 
+
 class NetworkVideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
+  final bool showController;
 
-  NetworkVideoPlayerWidget({Key? key, required this.videoUrl})
-      : super(key: key);
+  NetworkVideoPlayerWidget({Key? key, required this.videoUrl,required this.showController}) : super(key: key);
 
   @override
-  State<NetworkVideoPlayerWidget> createState() =>
+  _NetworkVideoPlayerWidgetState createState() =>
       _NetworkVideoPlayerWidgetState();
 }
 
 class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
-  String thumbnailPath = "";
+  late VideoPlayerController _videoPlayercontroller;
+  late ChewieController _chewieController;
+
 
   @override
   void initState() {
-    // TODO: implement initState
-    setThumbnailForNetworkVideo(widget.videoUrl);
     super.initState();
+    _videoPlayercontroller = VideoPlayerController.networkUrl(Uri.parse(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
+      ..initialize().then((_) {
+        setState(() {});
+      });
+    _chewieController = ChewieController(
+      allowPlaybackSpeedChanging: false,
+      showControls: widget.showController,
+      videoPlayerController: _videoPlayercontroller,
+      autoPlay: false,
+      looping: false,
+    );
   }
 
-  void setThumbnailForNetworkVideo(String videoUrl) async {
-    // Get the cache directory
-    Directory cacheDir = await getTemporaryDirectory();
-
-    // Define the thumbnail cache path
-    String thumbnailCachePath =
-        '${cacheDir.path}/thumbnail_cache/${videoUrl.hashCode}.jpg';
-
-    // Check if the thumbnail already exists in cache
-    final File cachedThumbnail = File(thumbnailCachePath);
-    if (await cachedThumbnail.exists()) {
-      // If thumbnail exists, use the cached thumbnail
-      setState(() {
-        thumbnailPath = thumbnailCachePath;
-      });
-      ColoredPrint.green('Thumbnail retrieved from cache: $thumbnailCachePath');
-    } else {
-      final fileName = await VideoThumbnail.thumbnailFile(
-        video: videoUrl,
-        thumbnailPath: (await getTemporaryDirectory()).path,
-        imageFormat: ImageFormat.JPEG,
-        quality: 75,
-      );
-      final cacheDirPath = Directory('${cacheDir.path}/thumbnail_cache');
-      if (!await cacheDirPath.exists()) {
-        await cacheDirPath.create(recursive: true);
-      }
-      if (fileName != null) {
-        final File thumbnailFile = File(thumbnailCachePath);
-        await thumbnailFile.writeAsBytes(await fileName.readAsBytes());
-        setState(() {
-          thumbnailPath = thumbnailCachePath;
-        });
-        ColoredPrint.green('Thumbnail saved in cache: $thumbnailCachePath');
-      }
-    }
+  @override
+  void dispose() {
+    super.dispose();
+   // _videoPlayercontroller.dispose();
+   // _chewieController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    void _onPlayButtonPressed() {
-      Get.toNamed(VideoPlayerScreen.routeName, arguments: widget.videoUrl);
-      ColoredPrint.blue(thumbnailPath);
-    }
-
-    return GestureDetector(
-        onTap: _onPlayButtonPressed,
-        child: thumbnailPath.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: FileImage(File(thumbnailPath)),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.play_circle_fill,
-                    color: Colors.white,
-                    size: 50,
-                  ),
-                ),
-              ));
+    return
+      Container(
+        height: 50.h,
+     //   width: 50.w,
+        color: AppColors.kPrimaryColor,
+        child: Scaffold(
+          backgroundColor: AppColors.kPrimaryColor,
+          body: Center(
+            child: _videoPlayercontroller.value.isInitialized
+                ? Chewie(
+              controller: _chewieController,
+            ):  CircularProgressIndicator(),
+          ),
+        ),
+      );
   }
 }

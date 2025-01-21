@@ -23,8 +23,8 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
 
       elevation: 0,
       context: context,
-      position: RelativeRect.fromLTRB(
-          50.w, 20.h, 8.w, 0.0), // Adjust position if needed
+      position: RelativeRect.fromLTRB(50.w, 20.h, 8.w, 0.0),
+      // Adjust position if needed
       items: controller.categories.map((CategoryModel value) {
         return PopupMenuItem<String>(
           onTap: () => controller.changeCatagory(value),
@@ -220,9 +220,16 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             child: AbsorbPointer(
-                                              child: NetworkVideoPlayerWidget(
-                                                videoUrl:
-                                                    "${ApiConstants.getPicture}/$file",
+                                              child: Stack(
+                                                children: [
+                                                  NetworkVideoPlayerWidget(
+                                                    videoUrl:
+                                                        "${ApiConstants.getPicture}/$file",
+                                                    showController: false,
+                                                  ),
+                                                  Center(child: Icon(Icons.play_circle))
+
+                                                ],
                                               ),
                                             ),
                                           ),
