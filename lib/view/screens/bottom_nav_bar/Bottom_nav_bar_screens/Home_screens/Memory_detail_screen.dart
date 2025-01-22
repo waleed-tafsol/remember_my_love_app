@@ -69,19 +69,24 @@ class MemoryDetailScreen extends StatelessWidget {
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: isVideo
-                                ? SizedBox(
-                                    height: 20.h,
-                                    child: Stack(
-                                      children: [
-                                        NetworkVideoPlayerWidget(
-                                          videoUrl:
-                                              "${ApiConstants.getPicture}/${controller.selectedImage}",
-                                          showController: false,
-                                        ),
-                                        Center(child: Icon(Icons.play_circle))
-                                      ],
+                                ? InkWell(
+                              onTap: (){
+                                Navigator.push(context,MaterialPageRoute(builder: (context) => NetworkVideoPlayerScreen(videoUrl: '${ApiConstants.getPicture}/${controller.selectedImage}', showController: true,)) );
+                              },
+                                  child: SizedBox(
+                                      height: 20.h,
+                                      child: Stack(
+                                        children: [
+                                          NetworkVideoPlayerWidget(
+                                            videoUrl:
+                                                "${ApiConstants.getPicture}/${controller.selectedImage}",
+                                            showController: false,
+                                          ),
+                                          Center(child: Icon(Icons.play_circle))
+                                        ],
+                                      ),
                                     ),
-                                  )
+                                )
                                 : SizedBox(
                                     width: double.infinity,
                                     height: 20.h,

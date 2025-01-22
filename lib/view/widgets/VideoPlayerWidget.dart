@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:get_thumbnail_video/index.dart';
 import 'package:get_thumbnail_video/video_thumbnail.dart';
@@ -56,12 +57,31 @@ class LocalVideoPlayerWidget extends StatelessWidget {
   }
 }
 
+/*void showVideoDialog({required BuildContext context, required String url}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: SizedBox(
+        //  width: 300,
+        //  height: 250,
+          child: NetworkVideoPlayerWidget(videoUrl: url, showController: true,),
+        ),
+      );
+    },
+  );
+}*/
 
 class NetworkVideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
   final bool showController;
 
-  NetworkVideoPlayerWidget({Key? key, required this.videoUrl,required this.showController}) : super(key: key);
+  NetworkVideoPlayerWidget(
+      {Key? key, required this.videoUrl, required this.showController})
+      : super(key: key);
 
   @override
   _NetworkVideoPlayerWidgetState createState() =>
@@ -71,48 +91,122 @@ class NetworkVideoPlayerWidget extends StatefulWidget {
 class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
   late VideoPlayerController _videoPlayercontroller;
   late ChewieController _chewieController;
-
+  var thumbnail;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _videoPlayercontroller = VideoPlayerController.networkUrl(Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
-      ..initialize().then((_) {
-        setState(() {});
-      });
-    _chewieController = ChewieController(
-      allowPlaybackSpeedChanging: false,
-      showControls: widget.showController,
-      videoPlayerController: _videoPlayercontroller,
-      autoPlay: false,
-      looping: false,
-    );
+    if(widget.showController){
+      _initializePlayer();
+    }
+    else{
+      _getThumbnail();
+    }
+  }
+
+  Future <void> _getThumbnail () async {
+    await _downloadAndCacheVideo().then((cacheData) async {
+      thumbnail = await VideoThumbnail.thumbnailData(
+        video: cacheData.path,
+        imageFormat: ImageFormat.JPEG,
+        maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+        quality: 25,
+      );
+    });
+  }
+  
+  Future<File> _downloadAndCacheVideo() async {
+    // Check if video is cached already
+    final cache = await DefaultCacheManager().getSingleFile(widget.videoUrl);
+    return cache;
+  }
+
+  Future<void> _initializePlayer() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await _downloadAndCacheVideo().then((fileData){
+      _videoPlayercontroller = VideoPlayerController.file(fileData)
+        ..initialize().then((_) {
+          setState(() {
+            _chewieController = ChewieController(
+              allowPlaybackSpeedChanging: false,
+              aspectRatio: _videoPlayercontroller.value.aspectRatio,
+              showControls: widget.showController,
+              videoPlayerController: _videoPlayercontroller,
+              autoPlay: false,
+              looping: false,
+            );
+            _isLoading = false;
+          });
+        });
+    });
+
   }
 
   @override
   void dispose() {
     super.dispose();
-   // _videoPlayercontroller.dispose();
-   // _chewieController.dispose();
+     _videoPlayercontroller.dispose();
+     _chewieController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-      Container(
-        height: 50.h,
-     //   width: 50.w,
-        color: AppColors.kPrimaryColor,
-        child: Scaffold(
-          backgroundColor: AppColors.kPrimaryColor,
-          body: Center(
-            child: _videoPlayercontroller.value.isInitialized
-                ? Chewie(
-              controller: _chewieController,
-            ):  CircularProgressIndicator(),
+    return Container(
+      height: 50.h,
+      //   width: 50.w,
+      color: AppColors.kPrimaryColor,
+      child: Scaffold(
+        backgroundColor: AppColors.kPrimaryColor,
+        body: Center(
+          child: !widget.showController?
+              Container(
+                color: Colors.black38,
+              ):
+          _isLoading
+              ? CircularProgressIndicator()
+              : Chewie(
+                  controller: _chewieController,
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+class NetworkVideoPlayerScreen extends StatefulWidget {
+  final String videoUrl;
+  final bool showController;
+
+  NetworkVideoPlayerScreen(
+      {Key? key, required this.videoUrl, required this.showController})
+      : super(key: key);
+
+  @override
+  _NetworkVideoPlayerScreenState createState() =>
+      _NetworkVideoPlayerScreenState();
+}
+
+class _NetworkVideoPlayerScreenState extends State<NetworkVideoPlayerScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black38,
+      body: Center(
+        child: Container(
+          color: Colors.black38,
+          height: 30.h,
+          width: double.infinity,
+          child: Center(
+            child: NetworkVideoPlayerWidget(
+              videoUrl: widget.videoUrl,
+              showController: widget.showController,
+            ),
           ),
         ),
-      );
+      ),
+    );
   }
 }
