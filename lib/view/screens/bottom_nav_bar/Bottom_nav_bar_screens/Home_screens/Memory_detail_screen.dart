@@ -15,15 +15,36 @@ import '../../../../../models/MemoryModel.dart';
 import '../../../../../utills/ConvertDateTime.dart';
 import '../../../../widgets/CachedNetworkImageWidget.dart';
 import '../../../../widgets/VideoPlayerWidget.dart';
+import '../../../network_video_player_screen.dart';
+import '../My_memories_screen/Schedule_memory_screen.dart';
 
-class MemoryDetailScreen extends StatelessWidget {
+class MemoryDetailScreen extends StatefulWidget {
   MemoryDetailScreen({super.key});
-
   static const routeName = "MemoryDetailScreen";
 
   @override
+  State<MemoryDetailScreen> createState() => _MemoryDetailScreenState();
+}
+
+class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
+    late MemoryModel memory;
+
+  @override
+  void initState() {
+    super.initState();
+    if(Get.arguments != null){
+      memory = Get.arguments as MemoryModel;
+    }
+    
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
-    final MemoryModel memory = Get.arguments as MemoryModel;
+     
+    
+  
 
     // Initialize the controller with the passed memory
     final MemoryDetailController controller =
@@ -43,6 +64,12 @@ class MemoryDetailScreen extends StatelessWidget {
                 Text("My Memories",
                     style: TextStyleConstants.headlineLargeWhite(context)),
                 const Spacer(),
+                CustomRoundedGlassButton(
+                    icon: Icons.edit,
+                    ontap: () {
+                      Get.toNamed(ScheduleMemoryScreen.routeName,
+                          arguments: controller.memory);              }),
+                SizedBox(width: 2.w,),
                 Obx(() {
                   return controller.isloading.value
                       ? const Center(
@@ -71,7 +98,10 @@ class MemoryDetailScreen extends StatelessWidget {
                             child: isVideo
                                 ? InkWell(
                               onTap: (){
-                                Navigator.push(context,MaterialPageRoute(builder: (context) => NetworkVideoPlayerScreen(videoUrl: '${ApiConstants.getPicture}/${controller.selectedImage}', showController: true,)) );
+                                
+                                          
+                                        Get.toNamed(NetworkVideoPlayerScreen.routeName, arguments: '${ApiConstants.getPicture}/${controller.selectedImage}');
+                                // Navigator.push(context,MaterialPageRoute(builder: (context) => NetworkVideoPlayerScreen(videoUrlData: '${ApiConstants.getPicture}/${controller.selectedImage}')) );
                               },
                                   child: SizedBox(
                                       height: 20.h,
@@ -125,17 +155,23 @@ class MemoryDetailScreen extends StatelessWidget {
                                       EdgeInsets.symmetric(horizontal: 1.w),
                                   child: SizedBox(
                                     width: 9.h,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Stack(
-                                        children: [
-                                          NetworkVideoPlayerWidget(
-                                            videoUrl:
-                                                "${ApiConstants.getPicture}/$file",
-                                            showController: false,
-                                          ),
-                                          Center(child: Icon(Icons.play_circle))
-                                        ],
+                                    child: InkWell(
+                                      onTap: (){
+                                        Get.toNamed(NetworkVideoPlayerScreen.routeName, arguments: '${ApiConstants.getPicture}/$file');
+                                        // Navigator.push(context,MaterialPageRoute(builder: (context) => NetworkVideoPlayerScreen(videoUrlData: '${ApiConstants.getPicture}/$file')) );
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Stack(
+                                          children: [
+                                            NetworkVideoPlayerWidget(
+                                              videoUrl:
+                                                  "${ApiConstants.getPicture}/$file",
+                                              showController: false,
+                                            ),
+                                            Center(child: Icon(Icons.play_circle))
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -295,13 +331,13 @@ class MemoryDetailScreen extends StatelessWidget {
                           ),
                   ],
                 )),
-            GradientButton(
+        /*    GradientButton(
                 onPressed: () {
-                  Get.toNamed(UploadMemoryScreen.routeName,
+                  Get.toNamed(ScheduleMemoryScreen.routeName,
                       arguments: controller.memory);
                 },
                 text: "Reschedule Memory",
-                gradients: const [Colors.purple, Colors.blue])
+                gradients: const [Colors.purple, Colors.blue])*/
           ],
         ),
       ),

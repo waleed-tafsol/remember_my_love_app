@@ -142,18 +142,22 @@ class LetterListTile extends GetView<CalendarController> {
                                                         BorderRadius.circular(
                                                             10),
                                                     child: AbsorbPointer(
-                                                      child: Stack(
-                                                        children: [
-                                                          NetworkVideoPlayerWidget(
-                                                            videoUrl:
-                                                                "${ApiConstants.getPicture}/$file",
-                                                            showController:
-                                                                false,
-                                                          ),
-                                                          Center(
-                                                              child: Icon(Icons
-                                                                  .play_circle))
-                                                        ],
+                                                      child: SizedBox(
+                                                        height: 20.w,
+                                                        width: 20.w,
+                                                        child: Stack(
+                                                          children: [
+                                                            NetworkVideoPlayerWidget(
+                                                              videoUrl:
+                                                                  "${ApiConstants.getPicture}/$file",
+                                                              showController:
+                                                                  false,
+                                                            ),
+                                                            const Center(
+                                                                child: Icon(Icons
+                                                                    .play_circle))
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -204,16 +208,20 @@ class LetterListTile extends GetView<CalendarController> {
                                                         BorderRadius.circular(
                                                             10),
                                                     child: AbsorbPointer(
-                                                      child: Stack(
-                                                        children: [
-                                                          NetworkVideoPlayerWidget(
-                                                            videoUrl:
-                                                                "${ApiConstants.getPicture}/$file",
-                                                            showController:
-                                                                false,
-                                                          ),
-                                                          Center(child: Icon(Icons.play_circle))
-                                                        ],
+                                                      child: SizedBox(
+                                                        height: 20.w,
+                                                        width: 20.w,
+                                                        child: Stack(
+                                                          children: [
+                                                            NetworkVideoPlayerWidget(
+                                                              videoUrl:
+                                                                  "${ApiConstants.getPicture}/$file",
+                                                              showController:
+                                                                  false,
+                                                            ),
+                                                            Center(child: Icon(Icons.play_circle))
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),

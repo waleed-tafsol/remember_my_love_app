@@ -27,11 +27,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera for capturing videos.</string>
+	<string>We need access to your camera for capturing videos and photos memory.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>We need access to your contacts to display them.</string>
+	<string>We need access to your contacts to send memories.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library so we can pick videos.</string>
+	<string>We need access to your photo library so we can pick videos and photos for creating memory.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

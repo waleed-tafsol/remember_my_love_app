@@ -1,12 +1,11 @@
 import 'dart:io';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:get_thumbnail_video/index.dart';
 import 'package:get_thumbnail_video/video_thumbnail.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 import '../../constants/colors_constants.dart';
@@ -110,9 +109,12 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
       thumbnail = await VideoThumbnail.thumbnailData(
         video: cacheData.path,
         imageFormat: ImageFormat.JPEG,
-        maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
-        quality: 25,
+   /*     maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+        quality: 25,*/
       );
+    });
+    setState(() {
+      _isLoading = false;
     });
   }
   
@@ -148,8 +150,8 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
   @override
   void dispose() {
     super.dispose();
-     _videoPlayercontroller.dispose();
-     _chewieController.dispose();
+    // _videoPlayercontroller.dispose();
+   //  _chewieController.dispose();
   }
 
   @override
@@ -157,16 +159,17 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
     return Container(
       height: 50.h,
       //   width: 50.w,
-      color: AppColors.kPrimaryColor,
+      color: AppColors.kTextfieldColor,
       child: Scaffold(
-        backgroundColor: AppColors.kPrimaryColor,
+        backgroundColor: AppColors.kTextfieldColor,
         body: Center(
-          child: !widget.showController?
-              Container(
-                color: Colors.black38,
-              ):
+          child:
           _isLoading
-              ? CircularProgressIndicator()
+              ? CircularProgressIndicator():
+          !widget.showController?
+          Image.memory(
+            thumbnail,
+          )
               : Chewie(
                   controller: _chewieController,
                 ),
@@ -176,37 +179,3 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
   }
 }
 
-class NetworkVideoPlayerScreen extends StatefulWidget {
-  final String videoUrl;
-  final bool showController;
-
-  NetworkVideoPlayerScreen(
-      {Key? key, required this.videoUrl, required this.showController})
-      : super(key: key);
-
-  @override
-  _NetworkVideoPlayerScreenState createState() =>
-      _NetworkVideoPlayerScreenState();
-}
-
-class _NetworkVideoPlayerScreenState extends State<NetworkVideoPlayerScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black38,
-      body: Center(
-        child: Container(
-          color: Colors.black38,
-          height: 30.h,
-          width: double.infinity,
-          child: Center(
-            child: NetworkVideoPlayerWidget(
-              videoUrl: widget.videoUrl,
-              showController: widget.showController,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

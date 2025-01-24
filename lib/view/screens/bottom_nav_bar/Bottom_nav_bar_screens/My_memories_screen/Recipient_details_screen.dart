@@ -51,10 +51,29 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
             controller.recipients[index].ccp.value = "+92";
           }
           controller.recipients[index].contactController.text = phoneNumber;
-        } else {
+        }
+
+        if (contact.emails.isNotEmpty) {
+          String? email = contact.emails.first.address;
+          if(controller.recipients[index].emailController.text.isEmpty)
+            {
+              controller.recipients[index].emailController.text = email;
+            }
+          else{
+            CustomSnackbar.showInfo('Note', 'Clear email field to add contact email');
+          }
+        }
+
+        /*if(contact.phones.isEmpty){
+          controller.recipients[index].contactController.text = '';
           throw Exception(
               "No phone number available for the selected contact.");
-        }
+        }*/
+       /* else if(contact.emails.isEmpty){
+          controller.recipients[index].emailController.text = '';
+          throw Exception(
+              "No email available for the selected contact.");
+        }*/
       }
     } catch (e) {
       CustomSnackbar.showError("Error", e.toString());
@@ -161,11 +180,16 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                     const Text("Email"),
                                     k1hSizedBox,
                                     SearchField<SearchUserModel>(
+                                      searchInputDecoration:  SearchInputDecoration(
+                                        suffixIcon: IconButton(
+                                            onPressed: () =>
+                                                handleContactSelection(index),
+                                            icon: Icon(Icons.email))
+                                      ),
                                       onSearchTextChanged: (value) {
                                         if (_debounceTimer != null) {
                                           _debounceTimer?.cancel();
                                         }
-
                                         _debounceTimer = Timer(
                                             const Duration(milliseconds: 500),
                                             () {
@@ -221,6 +245,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       controller: controller
                                           .recipients[index].contactController,
                                       keyboardType: TextInputType.phone,
+
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please enter a phone number';
