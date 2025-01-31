@@ -1,6 +1,6 @@
 class ApiConstants {
   // static const baseUrl = "https://33f8-119-73-110-142.ngrok-free.app/api/v1/";
-  static const baseUrl = "https://api.remembermylove.life/api/v1";
+  static const baseUrl = "https://api.remembermylove.life/api/v1/";
   static const login = "auth/login";
   static const socialLogin = "auth/social";
   static const logout = "auth/logout";
