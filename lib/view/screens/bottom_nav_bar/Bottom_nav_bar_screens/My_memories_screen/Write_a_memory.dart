@@ -26,108 +26,122 @@ class WriteAMemoryScreen extends GetView<UploadMemoryController> {
         FocusScope.of(context).unfocus();
       },
       child: CustomScaffold(
-        body: Column(
+        body: Stack(
           children: [
-            Row(
-              children: [
-                CustomRoundedGlassButton(
-                    icon: Icons.arrow_back_ios_new, ontap: () => Get.back()),
-                k2wSizedBox,
-                Text(
-                  "Write a Memory",
-                  style: TextStyleConstants.headlineLargeWhite(context),
-                )
-              ],
-            ),
-            CustomGlassmorphicContainer(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GlassTextFieldWithTitle(
-                      title: 'Title',
-                      hintText: "Enter Title",
-                      controller: controller.titleController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Required';
-                        }
-                        return null;
-                      },
-                    ),
-                    k1hSizedBox,
-                    const Text(
-                      "Select Category",
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: InkWell(
-                        onTap: () {
-                          _showDropdown(context);
-                        },
-                        child: CustomGlassmorphicContainer(
-                            borderRadius: 8,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 2.h, horizontal: 2.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Obx(() {
-                                  return Text(
-                                      controller.selectedCatagory.value == null
-                                          ? "category"
-                                          : controller.selectedCatagory.value
-                                                  ?.name ??
-                                              "");
-                                }),
-                                const Icon(
-                                  Icons.keyboard_arrow_down_outlined,
-                                  color: AppColors.kIconColor,
-                                )
-                              ],
-                            )),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      CustomRoundedGlassButton(
+                          icon: Icons.arrow_back_ios_new, ontap: () => Get.back()),
+                      k2wSizedBox,
+                      Text(
+                        "Write a Memory",
+                        style: TextStyleConstants.headlineLargeWhite(context),
+                      )
+                    ],
+                  ),
+                  CustomGlassmorphicContainer(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GlassTextFieldWithTitle(
+                            title: 'Title',
+                            hintText: "Enter Title",
+                            controller: controller.titleController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Required';
+                              }
+                              return null;
+                            },
+                          ),
+                          k1hSizedBox,
+                          const Text(
+                            "Select Category",
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: InkWell(
+                              onTap: () {
+                                _showDropdown(context);
+                              },
+                              child: CustomGlassmorphicContainer(
+                                  borderRadius: 8,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 2.h, horizontal: 2.w),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Obx(() {
+                                        return Text(
+                                            controller.selectedCatagory.value == null
+                                                ? "category"
+                                                : controller.selectedCatagory.value
+                                                        ?.name ??
+                                                    "");
+                                      }),
+                                      const Icon(
+                                        Icons.keyboard_arrow_down_outlined,
+                                        color: AppColors.kIconColor,
+                                      )
+                                    ],
+                                  )),
+                            ),
+                          ),
+                          const Text("Description"),
+                          k1hSizedBox,
+                          SizedBox(
+                            height: 20.h,
+                            width: double.infinity,
+                            child: TextFormField(
+                              textAlignVertical: const TextAlignVertical(y: -1.0),
+                              textInputAction: TextInputAction.done,
+                              onEditingComplete: () {
+                                FocusScope.of(context).unfocus();
+                              },
+                              expands: true,
+                              maxLines: null,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Required';
+                                }
+                                return null;
+                              },
+                              controller: controller.descriptionController,
+                              decoration: const InputDecoration(
+                                hintText: "Enter Description",
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const Text("Description"),
-                    k1hSizedBox,
-                    SizedBox(
-                      height: 20.h,
-                      width: double.infinity,
-                      child: TextFormField(
-                        textAlignVertical: const TextAlignVertical(y: -1.0),
-                        expands: true,
-                        maxLines: null,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Required';
-                          }
-                          return null;
-                        },
-                        controller: controller.descriptionController,
-                        decoration: const InputDecoration(
-                          hintText: "Enter Description",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                //  const Spacer(),
+                  SizedBox(height: 10.h,)
+                ],
               ),
             ),
-            const Spacer(),
-            GradientButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    if (controller.selectedCatagory.value != null) {
-                      Get.toNamed(RecipientDetailsScreen.routeName);
-                    } else {
-                      CustomSnackbar.showError(
-                          "Error", "Please Select a category");
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: GradientButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      if (controller.selectedCatagory.value != null) {
+                        Get.toNamed(RecipientDetailsScreen.routeName);
+                      } else {
+                        CustomSnackbar.showError(
+                            "Error", "Please Select a category");
+                      }
                     }
-                  }
-                },
-                text: "Add Recipients",
-                gradients: const [Colors.purple, Colors.blue])
+                  },
+                  text: "Add Recipients",
+                  gradients: const [Colors.purple, Colors.blue]),
+            )
           ],
         ),
       ),

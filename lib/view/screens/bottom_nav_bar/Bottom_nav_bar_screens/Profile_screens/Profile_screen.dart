@@ -337,7 +337,6 @@ class ProfileScreen extends GetView<HomeScreenController> {
                     final HomeScreenController homeController = Get.find();
                     authService.logout(
                         platform: homeController.user.value?.platform);
-                    //TokenService().deleteToken();
                   },
                   child: Row(
                     children: [

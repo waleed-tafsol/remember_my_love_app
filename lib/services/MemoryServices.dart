@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import '../constants/ApiConstant.dart';
 
-class Memoryservices {
+class MemoryServices {
   static Future<Map<String, dynamic>> create_mem({
     required String title,
     required String description,

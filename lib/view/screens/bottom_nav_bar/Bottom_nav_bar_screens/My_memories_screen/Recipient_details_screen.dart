@@ -257,10 +257,16 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       },
                                       prefixWidget: Obx(() {
                                         return CountryCodePicker(
-                                          onChanged: (value) => controller
-                                              .recipients[index]
-                                              .ccp
-                                              .value = value.toString(),
+                                          onChanged: (value) {
+                                            controller
+                                                .recipients[index]
+                                                .ccp
+                                                .value = value.toString();
+                                            controller
+                                                .recipients[index]
+                                                .country
+                                                .value = value.code!;
+                                          },
                                           textStyle: TextStyle(
                                             fontSize: 15.sp,
                                             color: Colors.white,
@@ -314,7 +320,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                     }),
                     k2hSizedBox,
                     Obx(() {
-                      return controller.sendTo != "self"
+                      return controller.sendTo.value != "self"
                           ? Row(
                               children: [
                                 IconButton(

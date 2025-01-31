@@ -92,7 +92,7 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  Saveuser(Map<String, dynamic> data) async {
+  saveUser(Map<String, dynamic> data) async {
     ColoredPrint.green("Saving User Details");
     user.value = UserModel.fromJson(data["data"]);
   }

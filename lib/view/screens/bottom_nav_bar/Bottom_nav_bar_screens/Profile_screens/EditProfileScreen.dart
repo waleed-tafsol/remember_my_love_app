@@ -168,8 +168,9 @@ class EditProfileScreen extends GetView<EditProfileController> {
                     },
                     prefixWidget: CountryCodePicker(
                       onChanged: (value) {
-                        controller.ccController.text =
-                            value.dialCode.toString();
+                        controller.countryCodeController.text = value.dialCode!;
+                        controller.countryController.text =
+                            value.code!;
                       },
                       textStyle:
                           TextStyle(fontSize: 15.sp, color: Colors.white),
@@ -187,8 +188,8 @@ class EditProfileScreen extends GetView<EditProfileController> {
                               TextStyle(fontSize: 15.sp, color: Colors.black),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20))),
-                      initialSelection: controller.ccController.value.text,
-                      favorite: ['+1', 'us'],
+                      initialSelection: controller.countryController.value.text,
+                      favorite: ['+1', 'US'],
                       showCountryOnly: false,
                       showOnlyCountryWhenClosed: false,
                       alignLeft: false,

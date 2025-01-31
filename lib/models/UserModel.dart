@@ -7,6 +7,7 @@ class UserModel {
   String? email;
   String? contact;
   String? cc;
+  String? country;
   String? role;
   String? platform;
   String? status;
@@ -36,6 +37,7 @@ class UserModel {
       this.email,
       this.contact,
       this.cc,
+      this.country,
       this.role,
       this.platform,
       this.status,
@@ -65,6 +67,7 @@ class UserModel {
     email = json['email'];
     contact = json['contact'];
     cc = json['cc'];
+    country = json['country'];
     role = json['role'];
     platform = json['platform'];
     status = json['status'];
@@ -108,6 +111,7 @@ class UserModel {
     data['email'] = this.email;
     data['contact'] = this.contact;
     data['cc'] = this.contact;
+    data['country'] = this.country;
     data['role'] = this.role;
     data['platform'] = this.platform;
     data['status'] = this.status;

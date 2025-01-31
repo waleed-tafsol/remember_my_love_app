@@ -1,6 +1,6 @@
 class ApiConstants {
   // static const baseUrl = "https://33f8-119-73-110-142.ngrok-free.app/api/v1/";
-  static const baseUrl = "https://rml-beb4e520166b.herokuapp.com/api/v1/";
+  static const baseUrl = "https://api.remembermylove.life/api/v1";
   static const login = "auth/login";
   static const socialLogin = "auth/social";
   static const logout = "auth/logout";
@@ -52,4 +52,9 @@ class ApiConstants {
   static const attatchFinger = "${baseUrl}auth/attach-fingerprint";
   // static const logout = "${_baseUrl}api/logout";
   // static const qanswers = "${_baseUrl}api/questions-and-answers";
+  // concerns
+  static const createConcerns = "concerns/create";
+  static const updateConcerns = "users/update-me";
+  static const getConcerns = "concerns/user/all";
+
 }

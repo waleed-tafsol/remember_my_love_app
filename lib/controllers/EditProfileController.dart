@@ -22,7 +22,8 @@ class EditProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
-  TextEditingController ccController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
+  TextEditingController countryCodeController = TextEditingController();
 
   RxBool isLoading = false.obs;
   RxBool isImageUploading = false.obs;
@@ -35,7 +36,8 @@ class EditProfileController extends GetxController {
     nameController.text = homeScreenController.user.value?.name ?? '';
     userNameController.text = homeScreenController.user.value?.username ?? '';
     contactController.text = homeScreenController.user.value?.contact ?? '';
-    ccController.text = homeScreenController.user.value?.cc ?? '+1';
+    countryController.text = homeScreenController.user.value?.country ?? 'US';
+    countryCodeController.text = homeScreenController.user.value?.cc ?? '+1';
   }
 
   Future<void> upateMe() async {
@@ -46,7 +48,8 @@ class EditProfileController extends GetxController {
         "name": nameController.value.text,
         "username": userNameController.value.text,
         "contact": contactController.value.text,
-        "cc": ccController.value.text,
+        "cc": countryCodeController.value.text,
+        "country": countryController.value.text,
       });
       if (response != null) {
         homeScreenController.getUSer();

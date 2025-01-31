@@ -62,6 +62,7 @@ class UploadMemoryController extends GetxController {
           recipients.add(Recipient(
             emailController: TextEditingController(),
             ccp: "+1".obs,
+            country: "US".obs,
             contactController: TextEditingController(),
             relationController: TextEditingController(),
           ));
@@ -87,6 +88,7 @@ class UploadMemoryController extends GetxController {
           recipients.add(Recipient(
             emailController: TextEditingController(text: element?.email),
             ccp: element?.cc?.obs ?? "+92".obs,
+            country: element?.country?.obs?? "US".obs,
             contactController: TextEditingController(text: element?.contact),
             relationController: TextEditingController(text: element?.relation),
           ));
@@ -122,6 +124,7 @@ class UploadMemoryController extends GetxController {
     recipients.add(Recipient(
       emailController: TextEditingController(),
       ccp: "+1".obs,
+      country: "US".obs,
       contactController: TextEditingController(),
       relationController: TextEditingController(),
     ));
@@ -285,7 +288,7 @@ class UploadMemoryController extends GetxController {
     isloading.value = true;
     try {
       // convertDateTime();
-      await Memoryservices.create_mem(
+      await MemoryServices.create_mem(
         title: titleController.value.text,
         description: descriptionController.value.text,
         category: selectedCatagory.value?.sId ?? "",
@@ -324,7 +327,7 @@ class UploadMemoryController extends GetxController {
     isloading.value = true;
     try {
       // convertDateTime();
-      await Memoryservices.update_mem(
+      await MemoryServices.update_mem(
         id: reschedualMemory.value?.sId ?? "",
         title: titleController.value.text,
         description: descriptionController.value.text,
@@ -479,6 +482,7 @@ class UploadMemoryController extends GetxController {
 class Recipient {
   TextEditingController emailController;
   RxString ccp;
+  RxString country;
   TextEditingController contactController;
 
   TextEditingController relationController;
@@ -486,6 +490,7 @@ class Recipient {
   Recipient({
     required this.emailController,
     required this.ccp,
+    required this.country,
     required this.relationController,
     required this.contactController,
   });
@@ -495,6 +500,7 @@ class Recipient {
     return {
       "email": emailController.text.trim(),
       "cc": ccp.value,
+      "country": country.value,
       "contact": contactController.text.trim(),
       "username": emailController.text.trim(),
       "relation": relationController.text.trim(),

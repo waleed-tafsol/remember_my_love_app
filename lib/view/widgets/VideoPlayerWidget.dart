@@ -1,57 +1,86 @@
 import 'dart:io';
-
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:get/get.dart';
 import 'package:get_thumbnail_video/index.dart';
 import 'package:get_thumbnail_video/video_thumbnail.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
-import '../../constants/colors_constants.dart';
-import '../../controllers/localVideoPlayerWidgetController.dart';
-import '../screens/VideoplayerScreen.dart';
 
-class LocalVideoPlayerWidget extends StatelessWidget {
+import '../../constants/colors_constants.dart';
+
+class LocalVideoPlayerWidget extends StatefulWidget {
   final String filePath; // Local file path to the video
 
   const LocalVideoPlayerWidget({Key? key, required this.filePath})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final VideoThumbnailController controller =
-        Get.put(VideoThumbnailController());
-    controller.generateThumbnailForLocalVideo(filePath);
-    void _onPlayButtonPressed() {
-      Get.toNamed(VideoPlayerScreen.routeName, arguments: filePath);
-    }
+  State<LocalVideoPlayerWidget> createState() => _LocalVideoPlayerWidgetState();
+}
 
+class _LocalVideoPlayerWidgetState extends State<LocalVideoPlayerWidget> {
+  late VideoPlayerController _controller;
+  bool _isPlaying = false; // Track the playing state
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.file(File(widget.filePath))
+      ..initialize().then((_) {
+        setState(() {}); // Ensure the first frame is shown
+        _controller.setLooping(true); // Optional: Loop the video if needed
+      });
+
+    _controller.addListener(() {
+      if (_controller.value.isPlaying != _isPlaying) {
+        setState(() {
+          _isPlaying = _controller.value.isPlaying;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose(); // Properly dispose the controller
+    super.dispose();
+  }
+
+  void _togglePlayPause() {
+    setState(() {
+      if (_controller.value.isPlaying) {
+        _controller.pause(); // Pause the video
+      } else {
+        _controller.play(); // Play the video
+      }
+      _isPlaying = _controller.value.isPlaying; // Update the play state
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _onPlayButtonPressed,
-      child: Obx(() {
-        // Using GetX to observe the thumbnailPath for changes
-        if (controller.thumbnailPath.value == null) {
-          return const Center(
-              child: CircularProgressIndicator()); // Show loading indicator
-        } else {
-          return Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: FileImage(File(controller.thumbnailPath.value!)),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: const Center(
+      onTap: _togglePlayPause, // Toggle play/pause on tap
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.black, // Background color for video container
+        ),
+        child: Stack(
+          children: [
+            // Video player
+            VideoPlayer(_controller),
+            // Play/Pause button overlay
+            Center(
               child: Icon(
-                Icons.play_circle_fill, // Play button icon
+                _isPlaying ? Icons.pause : Icons.play_circle_fill, // Change icon based on play state
                 color: Colors.white,
                 size: 50,
               ),
             ),
-          );
-        }
-      }),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -117,7 +146,7 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
       _isLoading = false;
     });
   }
-  
+
   Future<File> _downloadAndCacheVideo() async {
     // Check if video is cached already
     final cache = await DefaultCacheManager().getSingleFile(widget.videoUrl);
@@ -165,7 +194,7 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
         body: Center(
           child:
           _isLoading
-              ? CircularProgressIndicator():
+              ? const CircularProgressIndicator():
           !widget.showController?
           Image.memory(
             thumbnail,

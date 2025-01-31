@@ -186,7 +186,7 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                   itemCount: controller.pickedFiles.length,
                   itemBuilder: (context, index) {
                     final file = controller.pickedFiles[index];
-                    bool isVideo = file.path.endsWith(".mp4");
+                    bool isVideo = file.path.endsWith(".mp4") || file.path.endsWith(".MOV");
                     return Stack(
                       children: [
                         Positioned.fill(
