@@ -35,7 +35,6 @@ class GlassTextFieldWithTitle extends StatelessWidget {
         k1hSizedBox,
         TextFormField(
           enabled: enabled,
-
           keyboardType: keyboardType,
           obscureText: obscureText ?? false,
           controller: controller,
@@ -44,7 +43,7 @@ class GlassTextFieldWithTitle extends StatelessWidget {
             hintText: hintText ?? "",
             suffixIcon: suffixIcon,
           ),
-          validator: validator, // Attach the validator here
+          validator: validator,
         ),
       ],
     );
