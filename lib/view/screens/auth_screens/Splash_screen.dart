@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,7 @@ import '../../widgets/Custom_glass_container.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
   static const routeName = "SplashScreen";
 
   @override
@@ -191,7 +194,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 );
                               }),
                               k1hSizedBox,
-                              Align(
+                              const Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text("Password")),
                               k1hSizedBox,
@@ -301,11 +304,21 @@ class _SplashScreenState extends State<SplashScreen>
                                       child: SvgPicture.asset(SvgAssets.google),
                                     ),
                                   )),
-                                  // k2wSizedBox,
-                                  // Expanded(
-                                  //     child: CustomGlassButton(
-                                  //   child: SvgPicture.asset(SvgAssets.apple),
-                                  // )),
+                                  Visibility(
+                                    visible: Platform.isIOS,
+                                    child: Expanded(
+                                        child: Padding(
+                                      padding:  EdgeInsets.only(left:2.w),
+                                      child: InkWell(
+                                        onTap: () {
+                                          authController.loginWithApple();
+                                        },
+                                        child: CustomGlassButton(
+                                          child: SvgPicture.asset(SvgAssets.apple),
+                                        ),
+                                      ),
+                                    )),
+                                  ),
                                 ],
                               ),
                               k1hSizedBox,

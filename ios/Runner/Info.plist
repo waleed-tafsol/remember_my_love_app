@@ -24,14 +24,29 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>GIDClientID</key>
+    <string>364804173127-0q0d15mqnphqgdj67ti0cv296t53getu.apps.googleusercontent.com</string>
+    <key>CFBundleURLTypes</key>
+    	<array>
+    		<dict>
+    			<key>CFBundleTypeRole</key>
+    			<string>Editor</string>
+    			<key>CFBundleURLSchemes</key>
+    			<array>
+    				<string>com.googleusercontent.apps.364804173127-4cksfm928l8d9p20a4du6a03226ealpl</string>
+    			</array>
+    		</dict>
+    	</array>
+    <key>GIDServerClientID</key>
+    <string>YOUR_SERVER_CLIENT_ID</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera for capturing videos and photos memory.</string>
-	<key>NSMicrophoneUsageDescription</key>
-    <string>We need access to your microphone for recording memory video voice.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>We need access to your contacts to send memories.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to your microphone for recording memory video voice.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library so we can pick videos and photos for creating memory.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -44,16 +59,10 @@
 	<false/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

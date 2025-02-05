@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:math';
 
+import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -12,6 +14,7 @@ import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/My_memories_screen.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../constants/ApiConstant.dart';
 import '../controllers/NotificationController.dart';
 import '../firebase_options.dart';
@@ -86,6 +89,49 @@ class FirebaseService {
       return userCredential.user;
     } catch (e) {
       ColoredPrint.red("Error signing in with Google: $e");
+      return null;
+    }
+  }
+
+  // Sign in with Apple
+  static Future<User?> signInWithApple() async {
+    try {
+      String generateNonce([int length = 32]) {
+        final charset =
+            '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+        final random = Random.secure();
+        return List.generate(
+            length, (_) => charset[random.nextInt(charset.length)]).join();
+      }
+
+      String sha256ofString(String input) {
+        final bytes = utf8.encode(input);
+        final digest = sha256.convert(bytes);
+        return digest.toString();
+      }
+
+      final rawNonce = generateNonce();
+      final nonce = sha256ofString(rawNonce);
+
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+
+      final appleAuthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+        accessToken: appleCredential.authorizationCode,
+      );
+      final userDetails =
+      await FirebaseAuth.instance.signInWithCredential(appleAuthCredential);
+      ColoredPrint.green("Apple sign-in successful.");
+      return userDetails.user;
+    } catch (e) {
+      ColoredPrint.red("Error signing in with Apple: $e");
       return null;
     }
   }

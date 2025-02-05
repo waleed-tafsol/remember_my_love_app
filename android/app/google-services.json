@@ -1,45 +1,89 @@
 {
   "project_info": {
-    "project_number": "878006363985",
-    "project_id": "remember-my-love-c3472",
-    "storage_bucket": "remember-my-love-c3472.firebasestorage.app"
+    "project_number": "364804173127",
+    "project_id": "remember-my-love",
+    "storage_bucket": "remember-my-love.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:878006363985:android:5d3a122163baa495989570",
+        "mobilesdk_app_id": "1:364804173127:android:006b40b129d135da90b062",
         "android_client_info": {
-          "package_name": "com.remembermylove.tafsol"
+          "package_name": "com.example.remember_my_love_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "878006363985-iscf2r31r2utuqa0lbl4qt3pl1uatqnt.apps.googleusercontent.com",
+          "client_id": "364804173127-r504ki530iati8a986ulnl840mes8c9h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.remembermylove.tafsol",
+            "package_name": "com.example.remember_my_love_app",
             "certificate_hash": "a9e55a978f747874677b8f67e77e35787efc8119"
           }
         },
         {
-          "client_id": "878006363985-a6uklimhbs08soio452t6glbqhhvor6j.apps.googleusercontent.com",
+          "client_id": "364804173127-r404bu2o41cltp225e9tbdn270ktpbe0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAhdRyfBEjPvwe5YXupAgSfFHWUr4aIidk"
+          "current_key": "AIzaSyBFaqyXS-mZdkIOUUF7S8EuguCdmzEuu4Q"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "878006363985-a6uklimhbs08soio452t6glbqhhvor6j.apps.googleusercontent.com",
+              "client_id": "364804173127-r404bu2o41cltp225e9tbdn270ktpbe0.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "878006363985-v7dhmlka06813b67uud8n6cunj0qcrgg.apps.googleusercontent.com",
+              "client_id": "364804173127-4cksfm928l8d9p20a4du6a03226ealpl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.remembermylove.tafsol"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364804173127:android:3ac05e20820ea5dd90b062",
+        "android_client_info": {
+          "package_name": "com.remembermylove.tafsol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364804173127-0q0d15mqnphqgdj67ti0cv296t53getu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.remembermylove.tafsol",
+            "certificate_hash": "0661dc9eeded487ff65a50f62baaf3e9b3e96c5c"
+          }
+        },
+        {
+          "client_id": "364804173127-r404bu2o41cltp225e9tbdn270ktpbe0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFaqyXS-mZdkIOUUF7S8EuguCdmzEuu4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364804173127-r404bu2o41cltp225e9tbdn270ktpbe0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "364804173127-4cksfm928l8d9p20a4du6a03226ealpl.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.remembermylove.tafsol"

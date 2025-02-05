@@ -129,6 +129,48 @@ class AuthService extends GetxService {
     }
   }
 
+  Future<String?> loginWithApple() async {
+    User? user;
+    try {
+      user = await FirebaseService.signInWithApple();
+      if (user != null) {
+        Response response = await _dio.post(
+          ApiConstants.socialLogin,
+          data: {
+            "email": user.email,
+            "displayName": user.displayName,
+            "photo": user.photoURL,
+            "fcmToken": FirebaseService.fcmToken,
+            "platform": "apple"
+          },
+        );
+
+        platform.value = "google";
+        authToken = response.data["data"]["token"];
+        _tokenStorage.saveToken(authToken!);
+        if (response.data?["data"]?["user"]?["firstLogin"] ?? false) {
+          return "firstLogin";
+        } else {
+          return "true";
+        }
+      } else {
+        return "false";
+      }
+    } on DioException catch (e) {
+      if (user != null) {
+        FirebaseService.signOut();
+      }
+
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data["message"]["error"][0] ?? "An error occurred");
+      } else {
+        throw Exception("Network error: Check Your Internet Connection");
+      }
+    }
+  }
+
+
   Future<Map<String, dynamic>?> Signup(
     String name,
     String userName,

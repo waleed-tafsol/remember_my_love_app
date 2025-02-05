@@ -86,6 +86,31 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> loginWithApple() async {
+    try {
+      Get.dialog(const Center(child: CircularProgressIndicator()));
+      final isfirstTime = await authService.loginWithApple();
+      if (isfirstTime == "true") {
+        Get.back();
+        CustomSnackbar.showSuccess("Success", "Logged In Successfully");
+
+        Get.offNamed(BottomNavBarScreen.routeName);
+      } else if (isfirstTime == "firstLogin") {
+        Get.back();
+        CustomSnackbar.showSuccess("Success", "Logged In Successfully");
+        Get.offNamed(QuestionsScreen.routeName);
+      } else {
+        Get.back();
+        CustomSnackbar.showError("error", "Apple SignIn Faild");
+        // Get.toNamed(BottomNavBarScreen.routeName);
+      }
+    } catch (e) {
+      Get.back();
+      CustomSnackbar.showError("error", e.toString());
+    }
+  }
+
+
   Future<void> signup() async {
     Get.dialog(
         const Center(
