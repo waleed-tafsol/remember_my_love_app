@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>364804173127-4cksfm928l8d9p20a4du6a03226ealpl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.364804173127-4cksfm928l8d9p20a4du6a03226ealpl</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>364804173127-0q0d15mqnphqgdj67ti0cv296t53getu.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyChASBdOfGB1cu5Er_eJYxFstFuBfyNHwY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>364804173127</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.remembermylove.tafsol</string>
+	<key>PROJECT_ID</key>
+	<string>remember-my-love</string>
+	<key>STORAGE_BUCKET</key>
+	<string>remember-my-love.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:364804173127:ios:066dc5738849afa490b062</string>
+</dict>
+</plist>
