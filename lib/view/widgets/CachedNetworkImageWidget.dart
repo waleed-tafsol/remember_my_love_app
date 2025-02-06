@@ -25,15 +25,32 @@ class CachedNetworkImageWidget extends StatelessWidget {
           builder: (BuildContext context) {
             return Dialog(
               backgroundColor: Colors.transparent,
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                fit: BoxFit.contain,
-                // height: MediaQuery.of(context).size.height,
-                width: double.infinity,
-                placeholder: (context, url) => const Center(
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              child: Stack(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.contain,
+                    width: double.infinity,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                    ),
+                  ),
+                ],
               ),
             );
           },

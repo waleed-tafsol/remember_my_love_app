@@ -16,7 +16,7 @@ class VideoPlayerScreen extends GetView<VideoPlayerScreenController> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black.withOpacity(0.7),
+        backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
