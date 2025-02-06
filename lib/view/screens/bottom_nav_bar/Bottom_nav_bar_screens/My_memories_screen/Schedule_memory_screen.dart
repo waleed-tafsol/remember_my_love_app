@@ -88,7 +88,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           // controller.updateSelectedDate(index);
                           controller.buttonVisivility.value = true;
                         },
-                        onClose: () {
+                        onCloseButtonPressed: () {
                           controller.buttonVisivility.value = true;
                           Get.back();
                         },
@@ -168,7 +168,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         onSubmit: (index) {
                           controller.buttonVisivility.value = true;
                         },
-                        onClose: () {
+                        onCloseButtonPressed: (){
                           controller.buttonVisivility.value = true;
                           Get.back();
                         },
