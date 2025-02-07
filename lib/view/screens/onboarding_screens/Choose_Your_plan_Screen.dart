@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/in_app_purchase_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -214,7 +215,11 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
 
             return GradientButton(
               onPressed: () async {
-                if (isCancelled) {
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InAppPurchaseScreen()),
+                );              /*  if (isCancelled) {
                   if (isBefore) {
                     // controller.renewSubscription();
                     Get.toNamed(PaymentScreen.routeName, arguments: {
@@ -230,7 +235,7 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
                   controller.cancelSubscription();
                   // await controller
                   //     .buyPackage(controller.selectedPackage.value?.sId ?? "");
-                }
+                }*/
               },
               text: isCancelled
                   ? (isBefore ? "Renew Subscription" : "")
