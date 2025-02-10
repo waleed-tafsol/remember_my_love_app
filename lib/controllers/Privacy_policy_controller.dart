@@ -35,7 +35,7 @@ class PrivacyPolicyController extends GetxController {
         ),
       )
       ..loadRequest(Uri.parse(
-          'https://remember-my-love-admin.vercel.app/terms-and-condition'));
+          'https://remember-my-love-admin.vercel.app/privacy-policy'));
     super.onInit();
   }
 }
