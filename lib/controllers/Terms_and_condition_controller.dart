@@ -30,13 +30,13 @@ class TermsAndConditionController extends GetxController {
           onWebResourceError: (WebResourceError error) {
             // Handle web resource errors
           },
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url
-                .startsWith('https://remember-my-love-admin.vercel.app/')) {
+            onNavigationRequest: (NavigationRequest request) {
+              if (request.url
+                  .startsWith('https://remember-my-love-admin.vercel.app/')) {
+                return NavigationDecision.navigate;
+              }
               return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
+            },
         ),
       )
       ..loadRequest(Uri.parse(
