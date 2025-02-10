@@ -13,15 +13,15 @@ import 'consumable_store.dart';
 
 final bool _kAutoConsume = Platform.isIOS || true;
 
-const String _kConsumableId = 'consumable';
-const String _kUpgradeId = 'upgrade';
-const String _kSilverSubscriptionId = 'subscription_silver';
-const String _kGoldSubscriptionId = 'subscription_gold';
+const String _kConsumableId = 'remember_my_love';
+const String _kUpgradeId = 'remember_my_love';
+const String _kYearlySubscriptionId = 'rml_premium_year';
+const String _kMonthlySubscriptionId = 'rml_premium_monthly';
 const List<String> _kProductIds = <String>[
   _kConsumableId,
   _kUpgradeId,
-  _kSilverSubscriptionId,
-  _kGoldSubscriptionId,
+  _kYearlySubscriptionId,
+  _kMonthlySubscriptionId,
 ];
 
 
@@ -49,6 +49,7 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   void initState() {
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         _inAppPurchase.purchaseStream;
+
     _subscription =
         purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
           _listenToPurchaseUpdated(purchaseDetailsList);
@@ -477,14 +478,14 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
     // The old subscription is only required on Android since Apple handles this internally
     // by using the subscription group feature in iTunesConnect.
     GooglePlayPurchaseDetails? oldSubscription;
-    if (productDetails.id == _kSilverSubscriptionId &&
-        purchases[_kGoldSubscriptionId] != null) {
+    if (productDetails.id == _kYearlySubscriptionId &&
+        purchases[_kMonthlySubscriptionId] != null) {
       oldSubscription =
-      purchases[_kGoldSubscriptionId]! as GooglePlayPurchaseDetails;
-    } else if (productDetails.id == _kGoldSubscriptionId &&
-        purchases[_kSilverSubscriptionId] != null) {
+      purchases[_kMonthlySubscriptionId]! as GooglePlayPurchaseDetails;
+    } else if (productDetails.id == _kMonthlySubscriptionId &&
+        purchases[_kYearlySubscriptionId] != null) {
       oldSubscription =
-      purchases[_kSilverSubscriptionId]! as GooglePlayPurchaseDetails;
+      purchases[_kYearlySubscriptionId]! as GooglePlayPurchaseDetails;
     }
     return oldSubscription;
   }
