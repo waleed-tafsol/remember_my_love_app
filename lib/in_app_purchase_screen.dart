@@ -272,10 +272,6 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
               late PurchaseParam purchaseParam;
 
               if (Platform.isAndroid) {
-                // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
-                // verify the latest status of you your subscription by using server side receipt validation
-                // and update the UI accordingly. The subscription purchase status shown
-                // inside the app may not be accurate.
                 final GooglePlayPurchaseDetails? oldSubscription =
                 _getOldSubscription(productDetails, purchases);
 
