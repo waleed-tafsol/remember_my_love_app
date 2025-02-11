@@ -39,6 +39,14 @@
     	</array>
     <key>GIDServerClientID</key>
     <string>YOUR_SERVER_CLIENT_ID</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+
+    <key>NSAllowsArbitraryLoadsInWebContent</key>
+    <true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
