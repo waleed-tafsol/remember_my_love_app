@@ -18,7 +18,7 @@ class PrivacyPolicyScreen extends GetView<PrivacyPolicyController> {
                 child: CircularProgressIndicator(),
               )
             : WebViewWidget(
-                controller: controller.controller,
+                controller: controller.webViewController,
               );
       }),
     );

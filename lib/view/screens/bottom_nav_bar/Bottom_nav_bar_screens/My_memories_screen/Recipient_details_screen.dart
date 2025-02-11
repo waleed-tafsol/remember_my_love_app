@@ -369,6 +369,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
               GradientButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      FocusScope.of(context).unfocus();
                       controller.isapproved.value
                           ? Get.toNamed(ScheduleMemoryScreen.routeName)
                           : CustomSnackbar.showError(

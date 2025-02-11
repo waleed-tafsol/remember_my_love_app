@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicyController extends GetxController {
-  late WebViewController controller;
+  late WebViewController webViewController;
   RxBool isLoading = true.obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
-    controller = WebViewController()
+    webViewController = WebViewController()
       ..setBackgroundColor(Colors.indigo[900]!)
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -28,14 +28,14 @@ class PrivacyPolicyController extends GetxController {
           onNavigationRequest: (NavigationRequest request) {
             if (request.url
                 .startsWith('https://remember-my-love-admin.vercel.app/')) {
-              return NavigationDecision.prevent;
+              return NavigationDecision.navigate;
             }
-            return NavigationDecision.navigate;
+            return NavigationDecision.prevent;
           },
         ),
       )
       ..loadRequest(Uri.parse(
-          'https://remember-my-love-admin.vercel.app/terms-and-condition'));
+          'https://remember-my-love-admin.vercel.app/privacy-policy'));
     super.onInit();
   }
 }
