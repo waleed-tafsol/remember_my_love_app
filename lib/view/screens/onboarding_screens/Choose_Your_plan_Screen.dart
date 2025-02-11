@@ -104,7 +104,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
       return;
     }
 
-    if (productDetailResponse.productDetails.isEmpty) {
+    else if (productDetailResponse.productDetails.isEmpty) {
       setState(() {
         _queryProductError = null;
         _isAvailable = isAvailable;
@@ -116,15 +116,15 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
       return;
     }
 
-  /*  final List<String> consumables = await ConsumableStore.load();
+   else{
     setState(() {
       _isAvailable = isAvailable;
       _products = productDetailResponse.productDetails;
-      _notFoundIds = productDetailResponse.notFoundIDs;
-      _consumables = consumables;
+    //  _notFoundIds = productDetailResponse.notFoundIDs;
+     // _consumables = consumables;
       _purchasePending = false;
       _loading = false;
-    });*/
+    });}
   }
 
 
@@ -188,101 +188,97 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
             "Choose a Plan to Avail Special Features",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-      Expanded(
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: _products.length,
-            itemBuilder: (context, index) {
-              return  InkWell(
-                onTap: (){
-                  late PurchaseParam purchaseParam;
+      ListView.builder(
+          shrinkWrap: true,
+          itemCount: _products.length,
+          itemBuilder: (context, index) {
+            return  InkWell(
+              onTap: (){
+                late PurchaseParam purchaseParam;
 
-                  if (Platform.isAndroid) {
-                   /* final GooglePlayPurchaseDetails? oldSubscription =
-                    _getOldSubscription(_products[index], purchases);*/
+                if (Platform.isAndroid) {
+                 /* final GooglePlayPurchaseDetails? oldSubscription =
+                  _getOldSubscription(_products[index], purchases);*/
 
-                    purchaseParam = GooglePlayPurchaseParam(
-                        productDetails: _products[index],
-                       /* changeSubscriptionParam: (oldSubscription != null)
-                            ? ChangeSubscriptionParam(
-                          oldPurchaseDetails: oldSubscription,
-                          replacementMode:
-                          ReplacementMode.withTimeProration,
-                        )
-                            : null*/);
-                  } else {
-                    purchaseParam = PurchaseParam(
+                  purchaseParam = GooglePlayPurchaseParam(
                       productDetails: _products[index],
-                    );
-                  }
-                },
-                child: CustomGlassmorphicContainer(
-                  width: double.infinity,
-                  height: 20.h,
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Obx(() {
-                              return Text(
-                                "\$${_products[index].price ?? 0}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              );
-                            }),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Obx(() {
-                                  return Text(
-                                    controller.selectedPackage.value?.packageType ??
-                                        "",
-                                    style: Theme.of(context).textTheme.bodyLarge,
-                                  );
-                                }),
-                                SizedBox(
-                                  height: 0.5.h,
-                                )
-                              ],
+                     /* changeSubscriptionParam: (oldSubscription != null)
+                          ? ChangeSubscriptionParam(
+                        oldPurchaseDetails: oldSubscription,
+                        replacementMode:
+                        ReplacementMode.withTimeProration,
+                      )
+                          : null*/);
+                } else {
+                  purchaseParam = PurchaseParam(
+                    productDetails: _products[index],
+                  );
+                }
+              },
+              child: CustomGlassmorphicContainer(
+                width: double.infinity,
+                height: 20.h,
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                             Text(
+                              _products[index].price,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.check_circle,
-                              color: AppColors.kIconColor,
-                            ),
-                            k1wSizedBox,
-                            Obx(() {
-                              return Text(
-                                "${controller.homeController.user.value?.package?.sId == controller.selectedPackage.value?.sId ? "" : "Get"} ${controller.selectedPackage.value?.summary ?? ""}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              );
-                            }),
-                          ],
-                        ),
-                      ],
-                    ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Obx(() {
+                                return Text(
+                                  controller.selectedPackage.value?.packageType ??
+                                      "",
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                );
+                              }),
+                              SizedBox(
+                                height: 0.5.h,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.check_circle,
+                            color: AppColors.kIconColor,
+                          ),
+                          k1wSizedBox,
+                          Obx(() {
+                            return Text(
+                              "${controller.homeController.user.value?.package?.sId == controller.selectedPackage.value?.sId ? "" : "Get"} ${controller.selectedPackage.value?.summary ?? ""}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            );
+                          }),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              );
-            }),
-      ),
+              ),
+            );
+          }),
        /*   Obx(() {
             return (controller.homeController.user.value?.package?.sId ==
                             controller.selectedPackage.value?.sId ||
