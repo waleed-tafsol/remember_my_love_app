@@ -11,6 +11,7 @@ import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controllers/Choose_your_plan_controller.dart';
+import '../../../utills/CustomSnackbar.dart';
 import '../../../utills/TextUtills.dart';
 import '../../widgets/Custom_glass_container.dart';
 import '../../widgets/Custom_rounded_glass_button.dart';
@@ -48,7 +49,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   bool _isAvailable = false;
   bool _purchasePending = false;
-  bool _loading = true;
+  //bool _loading = true;
   List<ProductDetails> _products = <ProductDetails>[];
   List<PurchaseDetails> _purchases = <PurchaseDetails>[];
   String? _queryProductError;
@@ -57,17 +58,23 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
   void initState() {
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         _inAppPurchase.purchaseStream;
-
     _subscription =
         purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
           _listenToPurchaseUpdated(purchaseDetailsList);
         }, onDone: () {
+
           _subscription.cancel();
         }, onError: (Object error) {
           // handle error here.
         });
     initStoreInfo();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   Future<void> initStoreInfo() async {
@@ -78,7 +85,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
         _products = <ProductDetails>[];
         _purchases = <PurchaseDetails>[];
         _purchasePending = false;
-        _loading = false;
+        controller.isLoading.value = false;
       });
       return;
     }
@@ -99,7 +106,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
         _products = productDetailResponse.productDetails;
         _purchases = <PurchaseDetails>[];
         _purchasePending = false;
-        _loading = false;
+        controller.isLoading.value = false;
       });
       return;
     }
@@ -111,7 +118,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
         _products = productDetailResponse.productDetails;
         _purchases = <PurchaseDetails>[];
         _purchasePending = false;
-        _loading = false;
+        controller.isLoading.value = false;
       });
       return;
     }
@@ -123,7 +130,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
     //  _notFoundIds = productDetailResponse.notFoundIDs;
      // _consumables = consumables;
       _purchasePending = false;
-      _loading = false;
+      controller.isLoading.value = false;
     });}
   }
 
@@ -135,10 +142,11 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
        // showPendingUI();
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
-        //  handleError(purchaseDetails.error!);
+          CustomSnackbar.showError("Alert", PurchaseStatus.error.toString());
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
-        /*  final bool valid = await _verifyPurchase(purchaseDetails);
+print('success');
+          /*  final bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             unawaited(deliverProduct(purchaseDetails));
           } else {
@@ -158,6 +166,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
           await _inAppPurchase.completePurchase(purchaseDetails);
         }
       }
+      controller.isLoading.value = false;
     }
   }
 
@@ -188,173 +197,102 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
             "Choose a Plan to Avail Special Features",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-      ListView.builder(
-          shrinkWrap: true,
-          itemCount: _products.length,
-          itemBuilder: (context, index) {
-            return  InkWell(
-              onTap: (){
-                late PurchaseParam purchaseParam;
+          k1hSizedBox,
+      Obx(() {
 
-                if (Platform.isAndroid) {
-                 /* final GooglePlayPurchaseDetails? oldSubscription =
-                  _getOldSubscription(_products[index], purchases);*/
+          return controller.isLoading.value?
+              Center(child: CircularProgressIndicator(),):
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: _products.length,
+              itemBuilder: (context, index) {
+                return  InkWell(
+                  onTap: (){
+                    late PurchaseParam purchaseParam;
 
-                  purchaseParam = GooglePlayPurchaseParam(
-                      productDetails: _products[index],
-                     /* changeSubscriptionParam: (oldSubscription != null)
-                          ? ChangeSubscriptionParam(
-                        oldPurchaseDetails: oldSubscription,
-                        replacementMode:
-                        ReplacementMode.withTimeProration,
-                      )
-                          : null*/);
-                } else {
-                  purchaseParam = PurchaseParam(
-                    productDetails: _products[index],
-                  );
-                }
-              },
-              child: CustomGlassmorphicContainer(
-                width: double.infinity,
-                height: 20.h,
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                    if (Platform.isAndroid) {
+                     /* final GooglePlayPurchaseDetails? oldSubscription =
+                      _getOldSubscription(_products[index], purchases);*/
+
+                      purchaseParam = GooglePlayPurchaseParam(
+                          productDetails: _products[index],
+                         /* changeSubscriptionParam: (oldSubscription != null)
+                              ? ChangeSubscriptionParam(
+                            oldPurchaseDetails: oldSubscription,
+                            replacementMode:
+                            ReplacementMode.withTimeProration,
+                          )
+                              : null*/);
+                    } else {
+                      purchaseParam = PurchaseParam(
+                        productDetails: _products[index],
+                      );
+                    }
+                    controller.isLoading.value = true;
+                    _inAppPurchase.buyNonConsumable(
+                        purchaseParam: purchaseParam);
+                  },
+                  child: CustomGlassmorphicContainer(
+                    width: double.infinity,
+                    height: 20.h,
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                             Text(
-                              _products[index].price,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displayMedium!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Obx(() {
-                                return Text(
-                                  controller.selectedPackage.value?.packageType ??
-                                      "",
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                );
-                              }),
-                              SizedBox(
-                                height: 0.5.h,
-                              )
+                                 Text(
+                                  _products[index].title,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displaySmall!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                             /* Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Obx(() {
+                                    return Text('jkjjk',
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    );
+                                  }),
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  )
+                                ],
+                              ),*/
+                            ],
+                          ),
+                          SizedBox(
+                            height: 3.h,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.check_circle,
+                                color: AppColors.kIconColor,
+                              ),
+                              k1wSizedBox,
+                                 Text( _products[index].description,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(fontWeight: FontWeight.bold,fontSize: 18.sp),
+                               ),
                             ],
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.check_circle,
-                            color: AppColors.kIconColor,
-                          ),
-                          k1wSizedBox,
-                          Obx(() {
-                            return Text(
-                              "${controller.homeController.user.value?.package?.sId == controller.selectedPackage.value?.sId ? "" : "Get"} ${controller.selectedPackage.value?.summary ?? ""}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            );
-                          }),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            );
-          }),
-       /*   Obx(() {
-            return (controller.homeController.user.value?.package?.sId ==
-                            controller.selectedPackage.value?.sId ||
-                        controller.selectedPackage.value?.packageType ==
-                            "free") ||
-                    controller.isLoading.value
-                ? const SizedBox()
-                : controller.homeController.user.value?.package?.packageType ==
-                        "free"
-                    ? GradientButton(
-                        onPressed: () async {
-                          await controller.buyPackage();
-                        },
-                        text: "Select Subscription",
-                        gradients: const [Colors.purpleAccent, Colors.blue])
-                    : GradientButton(
-                        onPressed: () async {
-                          // await controller.updateSubscription(
-                          //     controller.selectedPackage.value?.sId ?? "");
-                          Get.toNamed(PaymentScreen.routeName, arguments: {
-                            "renewUpdateOrBuySub": "Update",
-                            "package": controller.selectedPackage.value
-                          });
-                          // await controller.buyPackage(
-                          //     controller.selectedPackage.value?.sId ?? "");
-                        },
-                        text: "Update Subscription",
-                        gradients: const [Colors.purpleAccent, Colors.blue]);
-          }),
-          k2hSizedBox,
-          Obx(() {
-            final user = controller.homeController.user.value;
-            if (user == null || user.subscriptionDueDate == null) {
-              return SizedBox();
-            }
-
-            final subDueDate = DateTime.parse(user.subscriptionDueDate ?? "");
-            final isBefore = DateTime.now().isBefore(subDueDate);
-            final isCancelled = user.subscriptionStatus == "canceled";
-
-            // If package is different or still loading, no button is shown
-            if (controller.homeController.user.value?.package?.sId !=
-                    controller.selectedPackage.value?.sId ||
-                controller.isLoading.value) {
-              return SizedBox();
-            }
-
-            return GradientButton(
-              onPressed: () async {
-                            *//* Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => InAppPurchaseScreen()),
-                );    *//*          *//*  if (isCancelled) {
-                  if (isBefore) {
-                    // controller.renewSubscription();
-                    Get.toNamed(PaymentScreen.routeName, arguments: {
-                      "renewUpdateOrBuySub": "Renew",
-                      "package": controller.selectedPackage.value
-                    });
-                    // await controller.buyPackage(
-                    //     controller.selectedPackage.value?.sId ?? "");
-                  } else {
-                    // controller.resumeSubscription();  // Optionally, resume before the due date
-                  }
-                } else {
-                  controller.cancelSubscription();
-                  // await controller
-                  //     .buyPackage(controller.selectedPackage.value?.sId ?? "");
-                }*//*
-              },
-              text: isCancelled
-                  ? (isBefore ? "Renew Subscription" : "")
-                  : "Cancel Subscription",
-              gradients: const [Colors.purpleAccent, Colors.blue],
-            );
-          })*/
+                );
+              });
+        }
+      ),
         ],
       ),
     );
