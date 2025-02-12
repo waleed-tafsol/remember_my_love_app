@@ -97,8 +97,8 @@ class AuthService extends GetxService {
           ApiConstants.socialLogin,
           data: {
             "email": user.email,
-            "displayName": user.displayName,
-            "photo": user.photoURL,
+            "displayName": user.displayName?? '',
+            "photo": user.photoURL?? '',
             "fcmToken": FirebaseService.fcmToken,
             "platform": "google"
           },
