@@ -4,11 +4,7 @@ import 'package:remember_my_love_app/bindings/CardsBindings.dart';
 import 'package:remember_my_love_app/bindings/EditProfileBindings.dart';
 import 'package:remember_my_love_app/bindings/OtopBindings.dart';
 import 'package:remember_my_love_app/bindings/PaymentBindings.dart';
-import 'package:remember_my_love_app/bindings/Privacy_policy_bindings.dart';
-import 'package:remember_my_love_app/bindings/Terms_and_conditions_bindings.dart';
 import 'package:remember_my_love_app/bindings/UpgradePlanBindings.dart';
-import 'package:remember_my_love_app/bindings/VideoPlayerBindings.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/forgot_pass_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Upload_memory_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Profile_screens/FingerPrintScreen.dart';
@@ -184,14 +180,14 @@ class Pages {
         return GetPageRoute(
           settings: settings,
           page: () => const PrivacyPolicyScreen(),
-          binding: PrivacyPolicyBinding(),
+          // binding: PrivacyPolicyBinding(),
           transition: _routeTransition,
         );
       case TermsAndConditionScreen.routeName:
         return GetPageRoute(
           settings: settings,
           page: () => const TermsAndConditionScreen(),
-          binding: TermsAndConditionBinding(),
+          // binding: TermsAndConditionBinding(),
           transition: _routeTransition,
         );
       case EditProfileScreen.routeName:

@@ -11,7 +11,6 @@ import 'custom_scaffold.dart';
 class InAppWebViewWidget extends StatefulWidget {
   String url;
    InAppWebViewWidget({super.key, required this.url});
-
   @override
   State<InAppWebViewWidget> createState() => _InAppWebViewWidgetState();
 }
