@@ -138,14 +138,13 @@ class AuthService extends GetxService {
           ApiConstants.socialLogin,
           data: {
             "email": user.email,
-            "displayName": user.displayName,
-            "photo": user.photoURL,
+            "displayName": user.displayName?? '',
+            "photo": user.photoURL?? '',
             "fcmToken": FirebaseService.fcmToken,
             "platform": "apple"
           },
         );
-
-        platform.value = "google";
+        platform.value = "apple";
         authToken = response.data["data"]["token"];
         _tokenStorage.saveToken(authToken!);
         if (response.data?["data"]?["user"]?["firstLogin"] ?? false) {
