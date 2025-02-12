@@ -64,6 +64,13 @@ PODS:
     - Flutter
   - flutter_credit_card (0.0.1):
     - Flutter
+  - flutter_inappwebview_ios (0.0.1):
+    - Flutter
+    - flutter_inappwebview_ios/Core (= 0.0.1)
+    - OrderedSet (~> 6.0.3)
+  - flutter_inappwebview_ios/Core (0.0.1):
+    - Flutter
+    - OrderedSet (~> 6.0.3)
   - flutter_native_splash (2.4.3):
     - Flutter
   - flutter_secure_storage (6.0.0):
@@ -141,6 +148,7 @@ PODS:
     - nanopb/encode (= 3.30910.0)
   - nanopb/decode (3.30910.0)
   - nanopb/encode (3.30910.0)
+  - OrderedSet (6.0.3)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -222,9 +230,6 @@ PODS:
     - FlutterMacOS
   - wakelock_plus (0.0.1):
     - Flutter
-  - webview_flutter_wkwebview (0.0.1):
-    - Flutter
-    - FlutterMacOS
 
 DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
@@ -234,6 +239,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_contacts (from `.symlinks/plugins/flutter_contacts/ios`)
   - flutter_credit_card (from `.symlinks/plugins/flutter_credit_card/ios`)
+  - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - get_thumbnail_video (from `.symlinks/plugins/get_thumbnail_video/ios`)
@@ -252,7 +258,6 @@ DEPENDENCIES:
   - video_compress (from `.symlinks/plugins/video_compress/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
   - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
-  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
 
 SPEC REPOS:
   trunk:
@@ -273,6 +278,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - libwebp
     - nanopb
+    - OrderedSet
     - PromisesObjC
     - RecaptchaInterop
     - Stripe
@@ -299,6 +305,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_contacts/ios"
   flutter_credit_card:
     :path: ".symlinks/plugins/flutter_credit_card/ios"
+  flutter_inappwebview_ios:
+    :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_secure_storage:
@@ -335,8 +343,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_player_avfoundation/darwin"
   wakelock_plus:
     :path: ".symlinks/plugins/wakelock_plus/ios"
-  webview_flutter_wkwebview:
-    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
@@ -356,6 +362,7 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_contacts: 5383945387e7ca37cf963d4be57c21f2fc15ca9f
   flutter_credit_card: 75489579678755891ccb1ddcc13415defcea4f01
+  flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_native_splash: 6cad9122ea0fad137d23137dd14b937f3e90b145
   flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
   get_thumbnail_video: 1a754d46b860dffefcc57b7290a43089cd5d7e58
@@ -370,6 +377,7 @@ SPEC CHECKSUMS:
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   local_auth_darwin: 553ce4f9b16d3fdfeafce9cf042e7c9f77c1c391
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
+  OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   pay_ios: 2c48d76615ded0cfaff66185669501b8b1dfc55e
@@ -391,7 +399,6 @@ SPEC CHECKSUMS:
   video_compress: f2133a07762889d67f0711ac831faa26f956980e
   video_player_avfoundation: 2cef49524dd1f16c5300b9cd6efd9611ce03639b
   wakelock_plus: 04623e3f525556020ebd4034310f20fe7fda8b49
-  webview_flutter_wkwebview: 1821ceac936eba6f7984d89a9f3bcb4dea99ebb2
 
 PODFILE CHECKSUM: 351dbda8241c6ae667acbc7bc0353a0d9978d7f1
 

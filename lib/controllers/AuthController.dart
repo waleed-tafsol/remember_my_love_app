@@ -17,6 +17,13 @@ class AuthController extends GetxController {
   TextEditingController passCnfirmController = TextEditingController();
   TextEditingController signupPassController = TextEditingController();
   TextEditingController signupemailController = TextEditingController();
+  RxBool buttonVisivility = true.obs;
+  Rx<DateTime> selectedDate = DateTime.now().add(const Duration(days: 1)).obs;
+/*
+  TextEditingController signupDobController = TextEditingController();
+*/
+  TextEditingController signupZipController = TextEditingController();
+
 
   RxBool passwordVisibility = false.obs;
   RxBool confirmPasswordVisibility = false.obs;
@@ -122,6 +129,8 @@ class AuthController extends GetxController {
           nameController.text.trim(),
           userNameController.text.trim(),
           signupemailController.text.trim(),
+          selectedDate.value.toString(),
+          signupZipController.text.trim(),
           signupPassController.text.trim(),
           passCnfirmController.text.trim());
       if (response != null) {
@@ -153,6 +162,9 @@ class AuthController extends GetxController {
 
   bool signupValidateForm() {
     final isemailValid = validateemail(signupemailController.text);
+    final isDobValid = validateemail(selectedDate.value.toString());
+    final isZipCodeValid = validateemail(signupZipController.text);
+
     final isPasswordValid = validatePassword(signupPassController.text);
     final isNameValid = validateName(nameController.text);
     final isUserNameValid = validateUserName(userNameController.text);
@@ -161,6 +173,8 @@ class AuthController extends GetxController {
         isPasswordValid &&
         isNameValid &&
         isPassConfirm &&
+        isDobValid &&
+        isZipCodeValid&&
         isUserNameValid;
   }
 

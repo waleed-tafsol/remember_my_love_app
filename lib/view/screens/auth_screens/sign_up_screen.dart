@@ -1,15 +1,20 @@
+import 'package:bottom_picker/bottom_picker.dart';
+import 'package:bottom_picker/resources/arrays.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import '../../../../../utills/ConvertDateTime.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../constants/TextConstant.dart';
+import 'package:intl/intl.dart';
+import '../../../../../constants/TextConstant.dart';
+import '../../../../../constants/colors_constants.dart';
+import '../../../../../constants/constants.dart';
 import '../../../constants/assets.dart';
-import '../../../constants/constants.dart';
 import '../../widgets/Custom_rounded_glass_button.dart';
 
 class SignUpScreen extends GetView<AuthController> {
@@ -144,6 +149,117 @@ class SignUpScreen extends GetView<AuthController> {
                                 )
                               ],
                             ),
+
+                            k1hSizedBox,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Date of Birth (DOB)",
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: InkWell(
+                                    onTap: () {
+                                      controller.buttonVisivility.value = false;
+                                      BottomPicker.date(
+                                        displayCloseIcon: true,
+                                        closeIconColor: AppColors.kPrimaryColor,
+                                        dismissable: false,
+                                        displaySubmitButton: true,
+                                       // gradientColors: [AppColors.kgradientPurple,AppColors.kSecondaryColor],
+                                        backgroundColor: Colors.indigo,
+                                        pickerTitle: Text(
+                                          '',
+                                          style: TextStyleConstants.bodyLargeWhite(context),
+                                        ),
+                                        buttonStyle: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(50)),
+                                        buttonWidth: 90.w,
+                                        buttonContent: Center(
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 1.h,
+                                            ),
+                                            child: Text(
+                                              "Save",
+                                              style: TextStyleConstants.bodyMediumWhite(context)
+                                                  .copyWith(color: Colors.blue),
+                                            ),
+                                          ),
+                                        ),
+                                        dateOrder: DatePickerDateOrder.mdy,
+                                        initialDateTime: controller.selectedDate.value,
+                                        // minDateTime: controller.selectedDate.value
+                                        //     .subtract(Duration(days: 1)),
+                                        pickerTextStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17.sp,
+                                        ),
+                                        onChange: (index) {
+                                          controller.selectedDate.value = index;
+                                        },
+                                        onSubmit: (index) {
+                                          print(index);
+                                          // controller.updateSelectedDate(index);
+                                          controller.buttonVisivility.value = true;
+                                        },
+                                        onCloseButtonPressed: () {
+                                          controller.buttonVisivility.value = true;
+                                          Get.back();
+                                        },
+                                      ).show(context);
+                                    },
+                                    child: CustomGlassmorphicContainer(
+                                        borderRadius: 8,
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 2.h, horizontal: 2.w),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Obx(() {
+                                              return Text(DateFormat('dd/MM/yyyy')
+                                                  .format(controller.selectedDate.value));
+                                            }),
+                                            const Icon(
+                                              Icons.event,
+                                              color: AppColors.kIconColor,
+                                            )
+                                          ],
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            k1hSizedBox,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Zip Code",
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Zip Code is required";
+                                    } /*else if (!GetUtils.isEmail(value)) {
+                                      return 'Invalid Email';
+                                    }*/
+                                    return null;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter Zip Code",
+                                  ),
+                                  controller: controller.signupZipController,
+                                )
+                              ],
+                            ),
+
                             k1hSizedBox,
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

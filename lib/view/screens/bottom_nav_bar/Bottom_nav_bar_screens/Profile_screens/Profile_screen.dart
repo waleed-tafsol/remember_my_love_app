@@ -275,7 +275,7 @@ class ProfileScreen extends GetView<HomeScreenController> {
                     ],
                   ),
                 )),
-            k2hSizedBox,
+           /* k2hSizedBox,
             CustomGlassmorphicContainer(
                 margin: const EdgeInsets.symmetric(vertical: 0),
                 child: InkWell(
@@ -295,7 +295,7 @@ class ProfileScreen extends GetView<HomeScreenController> {
                       ),
                     ],
                   ),
-                )),
+                )),*/
             k2hSizedBox,
             // PayButton()
             // k2hSizedBox,
@@ -361,6 +361,7 @@ class ProfileScreen extends GetView<HomeScreenController> {
     );
   }
 
+/*
   Future<void> startGooglePay() async {
     final googlePaySupported = await Stripe.instance
         .isPlatformPaySupported(googlePay: const IsGooglePaySupportedParams());
@@ -407,4 +408,5 @@ class ProfileScreen extends GetView<HomeScreenController> {
       // );
     }
   }
+*/
 }

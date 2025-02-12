@@ -55,7 +55,7 @@ class OtpScreen extends GetView<Otpcontroller> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "New Otp",
+                          "New One-Time Password",
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Obx(() {
@@ -63,16 +63,16 @@ class OtpScreen extends GetView<Otpcontroller> {
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return "Please enter Otp";
+                                return "Please enter One-Time Password";
                               } else if (value.length < 6 ||
                                   !value.isNumericOnly) {
-                                return "Please enter valid Otp";
+                                return "Please enter valid One-Time Password";
                               }
                               return null;
                             },
                             controller: controller.newpassController,
                             decoration: InputDecoration(
-                                hintText: "Enter Otp",
+                                hintText: "Enter One-Time Password",
                                 errorText: authController.emailError.value),
                             /* onChanged: (value) {
                               authController.validateemail(value);
@@ -85,7 +85,7 @@ class OtpScreen extends GetView<Otpcontroller> {
                   ),
                   k1hSizedBox,
                   Obx(() => Text(
-                        'Resend OTP in: ${controller.formatTime(controller.remainingSeconds.value)}',
+                        'Resend One-Time Password in: ${controller.formatTime(controller.remainingSeconds.value)}',
                         textAlign: TextAlign.center,
                         style:
                             const TextStyle(fontSize: 16, color: Colors.grey),
@@ -97,8 +97,8 @@ class OtpScreen extends GetView<Otpcontroller> {
                             : null,
                         child: Text(
                           controller.canResendOtp.value
-                              ? 'Resend OTP'
-                              : 'Resend OTP',
+                              ? 'Resend One-Time Password'
+                              : 'Resend One-Time Password',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -124,7 +124,7 @@ class OtpScreen extends GetView<Otpcontroller> {
                   controller.verifyOtp();
                 }
               },
-              text: 'verify OTP',
+              text: 'verify One-Time Password',
               gradients: const [
                 Colors.purple,
                 Colors.blue,

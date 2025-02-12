@@ -170,11 +170,12 @@ class AuthService extends GetxService {
     }
   }
 
-
   Future<Map<String, dynamic>?> Signup(
     String name,
     String userName,
     String email,
+    String dob,
+    String zipCode,
     String password,
     String passCnfrm,
   ) async {
@@ -186,6 +187,8 @@ class AuthService extends GetxService {
           "name": name,
           "username": userName,
           "email": email,
+          "zipCode": zipCode,
+          "dateOfBirth":dob,
           "password": password,
           "passwordConfirm": passCnfrm,
           "fcmToken": FirebaseService.fcmToken
@@ -241,7 +244,7 @@ class AuthService extends GetxService {
         data: {"email": email},
       );
       /* authToken = response.data["data"]["token"];
-      _tokenStorage.saveToken(authToken!); 
+      _tokenStorage.saveToken(authToken!);
       isAuthenticated.value = true;*/
       return response.data;
     } on DioException catch (e) {
@@ -282,7 +285,7 @@ class AuthService extends GetxService {
         data: {"email": email, "code": code},
       );
       /* authToken = response.data["data"]["token"];
-      _tokenStorage.saveToken(authToken!); 
+      _tokenStorage.saveToken(authToken!);
       isAuthenticated.value = true;*/
       return response.data;
     } on DioException catch (e) {
@@ -308,7 +311,7 @@ class AuthService extends GetxService {
         },
       );
       /* authToken = response.data["data"]["token"];
-      _tokenStorage.saveToken(authToken!); 
+      _tokenStorage.saveToken(authToken!);
       isAuthenticated.value = true;*/
       return response.data;
     } on DioException catch (e) {
