@@ -69,7 +69,7 @@ class SignUpScreen extends GetView<AuthController> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              "Setup Your Profile",
+                              "Set Up Your Profile",
                               style: TextStyleConstants.displayMediumWhite(
                                   context),
                             ),
