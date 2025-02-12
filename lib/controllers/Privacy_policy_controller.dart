@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
 
 class PrivacyPolicyController extends GetxController {
-  late WebViewController webViewController;
+  InAppWebViewController? webViewController;
   RxBool isLoading = true.obs;
 
-  @override
+ /* @override
   void onInit() {
     // TODO: implement onInit
-    webViewController = WebViewController()
+
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+    webController =  WebViewController.fromPlatformCreationParams(params);
+
+    webController
       ..setBackgroundColor(Colors.indigo[900]!)
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -27,7 +40,7 @@ class PrivacyPolicyController extends GetxController {
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
             if (request.url
-                .startsWith('https://remember-my-love-admin.vercel.app/')) {
+                .startsWith('https://')) {
               return NavigationDecision.navigate;
             }
             return NavigationDecision.prevent;
@@ -35,7 +48,7 @@ class PrivacyPolicyController extends GetxController {
         ),
       )
       ..loadRequest(Uri.parse(
-          'https://remember-my-love-admin.vercel.app/privacy-policy'));
+          "https://pub.dev/packages/webview_flutter"));
     super.onInit();
-  }
+  }*/
 }

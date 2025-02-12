@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+// Import for iOS/macOS features.
+
 
 class TermsAndConditionController extends GetxController {
-  RxBool isLoading = true.obs;
-  late WebViewController controller;
+  RxBool isLoading = false.obs;
+  InAppWebViewController? webViewController;
 
-  @override
+/* @override
   void onInit() {
     super.onInit();
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+    webController =  WebViewController.fromPlatformCreationParams(params);
 
-    controller = WebViewController()
-      ..setBackgroundColor(Colors.indigo[900]!)
+    webController
+    ..setBackgroundColor(Colors.indigo[900]!)
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
         NavigationDelegate(
@@ -32,7 +44,7 @@ class TermsAndConditionController extends GetxController {
           },
             onNavigationRequest: (NavigationRequest request) {
               if (request.url
-                  .startsWith('https://remember-my-love-admin.vercel.app/')) {
+                  .startsWith('https://')) {
                 return NavigationDecision.navigate;
               }
               return NavigationDecision.prevent;
@@ -41,5 +53,5 @@ class TermsAndConditionController extends GetxController {
       )
       ..loadRequest(Uri.parse(
           'https://remember-my-love-admin.vercel.app/terms-and-condition'));
-  }
+  }*/
 }

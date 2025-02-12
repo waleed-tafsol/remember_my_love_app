@@ -10,7 +10,6 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/models/PackageModel.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import '../constants/ApiConstant.dart';
 import '../models/PaymentMethodModel.dart';
 import '../services/ApiServices.dart';
@@ -21,7 +20,6 @@ import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen
 class Paymentcontroller extends GetxController {
   RxBool isLoading = true.obs;
   RxBool isFocused = true.obs;
-  late WebViewController controller;
   HomeScreenController homeController = Get.find();
   Rxn<PaymentMethodModel> defaultCard = Rxn<PaymentMethodModel>();
   late PackagesModel selectedPackage;

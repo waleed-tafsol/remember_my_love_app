@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:remember_my_love_app/controllers/Terms_and_condition_controller.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import '../../../../widgets/custom_scaffold.dart';
+import '../../../../widgets/in_app_web_view_widget.dart';
 
-class TermsAndConditionScreen extends GetView<TermsAndConditionController> {
+
+class TermsAndConditionScreen extends StatelessWidget {
   const TermsAndConditionScreen({super.key});
+
   static const routeName = "TermsAndConditionScreen";
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      padding: EdgeInsets.zero,
-      body: Obx(() {
-        return controller.isLoading.value
-            ? const Center(child: CircularProgressIndicator())
-            : WebViewWidget(
-                controller: controller.controller,
-              );
-      }),
-    );
+    return InAppWebViewWidget(url: 'https://remember-my-love-admin.vercel.app/terms-and-condition');
   }
 }
+
+
+

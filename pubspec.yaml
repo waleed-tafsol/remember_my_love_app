@@ -46,7 +46,7 @@ dependencies:
   bottom_picker: ^2.8.0
   table_calendar: ^3.1.2
   flutter_native_splash: ^2.4.2
-  webview_flutter: ^4.10.0
+  flutter_inappwebview: ^6.1.5
   dio: ^5.7.0
   shared_preferences: ^2.3.2
   mime: ^2.0.0
