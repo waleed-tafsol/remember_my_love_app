@@ -1,24 +1,175 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/in_app_purchase_screen.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controllers/Choose_your_plan_controller.dart';
+import '../../../utills/CustomSnackbar.dart';
 import '../../../utills/TextUtills.dart';
 import '../../widgets/Custom_glass_container.dart';
 import '../../widgets/Custom_rounded_glass_button.dart';
 import 'PaymentScreen.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:in_app_purchase_android/billing_client_wrappers.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
+import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 
-class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
+
+const String _kYearlySubscriptionId = 'rml_premium_year';
+const String _kMonthlySubscriptionId = 'rml_premium_monthly';
+const List<String> _kProductIds = <String>[
+  _kYearlySubscriptionId,
+  _kMonthlySubscriptionId,
+];
+
+
+
+class ChooseYourPlanScreen extends StatefulWidget {
   ChooseYourPlanScreen({super.key});
   static const routeName = "ChooseYourPlanScreen";
 
-  HomeScreenController homeController = Get.find();
+  @override
+  State<ChooseYourPlanScreen> createState() => _ChooseYourPlanScreenState();
+}
 
-  // bool _monthlySelected = true;
+class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
+  ChooseYourPlanController controller = Get.put(ChooseYourPlanController());
+  HomeScreenController homeController = Get.find();
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  late StreamSubscription<List<PurchaseDetails>> _subscription;
+  bool _isAvailable = false;
+  bool _purchasePending = false;
+  //bool _loading = true;
+  List<ProductDetails> _products = <ProductDetails>[];
+  List<PurchaseDetails> _purchases = <PurchaseDetails>[];
+  String? _queryProductError;
+
+  @override
+  void initState() {
+    final Stream<List<PurchaseDetails>> purchaseUpdated =
+        _inAppPurchase.purchaseStream;
+    _subscription =
+        purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
+          _listenToPurchaseUpdated(purchaseDetailsList);
+        }, onDone: () {
+
+          _subscription.cancel();
+        }, onError: (Object error) {
+          // handle error here.
+        });
+    initStoreInfo();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initStoreInfo() async {
+    final bool isAvailable = await _inAppPurchase.isAvailable();
+    if (!isAvailable) {
+      setState(() {
+        _isAvailable = isAvailable;
+        _products = <ProductDetails>[];
+        _purchases = <PurchaseDetails>[];
+        _purchasePending = false;
+        controller.isLoading.value = false;
+      });
+      return;
+    }
+
+    if (Platform.isIOS) {
+      final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
+      _inAppPurchase
+          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+      await iosPlatformAddition.setDelegate(ExamplePaymentQueueDelegate());
+    }
+
+    final ProductDetailsResponse productDetailResponse =
+    await _inAppPurchase.queryProductDetails(_kProductIds.toSet());
+    if (productDetailResponse.error != null) {
+      setState(() {
+        _queryProductError = productDetailResponse.error!.message;
+        _isAvailable = isAvailable;
+        _products = productDetailResponse.productDetails;
+        _purchases = <PurchaseDetails>[];
+        _purchasePending = false;
+        controller.isLoading.value = false;
+      });
+      return;
+    }
+
+    else if (productDetailResponse.productDetails.isEmpty) {
+      setState(() {
+        _queryProductError = null;
+        _isAvailable = isAvailable;
+        _products = productDetailResponse.productDetails;
+        _purchases = <PurchaseDetails>[];
+        _purchasePending = false;
+        controller.isLoading.value = false;
+      });
+      return;
+    }
+
+   else{
+    setState(() {
+      _isAvailable = isAvailable;
+      _products = productDetailResponse.productDetails;
+    //  _notFoundIds = productDetailResponse.notFoundIDs;
+     // _consumables = consumables;
+      _purchasePending = false;
+      controller.isLoading.value = false;
+    });}
+  }
+
+
+  Future<void> _listenToPurchaseUpdated(
+      List<PurchaseDetails> purchaseDetailsList) async {
+    for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+       // showPendingUI();
+      } else {
+        if (purchaseDetails.status == PurchaseStatus.error) {
+          CustomSnackbar.showError("Alert", PurchaseStatus.error.toString());
+        } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+            purchaseDetails.status == PurchaseStatus.restored) {
+print('success');
+          /*  final bool valid = await _verifyPurchase(purchaseDetails);
+          if (valid) {
+            unawaited(deliverProduct(purchaseDetails));
+          } else {
+            _handleInvalidPurchase(purchaseDetails);
+            return;
+          }*/
+        }
+        /*if (Platform.isAndroid) {
+          if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
+            final InAppPurchaseAndroidPlatformAddition androidAddition =
+            _inAppPurchase.getPlatformAddition<
+                InAppPurchaseAndroidPlatformAddition>();
+            await androidAddition.consumePurchase(purchaseDetails);
+          }
+        }*/
+        if (purchaseDetails.pendingCompletePurchase) {
+          await _inAppPurchase.completePurchase(purchaseDetails);
+        }
+      }
+      controller.isLoading.value = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final arguments = Get.arguments;
@@ -46,200 +197,105 @@ class ChooseYourPlanScreen extends GetView<ChooseYourPlanController> {
             "Choose a Plan to Avail Special Features",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-          k4hSizedBox,
-          Obx(() {
-            return controller.isLoading.value
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(
-                            color: AppColors.kPrimaryColor, width: 2)),
-                    // height: kButtonHeight,
-                    // width: 60.w,
-                    child: Wrap(
-                      children: controller.packages
-                          .map((e) => InkWell(
-                                onTap: () {
-                                  controller.selectedPackage.value = e;
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 1.h),
-                                  // height: ,
-                                  width: 25.w,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        controller.selectedPackage.value?.sId ==
-                                                e.sId
-                                            ? AppColors.kPrimaryColor
-                                            : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    capitalize(e.packageType ?? ""),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                            color: controller.selectedPackage
-                                                        .value?.sId ==
-                                                    e.sId
-                                                ? AppColors.kSecondaryColor
-                                                : AppColors.kPrimaryColor),
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                    ),
-                  );
-          }),
-          SizedBox(
-            height: 15.h,
-          ),
-          CustomGlassmorphicContainer(
-            width: double.infinity,
-            height: 20.h,
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Obx(() {
-                        return Text(
-                          "\$${controller.selectedPackage.value?.price ?? 0}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayMedium!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        );
-                      }),
-                      Column(
+          k1hSizedBox,
+      Obx(() {
+
+          return controller.isLoading.value?
+              Center(child: CircularProgressIndicator(),):
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: _products.length,
+              itemBuilder: (context, index) {
+                return  InkWell(
+                  onTap: (){
+                    late PurchaseParam purchaseParam;
+
+                    if (Platform.isAndroid) {
+                     /* final GooglePlayPurchaseDetails? oldSubscription =
+                      _getOldSubscription(_products[index], purchases);*/
+
+                      purchaseParam = GooglePlayPurchaseParam(
+                          productDetails: _products[index],
+                         /* changeSubscriptionParam: (oldSubscription != null)
+                              ? ChangeSubscriptionParam(
+                            oldPurchaseDetails: oldSubscription,
+                            replacementMode:
+                            ReplacementMode.withTimeProration,
+                          )
+                              : null*/);
+                    } else {
+                      purchaseParam = PurchaseParam(
+                        productDetails: _products[index],
+                      );
+                    }
+                    controller.isLoading.value = true;
+                    _inAppPurchase.buyNonConsumable(
+                        purchaseParam: purchaseParam);
+                  },
+                  child: CustomGlassmorphicContainer(
+                    width: double.infinity,
+                    height: 20.h,
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Obx(() {
-                            return Text(
-                              controller.selectedPackage.value?.packageType ??
-                                  "",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            );
-                          }),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                                 Text(
+                                  _products[index].title,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displaySmall!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                             /* Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Obx(() {
+                                    return Text('jkjjk',
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    );
+                                  }),
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  )
+                                ],
+                              ),*/
+                            ],
+                          ),
                           SizedBox(
-                            height: 0.5.h,
-                          )
+                            height: 3.h,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.check_circle,
+                                color: AppColors.kIconColor,
+                              ),
+                              k1wSizedBox,
+                                 Text( _products[index].description,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(fontWeight: FontWeight.bold,fontSize: 18.sp),
+                               ),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.check_circle,
-                        color: AppColors.kIconColor,
-                      ),
-                      k1wSizedBox,
-                      Obx(() {
-                        return Text(
-                          "${controller.homeController.user.value?.package?.sId == controller.selectedPackage.value?.sId ? "" : "Get"} ${controller.selectedPackage.value?.summary ?? ""}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        );
-                      }),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Spacer(),
-          Obx(() {
-            return (controller.homeController.user.value?.package?.sId ==
-                            controller.selectedPackage.value?.sId ||
-                        controller.selectedPackage.value?.packageType ==
-                            "free") ||
-                    controller.isLoading.value
-                ? const SizedBox()
-                : controller.homeController.user.value?.package?.packageType ==
-                        "free"
-                    ? GradientButton(
-                        onPressed: () async {
-                          await controller.buyPackage();
-                        },
-                        text: "Select Subscription",
-                        gradients: const [Colors.purpleAccent, Colors.blue])
-                    : GradientButton(
-                        onPressed: () async {
-                          // await controller.updateSubscription(
-                          //     controller.selectedPackage.value?.sId ?? "");
-                          Get.toNamed(PaymentScreen.routeName, arguments: {
-                            "renewUpdateOrBuySub": "Update",
-                            "package": controller.selectedPackage.value
-                          });
-                          // await controller.buyPackage(
-                          //     controller.selectedPackage.value?.sId ?? "");
-                        },
-                        text: "Update Subscription",
-                        gradients: const [Colors.purpleAccent, Colors.blue]);
-          }),
-          k2hSizedBox,
-          Obx(() {
-            final user = controller.homeController.user.value;
-            if (user == null || user.subscriptionDueDate == null) {
-              return SizedBox();
-            }
-
-            final subDueDate = DateTime.parse(user.subscriptionDueDate ?? "");
-            final isBefore = DateTime.now().isBefore(subDueDate);
-            final isCancelled = user.subscriptionStatus == "canceled";
-
-            // If package is different or still loading, no button is shown
-            if (controller.homeController.user.value?.package?.sId !=
-                    controller.selectedPackage.value?.sId ||
-                controller.isLoading.value) {
-              return SizedBox();
-            }
-
-            return GradientButton(
-              onPressed: () async {
-                if (isCancelled) {
-                  if (isBefore) {
-                    // controller.renewSubscription();
-                    Get.toNamed(PaymentScreen.routeName, arguments: {
-                      "renewUpdateOrBuySub": "Renew",
-                      "package": controller.selectedPackage.value
-                    });
-                    // await controller.buyPackage(
-                    //     controller.selectedPackage.value?.sId ?? "");
-                  } else {
-                    // controller.resumeSubscription();  // Optionally, resume before the due date
-                  }
-                } else {
-                  controller.cancelSubscription();
-                  // await controller
-                  //     .buyPackage(controller.selectedPackage.value?.sId ?? "");
-                }
-              },
-              text: isCancelled
-                  ? (isBefore ? "Renew Subscription" : "")
-                  : "Cancel Subscription",
-              gradients: const [Colors.purpleAccent, Colors.blue],
-            );
-          })
+                );
+              });
+        }
+      ),
         ],
       ),
     );
   }
+
 }

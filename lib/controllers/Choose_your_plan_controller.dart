@@ -15,7 +15,7 @@ import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen
 import 'HomeScreenController.dart';
 
 class ChooseYourPlanController extends GetxController {
-  RxBool isLoading = false.obs;
+  RxBool isLoading = true.obs;
   HomeScreenController homeController = Get.find();
 
   RxList<PaymentMethodModel> paymentMethodModel = <PaymentMethodModel>[].obs;
