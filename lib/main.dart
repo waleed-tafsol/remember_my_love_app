@@ -20,7 +20,7 @@ void main() async {
       "pk_test_51Q9zEn2MzUnaJMmgba4Kn8VJoESujuQtspIE7AqIJXNhjs9HB7F2pHCe6tiNIAfYKmQ9H43hWmPbjpQOY9ovZrfz00xWvqjHVA";
   Stripe.instance.applySettings();
 
-  await FirebaseService.initializeFirebase();
+  // await FirebaseService.initializeFirebase();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

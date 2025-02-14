@@ -125,7 +125,9 @@ class _SplashScreenState extends State<SplashScreen>
                                 ),
                               )
                             : _flipAnimation.value > -0.5
-                                ? Image.asset(Image_assets.animation_cloud_back)
+                                ? Image.asset(
+                                    Image_assets.animation_cloud_back,
+                                  )
                                 : AnimatedOpacity(
                                     duration: Duration(milliseconds: 500),
                                     opacity: _animateWobal ? 0 : 1,
@@ -308,39 +310,58 @@ class _SplashScreenState extends State<SplashScreen>
                                     visible: Platform.isIOS,
                                     child: Expanded(
                                         child: Padding(
-                                      padding:  EdgeInsets.only(left:2.w),
+                                      padding: EdgeInsets.only(left: 2.w),
                                       child: InkWell(
                                         onTap: () {
                                           authController.loginWithApple();
                                         },
                                         child: CustomGlassButton(
-                                          child: SvgPicture.asset(SvgAssets.apple),
+                                          child:
+                                              SvgPicture.asset(SvgAssets.apple),
                                         ),
                                       ),
                                     )),
                                   ),
                                 ],
                               ),
-                              k1hSizedBox,
-                              IntrinsicWidth(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    authController.loginFingerPrint();
-                                  },
-                                  child: CustomGlassButton(
-                                    padding: EdgeInsets.all(1.w),
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Icon(
-                                      size: 6.h,
-                                      Icons.fingerprint_outlined,
-                                      color: Colors.white,
+                              k2hSizedBox,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      authController.loginFingerPrint();
+                                    },
+                                    child: CustomGlassButton(
+                                      padding: EdgeInsets.all(1.w),
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Icon(
+                                        size: 6.h,
+                                        Icons.fingerprint_outlined,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  k3wSizedBox,
+                                  GestureDetector(
+                                    onTap: () {
+                                      authController.loginFingerPrint();
+                                    },
+                                    child: CustomGlassButton(
+                                      padding: EdgeInsets.all(1.w),
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: SvgPicture.asset(
+                                        SvgAssets.faceId,
+                                        color: Colors.white,
+                                        height: 6.h,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              k1hSizedBox,
+                              k2hSizedBox,
                               Text(
-                                "Sign In with Touch ID",
+                                "Sign In with Touch Biometric",
                                 style:
                                     TextStyleConstants.bodySmallWhite(context),
                               )

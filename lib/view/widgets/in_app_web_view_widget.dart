@@ -1,23 +1,19 @@
 import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import '../../constants/assets.dart';
 import 'custom_scaffold.dart';
 
 class InAppWebViewWidget extends StatefulWidget {
   final String url;
-   const InAppWebViewWidget({super.key, required this.url});
+  const InAppWebViewWidget({super.key, required this.url});
   @override
   State<InAppWebViewWidget> createState() => _InAppWebViewWidgetState();
 }
 
-
 class _InAppWebViewWidgetState extends State<InAppWebViewWidget> {
-
   InAppWebViewController? webViewController;
   bool isLoading = true;
   int progress = 0;
@@ -28,12 +24,14 @@ class _InAppWebViewWidgetState extends State<InAppWebViewWidget> {
     super.initState();
     init();
   }
+
   init() async {
     await Permission.storage.request();
   }
+
   @override
   Widget build(BuildContext context) {
-      return WillPopScope(
+    return WillPopScope(
       onWillPop: () async {
         // Check if webview can go back
         if (await webViewController!.canGoBack()) {
@@ -56,8 +54,7 @@ class _InAppWebViewWidgetState extends State<InAppWebViewWidget> {
                   initialSettings: InAppWebViewSettings(
                     transparentBackground: true,
                   ),
-                  initialUrlRequest: URLRequest(
-                      url: WebUri(widget.url)),
+                  initialUrlRequest: URLRequest(url: WebUri(widget.url)),
                   onWebViewCreated: (controller) {
                     webViewController = controller;
                   },

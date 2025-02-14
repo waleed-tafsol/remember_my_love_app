@@ -55,12 +55,11 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
 
         if (contact.emails.isNotEmpty) {
           String? email = contact.emails.first.address;
-          if(controller.recipients[index].emailController.text.isEmpty)
-            {
-              controller.recipients[index].emailController.text = email;
-            }
-          else{
-            CustomSnackbar.showInfo('Note', 'Clear email field to add contact email');
+          if (controller.recipients[index].emailController.text.isEmpty) {
+            controller.recipients[index].emailController.text = email;
+          } else {
+            CustomSnackbar.showInfo(
+                'Note', 'Clear email field to add contact email');
           }
         }
 
@@ -69,7 +68,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
           throw Exception(
               "No phone number available for the selected contact.");
         }*/
-       /* else if(contact.emails.isEmpty){
+        /* else if(contact.emails.isEmpty){
           controller.recipients[index].emailController.text = '';
           throw Exception(
               "No email available for the selected contact.");
@@ -180,12 +179,13 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                     const Text("Email"),
                                     k1hSizedBox,
                                     SearchField<SearchUserModel>(
-                                      searchInputDecoration:  SearchInputDecoration(
-                                        suffixIcon: IconButton(
-                                            onPressed: () =>
-                                                handleContactSelection(index),
-                                            icon: Icon(Icons.email))
-                                      ),
+                                      searchInputDecoration:
+                                          SearchInputDecoration(
+                                              suffixIcon: IconButton(
+                                                  onPressed: () =>
+                                                      handleContactSelection(
+                                                          index),
+                                                  icon: Icon(Icons.email))),
                                       onSearchTextChanged: (value) {
                                         if (_debounceTimer != null) {
                                           _debounceTimer?.cancel();
@@ -200,6 +200,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                         color: AppColors.kGlassColor,
                                         borderRadius: BorderRadius.circular(8),
                                       ),
+                                      itemHeight: context.isTablet ? 8.h : 6.h,
                                       suggestionsDecoration:
                                           SuggestionDecoration(
                                         color: AppColors.kGlassColor,
@@ -245,7 +246,6 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       controller: controller
                                           .recipients[index].contactController,
                                       keyboardType: TextInputType.phone,
-
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please enter a phone number';
@@ -258,13 +258,9 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       prefixWidget: Obx(() {
                                         return CountryCodePicker(
                                           onChanged: (value) {
-                                            controller
-                                                .recipients[index]
-                                                .ccp
+                                            controller.recipients[index].ccp
                                                 .value = value.toString();
-                                            controller
-                                                .recipients[index]
-                                                .country
+                                            controller.recipients[index].country
                                                 .value = value.code!;
                                           },
                                           textStyle: TextStyle(

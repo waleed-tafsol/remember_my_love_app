@@ -58,7 +58,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         buttonStyle: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(50)),
-                        buttonWidth: 90.w,
+                        buttonWidth: context.isTablet ? 40.w : 90.w,
                         buttonContent: Center(
                           child: Container(
                             padding: EdgeInsets.symmetric(
@@ -133,7 +133,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         buttonStyle: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(50)),
-                        buttonWidth: 90.w,
+                        buttonWidth: context.isTablet ? 40.w : 90.w,
                         buttonContent: Center(
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -168,7 +168,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         onSubmit: (index) {
                           controller.buttonVisivility.value = true;
                         },
-                        onCloseButtonPressed: (){
+                        onCloseButtonPressed: () {
                           controller.buttonVisivility.value = true;
                           Get.back();
                         },

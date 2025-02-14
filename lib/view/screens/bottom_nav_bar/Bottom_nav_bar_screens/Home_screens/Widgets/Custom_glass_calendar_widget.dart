@@ -47,6 +47,9 @@ class CustomGlassCalendarWidget extends StatelessWidget {
               dividerColor: Colors.transparent,
               textTheme: Theme.of(context).textTheme),
           child: ExpansionTile(
+            tilePadding: context.isTablet
+                ? EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w)
+                : ExpansionTileThemeData().tilePadding,
             expansionAnimationStyle: AnimationStyle(
                 curve: Curves.easeInOut, duration: Durations.extralong1),
             onExpansionChanged: (value) {
@@ -61,9 +64,9 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                 const Text(
                   "My Memories",
                 ),
-                const Spacer(),
+                Spacer(),
                 YearMonthDropdown(),
-                k1wSizedBox,
+                context.isTablet ? const Spacer() : k1wSizedBox,
                 Builder(builder: (context) {
                   return InkWell(
                     onTap: () {
@@ -80,6 +83,7 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                               : Colors.white,
                           padding: const EdgeInsets.all(3),
                           child: Icon(
+                            // size:context.isTablet ? 30 : null,
                             Icons.window,
                             color: !controller.calendarHidden.value
                                 ? Colors.white
@@ -111,12 +115,6 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                     }),
                   );
                 }),
-                // IconButton(
-                //     onPressed: () {},
-                //     icon: Icon(
-                //       Icons.filter_alt_outlined,
-                //       color: Theme.of(context).iconTheme.color,
-                //     ))
               ],
             ),
             children: <Widget>[
@@ -139,12 +137,15 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  rowHeight: 5.h,
+                  rowHeight: context.isTablet ? 5.h : 5.h,
+                  daysOfWeekHeight: context.isTablet ? 3.h : 2.h,
+
                   daysOfWeekStyle: const DaysOfWeekStyle(
                     weekdayStyle: TextStyle(color: AppColors.kPrimaryColor),
                     weekendStyle: TextStyle(color: AppColors.kPrimaryColor),
                   ),
-                  headerStyle: const HeaderStyle(),
+                  // headerStyle:
+                  //     const HeaderStyle(),
                   onPageChanged: (focusedDay) {
                     controller.onTabChange(focusedDay);
                   },

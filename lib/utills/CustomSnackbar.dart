@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CustomSnackbar {
   // Success Snackbar
@@ -11,6 +12,7 @@ class CustomSnackbar {
     Get.snackbar(
       title,
       message,
+      maxWidth: 70.w,
       snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.green,
       colorText: Colors.white,
@@ -27,7 +29,7 @@ class CustomSnackbar {
     Get.snackbar(
       title,
       message,
-      maxWidth: 300,
+      maxWidth: 70.w,
       snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.red,
       colorText: Colors.white,
@@ -43,6 +45,7 @@ class CustomSnackbar {
     Get.snackbar(
       title,
       message,
+      maxWidth: 70.w,
       snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.blue,
       colorText: Colors.white,
@@ -58,6 +61,7 @@ class CustomSnackbar {
     Get.snackbar(
       title,
       message,
+      maxWidth: 70.w,
       snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.orange,
       colorText: Colors.white,

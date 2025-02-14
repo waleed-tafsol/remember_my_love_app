@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import 'colors_constants.dart';
 
 class CustomTheme {
@@ -102,7 +101,7 @@ class CustomTheme {
     ),
 
     inputDecorationTheme: const InputDecorationTheme().copyWith(
-        contentPadding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 1.h),
+        contentPadding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.h),
         filled: true,
         fillColor: AppColors.kTextfieldColor,
         prefixIconColor: AppColors.kPrimaryColor,

@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Upload_memory_screen.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
-import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/TextConstant.dart';
 import '../../../../../constants/constants.dart';
@@ -27,25 +25,18 @@ class MemoryDetailScreen extends StatefulWidget {
 }
 
 class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
-    late MemoryModel memory;
+  late MemoryModel memory;
 
   @override
   void initState() {
     super.initState();
-    if(Get.arguments != null){
+    if (Get.arguments != null) {
       memory = Get.arguments as MemoryModel;
     }
-    
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-     
-    
-  
-
     // Initialize the controller with the passed memory
     final MemoryDetailController controller =
         Get.put(MemoryDetailController(memory));
@@ -68,8 +59,11 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                     icon: Icons.edit,
                     ontap: () {
                       Get.toNamed(ScheduleMemoryScreen.routeName,
-                          arguments: controller.memory);              }),
-                SizedBox(width: 2.w,),
+                          arguments: controller.memory);
+                    }),
+                SizedBox(
+                  width: 2.w,
+                ),
                 Obx(() {
                   return controller.isloading.value
                       ? const Center(
@@ -97,13 +91,14 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                             borderRadius: BorderRadius.circular(20),
                             child: isVideo
                                 ? InkWell(
-                              onTap: (){
-                                
-                                          
-                                        Get.toNamed(NetworkVideoPlayerScreen.routeName, arguments: '${ApiConstants.getPicture}/${controller.selectedImage}');
-                                // Navigator.push(context,MaterialPageRoute(builder: (context) => NetworkVideoPlayerScreen(videoUrlData: '${ApiConstants.getPicture}/${controller.selectedImage}')) );
-                              },
-                                  child: SizedBox(
+                                    onTap: () {
+                                      Get.toNamed(
+                                          NetworkVideoPlayerScreen.routeName,
+                                          arguments:
+                                              '${ApiConstants.getPicture}/${controller.selectedImage}');
+                                      // Navigator.push(context,MaterialPageRoute(builder: (context) => NetworkVideoPlayerScreen(videoUrlData: '${ApiConstants.getPicture}/${controller.selectedImage}')) );
+                                    },
+                                    child: SizedBox(
                                       height: 20.h,
                                       child: Stack(
                                         children: [
@@ -116,7 +111,7 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                                         ],
                                       ),
                                     ),
-                                )
+                                  )
                                 : SizedBox(
                                     width: double.infinity,
                                     height: 20.h,
@@ -156,8 +151,11 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                                   child: SizedBox(
                                     width: 9.h,
                                     child: InkWell(
-                                      onTap: (){
-                                        Get.toNamed(NetworkVideoPlayerScreen.routeName, arguments: '${ApiConstants.getPicture}/$file');
+                                      onTap: () {
+                                        Get.toNamed(
+                                            NetworkVideoPlayerScreen.routeName,
+                                            arguments:
+                                                '${ApiConstants.getPicture}/$file');
                                         // Navigator.push(context,MaterialPageRoute(builder: (context) => NetworkVideoPlayerScreen(videoUrlData: '${ApiConstants.getPicture}/$file')) );
                                       },
                                       child: ClipRRect(
@@ -169,7 +167,8 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                                                   "${ApiConstants.getPicture}/$file",
                                               showController: false,
                                             ),
-                                            Center(child: Icon(Icons.play_circle))
+                                            Center(
+                                                child: Icon(Icons.play_circle))
                                           ],
                                         ),
                                       ),
@@ -331,7 +330,7 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                           ),
                   ],
                 )),
-        /*    GradientButton(
+            /*    GradientButton(
                 onPressed: () {
                   Get.toNamed(ScheduleMemoryScreen.routeName,
                       arguments: controller.memory);

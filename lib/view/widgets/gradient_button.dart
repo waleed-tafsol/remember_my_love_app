@@ -92,7 +92,7 @@ class _GradientButtonState extends State<GradientButton>
             top: 0,
             right: 0,
             child: CircleAvatar(
-              radius: 6.5.w,
+              radius: kButtonHeight / 2,
               backgroundColor:
                   widget.cornorIconBackgroundColor ?? Colors.blue[900],
               child: Icon(Icons.arrow_outward_outlined,
