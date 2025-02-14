@@ -258,7 +258,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                               .textTheme
                                               .displaySmall!
                                               .copyWith(
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.bold,fontSize: 20.sp),
                                         ),
                                         /* Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -293,7 +293,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                               .titleLarge!
                                               .copyWith(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 18.sp),
+                                                  fontSize: 16.sp),
                                         ),
                                       ],
                                     ),
