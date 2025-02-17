@@ -28,7 +28,7 @@ class PrivacyPolicyScreen extends GetView<PrivacyPolicyController> {
             k2wSizedBox,
             Obx(
               () {
-                return Text(controller.cmsModel.value?.termsAndConditions?.heroTitle ?? "Privacy Policy",
+                return Text(controller.cmsModel.value?.heroTitle ?? "Privacy Policy",
                     style: TextStyleConstants.headlineLargeWhite(context));
               }
             ),
@@ -39,7 +39,7 @@ class PrivacyPolicyScreen extends GetView<PrivacyPolicyController> {
          Obx(
            () {
              return controller.isLoading.value ? const Center(child: const CircularProgressIndicator(),) : Html(
-                                  data: controller.cmsModel.value?.termsAndConditions?.description ?? "",
+                                  data: controller.cmsModel.value?.description ?? "",
                                   style: {
                                     "body": Style(
                                       fontSize: FontSize.medium,

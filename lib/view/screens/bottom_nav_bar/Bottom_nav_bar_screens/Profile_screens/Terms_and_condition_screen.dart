@@ -30,7 +30,7 @@ class TermsAndConditionScreen extends GetView<TermsAndConditionsController> {
             k2wSizedBox,
              Obx(
               () {
-                return Text(controller.cmsModel.value?.termsAndConditions?.heroTitle ?? "Terms And Conditions",
+                return Text(controller.cmsModel.value?.heroTitle ?? "Terms And Conditions",
                     style: TextStyleConstants.headlineLargeWhite(context));
               }
             ),
@@ -41,7 +41,7 @@ class TermsAndConditionScreen extends GetView<TermsAndConditionsController> {
          Obx(
            () {
              return controller.isLoading.value ? const Center(child: const CircularProgressIndicator(),) : Html(
-                                  data: controller.cmsModel.value?.termsAndConditions?.description ?? "",
+                                  data: controller.cmsModel.value?.description ?? "",
                                   style: {
                                     "body": Style(
                                       fontSize: FontSize.medium,
