@@ -57,4 +57,8 @@ class ApiConstants {
   static const updateConcerns = "users/update-me";
   static const getConcerns = "concerns/user/all";
 
+    // Favourits
+  static const getTermsAndCondition = "cms/page/termsAndConditions";
+  static const getPrivacyPolicy = "cms/page/privacyPolicy";
+
 }

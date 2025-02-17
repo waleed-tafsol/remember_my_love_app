@@ -8,7 +8,6 @@ import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/controllers/MyMemoriesController.dart';
 import 'package:remember_my_love_app/models/MemoryModel.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Home_screen.dart';
 
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';

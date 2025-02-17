@@ -86,7 +86,7 @@ class My_storage_widget extends GetView<HomeScreenController> {
                         margin: EdgeInsets.symmetric(horizontal: 1.w),
                         height: 10.h,
                         width: 10.h,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
                         ),

@@ -29,6 +29,32 @@ class LocalAuthService {
     }
   }
 
+  static Future< List<BiometricType>> getBioMetrics()async{
+    return await _localAuth.getAvailableBiometrics();
+  }
+  // static Future<bool> hasfaceId() async {
+  //   try {
+  //     List<BiometricType> availableBiometrics =
+  //         await _localAuth.getAvailableBiometrics();
+  //     return availableBiometrics.isNotEmpty;
+  //   } catch (e) {
+  //     CustomSnackbar.showError(
+  //         "Authentication Error", "Could not retrieve biometrics.");
+  //     return false;
+  //   }
+  // }
+  // static Future<bool> hasfingerPrint() async {
+  //   try {
+  //     List<BiometricType> availableBiometrics =
+  //         await _localAuth.getAvailableBiometrics();
+  //     return availableBiometrics.isNotEmpty;
+  //   } catch (e) {
+  //     CustomSnackbar.showError(
+  //         "Authentication Error", "Could not retrieve biometrics.");
+  //     return false;
+  //   }
+  // }
+
   // Static method to authenticate the user using biometrics (Fingerprint, Face ID, etc.)
   static Future<bool> authenticateUser() async {
     // Check if biometric authentication can be used and if there are any enrolled biometrics
@@ -43,6 +69,7 @@ class LocalAuthService {
 
     // Proceed with authentication if biometrics are available
     try {
+      // _localAuth.
       bool isAuthenticated = await _localAuth.authenticate(
         localizedReason: 'Please authenticate to proceed',
         options: const AuthenticationOptions(stickyAuth: true),

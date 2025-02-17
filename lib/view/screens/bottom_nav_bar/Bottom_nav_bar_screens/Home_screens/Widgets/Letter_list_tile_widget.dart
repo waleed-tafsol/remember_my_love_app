@@ -117,7 +117,7 @@ class LetterListTile extends GetView<CalendarController> {
                           ),
                           k1hSizedBox,
                           files!.isEmpty
-                              ? SizedBox()
+                              ? const SizedBox()
                               : SizedBox(
                                   height: 9.h,
                                   width: double.infinity,
@@ -219,7 +219,7 @@ class LetterListTile extends GetView<CalendarController> {
                                                               showController:
                                                                   false,
                                                             ),
-                                                            Center(child: Icon(Icons.play_circle))
+                                                            const Center(child: Icon(Icons.play_circle))
                                                           ],
                                                         ),
                                                       ),
@@ -249,7 +249,7 @@ class LetterListTile extends GetView<CalendarController> {
                                 )
                         ],
                       )
-                    : SizedBox.shrink();
+                    : const SizedBox.shrink();
               }),
             ],
           ),

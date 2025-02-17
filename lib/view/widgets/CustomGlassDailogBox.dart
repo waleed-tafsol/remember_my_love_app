@@ -35,7 +35,7 @@ class GlassMorphicDailogBox extends StatelessWidget {
                 sigmaY: 13,
                 tileMode: TileMode.mirror), // Apply the blur effect
             child: Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(20),

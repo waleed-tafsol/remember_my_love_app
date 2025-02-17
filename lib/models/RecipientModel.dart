@@ -18,12 +18,12 @@ class Recipients {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['cc'] = this.cc;
-    data['contact'] = this.contact;
-    data['relation'] = this.relation;
-    data['_id'] = this.sId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
+    data['cc'] = cc;
+    data['contact'] = contact;
+    data['relation'] = relation;
+    data['_id'] = sId;
     return data;
   }
 }

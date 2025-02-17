@@ -44,13 +44,14 @@
         <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
-
     <key>NSAllowsArbitraryLoadsInWebContent</key>
     <true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera for capturing videos and photos memory.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Why is my app authenticating using face id?</string>
 	<key>NSContactsUsageDescription</key>
 	<string>We need access to your contacts to send memories.</string>
 	<key>NSMicrophoneUsageDescription</key>

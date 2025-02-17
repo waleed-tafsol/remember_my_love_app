@@ -49,7 +49,7 @@ class CustomGlassCalendarWidget extends StatelessWidget {
           child: ExpansionTile(
             tilePadding: context.isTablet
                 ? EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w)
-                : ExpansionTileThemeData().tilePadding,
+                : const ExpansionTileThemeData().tilePadding,
             expansionAnimationStyle: AnimationStyle(
                 curve: Curves.easeInOut, duration: Durations.extralong1),
             onExpansionChanged: (value) {
@@ -64,8 +64,8 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                 const Text(
                   "My Memories",
                 ),
-                Spacer(),
-                YearMonthDropdown(),
+                const Spacer(),
+                const YearMonthDropdown(),
                 context.isTablet ? const Spacer() : k1wSizedBox,
                 Builder(builder: (context) {
                   return InkWell(
@@ -184,14 +184,14 @@ class CustomGlassCalendarWidget extends StatelessWidget {
                                 alignment: Alignment.center,
                                 child: Text(
                                   '${date.day}',
-                                  style: TextStyle(color: Colors.white),
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                               ),
                             );
                           }
                           return null;
                         })
-                      : CalendarBuilders(),
+                      : const CalendarBuilders(),
                 );
               })
             ],

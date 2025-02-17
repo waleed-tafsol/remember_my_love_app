@@ -49,10 +49,10 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> loginFingerPrint() async {
+  Future<void> bioMetricLogin(bool isFingerPrint) async {
     try {
       Get.dialog(const Center(child: CircularProgressIndicator()));
-      if (await authService.loginWithFingerPrint() ?? false) {
+      if (await authService.loginWithFingerPrint(isFingerPrint) ?? false) {
         Get.back();
         CustomSnackbar.showSuccess("Success", "Logged In Successfully");
         Get.offNamed(BottomNavBarScreen.routeName);

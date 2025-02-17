@@ -74,7 +74,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         dateOrder: DatePickerDateOrder.mdy,
                         initialDateTime: controller.selectedDate.value,
                         minDateTime: controller.selectedDate.value
-                            .subtract(Duration(days: 1)),
+                            .subtract(const Duration(days: 1)),
                         pickerTextStyle: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
@@ -200,7 +200,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
           Obx(() {
             return controller.buttonVisivility.value
                 ? controller.isloading.value
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : GradientButton(

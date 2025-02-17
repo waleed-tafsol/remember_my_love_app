@@ -9,7 +9,7 @@ class PaymentService {
           paymentIntentClientSecret: clientSecret,
           merchantDisplayName: 'Your Company Name',
           // applePay: PaymentSheetApplePay(merchantCountryCode: 'US'),
-          googlePay: PaymentSheetGooglePay(merchantCountryCode: 'US'),
+          googlePay: const PaymentSheetGooglePay(merchantCountryCode: 'US'),
           // style: ThemeMode.light,
         ),
       );

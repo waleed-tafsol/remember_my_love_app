@@ -29,7 +29,7 @@ class HomeScreen extends GetView<HomeScreenController> {
         await controller.reload();
       },
       child: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(children: [
           InkWell(
             onTap: () {

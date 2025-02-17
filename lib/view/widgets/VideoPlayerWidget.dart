@@ -12,8 +12,7 @@ import '../../constants/colors_constants.dart';
 class LocalVideoPlayerWidget extends StatefulWidget {
   final String filePath; // Local file path to the video
 
-  const LocalVideoPlayerWidget({Key? key, required this.filePath})
-      : super(key: key);
+  const LocalVideoPlayerWidget({super.key, required this.filePath});
 
   @override
   State<LocalVideoPlayerWidget> createState() => _LocalVideoPlayerWidgetState();
@@ -63,7 +62,7 @@ class _LocalVideoPlayerWidgetState extends State<LocalVideoPlayerWidget> {
     return GestureDetector(
       onTap: _togglePlayPause, // Toggle play/pause on tap
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.black, // Background color for video container
         ),
         child: Stack(
@@ -107,9 +106,8 @@ class NetworkVideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
   final bool showController;
 
-  NetworkVideoPlayerWidget(
-      {Key? key, required this.videoUrl, required this.showController})
-      : super(key: key);
+  const NetworkVideoPlayerWidget(
+      {super.key, required this.videoUrl, required this.showController});
 
   @override
   _NetworkVideoPlayerWidgetState createState() =>

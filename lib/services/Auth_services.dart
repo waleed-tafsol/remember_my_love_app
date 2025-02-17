@@ -10,7 +10,6 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:remember_my_love_app/services/FirebaseServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
-import 'package:remember_my_love_app/view/screens/auth_screens/RegisterWithGoogle.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import '../constants/ApiConstant.dart';
 
@@ -45,13 +44,13 @@ class AuthService extends GetxService {
   String? authToken;
 
   // Biometric authentication function
-  Future<bool?> loginWithFingerPrint() async {
-    final authenticated = await LocalAuthService.authenticateUser();
+  Future<bool?> loginWithFingerPrint(bool isFingerPrint) async {
+    final authenticated = isFingerPrint ? await LocalAuthService.authenticateUser() : await LocalAuthService.authenticateUser();
 
     // Get
     if (authenticated) {
-      final DeviceKeyManager _deviceKeyManager = DeviceKeyManager();
-      final key = await _deviceKeyManager.generateDeviceSpecificKey();
+      final DeviceKeyManager deviceKeyManager = DeviceKeyManager();
+      final key = await deviceKeyManager.generateDeviceSpecificKey();
       try {
         Response response = await _dio.post(
           ApiConstants.verifyFingerPrint,
@@ -60,17 +59,12 @@ class AuthService extends GetxService {
             "fcmToken": FirebaseService.fcmToken,
           },
         );
-        if (response != null) {
-          platform.value = "finger";
-          authToken = response.data["data"]["token"];
-          _tokenStorage.saveToken(authToken!);
-          isAuthenticated.value = true;
-          return true;
-        } else {
-          throw Exception("an error occured");
-          // return false;
-        }
-      } on DioException catch (e) {
+        platform.value = "finger";
+        authToken = response.data["data"]["token"];
+        _tokenStorage.saveToken(authToken!);
+        isAuthenticated.value = true;
+        return true;
+            } on DioException catch (e) {
         throw Exception(
             e.response?.data["message"]["error"][0] ?? "An error occurred");
         // if (e.response != null) {
@@ -273,7 +267,7 @@ class AuthService extends GetxService {
     } catch (e) {
       ColoredPrint.red(e.toString());
       Get.back();
-      throw e;
+      rethrow;
     }
   }
 
@@ -298,7 +292,7 @@ class AuthService extends GetxService {
   }
 
   Future<Map<String, dynamic>> resetPass(
-      String email, int code, String password, String confirm_pass) async {
+      String email, int code, String password, String confirmPass) async {
     try {
       Response response = await _dio.patch(
         ApiConstants.resetPass,
@@ -306,7 +300,7 @@ class AuthService extends GetxService {
           "email": email,
           "code": code,
           "password": password,
-          "passwordConfirm": confirm_pass
+          "passwordConfirm": confirmPass
         },
       );
       /* authToken = response.data["data"]["token"];

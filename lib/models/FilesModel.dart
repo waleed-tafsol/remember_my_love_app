@@ -12,10 +12,10 @@ class Files {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key'] = this.key;
-    data['size'] = this.size;
-    data['_id'] = this.sId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key'] = key;
+    data['size'] = size;
+    data['_id'] = sId;
     return data;
   }
 }

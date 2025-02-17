@@ -12,7 +12,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controllers/Bottom_nav_bar_controller.dart';
 
 class BottomNavBarScreen extends GetView<BottomNavController> {
-  BottomNavBarScreen({super.key});
+  const BottomNavBarScreen({super.key});
   static const routeName = "BottomNavBarScreen";
 
   @override
@@ -30,10 +30,10 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
             case SelectedTab.profile:
               return const ProfileScreen();
             case SelectedTab.notification:
-              Future.delayed(Duration(milliseconds: 100), () {
+              Future.delayed(const Duration(milliseconds: 100), () {
                 controller.unreadNotification.value = false;
               });
-              return NotificationScreen();
+              return const NotificationScreen();
 
             default:
               return HomeScreen(); // Fallback
@@ -46,7 +46,7 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
                 height: context.isTablet ? 10.h : 8.h,
 
                 marginR: EdgeInsets.symmetric(
-                    horizontal: context.isTablet ? 10.w : 50, vertical: 20),
+                    horizontal: context.isTablet ? 10.w : 20, vertical: 20),
                 // itemPadding: isTablet()
                 //     ? EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w)
                 //     : EdgeInsets.zero,
@@ -87,8 +87,8 @@ class BottomNavBarScreen extends GetView<BottomNavController> {
               ),
               Obx(() {
                 return controller.unreadNotification.value
-                    ? Positioned(top: 5.h, right: 30.w, child: Badge())
-                    : SizedBox.shrink();
+                    ? Positioned(top: 5.h, right: 30.w, child: const Badge())
+                    : const SizedBox.shrink();
               }),
             ],
           );

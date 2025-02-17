@@ -13,7 +13,7 @@ import '../widgets/Custom_rounded_glass_button.dart';
 class AddCardScreen extends GetView<CardsController> {
   static const routeName = "AddCardScreen";
 
-  AddCardScreen({super.key});
+  const AddCardScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(

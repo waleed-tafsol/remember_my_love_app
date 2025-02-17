@@ -42,19 +42,19 @@ class PackagesModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['price'] = this.price;
-    data['summary'] = this.summary;
-    data['title'] = this.title;
-    data['packageType'] = this.packageType;
-    data['packageId'] = this.packageId;
-    data['planId'] = this.planId;
-    data['recurringType'] = this.recurringType;
-    data['storage'] = this.storage;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['price'] = price;
+    data['summary'] = summary;
+    data['title'] = title;
+    data['packageType'] = packageType;
+    data['packageId'] = packageId;
+    data['planId'] = planId;
+    data['recurringType'] = recurringType;
+    data['storage'] = storage;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
     return data;
   }
 }

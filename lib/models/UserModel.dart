@@ -104,41 +104,41 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['username'] = this.username;
-    data['email'] = this.email;
-    data['contact'] = this.contact;
-    data['cc'] = this.contact;
-    data['country'] = this.country;
-    data['role'] = this.role;
-    data['platform'] = this.platform;
-    data['status'] = this.status;
-    data['isOnline'] = this.isOnline;
-    data['photo'] = this.photo;
-    if (this.fcmTokens != null) {
-      data['fcmTokens'] = this.fcmTokens!.map((v) => v).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['username'] = username;
+    data['email'] = email;
+    data['contact'] = contact;
+    data['cc'] = contact;
+    data['country'] = country;
+    data['role'] = role;
+    data['platform'] = platform;
+    data['status'] = status;
+    data['isOnline'] = isOnline;
+    data['photo'] = photo;
+    if (fcmTokens != null) {
+      data['fcmTokens'] = fcmTokens!.map((v) => v).toList();
     }
-    if (this.socketIds != null) {
-      data['socketIds'] = this.socketIds!.map((v) => v).toList();
+    if (socketIds != null) {
+      data['socketIds'] = socketIds!.map((v) => v).toList();
     }
-    data['lastSeen'] = this.lastSeen;
-    if (this.package != null) {
-      data['package'] = this.package!.toJson();
+    data['lastSeen'] = lastSeen;
+    if (package != null) {
+      data['package'] = package!.toJson();
     }
-    data['subscription'] = this.subscription;
-    data['validationKey'] = this.validationKey;
-    data['subscriptionStatus'] = this.subscriptionStatus;
-    data['subscriptionDueDate'] = this.subscriptionDueDate;
-    data['subscriptionStartDate'] = this.subscriptionStartDate;
-    data['availableStorage'] = this.availableStorage;
-    data['inAppNotifications'] = this.inAppNotifications;
-    data['customerId'] = this.customerId;
-    data['pushNotifications'] = this.pushNotifications;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
+    data['subscription'] = subscription;
+    data['validationKey'] = validationKey;
+    data['subscriptionStatus'] = subscriptionStatus;
+    data['subscriptionDueDate'] = subscriptionDueDate;
+    data['subscriptionStartDate'] = subscriptionStartDate;
+    data['availableStorage'] = availableStorage;
+    data['inAppNotifications'] = inAppNotifications;
+    data['customerId'] = customerId;
+    data['pushNotifications'] = pushNotifications;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
     return data;
   }
 }

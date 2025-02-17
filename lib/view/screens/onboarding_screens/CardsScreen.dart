@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:remember_my_love_app/view/screens/add_card_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:u_credit_card/u_credit_card.dart';
@@ -48,7 +46,7 @@ class CardsScreen extends GetView<CardsController> {
                   Get.toNamed(AddCardScreen.routeName);
                 },
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Container(
                     decoration: ShapeDecoration(
                       color: AppColors.kgradientBlue,
@@ -58,7 +56,7 @@ class CardsScreen extends GetView<CardsController> {
                     ),
                     child: Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+                          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -69,9 +67,9 @@ class CardsScreen extends GetView<CardsController> {
                                   borderRadius: BorderRadius.circular(293),
                                 ),
                               ),
-                              child: Padding(
+                              child: const Padding(
                                 padding: EdgeInsets.all(10.0),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.credit_card,
                                   color: Colors.white,
                                 ),
@@ -79,7 +77,7 @@ class CardsScreen extends GetView<CardsController> {
                           SizedBox(
                             width: 10.w,
                           ),
-                          Text('Add new card'),
+                          const Text('Add new card'),
                           const Spacer(),
                           Container(
                             decoration: ShapeDecoration(
@@ -90,9 +88,9 @@ class CardsScreen extends GetView<CardsController> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            child: Padding(
+                            child: const Padding(
                               padding: EdgeInsets.all(10),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.add,
                                 size: 20,
                                 color: AppColors.kpurple,
@@ -114,7 +112,7 @@ class CardsScreen extends GetView<CardsController> {
                     : ListView.builder(
                         itemCount: controller.paymentMethodModel.length,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           final isDefaltCard =
                               controller.paymentMethodModel[index].id ==

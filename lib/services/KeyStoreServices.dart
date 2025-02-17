@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
 class DeviceKeyManager {
-  static final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+  static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   static final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
 
   // Generate device-specific key

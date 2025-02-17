@@ -139,14 +139,14 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                                                    videoUrl:
                                                       "${ApiConstants.getPicture}/$file", showController: false,
                                                 ),
-                                              Center(child: Icon(Icons.play_circle))
+                                              const Center(child: Icon(Icons.play_circle))
 
                                             ],
                                           )
                                           : CachedNetworkImageWidget(
                                               fit: BoxFit.cover,
                                               imageUrl:
-                                                  "${ApiConstants.getPicture}/${file}",
+                                                  "${ApiConstants.getPicture}/$file",
                                             )),
                                 ),
                                 Positioned(

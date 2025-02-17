@@ -6,7 +6,7 @@ import 'package:remember_my_love_app/controllers/NotificationController.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Notification_screens/Widgets/notification_listTile.dart';
 
 class NotificationScreen extends GetView<NotificationController> {
-  NotificationScreen({super.key});
+  const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

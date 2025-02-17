@@ -1,10 +1,8 @@
 import 'package:bottom_picker/bottom_picker.dart';
-import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '../../../../../utills/ConvertDateTime.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -93,7 +91,7 @@ class SignUpScreen extends GetView<AuthController> {
                                     }
                                     return null;
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     hintText: "Enter Name",
                                   ),
                                   controller: controller.nameController,
@@ -115,7 +113,7 @@ class SignUpScreen extends GetView<AuthController> {
                                     }
                                     return null;
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       hintText: "Enter User Name"),
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(

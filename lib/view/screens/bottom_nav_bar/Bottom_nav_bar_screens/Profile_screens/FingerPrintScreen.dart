@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../../../constants/TextConstant.dart';
-import '../../../../../constants/colors_constants.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../controllers/FingerPrintScreenController.dart';
 import '../../../../widgets/Custom_rounded_glass_button.dart';
-import '../../../auth_screens/Splash_screen.dart';
 
 class FingerPrintScreen extends GetView<FingerPrintScreenController> {
   const FingerPrintScreen({super.key});
@@ -36,7 +33,7 @@ class FingerPrintScreen extends GetView<FingerPrintScreenController> {
       Obx(() {
         return controller.isLoading.value
             ? const Center(
-                child: const CircularProgressIndicator(
+                child: CircularProgressIndicator(
                   color: Colors.white,
                 ),
               )

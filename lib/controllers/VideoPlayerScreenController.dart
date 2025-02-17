@@ -12,10 +12,6 @@ class VideoPlayerScreenController extends GetxController {
   // RxBool isPlaying = false.obs; // To track if video is playing
   // RxBool isPaused = false.obs; // To track if video is paused
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   // Function to initialize the video player
   void initializeVideo(String videoUrl) {
@@ -40,7 +36,7 @@ class VideoPlayerScreenController extends GetxController {
       placeholder: const Center(
         child: CircularProgressIndicator(), // Placeholder during buffering
       ),
-      customControls: MaterialControls(),
+      customControls: const MaterialControls(),
     );
 
     // Initialize video controller

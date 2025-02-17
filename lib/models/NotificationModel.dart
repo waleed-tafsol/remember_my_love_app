@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 
 class NotificationModel {
   String? sId;
@@ -34,7 +33,7 @@ class NotificationModel {
     if (json['payload'] != null) {
       payload = <Payload>[];
       json['payload'].forEach((v) {
-        payload!.add(new Payload.fromJson(v));
+        payload!.add(Payload.fromJson(v));
       });
     }
     title = json['title'];
@@ -46,20 +45,20 @@ class NotificationModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['senderMode'] = this.senderMode;
-    data['flag'] = this.flag;
-    data['message'] = this.message;
-    if (this.payload != null) {
-      data['payload'] = this.payload!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['senderMode'] = senderMode;
+    data['flag'] = flag;
+    data['message'] = message;
+    if (payload != null) {
+      data['payload'] = payload!.map((v) => v.toJson()).toList();
     }
-    data['title'] = this.title;
-    data['seen'] = this.seen;
-    data['receiver'] = this.receiver;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
+    data['title'] = title;
+    data['seen'] = seen;
+    data['receiver'] = receiver;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
     return data;
   }
 }
@@ -74,9 +73,9 @@ class Payload {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
 
-    data['id'] = this.id;
+    data['id'] = id;
     return data;
   }
 }

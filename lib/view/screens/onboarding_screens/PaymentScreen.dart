@@ -198,7 +198,7 @@ class PaymentScreen extends GetView<Paymentcontroller> {
                                     },
                                     text:
                                         "${controller.renewUpdateOrBuySub} Subscription",
-                                    gradients: [Colors.purple, Colors.blue])
+                                    gradients: const [Colors.purple, Colors.blue])
                                 : const SizedBox();
                       }),
 

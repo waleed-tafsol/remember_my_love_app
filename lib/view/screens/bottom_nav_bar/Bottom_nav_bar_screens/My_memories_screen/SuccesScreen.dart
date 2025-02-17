@@ -15,7 +15,7 @@ class SuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arg = Get.arguments ?? null;
+    final arg = Get.arguments;
     return CustomScaffold(
       body: Column(
         children: [

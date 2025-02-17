@@ -46,14 +46,12 @@ class VideoThumbnailController extends GetxController {
     }
 
     // Save the thumbnail to the cache directory
-    if (fileName != null) {
-      final File thumbnailFile = File(thumbnailCachePath);
-      await thumbnailFile.writeAsBytes(await fileName.readAsBytes());
-      thumbnailPath.value = thumbnailCachePath;
+    final File thumbnailFile = File(thumbnailCachePath);
+    await thumbnailFile.writeAsBytes(await fileName.readAsBytes());
+    thumbnailPath.value = thumbnailCachePath;
 
-      // You can now use the path in `thumbnailCachePath` for future references.
-      // For example, you can store it in a variable to use later:
-      ColoredPrint.green('Thumbnail saved in cache: $thumbnailCachePath');
+    // You can now use the path in `thumbnailCachePath` for future references.
+    // For example, you can store it in a variable to use later:
+    ColoredPrint.green('Thumbnail saved in cache: $thumbnailCachePath');
     }
-  }
 }

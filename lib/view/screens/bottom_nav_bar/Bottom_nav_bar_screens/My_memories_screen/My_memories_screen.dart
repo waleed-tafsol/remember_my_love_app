@@ -227,7 +227,7 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                                                         "${ApiConstants.getPicture}/$file",
                                                     showController: false,
                                                   ),
-                                                  Center(child: Icon(Icons.play_circle))
+                                                  const Center(child: Icon(Icons.play_circle))
 
                                                 ],
                                               ),

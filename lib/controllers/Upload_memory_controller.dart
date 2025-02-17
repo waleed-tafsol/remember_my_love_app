@@ -8,12 +8,9 @@ import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
-import 'package:remember_my_love_app/controllers/Calendar_controller.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
-import 'package:remember_my_love_app/controllers/MyMemoriesController.dart';
 import 'package:remember_my_love_app/models/MemoryModel.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
-import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/services/Auth_token_services.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
@@ -167,6 +164,7 @@ class UploadMemoryController extends GetxController {
       // Catch any other errors that might occur (e.g., parsing errors)
       Get.snackbar("ERROR", "An unexpected error occurred: $e");
     }
+    return null;
   }
 
   void removeRecipient(int index) {
@@ -436,7 +434,7 @@ class UploadMemoryController extends GetxController {
         final tokenservices = TokenService();
         tokenservices.saveVideosKeys(successFullFilesUploads);
       } else {
-        ColoredPrint.red("Failed to upload image: ${response?.statusCode}");
+        ColoredPrint.red("Failed to upload image: ${response.statusCode}");
       }
     } catch (e) {
       ColoredPrint.red("Error uploading image: $e");
@@ -470,11 +468,11 @@ class UploadMemoryController extends GetxController {
     descriptionController.dispose();
     recievingUsername.dispose();
     recievingUserPassword.dispose();
-    recipients.forEach((element) {
+    for (var element in recipients) {
       element.emailController.dispose();
       element.contactController.dispose();
       element.relationController.dispose();
-    });
+    }
     super.dispose();
   }
 }

@@ -11,9 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/My_memories_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../constants/ApiConstant.dart';
 import '../controllers/NotificationController.dart';
@@ -97,7 +95,7 @@ class FirebaseService {
   static Future<User?> signInWithApple() async {
     try {
       String generateNonce([int length = 32]) {
-        final charset =
+        const charset =
             '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
         final random = Random.secure();
         return List.generate(

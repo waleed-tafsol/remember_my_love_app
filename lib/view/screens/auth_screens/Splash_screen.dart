@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/AuthController.dart';
+import 'package:remember_my_love_app/services/LocalAuthServices.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/forgot_pass_screen.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/sign_up_screen.dart';
 
@@ -34,10 +36,14 @@ class _SplashScreenState extends State<SplashScreen>
   bool _showText = false;
   bool _animateWobal = false;
   bool _animation2 = false;
+  bool _hasFaceId = false;
+  bool _hasFingerPrint = false;
 
   @override
   void initState() {
     super.initState();
+
+    checkAvailableBiometric();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -46,6 +52,19 @@ class _SplashScreenState extends State<SplashScreen>
     _flipAnimation = Tween<double>(begin: 0, end: -1)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
     _startAnimation();
+  }
+
+  void checkAvailableBiometric() async {
+    final availBioMetric = await LocalAuthService.getBioMetrics();
+
+    if (availBioMetric.contains(BiometricType.strong) || availBioMetric.contains(BiometricType.fingerprint)) {
+      _hasFingerPrint = true;
+    }
+    if (availBioMetric.contains(BiometricType.strong) ||
+        availBioMetric.contains(BiometricType.face)) {
+      _hasFaceId = true;
+    }
+    availBioMetric.isNotEmpty ? setState(() {}) : null;
   }
 
   void _startAnimation() async {
@@ -91,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen>
         FocusScope.of(context).unfocus();
       },
       child: CustomScaffold(
-        padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 4.w),
+        padding: EdgeInsets.only(top: 1.h, right: 4.w,left: 4.w,bottom: 0),
         body: AnimatedAlign(
           curve: Curves.elasticIn,
           duration: const Duration(milliseconds: 2000),
@@ -129,7 +148,7 @@ class _SplashScreenState extends State<SplashScreen>
                                     Image_assets.animation_cloud_back,
                                   )
                                 : AnimatedOpacity(
-                                    duration: Duration(milliseconds: 500),
+                                    duration: const Duration(milliseconds: 500),
                                     opacity: _animateWobal ? 0 : 1,
                                     child: Image.asset(
                                         Image_assets.animation_cloud_front)),
@@ -150,7 +169,7 @@ class _SplashScreenState extends State<SplashScreen>
                   )),
 
               AnimatedContainer(
-                height: _animation2 ? 64.h : 0,
+                height: _animation2 ? context.isTablet ? 66.h : 62.h : 0,
                 width: _animation2 ? double.maxFinite : 0,
                 duration: const Duration(milliseconds: 2000),
                 child: Column(children: [
@@ -161,212 +180,235 @@ class _SplashScreenState extends State<SplashScreen>
                         child: Form(
                           key: _formKey,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Welcome Back!",
-                                style: TextStyleConstants.displayMediumWhite(
-                                    context),
-                              ),
-                              k1hSizedBox,
-                              Text(
-                                "Please Sign in to Continue your journey.",
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              k1hSizedBox,
-                              Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Email")),
-                              k1hSizedBox,
-                              Obx(() {
-                                return TextFormField(
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter some text';
-                                    } else if (!GetUtils.isEmail(value)) {
-                                      return 'Invalid Email';
-                                    }
-                                    return null;
-                                  },
-                                  controller: authController.emailController,
-                                  decoration: InputDecoration(
-                                    hintText: "Enter Email",
-                                    errorText: authController.emailError.value,
-                                  ),
-                                );
-                              }),
-                              k1hSizedBox,
-                              const Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Password")),
-                              k1hSizedBox,
-                              Obx(() {
-                                return TextFormField(
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter Password';
-                                    }
-                                    return null;
-                                  },
-                                  controller: authController.passwordController,
-                                  obscureText:
-                                      !authController.passwordVisibility.value,
-                                  decoration: InputDecoration(
-                                      hintText: "Enter Password",
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Welcome Back!",
+                                  style: TextStyleConstants.displayMediumWhite(
+                                      context),
+                                ),
+                                k1hSizedBox,
+                                Text(
+                                  "Please Sign in to Continue your journey.",
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                k1hSizedBox,
+                                const Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Email")),
+                                k1hSizedBox,
+                                Obx(() {
+                                  return TextFormField(
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter some text';
+                                      } else if (!GetUtils.isEmail(value)) {
+                                        return 'Invalid Email';
+                                      }
+                                      return null;
+                                    },
+                                    controller: authController.emailController,
+                                    decoration: InputDecoration(
+                                      hintText: "Enter Email",
                                       errorText:
-                                          authController.passwordError.value,
-                                      suffixIcon: IconButton(
-                                          onPressed: () {
-                                            authController
-                                                    .passwordVisibility.value =
-                                                !authController
-                                                    .passwordVisibility.value;
-                                          },
-                                          icon: Icon(authController
-                                                  .passwordVisibility.value
-                                              ? Icons.visibility
-                                              : Icons.visibility_off))),
-                                );
-                              }),
-                              k1hSizedBox,
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    IconButton(
-                                      onPressed: () =>
-                                          authController.rememberMe.value =
-                                              !authController.rememberMe.value,
-                                      icon: Obx(() {
-                                        return Icon(authController
-                                                .rememberMe.value
-                                            ? Icons.check_box
-                                            : Icons.check_box_outline_blank);
-                                      }),
+                                          authController.emailError.value,
                                     ),
-                                    k1wSizedBox,
-                                    Text(
-                                      "Remember me",
-                                      style: TextStyleConstants.bodyMediumWhite(
-                                          context),
-                                    ),
-                                    const Spacer(),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.toNamed(ForgotPassScreen.routeName);
-                                      },
-                                      child: Text(
-                                        "Forgot Password",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                            ),
+                                  );
+                                }),
+                                k1hSizedBox,
+                                const Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Password")),
+                                k1hSizedBox,
+                                Obx(() {
+                                  return TextFormField(
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter Password';
+                                      }
+                                      return null;
+                                    },
+                                    controller:
+                                        authController.passwordController,
+                                    obscureText: !authController
+                                        .passwordVisibility.value,
+                                    decoration: InputDecoration(
+                                        hintText: "Enter Password",
+                                        errorText:
+                                            authController.passwordError.value,
+                                        suffixIcon: IconButton(
+                                            onPressed: () {
+                                              authController.passwordVisibility
+                                                      .value =
+                                                  !authController
+                                                      .passwordVisibility.value;
+                                            },
+                                            icon: Icon(authController
+                                                    .passwordVisibility.value
+                                                ? Icons.visibility
+                                                : Icons.visibility_off))),
+                                  );
+                                }),
+                                k1hSizedBox,
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () => authController
+                                                .rememberMe.value =
+                                            !authController.rememberMe.value,
+                                        icon: Obx(() {
+                                          return Icon(authController
+                                                  .rememberMe.value
+                                              ? Icons.check_box
+                                              : Icons.check_box_outline_blank);
+                                        }),
                                       ),
-                                    )
+                                      k1wSizedBox,
+                                      Text(
+                                        "Remember me",
+                                        style:
+                                            TextStyleConstants.bodyMediumWhite(
+                                                context),
+                                      ),
+                                      const Spacer(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Get.toNamed(
+                                              ForgotPassScreen.routeName);
+                                        },
+                                        child: Text(
+                                          "Forgot Password",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: Container(
+                                      color: Colors.white,
+                                      height: 0.1.h,
+                                    )),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 2.w),
+                                      child: Text("Or",
+                                          style:
+                                              TextStyleConstants.bodyLargeWhite(
+                                                  context)),
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                      color: Colors.white,
+                                      height: 0.1.h,
+                                    )),
                                   ],
                                 ),
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: Container(
-                                    color: Colors.white,
-                                    height: 0.1.h,
-                                  )),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 2.w),
-                                    child: Text("Or",
-                                        style:
-                                            TextStyleConstants.bodyLargeWhite(
-                                                context)),
-                                  ),
-                                  Expanded(
-                                      child: Container(
-                                    color: Colors.white,
-                                    height: 0.1.h,
-                                  )),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                      child: InkWell(
-                                    onTap: () {
-                                      authController.loginWithGoogle();
-                                    },
-                                    child: CustomGlassButton(
-                                      child: SvgPicture.asset(SvgAssets.google),
-                                    ),
-                                  )),
-                                  Visibility(
-                                    visible: Platform.isIOS,
-                                    child: Expanded(
-                                        child: Padding(
-                                      padding: EdgeInsets.only(left: 2.w),
-                                      child: InkWell(
-                                        onTap: () {
-                                          authController.loginWithApple();
-                                        },
-                                        child: CustomGlassButton(
-                                          child:
-                                              SvgPicture.asset(SvgAssets.apple),
-                                        ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                        child: InkWell(
+                                      onTap: () {
+                                        authController.loginWithGoogle();
+                                      },
+                                      child: CustomGlassButton(
+                                        child:
+                                            SvgPicture.asset(SvgAssets.google),
                                       ),
                                     )),
-                                  ),
-                                ],
-                              ),
-                              k2hSizedBox,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      authController.loginFingerPrint();
-                                    },
-                                    child: CustomGlassButton(
-                                      padding: EdgeInsets.all(1.w),
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Icon(
-                                        size: 6.h,
-                                        Icons.fingerprint_outlined,
-                                        color: Colors.white,
-                                      ),
+                                    Visibility(
+                                      visible: Platform.isIOS,
+                                      child: Expanded(
+                                          child: Padding(
+                                        padding: EdgeInsets.only(left: 2.w),
+                                        child: InkWell(
+                                          onTap: () {
+                                            authController.loginWithApple();
+                                          },
+                                          child: CustomGlassButton(
+                                            child: SvgPicture.asset(
+                                                SvgAssets.apple),
+                                          ),
+                                        ),
+                                      )),
                                     ),
-                                  ),
-                                  k3wSizedBox,
-                                  GestureDetector(
-                                    onTap: () {
-                                      authController.loginFingerPrint();
-                                    },
-                                    child: CustomGlassButton(
-                                      padding: EdgeInsets.all(1.w),
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: SvgPicture.asset(
-                                        SvgAssets.faceId,
-                                        color: Colors.white,
-                                        height: 6.h,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              k2hSizedBox,
-                              Text(
-                                "Sign In with Touch Biometric",
-                                style:
-                                    TextStyleConstants.bodySmallWhite(context),
-                              )
-                            ],
-                          ),
+                                  ],
+                                ),
+                                k2hSizedBox,
+                                _hasFaceId || _hasFingerPrint
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          _hasFingerPrint
+                                              ? GestureDetector(
+                                                  onTap: () {
+                                                    authController
+                                                        .bioMetricLogin(true);
+                                                  },
+                                                  child: CustomGlassButton(
+                                                    padding:
+                                                        EdgeInsets.all(1.w),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                    child: Icon(
+                                                      size: 6.h,
+                                                      Icons
+                                                          .fingerprint_outlined,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                )
+                                              : const SizedBox(),
+                                          k3wSizedBox,
+                                        Platform.isIOS &&  _hasFaceId
+                                              ? GestureDetector(
+                                                  onTap: () {
+                                                    authController
+                                                        .bioMetricLogin(false);
+                                                  },
+                                                  child: CustomGlassButton(
+                                                    padding:
+                                                        EdgeInsets.all(1.w),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                    child: SvgPicture.asset(
+                                                      SvgAssets.faceId,
+                                                      color: Colors.white,
+                                                      height: 6.h,
+                                                    ),
+                                                  ),
+                                                )
+                                              : const SizedBox(),
+                                        ],
+                                      )
+                                    : const SizedBox(),
+                                k2hSizedBox,
+                                _hasFaceId && _hasFingerPrint
+                                    ? Text(
+                                        "Sign In with Touch Biometric",
+                                        style:
+                                            TextStyleConstants.bodySmallWhite(
+                                                context),
+                                      )
+                                    : const SizedBox(),
+                              ]),
                         )),
                   ),
                   // k1hSizedBox,

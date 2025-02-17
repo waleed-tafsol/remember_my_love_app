@@ -24,13 +24,13 @@ class Creator {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['status'] = this.status;
-    data['photo'] = this.photo;
-    data['availableStorage'] = this.availableStorage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['email'] = email;
+    data['status'] = status;
+    data['photo'] = photo;
+    data['availableStorage'] = availableStorage;
     return data;
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -185,7 +184,6 @@ class Paymentcontroller extends GetxController {
             "title": "Successful",
             "subTitle": "Subscription Updated Successfully.",
           });
-    } catch (e) {
     } finally {
       isLoading.value = false;
     }

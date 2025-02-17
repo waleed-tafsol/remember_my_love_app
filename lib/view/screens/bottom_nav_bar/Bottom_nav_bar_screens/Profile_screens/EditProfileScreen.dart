@@ -4,12 +4,10 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/StyleConstants.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/EditProfileController.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/view/widgets/CachedNetworkImageWidget.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -189,7 +187,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20))),
                       initialSelection: controller.countryController.value.text,
-                      favorite: ['+1', 'US'],
+                      favorite: const ['+1', 'US'],
                       showCountryOnly: false,
                       showOnlyCountryWhenClosed: false,
                       alignLeft: false,

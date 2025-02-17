@@ -112,7 +112,7 @@ class ContactPickerService {
                     children: [
                       TextField(
                         controller: searchController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Search Contacts',
                           prefixIcon: Icon(Icons.search),
                           border: OutlineInputBorder(),
@@ -122,7 +122,7 @@ class ContactPickerService {
                         },
                       ),
                       const SizedBox(height: 16),
-                      Text(
+                      const Text(
                         'Select a contact:',
                         style: TextStyle(
                             fontSize: 18,
@@ -146,7 +146,7 @@ class ContactPickerService {
                               return Center(
                                 child: ElevatedButton(
                                   onPressed: loadMoreContacts,
-                                  child: Text('Load More'),
+                                  child: const Text('Load More'),
                                 ),
                               );
                             }

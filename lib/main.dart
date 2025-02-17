@@ -9,7 +9,6 @@ import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'constants/routes.dart';
 import 'constants/theme.dart';
-import 'services/FirebaseServices.dart';
 
 void main() async {
   // Initialize Firebase Messaging background handler
@@ -27,11 +26,11 @@ void main() async {
   ]);
   Get.put(AuthService(), permanent: true);
   await Future.delayed(Durations.medium1);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

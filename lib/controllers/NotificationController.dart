@@ -87,9 +87,9 @@ class NotificationController extends GetxController {
     try {
       await ApiService.patchRequest(
           ApiConstants.seenNotification, {"notificationId": id});
-      notification.forEach((e) {
+      for (var e in notification) {
         e.sId == id ? e.seen = true : null;
-      });
+      }
     } catch (e) {
       ColoredPrint.red(e.toString());
     }

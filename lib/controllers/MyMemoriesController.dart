@@ -39,26 +39,24 @@ class MyMemoryController extends GetxController {
   Future<void> fetchMemories() async {
     isLoading.value = true;
     try {
-      final endpoint = ApiConstants.getAllMemories;
+      const endpoint = ApiConstants.getAllMemories;
       Response? response =
           await ApiService.getRequest(endpoint, queryParameters: {
         "category": selectedCatagory.value?.sId ?? "all",
       });
       List<dynamic> jsonMemories = response!.data["memories"];
 
-      if (response != null) {
-        final HomeScreenController homeController = Get.find();
-        by_me_images.clear();
-        for_me_images.clear();
-        jsonMemories.forEach((item) {
-          if (item["creator"]["_id"] == homeController.user.value?.sId) {
-            by_me_images.add(item["files"][0]);
-          } else {
-            for_me_images.add(item["files"][0]);
-          }
-        });
+      final HomeScreenController homeController = Get.find();
+      by_me_images.clear();
+      for_me_images.clear();
+      for (var item in jsonMemories) {
+        if (item["creator"]["_id"] == homeController.user.value?.sId) {
+          by_me_images.add(item["files"][0]);
+        } else {
+          for_me_images.add(item["files"][0]);
+        }
       }
-      isLoading.value = false;
+          isLoading.value = false;
     } catch (e) {
       print(e.toString());
       isLoading.value = false;

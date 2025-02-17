@@ -6,11 +6,11 @@ class PlatformPayButtonWidget extends StatelessWidget {
   final Future<void> Function(BuildContext context) onGooglePayPressed;
   final Future<void> Function(BuildContext context) onApplePayPressed;
 
-  PlatformPayButtonWidget({
+  const PlatformPayButtonWidget({
     required this.onGooglePayPressed,
     required this.onApplePayPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

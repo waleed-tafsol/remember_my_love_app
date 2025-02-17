@@ -3,7 +3,6 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/route_manager.dart';
-import 'package:remember_my_love_app/controllers/PaymentController.dart';
 import 'package:remember_my_love_app/models/PackageModel.dart';
 import 'package:remember_my_love_app/models/PaymentMethodModel.dart';
 import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentScreen.dart';

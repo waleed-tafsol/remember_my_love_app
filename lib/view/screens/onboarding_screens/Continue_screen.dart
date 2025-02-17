@@ -18,7 +18,7 @@ class ContinueScreen extends StatelessWidget {
 
     final arguments = Get.arguments;
     if (arguments == null) {
-      return Center(child: Text('No arguments passed in contineu screen.'));
+      return const Center(child: Text('No arguments passed in contineu screen.'));
     }
     return CustomScaffold(
       padding: const EdgeInsets.all(0),
@@ -97,8 +97,9 @@ class ContinueScreen extends StatelessWidget {
                   height: kButtonHeight,
                   child: GradientButton(
                     onPressed: () {
-                      if (Get.arguments["callback"] != null)
+                      if (Get.arguments["callback"] != null) {
                         Get.arguments["callback"]();
+                      }
                       // Get.toNamed(QuestionsScreen.routeName);
                     },
                     text: 'Continue',

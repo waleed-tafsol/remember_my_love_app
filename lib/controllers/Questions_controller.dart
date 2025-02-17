@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/models/concerns_items.dart';
-import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 
-import '../services/MemoryServices.dart';
 import '../services/concern_services.dart';
 
 class QuestionsController extends GetxController {

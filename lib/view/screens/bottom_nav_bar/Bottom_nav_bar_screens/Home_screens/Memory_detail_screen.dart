@@ -17,7 +17,7 @@ import '../../../network_video_player_screen.dart';
 import '../My_memories_screen/Schedule_memory_screen.dart';
 
 class MemoryDetailScreen extends StatefulWidget {
-  MemoryDetailScreen({super.key});
+  const MemoryDetailScreen({super.key});
   static const routeName = "MemoryDetailScreen";
 
   @override
@@ -107,7 +107,7 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                                                 "${ApiConstants.getPicture}/${controller.selectedImage}",
                                             showController: false,
                                           ),
-                                          Center(child: Icon(Icons.play_circle))
+                                          const Center(child: Icon(Icons.play_circle))
                                         ],
                                       ),
                                     ),
@@ -167,7 +167,7 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                                                   "${ApiConstants.getPicture}/$file",
                                               showController: false,
                                             ),
-                                            Center(
+                                            const Center(
                                                 child: Icon(Icons.play_circle))
                                           ],
                                         ),

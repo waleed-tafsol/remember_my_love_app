@@ -40,17 +40,17 @@ class MemoryModel {
     status = json['status'];
     description = json['description'];
     category = json['category'] != null
-        ? new CategoryModel.fromJson(json['category'])
+        ? CategoryModel.fromJson(json['category'])
         : null;
     creator =
-        json['creator'] != null ? new Creator.fromJson(json['creator']) : null;
+        json['creator'] != null ? Creator.fromJson(json['creator']) : null;
     deliveryDate = json['deliveryDate'];
     isFavorite = json['isFavorite'];
     sendTo = json['sendTo'];
     if (json['recipients'] != null) {
       recipients = <Recipients>[];
       json['recipients'].forEach((v) {
-        recipients!.add(new Recipients.fromJson(v));
+        recipients!.add(Recipients.fromJson(v));
       });
     }
     if (json['files'] != null) {
@@ -65,30 +65,30 @@ class MemoryModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['title'] = this.title;
-    data['status'] = this.status;
-    data['description'] = this.description;
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['title'] = title;
+    data['status'] = status;
+    data['description'] = description;
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
-    if (this.creator != null) {
-      data['creator'] = this.creator!.toJson();
+    if (creator != null) {
+      data['creator'] = creator!.toJson();
     }
-    data['deliveryDate'] = this.deliveryDate;
-    data['isFavorite'] = this.isFavorite;
-    data['sendTo'] = this.sendTo;
-    if (this.recipients != null) {
-      data['recipients'] = this.recipients?.map((v) {
+    data['deliveryDate'] = deliveryDate;
+    data['isFavorite'] = isFavorite;
+    data['sendTo'] = sendTo;
+    if (recipients != null) {
+      data['recipients'] = recipients?.map((v) {
         v != null ? v.toJson() : Recipients();
       }).toList();
     }
-    if (this.files != null) {
-      data['files'] = this.files!.map((v) => v).toList();
+    if (files != null) {
+      data['files'] = files!.map((v) => v).toList();
     }
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
     return data;
   }
 }

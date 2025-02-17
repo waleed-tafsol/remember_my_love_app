@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/models/SearchUserModel.dart';
 import 'package:remember_my_love_app/services/Contact_picker_services.dart';
-import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/utills/Validators.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Schedule_memory_screen.dart';
@@ -185,7 +184,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                                   onPressed: () =>
                                                       handleContactSelection(
                                                           index),
-                                                  icon: Icon(Icons.email))),
+                                                  icon: const Icon(Icons.email))),
                                       onSearchTextChanged: (value) {
                                         if (_debounceTimer != null) {
                                           _debounceTimer?.cancel();
@@ -195,6 +194,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                             () {
                                           controller.getAvailableUsers(value);
                                         });
+                                        return null;
                                       },
                                       suggestionItemDecoration: BoxDecoration(
                                         color: AppColors.kGlassColor,
@@ -217,6 +217,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       hint: "Enter Email",
                                       validator: (value) {
                                         emailValidator(value);
+                                        return null;
                                       },
                                       controller: controller
                                           .recipients[index].emailController,
@@ -298,7 +299,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                               ? 'US' // Set 'US' as the default country when ccp is empty
                                               : controller
                                                   .recipients[index].ccp.value,
-                                          favorite: ['+1', 'US'],
+                                          favorite: const ['+1', 'US'],
                                           showCountryOnly: false,
                                           showOnlyCountryWhenClosed: false,
                                           alignLeft: false,
@@ -307,7 +308,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       suffixIcon: IconButton(
                                           onPressed: () =>
                                               handleContactSelection(index),
-                                          icon: Icon(Icons.dialpad_outlined)),
+                                          icon: const Icon(Icons.dialpad_outlined)),
                                     ),
                                   ],
                                 );

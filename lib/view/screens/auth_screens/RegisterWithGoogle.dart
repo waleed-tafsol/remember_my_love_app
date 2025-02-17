@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/TextConstant.dart';
@@ -64,7 +63,7 @@ class RegisterwithgoogleScreen extends GetView<RegisterWithGoogleController> {
                                 }
                                 return null;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: "Enter Your Name",
                               ),
                               controller: controller.nameController,
@@ -86,7 +85,7 @@ class RegisterwithgoogleScreen extends GetView<RegisterWithGoogleController> {
                                 }
                                 return null;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: "Enter Your Contact",
                               ),
                               controller: controller.contactController,

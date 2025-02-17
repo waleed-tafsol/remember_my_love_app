@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../services/Auth_services.dart';
-import '../utills/Colored_print.dart';
-import '../utills/CustomSnackbar.dart';
-import '../view/screens/onboarding_screens/Questions_screen.dart';
 
 class RegisterWithGoogleController extends GetxController {
   RxBool isLoading = true.obs;
   TextEditingController contactController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   Future<void> signup() async {
     Get.dialog(

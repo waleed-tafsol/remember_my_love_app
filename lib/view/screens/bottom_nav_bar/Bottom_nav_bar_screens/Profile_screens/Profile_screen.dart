@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:pay/pay.dart';
 import 'package:remember_my_love_app/constants/TextConstant.dart';
 import 'package:remember_my_love_app/constants/assets.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
@@ -19,7 +17,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../constants/colors_constants.dart';
 import '../../../../widgets/CustomGlassDailogBox.dart';
-import '../../../onboarding_screens/CardsScreen.dart';
 import '../Home_screens/Widgets/My_storage_widget.dart';
 
 class ProfileScreen extends GetView<HomeScreenController> {
