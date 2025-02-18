@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.remembermylove.tafsol",
+      "sha256_cert_fingerprints":
+        ["65:57:D3:97:13:CB:0C:6E:74:2A:0E:23:D0:5E:7B:49:AB:CC:99:F6:D2:79:AB:CB:47:3B:4A:A7:C2:3B:A0:2F"]
+    }
+  }
+]

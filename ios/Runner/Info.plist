@@ -48,6 +48,10 @@
     <true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- universal linking setup -->
+	<!-- for thirdparty -->
+	<key>FlutterDeepLinkingEnabled</key>
+	<string>NO</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera for capturing videos and photos memory.</string>
 	<key>NSFaceIDUsageDescription</key>
