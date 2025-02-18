@@ -20,8 +20,8 @@ class ChooseYourPlanController extends GetxController {
   RxList<PaymentMethodModel> paymentMethodModel = <PaymentMethodModel>[].obs;
   @override
   void onInit() async {
-    selectedPackage.value = homeController.user.value?.package;
-    await getAllPackages();
+   // selectedPackage.value = homeController.user.value?.package;
+    //await getAllPackages();
     super.onInit();
   }
 
