@@ -17,13 +17,6 @@ import 'dart:async';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 
-const String _kYearlySubscriptionId = 'rml_premium_year';
-const String _kMonthlySubscriptionId = 'rml_premium_monthly';
-const List<String> _kProductIds = <String>[
-  _kYearlySubscriptionId,
-  _kMonthlySubscriptionId,
-];
-
 class ChooseYourPlanScreen extends StatefulWidget {
   const ChooseYourPlanScreen({super.key});
 
@@ -44,21 +37,37 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
   //bool _loading = true;
   List<ProductDetails> _products = <ProductDetails>[];
   List<PurchaseDetails> _purchases = <PurchaseDetails>[];
+  List<String> _kProductIds = <String>[];
   String? _queryProductError;
 
   @override
   void initState() {
-    final Stream<List<PurchaseDetails>> purchaseUpdated =
-        _inAppPurchase.purchaseStream;
-    _subscription =
-        purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
-      _listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (Object error) {
-      // handle error here.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await controller.getAllPackages().then((value) {
+        if (value) {
+          for (int i = 0; i < controller.packages.length; i++) {
+            if (controller.packages[i].packageId!.isNotEmpty) {
+              _kProductIds.add(controller.packages[i].packageId!);
+            }
+          }
+          print(_kProductIds);
+
+          final Stream<List<PurchaseDetails>> purchaseUpdated =
+              _inAppPurchase.purchaseStream;
+          _subscription = purchaseUpdated.listen(
+              (List<PurchaseDetails> purchaseDetailsList) {
+            _listenToPurchaseUpdated(purchaseDetailsList);
+            controller.isLoading.value = true;
+          }, onDone: () {
+            _subscription.cancel();
+          }, onError: (Object error) {
+            // handle error here.
+          });
+          initStoreInfo();
+        }
+      });
     });
-    initStoreInfo();
+
     super.initState();
   }
 
@@ -124,6 +133,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
 
   Future<void> _listenToPurchaseUpdated(
       List<PurchaseDetails> purchaseDetailsList) async {
+    controller.isLoading.value = true;
     for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         // showPendingUI();
@@ -132,7 +142,9 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
           CustomSnackbar.showError("Alert", PurchaseStatus.error.toString());
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
-          print('success');
+          controller.updateSubscription(
+              purchaseDetails.verificationData.serverVerificationData);
+          //  print(purchaseDetails.verificationData.serverVerificationData);
           /*  final bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             unawaited(deliverProduct(purchaseDetails));
@@ -184,6 +196,30 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
             "Choose a Plan to Avail Special Features",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
+          Visibility(
+            visible: homeController.user.value!.subscription!.isEmpty,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.h),
+              child: CustomGlassmorphicContainer(
+                borderGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.green,
+                    Colors.greenAccent,
+                  ],
+                ),
+                child: Text(
+                  "Currently You Have Free Subscription Of 100MB Storage",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.sp,
+                      ),
+                ),
+              ),
+            ),
+          ),
           k1hSizedBox,
           Obx(() {
             return controller.isLoading.value
@@ -201,101 +237,168 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                           ),
                         ),
                       )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _products.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              late PurchaseParam purchaseParam;
+                    : Expanded(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: _products.length,
+                            itemBuilder: (context, index) {
+                              print(_purchases);
+                              return InkWell(
+                                onTap: () {
+                                  controller.isLoading.value = true;
+                                  Widget okButton = TextButton(
+                                    child: Text("OK",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.sp)),
+                                    onPressed: () {
+                                      Get.back();
+                                      late PurchaseParam purchaseParam;
+                                      if (Platform.isAndroid) {
+                                        /* final GooglePlayPurchaseDetails? oldSubscription =
+                        _getOldSubscription(_products[index], purchases);*/
+                                        purchaseParam = GooglePlayPurchaseParam(
+                                          productDetails: _products[index],
+                                          /* changeSubscriptionParam: (oldSubscription != null)
+                                ? ChangeSubscriptionParam(
+                              oldPurchaseDetails: oldSubscription,
+                              replacementMode:
+                              ReplacementMode.withTimeProration,
+                            )
+                                : null*/
+                                        );
+                                      } else {
+                                        purchaseParam = PurchaseParam(
+                                          productDetails: _products[index],
+                                        );
+                                      }
+                                      _inAppPurchase.buyNonConsumable(
+                                          purchaseParam: purchaseParam);
+                                    },
+                                  );
+                                  Widget cancelButton = TextButton(
+                                    child: Text("Cancel",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.sp)),
+                                    onPressed: () {
+                                      Get.back();
+                                      controller.isLoading.value = false;
 
-                              if (Platform.isAndroid) {
-                                /* final GooglePlayPurchaseDetails? oldSubscription =
-                      _getOldSubscription(_products[index], purchases);*/
+                                    },
+                                  );
 
-                                purchaseParam = GooglePlayPurchaseParam(
-                                  productDetails: _products[index],
-                                  /* changeSubscriptionParam: (oldSubscription != null)
-                              ? ChangeSubscriptionParam(
-                            oldPurchaseDetails: oldSubscription,
-                            replacementMode:
-                            ReplacementMode.withTimeProration,
-                          )
-                              : null*/
-                                );
-                              } else {
-                                purchaseParam = PurchaseParam(
-                                  productDetails: _products[index],
-                                );
-                              }
-                              controller.isLoading.value = true;
-                              _inAppPurchase.buyNonConsumable(
-                                  purchaseParam: purchaseParam);
-                            },
-                            child: CustomGlassmorphicContainer(
-                              width: double.infinity,
-                              height: 20.h,
-                              child: Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  AlertDialog alert = AlertDialog(
+                                    backgroundColor: AppColors.kSecondaryColor,
+                                    title: Text(
+                                      "Note",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 24.sp),
+                                    ),
+                                    content: Text(
+                                      "This is an auto-renewable subscription provides seamless access, renewing automatically unless canceled.",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18.sp),
+                                    ),
+                                    actions: [
+                                      cancelButton,
+                                      okButton,
+                                    ],
+                                  );
+
+                                  // show the dialog
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return alert;
+                                    },
+                                  );
+                                },
+                                child: CustomGlassmorphicContainer(
+                                  width: double.infinity,
+                                  height: 20.h,
+                                  child: Center(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              _products[index].title,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .displaySmall!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20.sp),
+                                            ),
+                                            /* Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
+                                    Obx(() {
+                                      return Text('jkjjk',
+                                        style: Theme.of(context).textTheme.bodyLarge,
+                                      );
+                                    }),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    )
+                                  ],
+                                ),*/
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 3.h,
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Visibility(
+                                              visible: homeController.user
+                                                      .value!.subscription ==
+                                                  _products[index].id,
+                                              child: const Icon(
+                                                Icons.check_circle,
+                                                color: AppColors.kIconColor,
+                                              ),
+                                            ),
+                                            k1wSizedBox,
+                                            Text(
+                                              '${_products[index].description} for just ',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleLarge!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16.sp),
+                                            ),
+                                          ],
+                                        ),
+                                        k1wSizedBox,
                                         Text(
-                                          _products[index].title,
+                                          _products[index].price,
                                           style: Theme.of(context)
                                               .textTheme
                                               .displaySmall!
                                               .copyWith(
-                                                  fontWeight: FontWeight.bold,fontSize: 20.sp),
-                                        ),
-                                        /* Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Obx(() {
-                                    return Text('jkjjk',
-                                      style: Theme.of(context).textTheme.bodyLarge,
-                                    );
-                                  }),
-                                  SizedBox(
-                                    height: 0.5.h,
-                                  )
-                                ],
-                              ),*/
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 3.h,
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Icon(
-                                          Icons.check_circle,
-                                          color: AppColors.kIconColor,
-                                        ),
-                                        k1wSizedBox,
-                                        Text(
-                                          _products[index].description,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 16.sp),
-                                        ),
+                                                  fontSize: 20.sp),
+                                        )
                                       ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        });
+                              );
+                            }),
+                      );
           }),
         ],
       ),

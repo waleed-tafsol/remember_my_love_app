@@ -176,7 +176,7 @@ class Paymentcontroller extends GetxController {
     try {
       isLoading.value = true;
       await ApiService.patchRequest(
-          ApiConstants.updateSubscription, {"packageId": selectedPackage.sId});
+          ApiConstants.appleVerify, {"packageId": selectedPackage.sId});
       await homeController.getUSer();
       Get.offNamedUntil(SuccessScreen.routeName,
           (route) => route.settings.name == BottomNavBarScreen.routeName,

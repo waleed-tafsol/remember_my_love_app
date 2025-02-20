@@ -148,7 +148,7 @@ class SignUpScreen extends GetView<AuthController> {
                               ],
                             ),
 
-                            k1hSizedBox,
+                          /*  k1hSizedBox,
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -245,9 +245,9 @@ class SignUpScreen extends GetView<AuthController> {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return "Zip Code is required";
-                                    } /*else if (!GetUtils.isEmail(value)) {
+                                    } *//*else if (!GetUtils.isEmail(value)) {
                                       return 'Invalid Email';
-                                    }*/
+                                    }*//*
                                     return null;
                                   },
                                   decoration: const InputDecoration(
@@ -256,7 +256,7 @@ class SignUpScreen extends GetView<AuthController> {
                                   controller: controller.signupZipController,
                                 )
                               ],
-                            ),
+                            ),*/
 
                             k1hSizedBox,
                             Column(

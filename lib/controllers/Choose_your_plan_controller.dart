@@ -21,14 +21,13 @@ class ChooseYourPlanController extends GetxController {
   @override
   void onInit() async {
    // selectedPackage.value = homeController.user.value?.package;
-    //await getAllPackages();
     super.onInit();
   }
 
   RxList<PackagesModel> packages = <PackagesModel>[].obs;
   Rx<PackagesModel?> selectedPackage = PackagesModel().obs;
 
-  Future<void> getAllPackages() async {
+  Future<bool> getAllPackages() async {
     isLoading.value = true;
     ColoredPrint.green("Fetching Packages");
     Response? response = await ApiService.getRequest(
@@ -42,26 +41,35 @@ class ChooseYourPlanController extends GetxController {
           .map((memoryData) => PackagesModel.fromJson(memoryData))
           .toList());
       isLoading.value = false;
+      return true;
     }
+    else{
+      isLoading.value = false;
+      return false;
+    }
+
   }
 
-  // Future<void> updateSubscription(String package) async {
-  //   try {
-  //     isLoading.value = true;
-  //     await ApiService.patchRequest(
-  //         ApiConstants.updateSubscription, {"packageId": package});
-  //     await homeController.getUSer();
-  //     Get.offNamedUntil(SuccessScreen.routeName,
-  //         (route) => route.settings.name == BottomNavBarScreen.routeName,
-  //         arguments: {
-  //           "title": "Successfull",
-  //           "subTitle": "Subscription Updated successfully.",
-  //         });
-  //   } catch (e) {
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
+  Future<void> updateSubscription(String packageData) async {
+    try {
+      isLoading.value = true;
+      Response? response = await ApiService.postRequest(
+          ApiConstants.appleVerify, {"receiptData": packageData});
+      if(response != null){
+        await homeController.getUSer();
+        Get.offNamedUntil(SuccessScreen.routeName,
+                (route) => route.settings.name == BottomNavBarScreen.routeName,
+            arguments: {
+              "title": "Successfull",
+              "subTitle": "Subscription Updated successfully.",
+            });
+      }
+
+    } catch (e) {
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
   Future<void> buyPackage() async {
     Get.toNamed(PaymentScreen.routeName, arguments: {
