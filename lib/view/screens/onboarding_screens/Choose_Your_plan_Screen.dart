@@ -31,6 +31,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
   HomeScreenController homeController = Get.find();
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
+  bool _isClickPurchase = false;
   bool _isAvailable = false;
   bool _purchasePending = false;
 
@@ -133,7 +134,6 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
 
   Future<void> _listenToPurchaseUpdated(
       List<PurchaseDetails> purchaseDetailsList) async {
-    controller.isLoading.value = true;
     for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         // showPendingUI();
@@ -142,8 +142,14 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
           CustomSnackbar.showError("Alert", PurchaseStatus.error.toString());
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
-          controller.updateSubscription(
-              purchaseDetails.verificationData.serverVerificationData);
+          if( _isClickPurchase){
+            controller.updateSubscription(
+                purchaseDetails.verificationData.serverVerificationData).then((value){
+                  setState(() {
+                    _isClickPurchase = false;
+                  });
+            });
+          }
           //  print(purchaseDetails.verificationData.serverVerificationData);
           /*  final bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
@@ -273,7 +279,22 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                         );
                                       }
                                       _inAppPurchase.buyNonConsumable(
-                                          purchaseParam: purchaseParam);
+                                          purchaseParam: purchaseParam).then((value){
+                                            if(value){
+                                              setState(() {
+                                                controller.isLoading.value = value;
+                                                _isClickPurchase = value;
+                                              });
+                                            }
+                                            else{
+
+                                                setState(() {
+                                                  controller.isLoading.value = value;
+                                                  _isClickPurchase = value;
+                                                });
+
+                                            }
+                                      });
                                     },
                                   );
                                   Widget cancelButton = TextButton(
@@ -316,7 +337,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                 },
                                 child: CustomGlassmorphicContainer(
                                   width: double.infinity,
-                                  height: 20.h,
+                                  height: 25.h,
                                   child: Center(
                                     child: Column(
                                       crossAxisAlignment:
@@ -329,15 +350,20 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
                                           children: [
-                                            Text(
-                                              _products[index].title,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .displaySmall!
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20.sp),
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
+                                                  _products[index].title,
+                                                  textAlign: TextAlign.center,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .displaySmall!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20.sp),
+                                                ),
+                                              ),
                                             ),
                                             /* Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -382,7 +408,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                             ),
                                           ],
                                         ),
-                                        k1wSizedBox,
+                                        SizedBox(height: 2.h,),
                                         Text(
                                           _products[index].price,
                                           style: Theme.of(context)
@@ -390,7 +416,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                               .displaySmall!
                                               .copyWith(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 20.sp),
+                                                  fontSize: 22.sp),
                                         )
                                       ],
                                     ),

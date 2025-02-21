@@ -54,15 +54,15 @@ class ChooseYourPlanController extends GetxController {
     try {
       isLoading.value = true;
       Response? response = await ApiService.postRequest(
-          ApiConstants.appleVerify, {"receiptData": packageData});
+          ApiConstants.verifyReceipt, {"receiptData": packageData});
       if(response != null){
         await homeController.getUSer();
         Get.offNamedUntil(SuccessScreen.routeName,
                 (route) => route.settings.name == BottomNavBarScreen.routeName,
-            arguments: {
+           /* arguments: {
               "title": "Successfull",
               "subTitle": "Subscription Updated successfully.",
-            });
+            }*/);
       }
 
     } catch (e) {

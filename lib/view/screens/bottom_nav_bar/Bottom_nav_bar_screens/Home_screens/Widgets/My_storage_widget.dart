@@ -7,6 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../constants/TextConstant.dart';
 import '../../../../../../constants/colors_constants.dart';
+import '../../../../../../utills/data_storage_calculation.dart';
 import '../../../../../widgets/Custom_glass_container.dart';
 import '../../../../onboarding_screens/Choose_Your_plan_Screen.dart';
 
@@ -54,7 +55,7 @@ class My_storage_widget extends GetView<HomeScreenController> {
                             ),
                           ))
                       : Text(
-                          "${((controller.user.value?.availableStorage ?? 0) / 1024).toStringAsFixed(0)} GB of ${((controller.user.value?.package?.storage ?? 0) / 1024).toStringAsFixed(0)} GB Available",
+                          "${storageSizeUnit(controller.user.value?.availableStorage ?? 0)} of ${storageSizeUnit(controller.user.value?.package?.storage ?? 0)} Available",
                           style: TextStyleConstants.bodyMediumWhite(context),
                         );
                 }),
@@ -117,5 +118,8 @@ class My_storage_widget extends GetView<HomeScreenController> {
         ),
       ),
     );
+
   }
+
+
 }
