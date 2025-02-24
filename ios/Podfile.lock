@@ -1,4 +1,6 @@
 PODS:
+  - app_links (0.0.2):
+    - Flutter
   - AppAuth (1.7.6):
     - AppAuth/Core (= 1.7.6)
     - AppAuth/ExternalUserAgent (= 1.7.6)
@@ -61,8 +63,6 @@ PODS:
     - nanopb (~> 3.30910.0)
   - Flutter (1.0.0)
   - flutter_contacts (0.0.1):
-    - Flutter
-  - flutter_credit_card (0.0.1):
     - Flutter
   - flutter_inappwebview_ios (0.0.1):
     - Flutter
@@ -223,8 +223,6 @@ PODS:
     - StripeUICore (= 23.30.0)
   - StripeUICore (23.30.0):
     - StripeCore (= 23.30.0)
-  - video_compress (0.3.0):
-    - Flutter
   - video_player_avfoundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -232,13 +230,13 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - app_links (from `.symlinks/plugins/app_links/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_contacts (from `.symlinks/plugins/flutter_contacts/ios`)
-  - flutter_credit_card (from `.symlinks/plugins/flutter_credit_card/ios`)
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
@@ -255,7 +253,6 @@ DEPENDENCIES:
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
-  - video_compress (from `.symlinks/plugins/video_compress/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
   - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
 
@@ -291,6 +288,8 @@ SPEC REPOS:
     - StripeUICore
 
 EXTERNAL SOURCES:
+  app_links:
+    :path: ".symlinks/plugins/app_links/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_auth:
@@ -303,8 +302,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_contacts:
     :path: ".symlinks/plugins/flutter_contacts/ios"
-  flutter_credit_card:
-    :path: ".symlinks/plugins/flutter_credit_card/ios"
   flutter_inappwebview_ios:
     :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
   flutter_native_splash:
@@ -337,14 +334,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
   stripe_ios:
     :path: ".symlinks/plugins/stripe_ios/ios"
-  video_compress:
-    :path: ".symlinks/plugins/video_compress/ios"
   video_player_avfoundation:
     :path: ".symlinks/plugins/video_player_avfoundation/darwin"
   wakelock_plus:
     :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
+  app_links: 76b66b60cc809390ca1ad69bfd66b998d2387ac7
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   Firebase: a64bf6a8546e6eab54f1c715cd6151f39d2329f4
@@ -361,7 +357,6 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 00ece041b71ddb52a2862ffdee73fb6e9824bd0c
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_contacts: 5383945387e7ca37cf963d4be57c21f2fc15ca9f
-  flutter_credit_card: 75489579678755891ccb1ddcc13415defcea4f01
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_native_splash: 6cad9122ea0fad137d23137dd14b937f3e90b145
   flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
@@ -396,7 +391,6 @@ SPEC CHECKSUMS:
   StripePaymentSheet: eac031f76d7fbb4f52df9b9c39be5be671ca4c07
   StripePaymentsUI: 7d7cffb2ecfc0d6b5ac3a4488c02893a5ff6cc77
   StripeUICore: bb102d453b1e1a10a37f810bc0a9aa0675fb17fd
-  video_compress: f2133a07762889d67f0711ac831faa26f956980e
   video_player_avfoundation: 2cef49524dd1f16c5300b9cd6efd9611ce03639b
   wakelock_plus: 04623e3f525556020ebd4034310f20fe7fda8b49
 

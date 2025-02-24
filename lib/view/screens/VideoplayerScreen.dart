@@ -31,7 +31,7 @@ class VideoPlayerScreen extends GetView<VideoPlayerScreenController> {
             return Stack(
               children: [
                 Chewie(
-                  controller: controller.chewieController,
+                  controller: controller.chewieController, 
                 ),
 
                 if (controller.isBuffering.value)
