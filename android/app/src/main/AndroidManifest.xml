@@ -22,14 +22,15 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
             <!-- deeplink intent filters -->
-            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="api.remembermylove.life" />
-                <data android:scheme="https" />
+                <data android:scheme="https" android:host="api.remembermylove.life" />
             </intent-filter>
+
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
+            
             <!-- deeplink intent filters /-->
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user

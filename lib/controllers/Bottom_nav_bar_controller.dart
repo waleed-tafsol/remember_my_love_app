@@ -4,6 +4,7 @@ import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
 import '../services/Auth_token_services.dart';
+import '../services/DeepLinkServices.dart';
 
 enum SelectedTab { home, memories, add, notification, profile }
 
@@ -16,6 +17,7 @@ class BottomNavController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    DeepLinkService().init();
     deleteFileFromAws();
   }
 
