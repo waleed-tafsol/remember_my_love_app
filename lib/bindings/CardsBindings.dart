@@ -1,3 +1,4 @@
+/*
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/controllers/CardsController.dart';
 
@@ -7,3 +8,4 @@ class CardsBindings extends Bindings {
     Get.lazyPut<CardsController>(() => CardsController());
   }
 }
+*/

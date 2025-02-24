@@ -57,7 +57,8 @@ class _SplashScreenState extends State<SplashScreen>
   void checkAvailableBiometric() async {
     final availBioMetric = await LocalAuthService.getBioMetrics();
 
-    if (availBioMetric.contains(BiometricType.strong) || availBioMetric.contains(BiometricType.fingerprint)) {
+    if (availBioMetric.contains(BiometricType.strong) ||
+        availBioMetric.contains(BiometricType.fingerprint)) {
       _hasFingerPrint = true;
     }
     if (availBioMetric.contains(BiometricType.strong) ||
@@ -110,7 +111,7 @@ class _SplashScreenState extends State<SplashScreen>
         FocusScope.of(context).unfocus();
       },
       child: CustomScaffold(
-        padding: EdgeInsets.only(top: 1.h, right: 4.w,left: 4.w,bottom: 0),
+        padding: EdgeInsets.only(top: 1.h, right: 4.w, left: 4.w, bottom: 0),
         body: AnimatedAlign(
           curve: Curves.elasticIn,
           duration: const Duration(milliseconds: 2000),
@@ -169,7 +170,11 @@ class _SplashScreenState extends State<SplashScreen>
                   )),
 
               AnimatedContainer(
-                height: _animation2 ? context.isTablet ? 66.h : 63.h : 0,
+                height: _animation2
+                    ? context.isTablet
+                        ? 66.h
+                        : 63.h
+                    : 0,
                 width: _animation2 ? double.maxFinite : 0,
                 duration: const Duration(milliseconds: 2000),
                 child: Column(children: [
@@ -362,7 +367,7 @@ class _SplashScreenState extends State<SplashScreen>
                                                   },
                                                   child: CustomGlassButton(
                                                     padding:
-                                                        EdgeInsets.all(1.w),
+                                                        EdgeInsets.all(1.h),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             50),
@@ -376,7 +381,7 @@ class _SplashScreenState extends State<SplashScreen>
                                                 )
                                               : const SizedBox(),
                                           k3wSizedBox,
-                                        Platform.isIOS &&  _hasFaceId
+                                          Platform.isIOS && _hasFaceId
                                               ? GestureDetector(
                                                   onTap: () {
                                                     authController
@@ -384,7 +389,7 @@ class _SplashScreenState extends State<SplashScreen>
                                                   },
                                                   child: CustomGlassButton(
                                                     padding:
-                                                        EdgeInsets.all(1.w),
+                                                        EdgeInsets.all(1.h),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             50),

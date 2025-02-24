@@ -93,13 +93,13 @@ class Pages {
           binding: ChooseYourPlanBindings(),
           transition: _routeTransition,
         );
-      case PaymentScreen.routeName:
+  /*    case PaymentScreen.routeName:
         return GetPageRoute(
           settings: settings,
           page: () => const PaymentScreen(),
           binding: PaymentBindings(),
           transition: _routeTransition,
-        );
+        );*/
       case ContinueScreen.routeName:
         return GetPageRoute(
           settings: settings,
@@ -198,7 +198,7 @@ class Pages {
           binding: EditProfileBindings(),
           transition: _routeTransition,
         );
-      case CardsScreen.routeName:
+    /*  case CardsScreen.routeName:
         return GetPageRoute(
           settings: settings,
           page: () => const CardsScreen(),
@@ -211,7 +211,7 @@ class Pages {
           page: () => const AddCardScreen(),
           binding: CardsBindings(),
           transition: _routeTransition,
-        );
+        );*/
       case NetworkVideoPlayerScreen.routeName:
         return GetPageRoute(
           settings: settings,

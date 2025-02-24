@@ -71,13 +71,13 @@ class ChooseYourPlanController extends GetxController {
     }
   }
 
-  Future<void> buyPackage() async {
+ /* Future<void> buyPackage() async {
     Get.toNamed(PaymentScreen.routeName, arguments: {
       "renewUpdateOrBuySub": "Buy",
       "package": selectedPackage.value
     });
     //
-  }
+  }*/
 
   Future<void> cancelSubscription() async {
     isLoading.value = true;

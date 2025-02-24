@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
@@ -45,7 +46,8 @@ class AddCardScreen extends GetView<CardsController> {
                 cvvCode: controller.cvvCode.value,
                 showBackView: controller.isCvvFocused.value,
                 cardBgColor: AppColors.kSecondaryColor,
-                /* cardType: !cardViewModel.getIsCardAdd
+                */
+/* cardType: !cardViewModel.getIsCardAdd
                       ? cardViewModel.getCardType == 'visa'
                           ? CardType.visa
                           : cardViewModel.getCardType == 'mastercard'
@@ -62,7 +64,8 @@ class AddCardScreen extends GetView<CardsController> {
                                                       'hipercard'
                                                   ? CardType.hipercard
                                                   : CardType.otherBrand
-                      : null,*/
+                      : null,*//*
+
                 //glassmorphismConfig: Glassmorphism.defaultConfig(),
                 //backgroundImage: 'assets/card_bg.png',
                 obscureCardNumber: false,
@@ -79,7 +82,8 @@ class AddCardScreen extends GetView<CardsController> {
                 animationDuration: const Duration(milliseconds: 1000),
                 frontCardBorder: Border.all(color: AppColors.kpurple),
                 backCardBorder: Border.all(color: AppColors.kpurple),
-                /* customCardTypeIcons: <customCardTypeIcons>[
+                */
+/* customCardTypeIcons: <customCardTypeIcons>[
                       CustomCardTypeImage(
                         cardType: CardType.mastercard,
                         cardImage: Image.asset(
@@ -88,7 +92,8 @@ class AddCardScreen extends GetView<CardsController> {
                           width: 48,
                         ),
                       ),
-                    ],*/
+                    ],*//*
+
                 onCreditCardWidgetChange: (CreditCardBrand) {
                   print(CreditCardBrand.brandName);
                 },
@@ -219,3 +224,4 @@ class AddCardScreen extends GetView<CardsController> {
     );
   }
 }
+*/
