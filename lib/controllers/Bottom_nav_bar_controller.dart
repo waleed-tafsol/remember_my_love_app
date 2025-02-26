@@ -15,7 +15,6 @@ class BottomNavController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     DeepLinkService().init();
     deleteFileFromAws();
