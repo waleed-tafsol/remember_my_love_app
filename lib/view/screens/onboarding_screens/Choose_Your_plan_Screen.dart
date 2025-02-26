@@ -241,7 +241,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                     ? Expanded(
                         child: Center(
                           child: Text(
-                            "No subscription found",
+                            "Fetching subscriptions..",
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),

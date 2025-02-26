@@ -12,7 +12,7 @@ import 'dart:async';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 
 import '../constants/ApiConstant.dart';
-import '../models/memoryModel.dart';
+import '../models/MemoryModel.dart';
 
 class DeepLinkService {
   final _navigateDebouncer = Debouncer(delay: Duration(milliseconds: 300));
@@ -90,8 +90,8 @@ class DeepLinkService {
       // _navigateDebouncer.call(() {
       try {
         Response? response = await ApiService.getRequest(
-            ApiConstants.findMemories,
-            queryParameters: {"id": memoryId});
+            ApiConstants.findMemories+memoryId
+          );
         if (response != null) {
           Get.back();
           final memory = MemoryModel.fromJson(response.data);
