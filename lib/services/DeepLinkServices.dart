@@ -64,8 +64,8 @@ class DeepLinkService {
     final segments = uri.pathSegments;
     if (segments.isEmpty) return;
 
-    switch (segments[0]) {
-      case 'memory':
+    switch (segments[3]) {
+      case 'deeplink':
         _handleMemoryDeepLink(segments);
         break;
       // case 'profile':
@@ -80,7 +80,7 @@ class DeepLinkService {
     if (segments.length < 2) return;
 
     _navigateDebouncer.call(() async {
-      final String memoryId = segments[1];
+      final String memoryId = segments[4];
       Get.dialog(
         const Center(
           child: CircularProgressIndicator(),
