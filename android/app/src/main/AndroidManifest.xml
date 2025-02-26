@@ -22,6 +22,8 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
             <!-- deeplink intent filters -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
+
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -29,7 +31,6 @@
                 <data android:scheme="https" android:host="api.remembermylove.life" />
             </intent-filter>
 
-            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
             
             <!-- deeplink intent filters /-->
             <!-- Specifies an Android theme to apply to this Activity as soon as
