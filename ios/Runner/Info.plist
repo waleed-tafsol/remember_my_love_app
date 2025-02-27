@@ -22,48 +22,51 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.364804173127-4cksfm928l8d9p20a4du6a03226ealpl</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>GIDClientID</key>
-    <string>364804173127-0q0d15mqnphqgdj67ti0cv296t53getu.apps.googleusercontent.com</string>
-    <key>CFBundleURLTypes</key>
-    	<array>
-    		<dict>
-    			<key>CFBundleTypeRole</key>
-    			<string>Editor</string>
-    			<key>CFBundleURLSchemes</key>
-    			<array>
-    				<string>com.googleusercontent.apps.364804173127-4cksfm928l8d9p20a4du6a03226ealpl</string>
-    			</array>
-    		</dict>
-    	</array>
-    <key>GIDServerClientID</key>
-    <string>YOUR_SERVER_CLIENT_ID</string>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
-    <key>NSAllowsArbitraryLoadsInWebContent</key>
-    <true/>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<!-- universal linking setup -->
-	<!-- for thirdparty -->
 	<key>FlutterDeepLinkingEnabled</key>
 	<string>NO</string>
+	<key>GIDClientID</key>
+	<string>364804173127-0q0d15mqnphqgdj67ti0cv296t53getu.apps.googleusercontent.com</string>
+	<key>GIDServerClientID</key>
+	<string>YOUR_SERVER_CLIENT_ID</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAllowsArbitraryLoadsInWebContent</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera for capturing videos and photos memory.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Why is my app authenticating using face id?</string>
 	<key>NSContactsUsageDescription</key>
 	<string>We need access to your contacts to send memories.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Why is my app authenticating using face id?</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need access to your microphone for recording memory video voice.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library so we can pick videos and photos for creating memory.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+		<string>fetch</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
