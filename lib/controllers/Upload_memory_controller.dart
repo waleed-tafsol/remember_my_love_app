@@ -20,6 +20,7 @@ import '../constants/TextConstant.dart';
 import '../models/SearchUserModel.dart';
 import '../models/Categories.dart';
 import '../services/MemoryServices.dart';
+import '../utills/ConvertDateTime.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/SuccesScreen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
 import '../view/widgets/CustomGlassDailogBox.dart';
@@ -71,8 +72,10 @@ class UploadMemoryController extends GetxController {
   setMemoryData() {
     titleController.text = reschedualMemory.value?.title ?? "";
     descriptionController.text = reschedualMemory.value?.description ?? "";
-    selectedDate.value =
-        DateTime.parse(reschedualMemory.value?.deliveryDate ?? "");
+    DateTime adjustedDate =
+        DateTime.parse(reschedualMemory.value!.deliveryDate!).toLocal();
+    ;
+    selectedDate.value = adjustedDate;
     selectedCatagory.value = categories.firstWhere(
         (element) => element.sId == reschedualMemory.value?.category!.sId);
     if (reschedualMemory.value?.sendTo == "same") {
@@ -85,7 +88,7 @@ class UploadMemoryController extends GetxController {
           recipients.add(Recipient(
             emailController: TextEditingController(text: element?.email),
             ccp: element?.cc?.obs ?? "+92".obs,
-            country: element?.country?.obs?? "US".obs,
+            country: element?.country?.obs ?? "US".obs,
             contactController: TextEditingController(text: element?.contact),
             relationController: TextEditingController(text: element?.relation),
           ));

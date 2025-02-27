@@ -174,87 +174,90 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                             : controller.for_me_images;
                     return images.isEmpty
                         ? Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(SvgAssets.search),
-                                k2hSizedBox,
-                                Text(
-                                  "No Memory Found",
-                                  style: TextStyleConstants.bodyLargeWhite(
-                                      context),
+                            child: RefreshIndicator(
+                              onRefresh: () {
+                                return controller.fetchMemories();
+                              },
+                              child: SingleChildScrollView(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(SvgAssets.search),
+                                    k2hSizedBox,
+                                    Text(
+                                      "No Memory Found",
+                                      style: TextStyleConstants.bodyLargeWhite(
+                                          context),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           )
-                        : RefreshIndicator(
-                            onRefresh: () {
-                              return controller.fetchMemories();
-                            },
-                            child: GridView.builder(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                childAspectRatio: 1,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 10,
-                              ),
-                              itemCount: images.length,
-                              itemBuilder: (context, index) {
-                                final file = images[index];
-                                bool isVideo = file.endsWith("mp4");
-                                return InkWell(
-                                  onTap: () {
-                                    controller
-                                        .fetchMemoryAndPassItToDetailScreen(
-                                            images[index]);
-                                  },
-                                  child: isVideo
-                                      ? Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 1.w),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: AbsorbPointer(
-                                              child: Stack(
-                                                children: [
-                                                  NetworkVideoPlayerWidget(
-                                                    videoUrl:
-                                                        "${ApiConstants.getPicture}/$file",
-                                                    showController: false,
-                                                  ),
-                                                  const Center(child: Icon(Icons.play_circle))
-
-                                                ],
-                                              ),
+                        : GridView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 1,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 10,
+                            ),
+                            itemCount: images.length,
+                            itemBuilder: (context, index) {
+                              final file = images[index];
+                              bool isVideo = file.endsWith("mp4");
+                              return InkWell(
+                                onTap: () {
+                                  controller.fetchMemoryAndPassItToDetailScreen(
+                                      images[index]);
+                                },
+                                child: isVideo
+                                    ? Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 1.w),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: AbsorbPointer(
+                                            child: Stack(
+                                              children: [
+                                                NetworkVideoPlayerWidget(
+                                                  videoUrl:
+                                                      "${ApiConstants.getPicture}/$file",
+                                                  showController: false,
+                                                ),
+                                                const Center(
+                                                    child:
+                                                        Icon(Icons.play_circle))
+                                              ],
                                             ),
                                           ),
-                                        )
-                                      : Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 1.w),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: SizedBox(
-                                              width: 9.h,
-                                              child: AbsorbPointer(
-                                                child: CachedNetworkImageWidget(
-                                                  fit: BoxFit.cover,
-                                                  imageUrl:
-                                                      "${ApiConstants.getPicture}/${images[index]}",
-                                                ),
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 1.w),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: SizedBox(
+                                            width: 9.h,
+                                            child: AbsorbPointer(
+                                              child: CachedNetworkImageWidget(
+                                                fit: BoxFit.cover,
+                                                imageUrl:
+                                                    "${ApiConstants.getPicture}/${images[index]}",
                                               ),
                                             ),
                                           ),
                                         ),
-                                );
-                              },
-                            ),
+                                      ),
+                              );
+                            },
                           );
                   }
                 }),

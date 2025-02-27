@@ -99,7 +99,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                             onPressed: () {
                               controller.uploadMimeTypes();
                             },
-                            child: const Text("Uplod Image"))
+                            child: const Text("Upload Image"))
                         : const SizedBox();
                   }),
                   k2hSizedBox,
@@ -167,8 +167,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                     prefixWidget: CountryCodePicker(
                       onChanged: (value) {
                         controller.countryCodeController.text = value.dialCode!;
-                        controller.countryController.text =
-                            value.code!;
+                        controller.countryController.text = value.code!;
                       },
                       textStyle:
                           TextStyle(fontSize: 15.sp, color: Colors.white),
