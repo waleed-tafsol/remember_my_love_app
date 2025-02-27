@@ -404,15 +404,15 @@ class _SplashScreenState extends State<SplashScreen>
                                         ],
                                       )
                                     : const SizedBox(),
-                                k2hSizedBox,
-                                _hasFaceId && _hasFingerPrint
-                                    ? Text(
-                                        "Sign In with Touch Biometric",
-                                        style:
-                                            TextStyleConstants.bodySmallWhite(
-                                                context),
-                                      )
-                                    : const SizedBox(),
+                                // k2hSizedBox,
+                                // _hasFaceId && _hasFingerPrint
+                                //     ? Text(
+                                //         "Sign In with Touch Biometric",
+                                //         style:
+                                //             TextStyleConstants.bodySmallWhite(
+                                //                 context),
+                                //       )
+                                //     : const SizedBox(),
                               ]),
                         )),
                   ),
