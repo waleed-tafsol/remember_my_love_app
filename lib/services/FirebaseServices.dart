@@ -38,6 +38,7 @@ class FirebaseService {
   static Future<void> initializeFirebase() async {
     try {
       await Firebase.initializeApp(
+        name: 'remember_my_love_app',
         options: DefaultFirebaseOptions.currentPlatform,
       );
       ColoredPrint.green("Firebase Initialized");

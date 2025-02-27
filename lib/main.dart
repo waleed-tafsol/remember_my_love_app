@@ -4,6 +4,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import 'package:remember_my_love_app/services/Auth_services.dart';
+import 'package:remember_my_love_app/services/FirebaseServices.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -15,11 +16,12 @@ void main() async {
   // FirebaseService.setupBackgroundHandler();
 
   WidgetsFlutterBinding.ensureInitialized();
+  await FirebaseService.initializeFirebase();
+
   Stripe.publishableKey =
       "pk_test_51Q9zEn2MzUnaJMmgba4Kn8VJoESujuQtspIE7AqIJXNhjs9HB7F2pHCe6tiNIAfYKmQ9H43hWmPbjpQOY9ovZrfz00xWvqjHVA";
   Stripe.instance.applySettings();
 
-  // await FirebaseService.initializeFirebase();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
