@@ -139,3 +139,15 @@ String getOffsetInHours() {
   int offsetInHours = offset.inHours;
   return '$offsetInHours';
 }
+
+DateTime adjustDateWithOffset(DateTime date, {bool addOffset = true}) {
+  // Get the current time zone offset (from UTC)
+  Duration offset = DateTime.now().timeZoneOffset;
+
+  // Adjust the date by adding or subtracting the offset
+  if (addOffset) {
+    return date.add(offset); // Add the offset to the selected date
+  } else {
+    return date.subtract(offset); // Subtract the offset from the selected date
+  }
+}

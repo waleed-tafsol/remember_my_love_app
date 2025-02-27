@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
+import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -25,6 +27,7 @@ class MemoryDetailScreen extends StatefulWidget {
 }
 
 class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
+  HomeScreenController homeScreenController = Get.find();
   late MemoryModel memory;
 
   @override
@@ -55,12 +58,19 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                 Text("My Memories",
                     style: TextStyleConstants.headlineLargeWhite(context)),
                 const Spacer(),
-                CustomRoundedGlassButton(
-                    icon: Icons.edit,
-                    ontap: () {
-                      Get.toNamed(ScheduleMemoryScreen.routeName,
-                          arguments: controller.memory);
-                    }),
+                Obx(() {
+                  return controller.isloading.value
+                      ? Center(child: CircularProgressIndicator())
+                      : controller.memory.creator!.sId ==
+                              homeScreenController.user.value?.sId
+                          ? CustomRoundedGlassButton(
+                              icon: Icons.edit,
+                              ontap: () {
+                                Get.toNamed(ScheduleMemoryScreen.routeName,
+                                    arguments: controller.memory);
+                              })
+                          : const SizedBox();
+                }),
                 SizedBox(
                   width: 2.w,
                 ),
@@ -69,11 +79,14 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
-                      : CustomRoundedGlassButton(
-                          icon: Icons.delete,
-                          ontap: () {
-                            controller.deleteMemory();
-                          });
+                      : controller.memory.creator!.sId ==
+                              homeScreenController.user.value?.sId
+                          ? CustomRoundedGlassButton(
+                              icon: Icons.delete,
+                              ontap: () {
+                                controller.deleteMemory();
+                              })
+                          : const SizedBox();
                 }),
               ],
             ),
@@ -107,7 +120,8 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                                                 "${ApiConstants.getPicture}/${controller.selectedImage}",
                                             showController: false,
                                           ),
-                                          const Center(child: Icon(Icons.play_circle))
+                                          const Center(
+                                              child: Icon(Icons.play_circle))
                                         ],
                                       ),
                                     ),
@@ -216,8 +230,8 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                         ),
                         const Spacer(),
                         Text(
-                          formatISOToCustom(
-                              memory.adjustedDeliveryDate.toString()),
+                          formatISOToCustomWithLocal(
+                              memory.deliveryDate.toString()),
                           style: TextStyleConstants.bodySmallWhite(context),
                         ),
                       ],
