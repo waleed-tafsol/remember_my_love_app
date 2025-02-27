@@ -10,6 +10,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/TextConstant.dart';
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
+import '../../widgets/Custom_rounded_glass_button.dart';
 
 class ForgotPassScreen extends GetView<AuthController> {
   ForgotPassScreen({super.key});
@@ -21,6 +22,14 @@ class ForgotPassScreen extends GetView<AuthController> {
     return CustomScaffold(
       body: Column(
         children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: CustomRoundedGlassButton(
+                icon: Icons.arrow_back_ios_new,
+                ontap: () {
+                  Get.back();
+                }),
+          ),
           Hero(
               transitionOnUserGestures: true,
               tag: 1,
