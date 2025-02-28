@@ -1,5 +1,3 @@
-import 'package:bottom_picker/bottom_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,9 +6,7 @@ import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:intl/intl.dart';
 import '../../../../../constants/TextConstant.dart';
-import '../../../../../constants/colors_constants.dart';
 import '../../../../../constants/constants.dart';
 import '../../../constants/assets.dart';
 import '../../widgets/Custom_rounded_glass_button.dart';

@@ -21,7 +21,6 @@ import '../constants/TextConstant.dart';
 import '../models/SearchUserModel.dart';
 import '../models/Categories.dart';
 import '../services/MemoryServices.dart';
-import '../utills/ConvertDateTime.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/SuccesScreen.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/My_memories_screen/Write_a_memory.dart';
 import '../view/widgets/CustomGlassDailogBox.dart';
@@ -75,7 +74,6 @@ class UploadMemoryController extends GetxController {
     descriptionController.text = reschedualMemory.value?.description ?? "";
     DateTime adjustedDate =
         DateTime.parse(reschedualMemory.value!.deliveryDate!).toLocal();
-    ;
     selectedDate.value = adjustedDate;
     selectedCatagory.value = categories.firstWhere(
         (element) => element.sId == reschedualMemory.value?.category!.sId);

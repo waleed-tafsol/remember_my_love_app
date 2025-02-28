@@ -5,7 +5,6 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/route_manager.dart';
 import 'package:remember_my_love_app/models/PackageModel.dart';
 import 'package:remember_my_love_app/models/PaymentMethodModel.dart';
-import 'package:remember_my_love_app/view/screens/onboarding_screens/PaymentScreen.dart';
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
 import '../utills/Colored_print.dart';
@@ -65,7 +64,6 @@ class ChooseYourPlanController extends GetxController {
             }*/);
       }
 
-    } catch (e) {
     } finally {
       isLoading.value = false;
     }

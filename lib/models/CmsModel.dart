@@ -26,13 +26,13 @@ class CmsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['pageName'] = this.pageName;
-    data['hero_title'] = this.heroTitle;
-    data['description'] = this.description;
-    data['_id'] = this.sId;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['pageName'] = pageName;
+    data['hero_title'] = heroTitle;
+    data['description'] = description;
+    data['_id'] = sId;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
     return data;
   }
 }

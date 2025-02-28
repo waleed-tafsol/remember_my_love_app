@@ -7,12 +7,14 @@ import 'package:get/get_navigation/get_navigation.dart';
 
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
+import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'dart:async';
 
 import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 
 import '../constants/ApiConstant.dart';
 import '../models/MemoryModel.dart';
+import '../view/screens/onboarding_screens/Choose_Your_plan_Screen.dart';
 
 class DeepLinkService {
   final _navigateDebouncer = Debouncer(delay: Duration(milliseconds: 300));
@@ -66,6 +68,10 @@ class DeepLinkService {
 
     switch (segments[3]) {
       case 'deeplink':
+        segments[4] == "packages" ? Get.toNamed(ChooseYourPlanScreen.routeName, arguments: {
+            "title": "Upgrade Your Plan",
+            "popAfterSuccess": true
+          }) : 
         _handleMemoryDeepLink(segments);
         break;
       // case 'profile':
@@ -81,29 +87,30 @@ class DeepLinkService {
 
     _navigateDebouncer.call(() async {
       final String memoryId = segments[4];
-      Get.dialog(
-        const Center(
-          child: CircularProgressIndicator(),
-        ),
-        barrierDismissible: false,
-      );
+      // Get.dialog(
+      //   const Center(
+      //     child: CircularProgressIndicator(),
+      //   ),
+      //   barrierDismissible: false,
+      // );
       // _navigateDebouncer.call(() {
       try {
         Response? response = await ApiService.getRequest(
             ApiConstants.findMemories+memoryId
           );
         if (response != null) {
-          Get.back();
+          // Get.back();
           final memory = MemoryModel.fromJson(response.data);
           Get.toNamed(
             MemoryDetailScreen.routeName,
             arguments: memory,
           );
 
-          Get.back();
+          // Get.back();
         }
       } catch (e) {
-        Get.back();
+        // Get.back();
+        CustomSnackbar.showError("error", e.toString());
       }
     });
   }

@@ -40,7 +40,7 @@ class TermsAndConditionScreen extends GetView<TermsAndConditionsController> {
         ),
          Obx(
            () {
-             return controller.isLoading.value ? const Center(child: const CircularProgressIndicator(),) : Html(
+             return controller.isLoading.value ? const Center(child: CircularProgressIndicator(),) : Html(
                                   data: controller.cmsModel.value?.description ?? "",
                                   style: {
                                     "body": Style(

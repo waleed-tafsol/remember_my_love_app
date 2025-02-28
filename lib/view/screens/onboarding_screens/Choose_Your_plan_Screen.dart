@@ -38,7 +38,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
   //bool _loading = true;
   List<ProductDetails> _products = <ProductDetails>[];
   List<PurchaseDetails> _purchases = <PurchaseDetails>[];
-  List<String> _kProductIds = <String>[];
+  final List<String> _kProductIds = <String>[];
   String? _queryProductError;
 
   @override
