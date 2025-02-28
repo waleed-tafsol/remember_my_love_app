@@ -143,15 +143,16 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
           controller.isLoading.value = false;
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
-          if( _isClickPurchase){
-            controller.updateSubscription(
-                purchaseDetails.verificationData.serverVerificationData).then((value){
-                  setState(() {
-                    _isClickPurchase = false;
-                  });
+          if (_isClickPurchase) {
+            controller
+                .updateSubscription(
+                    purchaseDetails.verificationData.serverVerificationData)
+                .then((value) {
+              setState(() {
+                _isClickPurchase = false;
+              });
             });
-          }
-          else{
+          } else {
             controller.isLoading.value = false;
           }
           //  print(purchaseDetails.verificationData.serverVerificationData);
@@ -186,274 +187,309 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
     //       child: Text('No arguments passed in choose your plan.'));
     // }
     return CustomScaffold(
-      body: Column(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: CustomRoundedGlassButton(
-                icon: Icons.arrow_back_ios_new,
-                ontap: () {
-                  Get.back();
-                }),
-          ),
-          Text(
-            arguments?["title"] ?? "Choose Your Plan",
-            style: Theme.of(context).textTheme.displaySmall,
-          ),
-          k1hSizedBox,
-          Text(
-            "Choose a Plan to Avail Special Features",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          Visibility(
-            visible: homeController.user.value!.subscription!.isEmpty,
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 2.h),
-              child: CustomGlassmorphicContainer(
-                borderGradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.green,
-                    Colors.greenAccent,
-                  ],
-                ),
-                child: Text(
-                  "Currently You Have Free Subscription Of 100MB Storage",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.sp,
-                      ),
-                ),
-              ),
-            ),
-          ),
-          k1hSizedBox,
-          Obx(() {
-            return controller.isLoading.value
-                ? const Expanded(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : _products.isEmpty
-                    ? Expanded(
-                        child: Center(
-                          child: Text(
-                            "Fetching subscriptions..",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
+      body: Obx(() {
+        return homeController.isloading.value
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: CustomRoundedGlassButton(
+                        icon: Icons.arrow_back_ios_new,
+                        ontap: () {
+                          Get.back();
+                        }),
+                  ),
+                  Text(
+                    arguments?["title"] ?? "Choose Your Plan",
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                  k1hSizedBox,
+                  Text(
+                    "Choose a Plan to Avail Special Features",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Visibility(
+                    visible: homeController.user.value!.subscription!.isEmpty,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2.h),
+                      child: CustomGlassmorphicContainer(
+                        borderGradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.green,
+                            Colors.greenAccent,
+                          ],
                         ),
-                      )
-                    : Expanded(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: _products.length,
-                            itemBuilder: (context, index) {
-                              print(_purchases);
-                              return Obx( () {
-                                  return InkWell(
-                                    onTap: () {
-                                      if(homeController.user
-                                          .value!.subscription !=
-                                          _products[index].id) {
-                                        controller.isLoading.value = true;
-                                        Widget okButton = TextButton(
-                                          child: Text("OK",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20.sp)),
-                                          onPressed: () {
-                                            Get.back();
-                                            late PurchaseParam purchaseParam;
-                                            if (Platform.isAndroid) {
-                                              /* final GooglePlayPurchaseDetails? oldSubscription =
-                                                          _getOldSubscription(_products[index], purchases);*/
-                                              purchaseParam =
-                                                  GooglePlayPurchaseParam(
-                                                    productDetails: _products[index],
-                                                    /* changeSubscriptionParam: (oldSubscription != null)
-                                    ? ChangeSubscriptionParam(
-                                  oldPurchaseDetails: oldSubscription,
-                                  replacementMode:
-                                  ReplacementMode.withTimeProration,
-                                                              )
-                                    : null*/
-                                                  );
-                                            } else {
-                                              purchaseParam = PurchaseParam(
-                                                productDetails: _products[index],
+                        child: Text(
+                          "Currently You Have Free Subscription Of 100MB Storage",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displaySmall!
+                              .copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.sp,
+                              ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  k1hSizedBox,
+                  Obx(() {
+                    return controller.isLoading.value
+                        ? const Expanded(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : _products.isEmpty
+                            ? Expanded(
+                                child: Center(
+                                  child: Text(
+                                    "Fetching subscriptions..",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ),
+                              )
+                            : Expanded(
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: _products.length,
+                                    itemBuilder: (context, index) {
+                                      print(_purchases);
+                                      return Obx(() {
+                                        return InkWell(
+                                          onTap: () {
+                                            if (homeController
+                                                    .user.value!.subscription !=
+                                                _products[index].id) {
+                                              controller.isLoading.value = true;
+                                              Widget okButton = TextButton(
+                                                child: Text("OK",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20.sp)),
+                                                onPressed: () {
+                                                  Get.back();
+                                                  late PurchaseParam
+                                                      purchaseParam;
+                                                  if (Platform.isAndroid) {
+                                                    /* final GooglePlayPurchaseDetails? oldSubscription =
+                                                              _getOldSubscription(_products[index], purchases);*/
+                                                    purchaseParam =
+                                                        GooglePlayPurchaseParam(
+                                                      productDetails:
+                                                          _products[index],
+                                                      /* changeSubscriptionParam: (oldSubscription != null)
+                                        ? ChangeSubscriptionParam(
+                                      oldPurchaseDetails: oldSubscription,
+                                      replacementMode:
+                                      ReplacementMode.withTimeProration,
+                                                                  )
+                                        : null*/
+                                                    );
+                                                  } else {
+                                                    purchaseParam =
+                                                        PurchaseParam(
+                                                      productDetails:
+                                                          _products[index],
+                                                    );
+                                                  }
+                                                  _inAppPurchase
+                                                      .buyNonConsumable(
+                                                          purchaseParam:
+                                                              purchaseParam)
+                                                      .then((value) {
+                                                    if (value) {
+                                                      setState(() {
+                                                        controller.isLoading
+                                                            .value = value;
+                                                        _isClickPurchase =
+                                                            value;
+                                                      });
+                                                    } else {
+                                                      setState(() {
+                                                        controller.isLoading
+                                                            .value = value;
+                                                        _isClickPurchase =
+                                                            value;
+                                                      });
+                                                    }
+                                                  });
+                                                },
                                               );
+                                              Widget cancelButton = TextButton(
+                                                child: Text("Cancel",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20.sp)),
+                                                onPressed: () {
+                                                  Get.back();
+                                                  controller.isLoading.value =
+                                                      false;
+                                                },
+                                              );
+
+                                              AlertDialog alert = AlertDialog(
+                                                backgroundColor:
+                                                    AppColors.kSecondaryColor,
+                                                title: Text(
+                                                  "Note",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 24.sp),
+                                                ),
+                                                content: Text(
+                                                  "This is an auto-renewable subscription provides seamless access, renewing automatically unless canceled.",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18.sp),
+                                                ),
+                                                actions: [
+                                                  cancelButton,
+                                                  okButton,
+                                                ],
+                                              );
+
+                                              // show the dialog
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return alert;
+                                                },
+                                              );
+                                            } else {
+                                              CustomSnackbar.showSuccess('Note',
+                                                  'Already subscribe ${_products[index].title}');
                                             }
-                                            _inAppPurchase.buyNonConsumable(
-                                                purchaseParam: purchaseParam).then((
-                                                value) {
-                                              if (value) {
-                                                setState(() {
-                                                  controller.isLoading.value =
-                                                      value;
-                                                  _isClickPurchase = value;
-                                                });
-                                              }
-                                              else {
-                                                setState(() {
-                                                  controller.isLoading.value =
-                                                      value;
-                                                  _isClickPurchase = value;
-                                                });
-                                              }
-                                            });
                                           },
-                                        );
-                                        Widget cancelButton = TextButton(
-                                          child: Text("Cancel",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20.sp)),
-                                          onPressed: () {
-                                            Get.back();
-                                            controller.isLoading.value = false;
-                                          },
-                                        );
-
-                                        AlertDialog alert = AlertDialog(
-                                          backgroundColor: AppColors
-                                              .kSecondaryColor,
-                                          title: Text(
-                                            "Note",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 24.sp),
-                                          ),
-                                          content: Text(
-                                            "This is an auto-renewable subscription provides seamless access, renewing automatically unless canceled.",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18.sp),
-                                          ),
-                                          actions: [
-                                            cancelButton,
-                                            okButton,
-                                          ],
-                                        );
-
-                                        // show the dialog
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return alert;
-                                          },
-                                        );
-                                      }
-                                      else{CustomSnackbar.showSuccess('Note', 'Already subscribe ${_products[index].title}');
-                                      }
-                                    },
-                                    child: CustomGlassmorphicContainer(
-                                      borderGradient: homeController.user
-                                          .value!.subscription ==
-                                          _products[index].id? LinearGradient(
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                        colors: [
-                                          Colors.green,
-                                          Colors.greenAccent,
-                                        ],
-                                      ):null,
-                                      width: double.infinity,
-                                      height: 25.h,
-                                      child: Center(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          child: CustomGlassmorphicContainer(
+                                            borderGradient: homeController.user
+                                                        .value!.subscription ==
+                                                    _products[index].id
+                                                ? LinearGradient(
+                                                    begin: Alignment.topLeft,
+                                                    end: Alignment.bottomRight,
+                                                    colors: [
+                                                      Colors.green,
+                                                      Colors.greenAccent,
+                                                    ],
+                                                  )
+                                                : null,
+                                            width: double.infinity,
+                                            height: 25.h,
+                                            child: Center(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Center(
+                                                          child: Text(
+                                                            _products[index]
+                                                                .title,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .displaySmall!
+                                                                .copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        20.sp),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      /* Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Expanded(
-                                                  child: Center(
-                                                    child: Text(
-                                                      _products[index].title,
-                                                      textAlign: TextAlign.center,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .displaySmall!
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight.bold,
-                                                              fontSize: 20.sp),
-                                                    ),
-                                                  ),
-                                                ),
-                                                /* Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Obx(() {
-                                          return Text('jkjjk',
-                                            style: Theme.of(context).textTheme.bodyLarge,
-                                          );
-                                        }),
-                                        SizedBox(
-                                          height: 0.5.h,
-                                        )
-                                      ],
-                                    ),*/
-                                              ],
-                                            ),
+                                            Obx(() {
+                                              return Text('jkjjk',
+                                                style: Theme.of(context).textTheme.bodyLarge,
+                                              );
+                                            }),
                                             SizedBox(
-                                              height: 3.h,
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Visibility(
-                                                  visible: homeController.user
-                                                          .value!.subscription ==
-                                                      _products[index].id,
-                                                  child: const Icon(
-                                                    Icons.check_circle,
-                                                    color: Colors.green,
-                                                  ),
-                                                ),
-                                                k1wSizedBox,
-                                                Text(
-                                                  '${_products[index].description} for just ',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleLarge!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16.sp),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: 2.h,),
-                                            Text(
-                                              _products[index].price,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .displaySmall!
-                                                  .copyWith(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 22.sp),
+                                              height: 0.5.h,
                                             )
                                           ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
+                                        ),*/
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 3.h,
+                                                  ),
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Visibility(
+                                                        visible: homeController
+                                                                .user
+                                                                .value!
+                                                                .subscription ==
+                                                            _products[index].id,
+                                                        child: const Icon(
+                                                          Icons.check_circle,
+                                                          color: Colors.green,
+                                                        ),
+                                                      ),
+                                                      k1wSizedBox,
+                                                      Text(
+                                                        '${_products[index].description} for just ',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .titleLarge!
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize:
+                                                                    16.sp),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 2.h,
+                                                  ),
+                                                  Text(
+                                                    _products[index].price,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .displaySmall!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 22.sp),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                    }),
                               );
-                            }),
-                      );
-          }),
-        ],
-      ),
+                  }),
+                ],
+              );
+      }),
     );
   }
 }
