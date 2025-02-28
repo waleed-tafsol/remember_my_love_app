@@ -92,7 +92,7 @@ class AuthService extends GetxService {
           data: {
             "email": user.email,
             "displayName": user.displayName?? '',
-            "photo": user.photoURL?? '',
+            "photo": user.photoURL?? 'defalt.png',
             "fcmToken": FirebaseService.fcmToken,
             "platform": "google"
           },
@@ -133,7 +133,7 @@ class AuthService extends GetxService {
           data: {
             "email": user.email,
             "displayName": user.displayName?? '',
-            "photo": user.photoURL?? '',
+            "photo": user.photoURL?? 'default.png',
             "fcmToken": FirebaseService.fcmToken,
             "platform": "apple"
           },

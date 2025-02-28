@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/controllers/MyMemoriesController.dart';
 import 'package:remember_my_love_app/models/MemoryModel.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/services/Auth_token_services.dart';
@@ -303,8 +304,9 @@ class UploadMemoryController extends GetxController {
       removeAllFiles();
       ColoredPrint.green("successful upload memory");
       final HomeScreenController controller = Get.find();
-
       controller.callMemoriesDates();
+      final MyMemoryController memoriescontroller = Get.find();
+     await memoriescontroller.fetchMemories();
       // Get.back();
       isloading.value = false;
       TokenService tokenService = TokenService();
@@ -343,7 +345,10 @@ class UploadMemoryController extends GetxController {
       removeAllFiles();
       ColoredPrint.green("successful Updated memory");
       final HomeScreenController controller = Get.find();
+      
       controller.getmemories();
+   
+
       Get.back();
       isloading.value = false;
       homeController.callMemoriesDates();

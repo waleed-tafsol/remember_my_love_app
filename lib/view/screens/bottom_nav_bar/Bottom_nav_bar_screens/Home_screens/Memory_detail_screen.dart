@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
-import 'package:remember_my_love_app/services/Auth_services.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -60,7 +59,7 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                 const Spacer(),
                 Obx(() {
                   return controller.isloading.value
-                      ? Center(child: CircularProgressIndicator())
+                      ? const SizedBox()
                       : controller.memory.creator!.sId ==
                               homeScreenController.user.value?.sId
                           ? CustomRoundedGlassButton(
@@ -76,9 +75,7 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                 ),
                 Obx(() {
                   return controller.isloading.value
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
+                      ? const SizedBox()
                       : controller.memory.creator!.sId ==
                               homeScreenController.user.value?.sId
                           ? CustomRoundedGlassButton(
