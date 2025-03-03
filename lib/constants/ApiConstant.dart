@@ -1,5 +1,5 @@
 class ApiConstants {
-   //static const baseUrl = "https://9551-182-176-110-198.ngrok-free.app/api/v1/";
+  //static const baseUrl = 'https://c8f7-2407-aa80-14-90c8-a9a5-eaa4-8980-af1d.ngrok-free.app/api/v1/';
   static const baseUrl = "https://api.remembermylove.life/api/v1/";
   static const login = "auth/login";
   static const socialLogin = "auth/social";
@@ -38,7 +38,7 @@ class ApiConstants {
   static const buySubscription = "users/buy-subscription";
   static const renewSubscription = "users/renew-subscription";
   static const cancelSubscription = "users/cancel-Subscription";
-  static const verifyReceipt = "users/apple/verify-receipt";
+  static const verifyReceipt = "users/payment/verify";
   // cards
   static const getAllCards = "users/payment-methods";
   static const getDefaltCard = "users/default-card";

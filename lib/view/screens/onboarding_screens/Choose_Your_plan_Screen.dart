@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/constants/constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/in_app_purchase_screen.dart';
+import 'package:remember_my_love_app/models/in_app_model.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controllers/Choose_your_plan_controller.dart';
@@ -56,9 +58,9 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
           final Stream<List<PurchaseDetails>> purchaseUpdated =
               _inAppPurchase.purchaseStream;
           _subscription = purchaseUpdated.listen(
-              (List<PurchaseDetails> purchaseDetailsList) {
-            _listenToPurchaseUpdated(purchaseDetailsList);
+              (List<PurchaseDetails> purchaseDetailsList) async {
             controller.isLoading.value = true;
+            await _listenToPurchaseUpdated(purchaseDetailsList);
           }, onDone: () {
             _subscription.cancel();
           }, onError: (Object error) {
@@ -144,16 +146,53 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
           if (_isClickPurchase) {
-            controller
-                .updateSubscription(
-                    purchaseDetails.verificationData.serverVerificationData)
-                .then((value) {
-              setState(() {
-                _isClickPurchase = false;
+            if (purchaseDetails is GooglePlayPurchaseDetails) {
+              await controller
+                  .updateSubscription(
+                      inAppModel: InAppModel(
+                          isPending: purchaseDetails.pendingCompletePurchase,
+                          packageName:
+                              purchaseDetails.billingClientPurchase.packageName,
+                          productId: purchaseDetails.productID,
+                          transactionId: "",
+                          //  originalTransactionId: "",
+                          status: purchaseDetails.status.name,
+                          verificationData: VerificationData(
+                              source: purchaseDetails.verificationData.source,
+                              receiptData: purchaseDetails
+                                  .verificationData.serverVerificationData),
+                          isAcknowledged: purchaseDetails
+                              .billingClientPurchase.isAcknowledged,
+                          purchaseToken: purchaseDetails
+                              .billingClientPurchase.purchaseToken))
+                  .then((value) {
+                setState(() {
+                  _isClickPurchase = false;
+                });
               });
-            });
-          } else {
-            controller.isLoading.value = false;
+            }
+            if (purchaseDetails is AppStorePurchaseDetails) {
+              await controller
+                  .updateSubscription(
+                      inAppModel: InAppModel(
+                          isPending: purchaseDetails.pendingCompletePurchase,
+                          packageName: '',
+                          productId: purchaseDetails.productID,
+                          transactionId: purchaseDetails.purchaseID!,
+                          // originalTransactionId: purchaseDetails.skPaymentTransaction.,
+                          status: purchaseDetails.status.name,
+                          verificationData: VerificationData(
+                              source: purchaseDetails.verificationData.source,
+                              receiptData: purchaseDetails
+                                  .verificationData.serverVerificationData),
+                          isAcknowledged: true,
+                          purchaseToken: ''))
+                  .then((value) {
+                setState(() {
+                  _isClickPurchase = false;
+                });
+              });
+            }
           }
           //  print(purchaseDetails.verificationData.serverVerificationData);
           /*  final bool valid = await _verifyPurchase(purchaseDetails);
@@ -163,6 +202,11 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
             _handleInvalidPurchase(purchaseDetails);
             return;
           }*/
+        } else {
+          setState(() {
+            _isClickPurchase = false;
+          });
+          controller.isLoading.value = false;
         }
         /*if (Platform.isAndroid) {
           if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
@@ -261,7 +305,9 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                     shrinkWrap: true,
                                     itemCount: _products.length,
                                     itemBuilder: (context, index) {
-                                      print(_purchases);
+                                      String subTitle = _products[index]
+                                          .title
+                                          .replaceAll(RegExp(r'\(.*?\)'), '');
                                       return Obx(() {
                                         return InkWell(
                                           onTap: () {
@@ -400,8 +446,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                                       Expanded(
                                                         child: Center(
                                                           child: Text(
-                                                            _products[index]
-                                                                .title,
+                                                            subTitle,
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: Theme.of(

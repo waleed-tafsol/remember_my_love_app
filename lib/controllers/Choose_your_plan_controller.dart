@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_rx/get_rx.dart';
@@ -5,6 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/route_manager.dart';
 import 'package:remember_my_love_app/models/PackageModel.dart';
 import 'package:remember_my_love_app/models/PaymentMethodModel.dart';
+import 'package:remember_my_love_app/models/in_app_model.dart';
 import '../constants/ApiConstant.dart';
 import '../services/ApiServices.dart';
 import '../utills/Colored_print.dart';
@@ -49,11 +52,13 @@ class ChooseYourPlanController extends GetxController {
 
   }
 
-  Future<void> updateSubscription(String packageData) async {
+  Future<void> updateSubscription({required InAppModel inAppModel}) async {
     try {
+      String jsonData = json.encode(inAppModel.toJson());
+
       isLoading.value = true;
       Response? response = await ApiService.postRequest(
-          ApiConstants.verifyReceipt, {"receiptData": packageData});
+          ApiConstants.verifyReceipt, {'purchaseDetails': jsonData});
       if(response != null){
         await homeController.getUSer();
         Get.offNamedUntil(SuccessScreen.routeName,
