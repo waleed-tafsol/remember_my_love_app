@@ -15,7 +15,6 @@ class ApiConstants {
   static const getUserDetails = "users/get-me";
   static const updateUserDetails = "users/update-me";
   static const getAvailableUsers = "users/find/all-users";
-
   // Memories CRUD
   static const getAllMemories = "memory/all";
   static const getMemoryDetailByImage = "memory/get/";

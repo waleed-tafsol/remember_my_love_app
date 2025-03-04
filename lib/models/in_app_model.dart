@@ -30,26 +30,24 @@ class InAppModel {
       required this.isAcknowledged});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['packageName'] = this.packageName;
-    data['productId'] = this.productId;
-    data['transactionId'] = this.transactionId;
-    data['purchaseToken'] = this.purchaseToken;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['packageName'] = packageName;
+    data['productId'] = productId;
+    data['transactionId'] = transactionId;
+    data['purchaseToken'] = purchaseToken;
 /*
     data['originalTransactionId'] = this.originalTransactionId;
 */
 /*
     data['purchaseDate'] = this.purchaseDate;
 */
-    data['status'] = this.status;
-    if (this.verificationData != null) {
-      data['verificationData'] = this.verificationData!.toJson();
-    }
-/*
+    data['status'] = status;
+    data['verificationData'] = verificationData.toJson();
+  /*
     data['purchaseDate'] = this.purchaseDate;
 */
-    data['isPending'] = this.isPending;
-    data['isAcknowledged'] = this.isAcknowledged;
+    data['isPending'] = isPending;
+    data['isAcknowledged'] = isAcknowledged;
     return data;
   }
 }
@@ -61,9 +59,9 @@ class VerificationData {
   VerificationData({required this.source, required this.receiptData});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['source'] = this.source;
-    data['receiptData'] = this.receiptData;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['source'] = source;
+    data['receiptData'] = receiptData;
     return data;
   }
 }

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+/*
 import 'package:flutter_stripe/flutter_stripe.dart';
+*/
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -8,7 +10,6 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/models/PackageModel.dart';
-import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import '../constants/ApiConstant.dart';
 import '../models/PaymentMethodModel.dart';
 import '../services/ApiServices.dart';
@@ -104,6 +105,7 @@ class Paymentcontroller extends GetxController {
   //   );
   // }
 
+/*
   Future<void> confirmPayment(String clientSecret) async {
     try {
       final paymentIntent = await Stripe.instance.confirmPayment(
@@ -149,6 +151,7 @@ class Paymentcontroller extends GetxController {
       // Handle error
     }
   }
+*/
 
   Future<void> renewSubscription() async {
     isLoading.value = true;
@@ -189,6 +192,7 @@ class Paymentcontroller extends GetxController {
     }
   }
 
+/*
   Future<void> buyPackage() async {
     try {
       isLoading.value = true;
@@ -211,4 +215,5 @@ class Paymentcontroller extends GetxController {
       isLoading.value = false;
     }
   }
+*/
 }

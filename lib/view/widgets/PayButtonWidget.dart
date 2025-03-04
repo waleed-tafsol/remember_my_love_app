@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -104,3 +105,4 @@ class PlatformPayButtonWidget extends StatelessWidget {
 //     return null;
 //   }
 // }
+*/

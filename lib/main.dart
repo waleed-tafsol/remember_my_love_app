@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+/*
 import 'package:flutter_stripe/flutter_stripe.dart';
+*/
 import 'package:get/get.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import 'package:remember_my_love_app/services/Auth_services.dart';
@@ -18,9 +20,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseService.initializeFirebase();
 
-  Stripe.publishableKey =
+/*  Stripe.publishableKey =
       "pk_test_51Q9zEn2MzUnaJMmgba4Kn8VJoESujuQtspIE7AqIJXNhjs9HB7F2pHCe6tiNIAfYKmQ9H43hWmPbjpQOY9ovZrfz00xWvqjHVA";
-  Stripe.instance.applySettings();
+  Stripe.instance.applySettings();*/
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

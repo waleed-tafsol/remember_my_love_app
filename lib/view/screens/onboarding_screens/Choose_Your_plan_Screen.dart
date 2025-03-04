@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -269,7 +268,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                           ],
                         ),
                         child: Text(
-                          "Currently You Have Free Subscription Of 100MB Storage",
+                          "Currently You Have Free Subscription Of 105MB Storage",
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
