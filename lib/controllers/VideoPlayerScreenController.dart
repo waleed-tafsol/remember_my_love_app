@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
@@ -90,3 +91,4 @@ class VideoPlayerScreenController extends GetxController {
     super.onClose();
   }
 }
+*/
