@@ -177,8 +177,8 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
   @override
   void dispose() {
     super.dispose();
-    // _videoPlayercontroller.dispose();
-   //  _chewieController.dispose();
+     _videoPlayercontroller.dispose();
+     _chewieController.dispose();
   }
 
   @override

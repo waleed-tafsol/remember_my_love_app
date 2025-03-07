@@ -96,7 +96,7 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                       children: [
                         Obx(() {
                           bool isVideo =
-                              controller.selectedImage.endsWith("mp4");
+                              controller.selectedImage.endsWith("mp4") || controller.selectedImage.endsWith("quicktime");
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: isVideo
@@ -154,7 +154,7 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final file = controller.memory.files![index];
-                          bool isVideo = file.endsWith("mp4");
+                          bool isVideo = file.endsWith("mp4") || file.endsWith("quicktime");
                           return isVideo
                               ? Padding(
                                   padding:

@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -53,7 +54,6 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
             }
           }
           print(_kProductIds);
-
           final Stream<List<PurchaseDetails>> purchaseUpdated =
               _inAppPurchase.purchaseStream;
           _subscription = purchaseUpdated.listen(
@@ -91,16 +91,15 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
       });
       return;
     }
-
     if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
           _inAppPurchase
               .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       await iosPlatformAddition.setDelegate(ExamplePaymentQueueDelegate());
     }
-
+    LinkedHashSet<String> productIdSets = LinkedHashSet<String>.from(_kProductIds);
     final ProductDetailsResponse productDetailResponse =
-        await _inAppPurchase.queryProductDetails(_kProductIds.toSet());
+        await _inAppPurchase.queryProductDetails(productIdSets);
     if (productDetailResponse.error != null) {
       setState(() {
         _queryProductError = productDetailResponse.error!.message;
@@ -121,16 +120,29 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
         controller.isLoading.value = false;
       });
       return;
-    } else {
-      setState(() {
-        _isAvailable = isAvailable;
-        _products = productDetailResponse.productDetails;
-        //  _notFoundIds = productDetailResponse.notFoundIDs;
-        // _consumables = consumables;
-        _purchasePending = false;
-        controller.isLoading.value = false;
-      });
     }
+
+    final List<ProductDetails> customOrderedList = [];
+    // First, add all products to the list
+    customOrderedList.addAll(productDetailResponse.productDetails);
+    
+    // Then sort them based on the desired order
+    customOrderedList.sort((a, b) {
+      final order = {
+        'rml_basic_monthly': 0,
+        'rml_basic_yearly': 1,
+        'rml_premium_monthly': 2,
+        'rml_premium_year': 3,
+      };
+      return (order[a.id] ?? 999).compareTo(order[b.id] ?? 999);
+    });
+
+    setState(() {
+      _isAvailable = isAvailable;
+      _products = customOrderedList;
+      _purchasePending = false;
+      controller.isLoading.value = false;
+    });
   }
 
   Future<void> _listenToPurchaseUpdated(
@@ -505,7 +517,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                                                                     FontWeight
                                                                         .bold,
                                                                 fontSize:
-                                                                    16.sp),
+                                                                    18.sp),
                                                       ),
                                                     ],
                                                   ),

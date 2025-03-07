@@ -70,41 +70,7 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
         ),
         k1hSizedBox,
         Expanded(
-          child:
-              // if (controller.isLoading.value) {
-              //   return Shimmer.fromColors(
-              //     baseColor: AppColors.kgradientBlue,
-              //     highlightColor: AppColors.kgradientPurple,
-              //     child: CustomGlassmorphicContainer(
-              //       padding:
-              //           EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-              //       child: GridView.builder(
-              //         physics: const NeverScrollableScrollPhysics(),
-              //         shrinkWrap: true,
-              //         gridDelegate:
-              //             const SliverGridDelegateWithFixedCrossAxisCount(
-              //           crossAxisCount: 3,
-              //           childAspectRatio: 1,
-              //           crossAxisSpacing: 8,
-              //           mainAxisSpacing: 10,
-              //         ),
-              //         itemCount: 50,
-              //         itemBuilder: (context, index) {
-              //           return Container(
-              //             margin: EdgeInsets.symmetric(horizontal: 1.w),
-              //             width: 9.h,
-              //             decoration: BoxDecoration(
-              //               color: Colors.white,
-              //               borderRadius: BorderRadius.circular(10),
-              //             ),
-              //           );
-              //         },
-              //       ),
-              //     ),
-              //   );
-              // }
-
-              CustomGlassmorphicContainer(
+          child: CustomGlassmorphicContainer(
             padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
             child: Column(
               children: [
@@ -164,103 +130,93 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                   ],
                 ),
                 k4hSizedBox,
-                Obx(() {
-                  if (controller.isLoading.value) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else {
-                    final images =
-                        controller.selectedFilter.value == "Created By You"
-                            ? controller.by_me_images
-                            : controller.for_me_images;
-                    return images.isEmpty
-                        ? Expanded(
-                            child: RefreshIndicator(
-                              onRefresh: () {
-                                return controller.fetchMemories();
-                              },
-                              child: SingleChildScrollView(
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(SvgAssets.search),
-                                    k2hSizedBox,
-                                    Text(
-                                      "No Memory Found",
-                                      style: TextStyleConstants.bodyLargeWhite(
-                                          context),
-                                    ),
-                                  ],
+                Expanded(
+                  child: Obx(() {
+                    if (controller.isLoading.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      final images =
+                          controller.selectedFilter.value == "Created By You"
+                              ? controller.by_me_images
+                              : controller.for_me_images;
+                      return images.isEmpty
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(SvgAssets.search),
+                                k2hSizedBox,
+                                Text(
+                                  "No Memory Found",
+                                  style: TextStyleConstants.bodyLargeWhite(
+                                      context),
                                 ),
+                              ],
+                            )
+                          : GridView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 1,
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 10,
                               ),
-                            ),
-                          )
-                        : GridView.builder(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio: 1,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 10,
-                            ),
-                            itemCount: images.length,
-                            itemBuilder: (context, index) {
-                              final file = images[index];
-                              bool isVideo = file.endsWith("mp4");
-                              return InkWell(
-                                onTap: () {
-                                  controller.fetchMemoryAndPassItToDetailScreen(
-                                      images[index]);
-                                },
-                                child: isVideo
-                                    ? Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: AbsorbPointer(
-                                            child: Stack(
-                                              children: [
-                                                NetworkVideoPlayerWidget(
-                                                  videoUrl:
-                                                      "${ApiConstants.getPicture}/$file",
-                                                  showController: false,
-                                                ),
-                                                const Center(
-                                                    child:
-                                                        Icon(Icons.play_circle))
-                                              ],
+                              itemCount: images.length,
+                              itemBuilder: (context, index) {
+                                final file = images[index];
+                                bool isVideo = file.endsWith("mp4") || file.endsWith("quicktime");
+                                return InkWell(
+                                  onTap: () {
+                                    controller.fetchMemoryAndPassItToDetailScreen(
+                                        images[index]);
+                                  },
+                                  child: isVideo
+                                      ? Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 1.w),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: AbsorbPointer(
+                                              child: Stack(
+                                                children: [
+                                                  NetworkVideoPlayerWidget(
+                                                    videoUrl:
+                                                        "${ApiConstants.getPicture}/$file",
+                                                    showController: false,
+                                                  ),
+                                                  const Center(
+                                                      child:
+                                                          Icon(Icons.play_circle))
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    : Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: SizedBox(
-                                            width: 9.h,
-                                            child: AbsorbPointer(
-                                              child: CachedNetworkImageWidget(
-                                                fit: BoxFit.cover,
-                                                imageUrl:
-                                                    "${ApiConstants.getPicture}/${images[index]}",
+                                        )
+                                      : Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 1.w),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: SizedBox(
+                                              width: 9.h,
+                                              child: AbsorbPointer(
+                                                child: CachedNetworkImageWidget(
+                                                  fit: BoxFit.cover,
+                                                  imageUrl:
+                                                      "${ApiConstants.getPicture}/${images[index]}",
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                              );
-                            },
-                          );
-                  }
-                }),
+                                );
+                              },
+                            );
+                    }
+                  }),
+                ),
               ],
             ),
           ),

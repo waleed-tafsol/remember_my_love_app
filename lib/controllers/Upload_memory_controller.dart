@@ -302,9 +302,9 @@ class UploadMemoryController extends GetxController {
       removeAllFiles();
       ColoredPrint.green("successful upload memory");
       final HomeScreenController controller = Get.find();
-      controller.callMemoriesDates();
-      final MyMemoryController memoriescontroller = Get.find();
-     await memoriescontroller.fetchMemories();
+      await controller.callMemoriesDates();
+      final MyMemoryController memoriesController = Get.find();
+       await memoriesController.fetchMemories();
       // Get.back();
       isloading.value = false;
       TokenService tokenService = TokenService();

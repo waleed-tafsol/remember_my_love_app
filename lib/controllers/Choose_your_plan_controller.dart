@@ -63,10 +63,10 @@ class ChooseYourPlanController extends GetxController {
         await homeController.getUSer();
         Get.offNamedUntil(SuccessScreen.routeName,
                 (route) => route.settings.name == BottomNavBarScreen.routeName,
-           /* arguments: {
-              "title": "Successfull",
+            arguments: {
+              "title": "Successful",
               "subTitle": "Subscription Updated successfully.",
-            }*/);
+            });
       }
 
     } finally {
