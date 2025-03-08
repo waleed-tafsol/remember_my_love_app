@@ -12,6 +12,7 @@ import 'package:remember_my_love_app/utills/Colored_print.dart';
 import '../constants/ApiConstant.dart';
 import '../models/MemoryModel.dart';
 import '../services/ApiServices.dart';
+import 'MyMemoriesController.dart';
 
 class HomeScreenController extends GetxController {
   @override
@@ -21,6 +22,7 @@ class HomeScreenController extends GetxController {
     await callMemoriesDates();
     await getmemories();
     await getUSer();
+    Get.put<MyMemoryController>( MyMemoryController());
     isloading.value = false;
     super.onInit();
   }
@@ -76,7 +78,6 @@ class HomeScreenController extends GetxController {
   Future<void> reload() async {
     await getmemories();
     await callMemoriesDates();
-
     await getUSer();
   }
 
@@ -92,10 +93,12 @@ class HomeScreenController extends GetxController {
     }
   }
 
+/*
   saveUser(Map<String, dynamic> data) async {
     ColoredPrint.green("Saving User Details");
     user.value = UserModel.fromJson(data["data"]);
   }
+*/
 
   Future<void> downloadImages(List<String> urls) async {
     // Get the device's temporary directory

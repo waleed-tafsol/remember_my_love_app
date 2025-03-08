@@ -19,19 +19,19 @@ class MyMemoryController extends GetxController {
   RxBool isLoading = false.obs;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
     categories.add(CategoryModel(sId: "all", name: "All"));
+    await fetchMemories();
     fetchCategories();
-    fetchMemories();
   }
 
   RxString selectedFilter = "Created By You".obs;
 
-  void changeCatagory(CategoryModel value) {
+  Future<void> changeCatagory(CategoryModel value) async {
     if (selectedCatagory.value != value) {
       selectedCatagory.value = value;
-      fetchMemories();
+      await fetchMemories();
     }
   }
 
@@ -44,7 +44,6 @@ class MyMemoryController extends GetxController {
         "category": selectedCatagory.value?.sId ?? "all",
       });
       List<dynamic> jsonMemories = response!.data["memories"];
-
       final HomeScreenController homeController = Get.find();
       by_me_images.clear();
       for_me_images.clear();

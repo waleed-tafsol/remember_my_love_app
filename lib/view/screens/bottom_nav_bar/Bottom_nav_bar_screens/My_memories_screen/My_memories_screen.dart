@@ -85,7 +85,7 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                             padding: EdgeInsets.symmetric(vertical: 2.h),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: controller.selectedFilter ==
+                                  color: controller.selectedFilter.value ==
                                           "Created For You"
                                       ? Colors.white.withOpacity(0.8)
                                       : Colors.white.withOpacity(0.4)),
@@ -111,7 +111,7 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                             padding: EdgeInsets.symmetric(vertical: 2.h),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: controller.selectedFilter ==
+                                  color: controller.selectedFilter.value ==
                                           "Created By You"
                                       ? Colors.white.withOpacity(0.8)
                                       : Colors.white.withOpacity(0.4)),
