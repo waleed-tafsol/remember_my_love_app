@@ -115,10 +115,11 @@ class NetworkVideoPlayerWidget extends StatefulWidget {
 }
 
 class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
-  late VideoPlayerController _videoPlayercontroller;
-  late ChewieController _chewieController;
+  VideoPlayerController? _videoPlayercontroller;
+  ChewieController? _chewieController;
   var thumbnail;
   bool _isLoading = true;
+  bool _isDisposed = false;
 
   @override
   void initState() {
@@ -131,75 +132,109 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
     }
   }
 
-  Future <void> _getThumbnail () async {
+  Future<void> _getThumbnail() async {
+    if (_isDisposed) return;
     await _downloadAndCacheVideo().then((cacheData) async {
+      if (_isDisposed) return;
       thumbnail = await VideoThumbnail.thumbnailData(
         video: cacheData.path,
         imageFormat: ImageFormat.JPEG,
-   /*     maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
-        quality: 25,*/
       );
     });
-    setState(() {
-      _isLoading = false;
-    });
+    if (!_isDisposed) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   Future<File> _downloadAndCacheVideo() async {
-    // Check if video is cached already
     final cache = await DefaultCacheManager().getSingleFile(widget.videoUrl);
     return cache;
   }
 
   Future<void> _initializePlayer() async {
+    if (_isDisposed) return;
     setState(() {
       _isLoading = true;
     });
-    await _downloadAndCacheVideo().then((fileData){
-      _videoPlayercontroller = VideoPlayerController.file(fileData)
-        ..initialize().then((_) {
-          setState(() {
-            _chewieController = ChewieController(
-              allowPlaybackSpeedChanging: false,
-              aspectRatio: _videoPlayercontroller.value.aspectRatio,
-              showControls: widget.showController,
-              videoPlayerController: _videoPlayercontroller,
-              autoPlay: false,
-              looping: false,
-            );
-            _isLoading = false;
-          });
-        });
-    });
 
+    try {
+      final fileData = await _downloadAndCacheVideo();
+      if (_isDisposed) return;
+
+      _videoPlayercontroller = VideoPlayerController.file(fileData);
+      await _videoPlayercontroller?.initialize();
+      
+      if (_isDisposed) {
+        await _videoPlayercontroller?.dispose();
+        return;
+      }
+
+      setState(() {
+        _chewieController = ChewieController(
+          allowPlaybackSpeedChanging: false,
+          aspectRatio: _videoPlayercontroller?.value.aspectRatio ?? 16/9,
+          showControls: widget.showController,
+          videoPlayerController: _videoPlayercontroller!,
+          autoPlay: false,
+          looping: false,
+        );
+        _isLoading = false;
+      });
+    } catch (e) {
+      print("Error initializing player: $e");
+      if (!_isDisposed) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _cleanup() async {
+    if (_isDisposed) return;
+    _isDisposed = true;
+
+    try {
+      // Stop playback if playing
+      if (_videoPlayercontroller?.value.isPlaying ?? false) {
+        await _videoPlayercontroller?.pause();
+      }
+
+      // Dispose controllers
+      await _videoPlayercontroller?.dispose();
+      _chewieController?.dispose();
+
+      // Reset controllers
+      _videoPlayercontroller = null;
+      _chewieController = null;
+    } catch (e) {
+      print("Error during cleanup: $e");
+    }
   }
 
   @override
   void dispose() {
+    _cleanup();
     super.dispose();
-     _videoPlayercontroller.dispose();
-     _chewieController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 50.h,
-      //   width: 50.w,
       color: AppColors.kTextfieldColor,
       child: Scaffold(
         backgroundColor: AppColors.kTextfieldColor,
         body: Center(
-          child:
-          _isLoading
-              ? const CircularProgressIndicator():
-          !widget.showController?
-          Image.memory(
-            thumbnail,
-          )
-              : Chewie(
-                  controller: _chewieController,
-                ),
+          child: _isLoading
+              ? const CircularProgressIndicator()
+              : !widget.showController
+                  ? Image.memory(thumbnail)
+                  : _chewieController != null
+                      ? Chewie(controller: _chewieController!)
+                      : const CircularProgressIndicator(),
         ),
       ),
     );
