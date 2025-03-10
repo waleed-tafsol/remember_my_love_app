@@ -12,6 +12,7 @@ class BottomNavBarBindings extends Bindings {
     Get.lazyPut<HomeScreenController>(() => HomeScreenController());
     Get.lazyPut<CalendarController>(() => CalendarController());
     Get.put<NotificationController>(NotificationController());
+    Get.put<MyMemoryController>(MyMemoryController());
     // Get.lazyPut<UploadMemoryController>(() => UploadMemoryController());
   }
 }

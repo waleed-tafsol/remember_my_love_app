@@ -22,7 +22,7 @@ class HomeScreenController extends GetxController {
     await callMemoriesDates();
     await getmemories();
     await getUSer();
-    Get.put<MyMemoryController>( MyMemoryController());
+    // Get.put<MyMemoryController>( MyMemoryController());
     isloading.value = false;
     super.onInit();
   }

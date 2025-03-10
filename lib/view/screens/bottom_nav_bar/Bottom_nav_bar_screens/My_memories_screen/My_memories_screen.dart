@@ -78,8 +78,10 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () =>
-                            controller.selectedFilter.value = "Created For You",
+                        onTap: () {
+                          controller.selectedFilter.value = "Created For You";
+                          controller.fetchMemories();
+                        },
                         child: Obx(() {
                           return Container(
                             padding: EdgeInsets.symmetric(vertical: 2.h),
@@ -104,8 +106,10 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                     k3wSizedBox,
                     Expanded(
                       child: InkWell(
-                        onTap: () =>
-                            controller.selectedFilter.value = "Created By You",
+                        onTap: () {
+                          controller.selectedFilter.value = "Created By You";
+                          controller.fetchMemories();
+                        },
                         child: Obx(() {
                           return Container(
                             padding: EdgeInsets.symmetric(vertical: 2.h),
@@ -164,11 +168,13 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                               itemCount: images.length,
                               itemBuilder: (context, index) {
                                 final file = images[index];
-                                bool isVideo = file.endsWith("mp4") || file.endsWith("quicktime");
+                                bool isVideo = file.endsWith("mp4") ||
+                                    file.endsWith("quicktime");
                                 return InkWell(
                                   onTap: () {
-                                    controller.fetchMemoryAndPassItToDetailScreen(
-                                        images[index]);
+                                    controller
+                                        .fetchMemoryAndPassItToDetailScreen(
+                                            images[index]);
                                   },
                                   child: isVideo
                                       ? Padding(
@@ -186,8 +192,8 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
                                                     showController: false,
                                                   ),
                                                   const Center(
-                                                      child:
-                                                          Icon(Icons.play_circle))
+                                                      child: Icon(
+                                                          Icons.play_circle))
                                                 ],
                                               ),
                                             ),

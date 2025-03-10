@@ -1,0 +1,2 @@
+D:/projects/remember_my_love_app/android/app/.cxx/Debug/3y4k241v/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/projects/remember_my_love_app/android/app/.cxx/Debug/3y4k241v/armeabi-v7a/CMakeFiles/rebuild_cache.dir

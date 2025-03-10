@@ -42,21 +42,22 @@ class MyMemoryController extends GetxController {
       Response? response =
           await ApiService.getRequest(endpoint, queryParameters: {
         "category": selectedCatagory.value?.sId ?? "all",
+        "createdForYou":
+            selectedFilter.value == "Created For You" ? "true" : "false"
       });
       List<dynamic> jsonMemories = response!.data["memories"];
-      final HomeScreenController homeController = Get.find();
+      // final HomeScreenController homeController = Get.find();
       by_me_images.clear();
       for_me_images.clear();
       for (var item in jsonMemories) {
-        if (item["creator"]["_id"] == homeController.user.value?.sId) {
+        if (selectedFilter.value == "Created By You") {
           by_me_images.add(item["files"][0]);
         } else {
           for_me_images.add(item["files"][0]);
         }
       }
-          isLoading.value = false;
+      isLoading.value = false;
     } catch (e) {
-      print(e.toString());
       isLoading.value = false;
     }
   }

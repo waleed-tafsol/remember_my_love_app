@@ -13,6 +13,7 @@ import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import '../constants/ApiConstant.dart';
 
+import '../models/UserModel.dart';
 import 'ApiServices.dart';
 import 'Auth_token_services.dart';
 import 'KeyStoreServices.dart';
@@ -30,10 +31,25 @@ class AuthService extends GetxService {
     if (await _tokenStorage.hasToken()) {
       isAuthenticated.value = true;
       authToken = await _tokenStorage.getToken();
+      // await getUSer();
 
       print("User is authenticated with token: $authToken");
     }
   }
+
+  Rx<UserModel?> user = Rx<UserModel?>(null);
+
+  //   Future<void> getUSer() async {
+  //   ColoredPrint.green("Fetching User Details");
+  //   Response? response = await ApiService.getRequest(
+  //     ApiConstants.getUserDetails,
+  //   );
+  //   if (response != null) {
+  //     final jsonResponse = response.data["data"];
+  //     // ColoredPrint.green(jsonResponse.toString());
+  //     user.value = UserModel.fromJson(jsonResponse);
+  //   }
+  // }
 
   final Dio _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
 
@@ -45,7 +61,9 @@ class AuthService extends GetxService {
 
   // Biometric authentication function
   Future<bool?> loginWithFingerPrint(bool isFingerPrint) async {
-    final authenticated = isFingerPrint ? await LocalAuthService.authenticateUser() : await LocalAuthService.authenticateUser();
+    final authenticated = isFingerPrint
+        ? await LocalAuthService.authenticateUser()
+        : await LocalAuthService.authenticateUser();
 
     // Get
     if (authenticated) {
@@ -64,7 +82,7 @@ class AuthService extends GetxService {
         _tokenStorage.saveToken(authToken!);
         isAuthenticated.value = true;
         return true;
-            } on DioException catch (e) {
+      } on DioException catch (e) {
         throw Exception(
             e.response?.data["message"]["error"][0] ?? "An error occurred");
         // if (e.response != null) {
@@ -91,8 +109,8 @@ class AuthService extends GetxService {
           ApiConstants.socialLogin,
           data: {
             "email": user.email,
-            "displayName": user.displayName?? '',
-            "photo": user.photoURL?? 'defalt.png',
+            "displayName": user.displayName ?? '',
+            "photo": user.photoURL ?? 'defalt.png',
             "fcmToken": FirebaseService.fcmToken,
             "platform": "google"
           },
@@ -132,8 +150,8 @@ class AuthService extends GetxService {
           ApiConstants.socialLogin,
           data: {
             "email": user.email,
-            "displayName": user.displayName?? '',
-            "photo": user.photoURL?? 'default.png',
+            "displayName": user.displayName ?? '',
+            "photo": user.photoURL ?? 'default.png',
             "fcmToken": FirebaseService.fcmToken,
             "platform": "apple"
           },
@@ -181,7 +199,7 @@ class AuthService extends GetxService {
           "username": userName,
           "email": email,
           "zipCode": zipCode,
-          "dateOfBirth":dob,
+          "dateOfBirth": dob,
           "password": password,
           "passwordConfirm": passCnfrm,
           "fcmToken": FirebaseService.fcmToken
