@@ -12,7 +12,6 @@ import 'package:remember_my_love_app/utills/Colored_print.dart';
 import '../constants/ApiConstant.dart';
 import '../models/MemoryModel.dart';
 import '../services/ApiServices.dart';
-import 'MyMemoriesController.dart';
 
 class HomeScreenController extends GetxController {
   @override

@@ -50,8 +50,23 @@ class MyMemoriesScreen extends GetView<MyMemoryController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("My Memories",
-                style: TextStyleConstants.displayMediumWhite(context)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "My Memories",
+                  style: TextStyleConstants.displayMediumWhite(context),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Obx(() {
+                  return Text(
+                    controller.selectedCatagory.value?.name ?? "All",
+                    style: TextStyleConstants.bodySmallWhite(context),
+                    overflow: TextOverflow.ellipsis,
+                  );
+                }),
+              ],
+            ),
             InkWell(
               onTap: () {
                 _showDropdown(context);
