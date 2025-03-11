@@ -1,13 +1,13 @@
 String formatISOToCustom(String isoTime) {
   DateTime dateTime = DateTime.parse(isoTime);
   List<String> days = [
-    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
+    "Sunday"
   ];
   String dayName = days[dateTime.weekday - 1];
 
@@ -52,13 +52,13 @@ String formatISOToCustomWithLocal(String isoTime) {
 
   // Get day name
   List<String> days = [
-    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
+    "Sunday"
   ];
   String dayName = days[dateTime.weekday - 1];
 

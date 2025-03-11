@@ -154,6 +154,7 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final file = controller.memory.files![index];
+                          print('network file: $file');
                           bool isVideo = file.endsWith("mp4") || file.endsWith("quicktime");
                           return isVideo
                               ? Padding(
