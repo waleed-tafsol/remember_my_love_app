@@ -239,7 +239,7 @@ class AuthService extends GetxService {
     } on DioException catch (e) {
       if (e.response != null) {
         throw Exception(
-            e.response?.data["message"]["error"] ?? "An error occurred");
+            e.response?.data["message"]["error"][0] ?? "An error occurred");
       } else {
         throw Exception("Network error Check your Internet Connection");
       }
