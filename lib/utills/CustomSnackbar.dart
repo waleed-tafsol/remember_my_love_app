@@ -28,7 +28,7 @@ class CustomSnackbar {
   static void showError(String title, String message) {
     Get.snackbar(
       title,
-      message.replaceFirst('Exception: ', ''),
+      message,
       maxWidth: 70.w,
       snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.red,
