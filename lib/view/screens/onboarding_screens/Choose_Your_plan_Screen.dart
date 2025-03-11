@@ -262,10 +262,10 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
                   k1hSizedBox,
-                  Text(
+                 /* Text(
                     "Choose a Plan to Avail Special Features",
                     style: Theme.of(context).textTheme.bodyLarge,
-                  ),
+                  ),*/
                   Visibility(
                     visible: homeController.user.value!.subscription!.isEmpty,
                     child: Padding(
@@ -280,7 +280,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                           ],
                         ),
                         child: Text(
-                          "Currently You Have Free Subscription Of 105MB Storage",
+                          "Currently You Have Free Subscription Of 150MB Storage",
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
@@ -293,7 +293,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                       ),
                     ),
                   ),
-                  k1hSizedBox,
+                 // k1hSizedBox,
                   Obx(() {
                     return controller.isLoading.value
                         ? const Expanded(
