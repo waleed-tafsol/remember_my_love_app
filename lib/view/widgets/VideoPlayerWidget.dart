@@ -115,7 +115,7 @@ class NetworkVideoPlayerWidget extends StatefulWidget {
 }
 
 class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
-  VideoPlayerController? _videoPlayercontroller;
+  VideoPlayerController? _videoPlayerController;
   ChewieController? _chewieController;
   var thumbnail;
   bool _isLoading = true;
@@ -163,20 +163,20 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
       final fileData = await _downloadAndCacheVideo();
       if (_isDisposed) return;
 
-      _videoPlayercontroller = VideoPlayerController.file(fileData);
-      await _videoPlayercontroller?.initialize();
+      _videoPlayerController = VideoPlayerController.file(fileData);
+      await _videoPlayerController?.initialize();
       
       if (_isDisposed) {
-        await _videoPlayercontroller?.dispose();
+        await _videoPlayerController?.dispose();
         return;
       }
 
       setState(() {
         _chewieController = ChewieController(
           allowPlaybackSpeedChanging: false,
-          aspectRatio: _videoPlayercontroller?.value.aspectRatio ?? 16/9,
+          aspectRatio: _videoPlayerController?.value.aspectRatio ?? 16/9,
           showControls: widget.showController,
-          videoPlayerController: _videoPlayercontroller!,
+          videoPlayerController: _videoPlayerController!,
           autoPlay: false,
           looping: false,
         );
@@ -198,16 +198,16 @@ class _NetworkVideoPlayerWidgetState extends State<NetworkVideoPlayerWidget> {
 
     try {
       // Stop playback if playing
-      if (_videoPlayercontroller?.value.isPlaying ?? false) {
-        await _videoPlayercontroller?.pause();
+      if (_videoPlayerController?.value.isPlaying ?? false) {
+        await _videoPlayerController?.pause();
       }
 
       // Dispose controllers
-      await _videoPlayercontroller?.dispose();
+      await _videoPlayerController?.dispose();
       _chewieController?.dispose();
 
       // Reset controllers
-      _videoPlayercontroller = null;
+      _videoPlayerController = null;
       _chewieController = null;
     } catch (e) {
       print("Error during cleanup: $e");
