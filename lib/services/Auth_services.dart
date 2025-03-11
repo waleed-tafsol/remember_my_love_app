@@ -83,8 +83,7 @@ class AuthService extends GetxService {
         isAuthenticated.value = true;
         return true;
       } on DioException catch (e) {
-        throw Exception(
-            e.response?.data["message"]["error"][0] ?? "An error occurred");
+        throw e.response?.data["message"]["error"][0] ?? "An error occurred";
         // if (e.response != null) {
         // CustomSnackbar.showError("Error",
         //     e.response?.data["message"]["error"][0] ?? "An error occurred");
@@ -96,7 +95,7 @@ class AuthService extends GetxService {
       }
     } else {
       // false;
-      throw Exception("an error occured");
+      throw "an error occured";
     }
   }
 
@@ -133,10 +132,9 @@ class AuthService extends GetxService {
       }
 
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"][0] ?? "An error occurred");
+        throw e.response?.data["message"]["error"][0] ?? "An error occurred";
       } else {
-        throw Exception("Network error: Check Your Internet Connection");
+        throw "Network error: Check Your Internet Connection";
       }
     }
   }
@@ -173,10 +171,9 @@ class AuthService extends GetxService {
       }
 
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"][0] ?? "An error occurred");
+        throw e.response?.data["message"]["error"][0] ?? "An error occurred";
       } else {
-        throw Exception("Network error: Check Your Internet Connection");
+        throw "Network error: Check Your Internet Connection";
       }
     }
   }
@@ -212,10 +209,9 @@ class AuthService extends GetxService {
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"][0] ?? "An error occurred");
+        throw e.response?.data["message"]["error"][0] ?? "An error occurred";
       } else {
-        throw Exception("Network error Check your Internet Connection");
+        throw "Network error Check your Internet Connection";
       }
     }
   }
@@ -237,11 +233,11 @@ class AuthService extends GetxService {
       isAuthenticated.value = true;
       return response.data;
     } on DioException catch (e) {
+      // print(e)
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"][0] ?? "An error occurred");
+        throw e.response?.data["message"]["error"][0];
       } else {
-        throw Exception("Network error Check your Internet Connection");
+        throw "Network error Check your Internet Connection";
       }
     }
   }
@@ -260,10 +256,9 @@ class AuthService extends GetxService {
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"] ?? "An error occurred");
+        throw e.response?.data["message"]["error"] ?? "An error occurred";
       } else {
-        throw Exception("Network error: Check Your Internet Connection");
+        throw "Network error: Check Your Internet Connection";
       }
     }
   }
@@ -301,10 +296,9 @@ class AuthService extends GetxService {
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"] ?? "An error occurred");
+        throw e.response?.data["message"]["error"] ?? "An error occurred";
       } else {
-        throw Exception("Network error: Check Your Internet Connection");
+        throw "Network error: Check Your Internet Connection";
       }
     }
   }
@@ -327,10 +321,9 @@ class AuthService extends GetxService {
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"] ?? "An error occurred");
+        throw e.response?.data["message"]["error"] ?? "An error occurred";
       } else {
-        throw Exception("Network error: Check Your Internet Connection");
+        throw "Network error: Check Your Internet Connection";
       }
     }
   }
@@ -354,10 +347,9 @@ class AuthService extends GetxService {
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"] ?? "An error occurred");
+        throw e.response?.data["message"]["error"] ?? "An error occurred";
       } else {
-        throw Exception("Network error: Check Your Internet Connection");
+        throw "Network error: Check Your Internet Connection";
       }
     }
   }
@@ -383,10 +375,9 @@ class AuthService extends GetxService {
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        throw Exception(
-            e.response?.data["message"]["error"] ?? "An error occurred");
+        throw e.response?.data["message"]["error"] ?? "An error occurred";
       } else {
-        throw Exception("Network error: Check Your Internet Connection");
+        throw "Network error: Check Your Internet Connection";
       }
     }
   }
