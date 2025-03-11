@@ -134,15 +134,17 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                                       borderRadius: BorderRadius.circular(20),
                                       child: isVideo
                                           ? Stack(
-                                            children: [
-                                              NetworkVideoPlayerWidget(
-                                                   videoUrl:
-                                                      "${ApiConstants.getPicture}/$file", showController: false,
+                                              children: [
+                                                NetworkVideoPlayerWidget(
+                                                  videoUrl:
+                                                      "${ApiConstants.getPicture}/$file",
+                                                  showController: false,
                                                 ),
-                                              const Center(child: Icon(Icons.play_circle))
-
-                                            ],
-                                          )
+                                                const Center(
+                                                    child:
+                                                        Icon(Icons.play_circle))
+                                              ],
+                                            )
                                           : CachedNetworkImageWidget(
                                               fit: BoxFit.cover,
                                               imageUrl:
@@ -186,7 +188,8 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
                   itemCount: controller.pickedFiles.length,
                   itemBuilder: (context, index) {
                     final file = controller.pickedFiles[index];
-                    bool isVideo = file.path.endsWith(".mp4") || file.path.endsWith(".MOV");
+                    bool isVideo = file.path.endsWith(".mp4") ||
+                        file.path.endsWith(".MOV");
                     return Stack(
                       children: [
                         Positioned.fill(

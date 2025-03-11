@@ -1,5 +1,5 @@
 class ApiConstants {
-  //static const baseUrl = 'https://c8f7-2407-aa80-14-90c8-a9a5-eaa4-8980-af1d.ngrok-free.app/api/v1/';
+  // static const baseUrl = 'https://99b0-119-73-110-142.ngrok-free.app/api/v1/';
   static const baseUrl = "https://api.remembermylove.life/api/v1/";
   static const login = "auth/login";
   static const socialLogin = "auth/social";
@@ -56,8 +56,7 @@ class ApiConstants {
   static const updateConcerns = "users/update-me";
   static const getConcerns = "concerns/user/all";
 
-    // Favourits
+  // Favourits
   static const getTermsAndCondition = "cms/page/termsAndConditions";
   static const getPrivacyPolicy = "cms/page/privacyPolicy";
-
 }

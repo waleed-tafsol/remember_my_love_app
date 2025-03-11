@@ -1,0 +1,2 @@
+D:/projects/remember_my_love_app/android/app/.cxx/RelWithDebInfo/335d3s36/x86_64/CMakeFiles/edit_cache.dir
+D:/projects/remember_my_love_app/android/app/.cxx/RelWithDebInfo/335d3s36/x86_64/CMakeFiles/rebuild_cache.dir

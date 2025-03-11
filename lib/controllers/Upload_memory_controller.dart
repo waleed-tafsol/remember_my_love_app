@@ -51,22 +51,25 @@ class UploadMemoryController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await FetchCategories().then(
-      (value) {
-        if (Get.arguments != null) {
-          reschedualMemory.value = Get.arguments as MemoryModel;
-          setMemoryData();
-        } else {
-          recipients.add(Recipient(
-            emailController: TextEditingController(),
-            ccp: "+1".obs,
-            country: "US".obs,
-            contactController: TextEditingController(),
-            relationController: TextEditingController(),
-          ));
-        }
-      },
-    );
+    if (Get.arguments != null) {
+      reschedualMemory.value = Get.arguments as MemoryModel;
+      setMemoryData();
+    } else {
+      await FetchCategories().then(
+        (value) {
+          if (Get.arguments != null) {
+          } else {
+            recipients.add(Recipient(
+              emailController: TextEditingController(),
+              ccp: "+1".obs,
+              country: "US".obs,
+              contactController: TextEditingController(),
+              relationController: TextEditingController(),
+            ));
+          }
+        },
+      );
+    }
   }
 
   setMemoryData() {
@@ -304,7 +307,7 @@ class UploadMemoryController extends GetxController {
       final HomeScreenController controller = Get.find();
       await controller.callMemoriesDates();
       final MyMemoryController memoriesController = Get.find();
-       await memoriesController.fetchMemories();
+      await memoriesController.fetchMemories();
       // Get.back();
       isloading.value = false;
       TokenService tokenService = TokenService();
@@ -330,22 +333,21 @@ class UploadMemoryController extends GetxController {
       // convertDateTime();
       await MemoryServices.update_mem(
         id: reschedualMemory.value?.sId ?? "",
-        title: titleController.value.text,
-        description: descriptionController.value.text,
-        category: selectedCatagory.value?.sId ?? "",
+        title: reschedualMemory.value?.title ?? "",
+        description: reschedualMemory.value?.description ?? "",
+        category: reschedualMemory.value?.category?.sId ?? "",
         deliveryDate: selectedFormatedDate,
-        sendTo: sendTo.value == "self" ? "same" : "others",
+        sendTo: reschedualMemory.value?.sendTo ?? "",
         recipients: sendTo == "self"
             ? null
             : recipients.map((recipient) => recipient.toMap()).toList(),
-        files: successFullFilesUploads,
+        files: reschedualMemory.value?.files ?? [],
       );
       removeAllFiles();
       ColoredPrint.green("successful Updated memory");
       final HomeScreenController controller = Get.find();
-      
+
       controller.getmemories();
-   
 
       Get.back();
       isloading.value = false;

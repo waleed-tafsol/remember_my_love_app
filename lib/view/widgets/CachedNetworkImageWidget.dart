@@ -62,8 +62,7 @@ class CachedNetworkImageWidget extends StatelessWidget {
         width: width,
         fit: fit,
         // scale: 0.5,
-        placeholder: (context, url) => Transform.scale(
-            scale: 0.5, child: const CircularProgressIndicator()),
+        placeholder: (context, url) => const LinearProgressIndicator(),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );

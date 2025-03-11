@@ -11,6 +11,7 @@ import '../constants/ApiConstant.dart';
 import '../models/Categories.dart';
 import '../models/MemoryModel.dart';
 import '../services/ApiServices.dart';
+import '../view/screens/bottom_nav_bar/Bottom_nav_bar.dart';
 import '../view/screens/bottom_nav_bar/Bottom_nav_bar_screens/Home_screens/Memory_detail_screen.dart';
 
 class MyMemoryController extends GetxController {
@@ -73,7 +74,8 @@ class MyMemoryController extends GetxController {
       Response? response = await ApiService.postRequest(
           ApiConstants.getMemoryDetailByImage, {"file": imageKey});
       if (response != null) {
-        Get.back();
+        Get.until(
+            (route) => route.settings.name == BottomNavBarScreen.routeName);
         final memory = MemoryModel.fromJson(response.data);
         Get.toNamed(
           MemoryDetailScreen.routeName,
