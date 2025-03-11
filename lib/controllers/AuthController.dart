@@ -105,12 +105,12 @@ class AuthController extends GetxController {
         Get.offNamed(QuestionsScreen.routeName);
       } else {
         Get.back();
-        CustomSnackbar.showError("error", "Apple SignIn Faild");
+        CustomSnackbar.showError("Error", "Apple SignIn Failed");
         // Get.toNamed(BottomNavBarScreen.routeName);
       }
     } catch (e) {
       Get.back();
-      CustomSnackbar.showError("error", e.toString());
+      CustomSnackbar.showError("Error", e.toString());
     }
   }
 
