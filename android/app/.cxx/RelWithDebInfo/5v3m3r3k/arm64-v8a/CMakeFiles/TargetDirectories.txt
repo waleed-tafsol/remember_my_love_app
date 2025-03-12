@@ -1,0 +1,2 @@
+/Users/waleed/Documents/flutter apps/remember_my_love_app/android/app/.cxx/RelWithDebInfo/5v3m3r3k/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/waleed/Documents/flutter apps/remember_my_love_app/android/app/.cxx/RelWithDebInfo/5v3m3r3k/arm64-v8a/CMakeFiles/rebuild_cache.dir

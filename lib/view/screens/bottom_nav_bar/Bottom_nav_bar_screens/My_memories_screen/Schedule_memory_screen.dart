@@ -71,10 +71,10 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                             ),
                           ),
                         ),
+                      
                         dateOrder: DatePickerDateOrder.mdy,
                         initialDateTime: controller.selectedDate.value,
-                        minDateTime: controller.selectedDate.value
-                            .subtract(const Duration(days: 1)),
+                        minDateTime: DateTime.now(),
                         pickerTextStyle: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
@@ -90,7 +90,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         },
                         onCloseButtonPressed: () {
                           controller.buttonVisivility.value = true;
-                          Get.back();
+                          // Get.back();
                         },
                       ).show(context);
                     },
@@ -170,7 +170,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                         },
                         onCloseButtonPressed: () {
                           controller.buttonVisivility.value = true;
-                          Get.back();
+                          // Get.back();
                         },
                       ).show(context);
                     },

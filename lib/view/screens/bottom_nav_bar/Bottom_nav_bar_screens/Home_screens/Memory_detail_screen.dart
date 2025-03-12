@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
@@ -57,14 +58,15 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                 Text("My Memories",
                     style: TextStyleConstants.headlineLargeWhite(context)),
                 const Spacer(),
-                Obx(() {
+               hasDatedPassed(memory.deliveryDate) ? SizedBox() : Obx(() {
                   return controller.isloading.value
                       ? const SizedBox()
                       : controller.memory.creator!.sId ==
-                              homeScreenController.user.value?.sId
+                              homeScreenController.user.value?.sId 
                           ? CustomRoundedGlassButton(
                               icon: Icons.edit,
                               ontap: () {
+                                hasDatedPassed(memory.deliveryDate) ? CustomSnackbar.showError("Error", "Date has Passed") :
                                 Get.toNamed(ScheduleMemoryScreen.routeName,
                                     arguments: controller.memory);
                               })
