@@ -26,7 +26,6 @@ class UploadMemoryScreen extends GetView<UploadMemoryController> {
         if (controller.successFullFilesUploads.isNotEmpty) {
           await controller.deleteFileFromAws();
         }
-        // return ;
       },
       child: CustomScaffold(
         body: SingleChildScrollView(

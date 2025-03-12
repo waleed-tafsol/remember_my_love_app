@@ -66,15 +66,4 @@ class MemoryServices {
 
     return response?.data;
   }
-
-  // static Future<Map<String, dynamic>?> getAllMemories() async {
-  //   Response? response = await ApiService.getRequest(
-  //     ApiConstants.getAllMemories,
-  //   );
-  //   if (response != null) {
-  //     return response.data;
-  //   } else {
-  //     return null;
-  //   }
-  // }
 }

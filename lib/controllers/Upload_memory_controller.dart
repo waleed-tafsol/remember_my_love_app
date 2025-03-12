@@ -55,54 +55,25 @@ class UploadMemoryController extends GetxController {
       reschedualMemory.value = Get.arguments as MemoryModel;
       setMemoryData();
     } else {
-      await FetchCategories().then(
+      await fetchCategories().then(
         (value) {
-          if (Get.arguments != null) {
-          } else {
-            recipients.add(Recipient(
-              emailController: TextEditingController(),
-              ccp: "+1".obs,
-              country: "US".obs,
-              contactController: TextEditingController(),
-              relationController: TextEditingController(),
-            ));
-          }
+          addRecipient();
+          // recipients.add(Recipient(
+          //   emailController: TextEditingController(),
+          //   ccp: "+1".obs,
+          //   country: "US".obs,
+          //   contactController: TextEditingController(),
+          //   relationController: TextEditingController(),
+          // ));
         },
       );
     }
   }
 
   setMemoryData() {
-    titleController.text = reschedualMemory.value?.title ?? "";
-    descriptionController.text = reschedualMemory.value?.description ?? "";
     DateTime adjustedDate =
         DateTime.parse(reschedualMemory.value!.deliveryDate!).toLocal();
     selectedDate.value = adjustedDate;
-    selectedCatagory.value = categories.firstWhere(
-        (element) => element.sId == reschedualMemory.value?.category!.sId);
-    if (reschedualMemory.value?.sendTo == "same") {
-      sendTo.value = "self";
-    } else {
-      sendTo.value = "others";
-      if (reschedualMemory.value?.recipients?.isNotEmpty == true) {
-        recipients.clear();
-        reschedualMemory.value?.recipients?.forEach((element) {
-          recipients.add(Recipient(
-            emailController: TextEditingController(text: element?.email),
-            ccp: element?.cc?.obs ?? "+92".obs,
-            country: element?.country?.obs ?? "US".obs,
-            contactController: TextEditingController(text: element?.contact),
-            relationController: TextEditingController(text: element?.relation),
-          ));
-        });
-      }
-    }
-    if (reschedualMemory.value?.files?.isNotEmpty == true) {
-      reschedualMemoryFiles.clear();
-      reschedualMemory.value?.files?.forEach((element) {
-        reschedualMemoryFiles.add(element);
-      });
-    }
   }
 
   // Function to change the value of the DateTime variable
@@ -330,7 +301,6 @@ class UploadMemoryController extends GetxController {
     ColoredPrint.yellow("update memory initiated");
     isloading.value = true;
     try {
-      // convertDateTime();
       await MemoryServices.update_mem(
         id: reschedualMemory.value?.sId ?? "",
         title: reschedualMemory.value?.title ?? "",
@@ -338,17 +308,17 @@ class UploadMemoryController extends GetxController {
         category: reschedualMemory.value?.category?.sId ?? "",
         deliveryDate: selectedFormatedDate,
         sendTo: reschedualMemory.value?.sendTo ?? "",
-        recipients: sendTo == "self"
+        recipients: reschedualMemory.value?.sendTo == "self"
             ? null
-            : recipients.map((recipient) => recipient.toMap()).toList(),
+            : reschedualMemory.value?.recipients
+                ?.map((recipient) => recipient!.toJson())
+                .toList(),
         files: reschedualMemory.value?.files ?? [],
       );
       removeAllFiles();
       ColoredPrint.green("successful Updated memory");
       final HomeScreenController controller = Get.find();
-
       controller.getmemories();
-
       Get.back();
       isloading.value = false;
       homeController.callMemoriesDates();
@@ -360,21 +330,8 @@ class UploadMemoryController extends GetxController {
           });
     } catch (e) {
       isloading.value = false;
-      // Get.back();
     }
   }
-
-  // String date = "";
-  // String time = "";
-
-  // String convertDateTime() {
-  //   date =
-  //       "${selectedDate.value.year.toString().padLeft(4, '0')}-${selectedDate.value.month.toString().padLeft(2, '0')}-${selectedDate.value.day.toString().padLeft(2, '0')}";
-  //   time =
-  //       "${selectedTime.value.hour.toString().padLeft(2, '0')}:${selectedTime.value.minute.toString().padLeft(2, '0')}";
-
-  //   return "$date $time";
-  // }
 
   Future<void> uploadMimeTypes() async {
     Get.dialog(const Center(child: CircularProgressIndicator()));
@@ -449,29 +406,25 @@ class UploadMemoryController extends GetxController {
     }
   }
 
-  Future<void> FetchCategories() async {
+  Future<void> fetchCategories() async {
     try {
       Response? response =
           await ApiService.getRequest(ApiConstants.getcategories);
       final Map<String, dynamic> jsonMap = jsonDecode(response!.toString());
-
-      //ColoredPrint.green(jsonMap['data']['categories'].toString());
       for (var element in jsonMap['data']['categories']) {
         categories.add(CategoryModel.fromJson(element));
       }
-      //ColoredPrint.green(categories[1].toString());
     } on DioException catch (e) {
       if (e.response != null) {
-        Get.snackbar("ERROR", e.toString());
+        Get.snackbar("Error", e.toString());
       } else {
-        Get.snackbar("ERROR", "Some thing Went wrong");
+        Get.snackbar("Error", "Some thing Went wrong");
       }
     }
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     titleController.dispose();
     descriptionController.dispose();
     recievingUsername.dispose();
@@ -500,15 +453,12 @@ class Recipient {
     required this.relationController,
     required this.contactController,
   });
-
-  // Method to convert Recipient to a Map
   Map<String, String> toMap() {
     return {
       "email": emailController.text.trim(),
       "cc": ccp.value,
       "country": country.value,
       "contact": contactController.text.trim(),
-      "username": emailController.text.trim(),
       "relation": relationController.text.trim(),
     };
   }

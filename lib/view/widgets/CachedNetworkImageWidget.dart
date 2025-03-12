@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:remember_my_love_app/view/widgets/ShimmerWidget.dart';
 
 class CachedNetworkImageWidget extends StatelessWidget {
   const CachedNetworkImageWidget({
@@ -62,7 +63,7 @@ class CachedNetworkImageWidget extends StatelessWidget {
         width: width,
         fit: fit,
         // scale: 0.5,
-        placeholder: (context, url) => const LinearProgressIndicator(),
+        placeholder: (context, url) => ShimmerWidget(height: 20, width: 20),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );
