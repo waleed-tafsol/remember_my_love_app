@@ -23,6 +23,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
   RecipientDetailsScreen({super.key});
   static const routeName = "RecipientDetailsScreen";
   final _formKey = GlobalKey<FormState>();
+  // final GlobalKey _seKey = GlobalKey(); // Create a GlobalKey
   Timer? _debounceTimer;
   final ContactPickerService _contactPickerService = ContactPickerService();
 
@@ -135,6 +136,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                           : Column(
                               children: List.generate(
                                   controller.recipients.length, (index) {
+                                final GlobalKey _relationKey = GlobalKey();
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -162,17 +164,58 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       ),
                                     ),
                                     k1hSizedBox,
-                                    GlassTextFieldWithTitle(
-                                      title: 'Enter Relation',
-                                      hintText: "Family, Friend, Sibling, etc",
-                                      controller: controller
-                                          .recipients[index].relationController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Required';
-                                        }
-                                        return null;
-                                      },
+                                    // GlassTextFieldWithTitle(
+                                    //   title: 'Enter Relation',
+                                    //   hintText: "Family, Friend, Sibling, etc",
+                                    //   controller: controller
+                                    //       .recipients[index].relationController,
+                                    //   validator: (value) {
+                                    //     if (value == null || value.isEmpty) {
+                                    //       return 'Required';
+                                    //     }
+                                    //     return null;
+                                    //   },
+                                    // ),
+                                    // k1hSizedBox,
+                                    const Text(
+                                      "Select Relation",
+                                    ),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: InkWell(
+                                        key: _relationKey,
+                                        onTap: () {
+                                          _showRelationDropdown(
+                                              context, index, _relationKey);
+                                        },
+                                        child: CustomGlassmorphicContainer(
+                                            borderRadius: 8,
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 2.h, horizontal: 2.w),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Obx(() {
+                                                  final relationString =
+                                                      controller
+                                                          .recipients[index]
+                                                          .relationSting
+                                                          .value;
+                                                  return Text(
+                                                      relationString.isEmpty
+                                                          ? "Select Relation"
+                                                          : relationString);
+                                                }),
+                                                const Icon(
+                                                  Icons
+                                                      .keyboard_arrow_down_outlined,
+                                                  color: AppColors.kIconColor,
+                                                )
+                                              ],
+                                            )),
+                                      ),
                                     ),
                                     k1hSizedBox,
                                     const Text("Email"),
@@ -184,7 +227,8 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                                   onPressed: () =>
                                                       handleContactSelection(
                                                           index),
-                                                  icon: const Icon(Icons.email))),
+                                                  icon:
+                                                      const Icon(Icons.email))),
                                       onSearchTextChanged: (value) {
                                         if (_debounceTimer != null) {
                                           _debounceTimer?.cancel();
@@ -308,7 +352,8 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       suffixIcon: IconButton(
                                           onPressed: () =>
                                               handleContactSelection(index),
-                                          icon: const Icon(Icons.dialpad_outlined)),
+                                          icon: const Icon(
+                                              Icons.dialpad_outlined)),
                                     ),
                                   ],
                                 );
@@ -412,6 +457,44 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
       if (newValue != null) {
         controller.sendTo.value = newValue;
         print(newValue);
+      }
+    });
+  }
+
+  void _showRelationDropdown(BuildContext context, int index, GlobalKey key) {
+    final RenderBox renderBox =
+        key.currentContext!.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero);
+    final size = renderBox.size;
+
+    showMenu(
+      color: Colors.blue[900],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      elevation: 0,
+      context: context,
+      position: RelativeRect.fromLTRB(
+        position.dx + size.width,
+        position.dy + size.height,
+        position.dx,
+        0.0,
+      ),
+      items:
+          <String>['Friend', 'Family', 'Spouse', 'Other'].map((String value) {
+        return PopupMenuItem<String>(
+          value: value,
+          child: Container(
+            color: Colors.transparent,
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              value,
+              style: TextStyleConstants.bodySmallWhite(context),
+            ),
+          ),
+        );
+      }).toList(),
+    ).then((String? newValue) {
+      if (newValue != null) {
+        controller.recipients[index].relationSting.value = newValue;
       }
     });
   }

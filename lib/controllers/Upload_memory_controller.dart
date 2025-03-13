@@ -99,7 +99,7 @@ class UploadMemoryController extends GetxController {
       ccp: "+1".obs,
       country: "US".obs,
       contactController: TextEditingController(),
-      relationController: TextEditingController(),
+      relationSting: "Friend".obs,
     ));
   }
 
@@ -432,7 +432,7 @@ class UploadMemoryController extends GetxController {
     for (var element in recipients) {
       element.emailController.dispose();
       element.contactController.dispose();
-      element.relationController.dispose();
+      // element.relationController.dispose();
     }
     super.dispose();
   }
@@ -444,13 +444,13 @@ class Recipient {
   RxString country;
   TextEditingController contactController;
 
-  TextEditingController relationController;
+  RxString relationSting;
 
   Recipient({
     required this.emailController,
     required this.ccp,
     required this.country,
-    required this.relationController,
+    required this.relationSting,
     required this.contactController,
   });
   Map<String, String> toMap() {
@@ -459,7 +459,7 @@ class Recipient {
       "cc": ccp.value,
       "country": country.value,
       "contact": contactController.text.trim(),
-      "relation": relationController.text.trim(),
+      "relation": relationSting.value,
     };
   }
 }
