@@ -126,7 +126,7 @@ class FirebaseService {
         accessToken: appleCredential.authorizationCode,
       );
       final userDetails =
-      await FirebaseAuth.instance.signInWithCredential(appleAuthCredential);
+          await FirebaseAuth.instance.signInWithCredential(appleAuthCredential);
       ColoredPrint.green("Apple sign-in successful.");
       return userDetails.user;
     } catch (e) {
@@ -148,6 +148,13 @@ class FirebaseService {
 
   // Push Notification Setup
   static void _setupPushNotifications() async {
+    // Check if app was opened from a notification
+    RemoteMessage? initialMessage =
+        await _firebaseMessaging.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       ColoredPrint.green("message recived");
       if (message.data.isNotEmpty) {
@@ -157,26 +164,35 @@ class FirebaseService {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      Map<String, dynamic> jsondata = jsonDecode(message.data["payload"]);
+      _handleMessage(message);
+    });
+  }
 
-      // final receivedNotification = NotificationModel.fromJson(jsondata);
-      ColoredPrint.green("onMessageOpenedApp: $jsondata");
+  static void _handleMessage(RemoteMessage message) async {
+    try {
+      Map<String, dynamic> jsondata = jsonDecode(message.data["payload"]);
+      ColoredPrint.green("Handling message: $jsondata");
+
       if (jsondata['flag'] == 'memory') {
         try {
           Response? response = await ApiService.getRequest(
               ApiConstants.findMemories + jsondata['payload'][0]['id']);
-          final memory = MemoryModel.fromJson(response?.data);
-          Get.toNamed(
-            MemoryDetailScreen.routeName,
-            arguments: memory,
-          );
-        } catch (e) {}
+          if (response != null) {
+            final memory = MemoryModel.fromJson(response.data);
+            Get.toNamed(
+              MemoryDetailScreen.routeName,
+              arguments: memory,
+            );
+          }
+        } catch (e) {
+          ColoredPrint.red("Error fetching memory details: $e");
+        }
       } else if (jsondata['payload']['flag'] == 'subscription') {
         Get.toNamed(ChooseYourPlanScreen.routeName);
-      } else {
-        null;
       }
-    });
+    } catch (e) {
+      ColoredPrint.red("Error handling message: $e");
+    }
   }
 
   static Future<void> setupBackgroundHandler() async {

@@ -97,7 +97,8 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
               .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       await iosPlatformAddition.setDelegate(ExamplePaymentQueueDelegate());
     }
-    LinkedHashSet<String> productIdSets = LinkedHashSet<String>.from(_kProductIds);
+    LinkedHashSet<String> productIdSets =
+        LinkedHashSet<String>.from(_kProductIds);
     final ProductDetailsResponse productDetailResponse =
         await _inAppPurchase.queryProductDetails(productIdSets);
     if (productDetailResponse.error != null) {
@@ -125,7 +126,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
     final List<ProductDetails> customOrderedList = [];
     // First, add all products to the list
     customOrderedList.addAll(productDetailResponse.productDetails);
-    
+
     // Then sort them based on the desired order
     customOrderedList.sort((a, b) {
       final order = {
@@ -262,7 +263,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
                   k1hSizedBox,
-                 /* Text(
+                  /* Text(
                     "Choose a Plan to Avail Special Features",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),*/
@@ -293,7 +294,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                       ),
                     ),
                   ),
-                 // k1hSizedBox,
+                  // k1hSizedBox,
                   Obx(() {
                     return controller.isLoading.value
                         ? const Expanded(
