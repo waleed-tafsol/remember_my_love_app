@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,12 +25,10 @@ class FirebaseService {
   static final FirebaseService _instance = FirebaseService._internal();
   FirebaseService._internal();
   factory FirebaseService() => _instance;
-
   static final FirebaseMessaging _firebaseMessaging =
       FirebaseMessaging.instance;
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   static final GoogleSignIn _googleSignIn = GoogleSignIn();
-
   static String? fcmToken;
 
   // Initialize Firebase
