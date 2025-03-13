@@ -102,7 +102,7 @@ class ScheduleMemoryScreen extends GetView<UploadMemoryController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Obx(() {
-                              return Text(DateFormat('dd/MM/yyyy')
+                              return Text(DateFormat('MM/dd/yyyy')
                                   .format(controller.selectedDate.value));
                             }),
                             const Icon(
