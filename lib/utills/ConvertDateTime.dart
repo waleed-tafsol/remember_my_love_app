@@ -151,3 +151,14 @@ DateTime adjustDateWithOffset(DateTime date, {bool addOffset = true}) {
     return date.subtract(offset); // Subtract the offset from the selected date
   }
 }
+
+
+bool hasDatedPassed(String? deliveryDate) {
+  if (deliveryDate == null || deliveryDate.isEmpty) {
+    return false; // If deliveryDate is null or empty, it hasn't passed (consider it invalid)
+  }
+
+  DateTime deliveryDateTime = DateTime.parse(deliveryDate).toLocal();
+  return deliveryDateTime.isBefore(DateTime.now()); // Return true if delivery date is before the current time
+}
+

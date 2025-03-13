@@ -6,13 +6,11 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
-
 import 'package:remember_my_love_app/services/FirebaseServices.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/screens/auth_screens/Splash_screen.dart';
 import '../constants/ApiConstant.dart';
-
 import '../models/UserModel.dart';
 import 'ApiServices.dart';
 import 'Auth_token_services.dart';
