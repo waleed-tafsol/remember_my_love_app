@@ -55,7 +55,7 @@ class EditProfileController extends GetxController {
         homeScreenController.getUSer();
         isLoading.value = false;
         Get.back();
-        CustomSnackbar.showSuccess("Success", "Profile Updated Successfully");
+        CustomSnackbar.showSuccess("Success", "Profile updated Successfully");
         // Get.back();
       }
     } catch (e) {
@@ -73,12 +73,12 @@ class EditProfileController extends GetxController {
         homeScreenController.getUSer();
         isImageUploading.value = false;
         Get.back();
-        CustomSnackbar.showSuccess("Success", "Profile Updated Successfully");
+        CustomSnackbar.showSuccess("Success", "Profile updated successfully");
         // Get.back();
       }
     } catch (e) {
       isImageUploading.value = false;
-      CustomSnackbar.showError("Error", "Profile Updated Faild");
+      CustomSnackbar.showError("Error", "Profile updated faild");
     }
   }
 

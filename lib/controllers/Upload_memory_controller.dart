@@ -316,7 +316,7 @@ class UploadMemoryController extends GetxController {
         files: reschedualMemory.value?.files ?? [],
       );
       removeAllFiles();
-      ColoredPrint.green("successful Updated memory");
+      ColoredPrint.green("successful updated memory");
       final HomeScreenController controller = Get.find();
       controller.getmemories();
       Get.back();
@@ -326,7 +326,7 @@ class UploadMemoryController extends GetxController {
           (route) => route.settings.name == BottomNavBarScreen.routeName,
           arguments: {
             "title": "Memory Updated",
-            "subTitle": "Memory has been Updated successfully.",
+            "subTitle": "Memory has been updated successfully.",
           });
     } catch (e) {
       isloading.value = false;

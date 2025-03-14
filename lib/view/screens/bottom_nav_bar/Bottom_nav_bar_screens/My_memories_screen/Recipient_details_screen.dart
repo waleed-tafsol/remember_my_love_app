@@ -15,6 +15,7 @@ import '../../../../../constants/TextConstant.dart';
 import '../../../../../constants/colors_constants.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../controllers/Upload_memory_controller.dart';
+import '../../../../../utills/Colored_print.dart';
 import '../../../../widgets/Custom_glass_container.dart';
 import '../../../../widgets/Custom_rounded_glass_button.dart';
 import '../../../../widgets/Glass_text_field_with_text_widget.dart';
@@ -75,7 +76,8 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
         }*/
       }
     } catch (e) {
-      CustomSnackbar.showError("Error", e.toString());
+      // CustomSnackbar.showError("Error", e.toString());
+      ColoredPrint.red(e.toString());
     }
   }
 
