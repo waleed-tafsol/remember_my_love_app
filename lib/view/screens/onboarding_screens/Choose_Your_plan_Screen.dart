@@ -281,7 +281,7 @@ class _ChooseYourPlanScreenState extends State<ChooseYourPlanScreen> {
                           ],
                         ),
                         child: Text(
-                          "Currently You Have Free Subscription Of 150MB Storage",
+                          "You currently have a free 150MB subscription",
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
