@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:remember_my_love_app/view/widgets/ShimmerWidget.dart';
+import 'package:photo_view/photo_view.dart';
 
 class CachedNetworkImageWidget extends StatelessWidget {
   const CachedNetworkImageWidget({
@@ -22,40 +24,32 @@ class CachedNetworkImageWidget extends StatelessWidget {
       onTap: () {
         // When tapped, show a dialog with the full image
         showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-              backgroundColor: Colors.transparent,
-              child: Stack(
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    fit: BoxFit.contain,
-                    width: double.infinity,
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.close,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop(); // Close the dialog
-                      },
-                    ),
-                  ),
-                ],
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Stack(
+            // fit: StackFit.passthrough,
+            alignment: Alignment.topRight,
+            children: [
+              PhotoView(
+                backgroundDecoration: BoxDecoration(color: Colors.transparent),
+                imageProvider: NetworkImage(imageUrl),
               ),
-            );
-          },
+              IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: Icon(
+                    size: 40,
+                    Icons.close,
+                    color: Colors.white,
+                  )),
+            ],
+          ),
         );
+      },
+    );
       },
       child: CachedNetworkImage(
         imageUrl: imageUrl,
@@ -69,3 +63,42 @@ class CachedNetworkImageWidget extends StatelessWidget {
     );
   }
 }
+
+
+// showDialog(
+//           context: context,
+//           builder: (BuildContext context) {
+//             return Dialog(
+//               backgroundColor: Colors.transparent,
+//               child: Stack(
+//                 children: [
+//                   CachedNetworkImage(
+//                     imageUrl: imageUrl,
+//                     fit: BoxFit.contain,
+//                     width: double.infinity,
+//                     placeholder: (context, url) => const Center(
+//                       child: CircularProgressIndicator(),
+//                     ),
+//                     errorWidget: (context, url, error) =>
+//                         const Icon(Icons.error),
+//                   ),
+//                   Positioned(
+//                     top: 10,
+//                     right: 10,
+//                     child: IconButton(
+//                       icon: const Icon(
+//                         Icons.close,
+//                         color: Colors.white,
+//                       ),
+//                       onPressed: () {
+//                         Navigator.of(context).pop(); // Close the dialog
+//                       },
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             );
+//           },
+//         );
+
+

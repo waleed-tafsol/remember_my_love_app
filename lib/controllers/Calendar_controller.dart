@@ -4,7 +4,7 @@ import 'HomeScreenController.dart';
 
 class CalendarController extends GetxController {
   late Rx<DateTime> focusedDay;
-  RxBool calendarHidden = false.obs;
+  RxBool calendarHidden = true.obs;
   late List<int> years;
 
   @override
