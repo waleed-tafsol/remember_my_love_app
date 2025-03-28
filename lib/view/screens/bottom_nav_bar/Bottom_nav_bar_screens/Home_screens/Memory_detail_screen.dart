@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/constants/colors_constants.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
+import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/utills/CustomSnackbar.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_glass_container.dart';
 import 'package:remember_my_love_app/view/widgets/Custom_rounded_glass_button.dart';
@@ -36,6 +37,11 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
     if (Get.arguments != null) {
       memory = Get.arguments as MemoryModel;
     }
+    memoryViewed();
+  }
+
+  void memoryViewed() {
+    ApiService.patchRequest(ApiConstants.memoryViewed + memory.sId!, {});
   }
 
   @override
@@ -58,20 +64,25 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                 Text("My Memories",
                     style: TextStyleConstants.headlineLargeWhite(context)),
                 const Spacer(),
-               hasDatedPassed(memory.deliveryDate) ? SizedBox() : Obx(() {
-                  return controller.isloading.value
-                      ? const SizedBox()
-                      : controller.memory.creator!.sId ==
-                              homeScreenController.user.value?.sId 
-                          ? CustomRoundedGlassButton(
-                              icon: Icons.edit,
-                              ontap: () {
-                                hasDatedPassed(memory.deliveryDate) ? CustomSnackbar.showError("Error", "Date has Passed") :
-                                Get.toNamed(ScheduleMemoryScreen.routeName,
-                                    arguments: controller.memory);
-                              })
-                          : const SizedBox();
-                }),
+                hasDatedPassed(memory.deliveryDate)
+                    ? SizedBox()
+                    : Obx(() {
+                        return controller.isloading.value
+                            ? const SizedBox()
+                            : controller.memory.creator!.sId ==
+                                    homeScreenController.user.value?.sId
+                                ? CustomRoundedGlassButton(
+                                    icon: Icons.edit,
+                                    ontap: () {
+                                      hasDatedPassed(memory.deliveryDate)
+                                          ? CustomSnackbar.showError(
+                                              "Error", "Date has Passed")
+                                          : Get.toNamed(
+                                              ScheduleMemoryScreen.routeName,
+                                              arguments: controller.memory);
+                                    })
+                                : const SizedBox();
+                      }),
                 SizedBox(
                   width: 2.w,
                 ),
@@ -97,8 +108,9 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                     Stack(
                       children: [
                         Obx(() {
-                          bool isVideo =
-                              controller.selectedImage.endsWith("mp4") || controller.selectedImage.endsWith("quicktime");
+                          bool isVideo = controller.selectedImage
+                                  .endsWith("mp4") ||
+                              controller.selectedImage.endsWith("quicktime");
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: isVideo
@@ -157,7 +169,8 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                         itemBuilder: (context, index) {
                           final file = controller.memory.files![index];
                           print('network file: $file');
-                          bool isVideo = file.endsWith("mp4") || file.endsWith("quicktime");
+                          bool isVideo = file.endsWith("mp4") ||
+                              file.endsWith("quicktime");
                           return isVideo
                               ? Padding(
                                   padding:
@@ -305,21 +318,25 @@ class _MemoryDetailScreenState extends State<MemoryDetailScreen> {
                                         ],
                                       ),
                                       k05hSizedBox,
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "Contact : ",
-                                            style: TextStyleConstants
-                                                .bodyLargeWhite(context),
-                                          ),
-                                          k1wSizedBox,
-                                          Text(
-                                            "${controller.memory.recipients?[index]?.cc ?? ""}${controller.memory.recipients?[index]?.contact ?? ""}",
-                                            style: TextStyleConstants
-                                                .bodyLargeWhite(context),
-                                          )
-                                        ],
-                                      ),
+                                      controller.memory.recipients?[index]
+                                                  ?.cc ==
+                                              null
+                                          ? SizedBox()
+                                          : Row(
+                                              children: [
+                                                Text(
+                                                  "Contact : ",
+                                                  style: TextStyleConstants
+                                                      .bodyLargeWhite(context),
+                                                ),
+                                                k1wSizedBox,
+                                                Text(
+                                                  "${controller.memory.recipients?[index]?.cc ?? ""}${controller.memory.recipients?[index]?.contact ?? ""}",
+                                                  style: TextStyleConstants
+                                                      .bodyLargeWhite(context),
+                                                )
+                                              ],
+                                            ),
                                       // k1hSizedBox,
                                       // Row(
                                       //   children: [

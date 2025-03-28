@@ -262,8 +262,17 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       },
                                       hint: "Enter Email",
                                       validator: (value) {
-                                        emailValidator(value);
-                                        return null;
+                                        // if (value == null || value.isEmpty) {
+                                        //   return "Email is required";
+                                        // } else if (!RegExp(
+                                        //         r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+                                        //     .hasMatch(value)) {
+                                        //   return "Invalid email format";
+                                        // }
+                                        // return null; // No errors, return null
+                                        return emailValidator(value);
+
+                                        // return null;
                                       },
                                       controller: controller
                                           .recipients[index].emailController,
@@ -295,7 +304,7 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       keyboardType: TextInputType.phone,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please enter a phone number';
+                                          null;
                                         } else if (value.length < 10) {
                                           return 'Please enter a valid phone number with at least 10 digits';
                                         } else {

@@ -24,6 +24,7 @@ class ApiConstants {
   static const deleteMemory = "memory/";
   static const createMemories = "memory/create";
   static const updateMemory = "memory/update";
+  static const memoryViewed = "memory/seen/";
 
   //categories CRUD
   static const getcategories = "category/all";
