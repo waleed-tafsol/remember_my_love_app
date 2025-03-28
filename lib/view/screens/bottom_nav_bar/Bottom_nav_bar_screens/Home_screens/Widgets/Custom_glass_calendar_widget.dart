@@ -59,62 +59,125 @@ class CustomGlassCalendarWidget extends StatelessWidget {
             collapsedTextColor: AppColors.kTextWhite,
             textColor: AppColors.kTextWhite,
             showTrailingIcon: false,
-            title: Row(
+            title: Column(
               children: [
-                const Text(
-                  "My Memories",
+                Row(
+                  children: [
+                    const Text(
+                      "My Memories",
+                    ),
+                    const Spacer(),
+                    const YearMonthDropdown(),
+                    context.isTablet ? const Spacer() : k1wSizedBox,
+                    Builder(builder: (context) {
+                      return InkWell(
+                        onTap: () {
+                          if (!controller.calendarHidden.value) {
+                            ExpansionTileController.of(context).expand();
+                            // controller.toggleCalendarVisibility(false);
+                          }
+                          // controller.controller.value.expand();
+                        },
+                        child: Obx(() {
+                          return Container(
+                              color: !controller.calendarHidden.value
+                                  ? Colors.transparent
+                                  : Colors.white,
+                              padding: const EdgeInsets.all(3),
+                              child: Icon(
+                                // size:context.isTablet ? 30 : null,
+                                Icons.window,
+                                color: !controller.calendarHidden.value
+                                    ? Colors.white
+                                    : Colors.indigo[600],
+                              ));
+                        }),
+                      );
+                    }),
+                    Builder(builder: (context) {
+                      return InkWell(
+                        onTap: () {
+                          if (controller.calendarHidden.value) {
+                            ExpansionTileController.of(context).collapse();
+                            // controller.toggleCalendarVisibility(true);
+                          }
+                        },
+                        child: Obx(() {
+                          return Container(
+                              color: controller.calendarHidden.value
+                                  ? Colors.transparent
+                                  : Colors.white,
+                              padding: const EdgeInsets.all(3),
+                              child: Icon(
+                                Icons.menu,
+                                color: controller.calendarHidden.value
+                                    ? Colors.white
+                                    : Colors.indigo[600],
+                              ));
+                        }),
+                      );
+                    }),
+                  ],
                 ),
-                const Spacer(),
-                const YearMonthDropdown(),
-                context.isTablet ? const Spacer() : k1wSizedBox,
-                Builder(builder: (context) {
-                  return InkWell(
-                    onTap: () {
-                      if (!controller.calendarHidden.value) {
-                        ExpansionTileController.of(context).expand();
-                        // controller.toggleCalendarVisibility(false);
-                      }
-                      // controller.controller.value.expand();
-                    },
-                    child: Obx(() {
-                      return Container(
-                          color: !controller.calendarHidden.value
-                              ? Colors.transparent
-                              : Colors.white,
-                          padding: const EdgeInsets.all(3),
-                          child: Icon(
-                            // size:context.isTablet ? 30 : null,
-                            Icons.window,
-                            color: !controller.calendarHidden.value
-                                ? Colors.white
-                                : Colors.indigo[600],
-                          ));
-                    }),
-                  );
-                }),
-                Builder(builder: (context) {
-                  return InkWell(
-                    onTap: () {
-                      if (controller.calendarHidden.value) {
-                        ExpansionTileController.of(context).collapse();
-                        // controller.toggleCalendarVisibility(true);
-                      }
-                    },
-                    child: Obx(() {
-                      return Container(
-                          color: controller.calendarHidden.value
-                              ? Colors.transparent
-                              : Colors.white,
-                          padding: const EdgeInsets.all(3),
-                          child: Icon(
-                            Icons.menu,
-                            color: controller.calendarHidden.value
-                                ? Colors.white
-                                : Colors.indigo[600],
-                          ));
-                    }),
-                  );
-                }),
+                SizedBox(
+                  height: 1.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          color: Colors.green,
+                          size: 15,
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "Delivered",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          color: Colors.red,
+                          size: 15,
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "Pending",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          color: Colors.blue,
+                          size: 15,
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "Current Date",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
             children: <Widget>[

@@ -11,6 +11,7 @@ import 'package:remember_my_love_app/constants/ApiConstant.dart';
 import 'package:remember_my_love_app/controllers/HomeScreenController.dart';
 import 'package:remember_my_love_app/controllers/MyMemoriesController.dart';
 import 'package:remember_my_love_app/models/MemoryModel.dart';
+import 'package:remember_my_love_app/models/NotificationModel.dart';
 import 'package:remember_my_love_app/services/ApiServices.dart';
 import 'package:remember_my_love_app/services/Auth_token_services.dart';
 import 'package:remember_my_love_app/utills/Colored_print.dart';
@@ -454,12 +455,20 @@ class Recipient {
     required this.contactController,
   });
   Map<String, String> toMap() {
-    return {
-      "email": emailController.text.trim(),
-      "cc": ccp.value,
-      "country": country.value,
-      "contact": contactController.text.trim(),
-      "relation": relationSting.value,
-    };
+    final payload = contactController.text.isNotEmpty
+        ? {
+            "email": emailController.text.trim(),
+            "cc": ccp.value,
+            "country": country.value,
+            "contact": contactController.text.trim(),
+            "relation": relationSting.value,
+          }
+        : {
+            "email": emailController.text.trim(),
+            // "cc": ccp.value,
+            "country": country.value,
+            "relation": relationSting.value,
+          };
+    return payload;
   }
 }

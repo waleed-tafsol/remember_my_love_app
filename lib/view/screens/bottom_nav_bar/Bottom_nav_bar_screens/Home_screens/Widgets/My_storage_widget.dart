@@ -55,7 +55,7 @@ class My_storage_widget extends GetView<HomeScreenController> {
                             ),
                           ))
                       : Text(
-                          "${storageSizeUnit(controller.user.value?.availableStorage ?? 0)} of ${storageSizeUnit(controller.user.value?.package?.storage ?? 0)} Available",
+                          "${storageSizeUnit(controller.user.value?.availableStorage ?? 0)} of ${storageSizeUnit(controller.user.value?.package?.storage ?? 0)} Used",
                           style: TextStyleConstants.bodyMediumWhite(context),
                         );
                 }),
@@ -118,8 +118,5 @@ class My_storage_widget extends GetView<HomeScreenController> {
         ),
       ),
     );
-
   }
-
-
 }
