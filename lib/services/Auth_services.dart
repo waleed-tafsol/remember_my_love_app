@@ -35,8 +35,6 @@ class AuthService extends GetxService {
     }
   }
 
-  Rx<UserModel?> user = Rx<UserModel?>(null);
-
   //   Future<void> getUSer() async {
   //   ColoredPrint.green("Fetching User Details");
   //   Response? response = await ApiService.getRequest(

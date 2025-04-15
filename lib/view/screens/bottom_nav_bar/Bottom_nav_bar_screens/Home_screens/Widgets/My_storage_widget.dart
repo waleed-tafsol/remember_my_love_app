@@ -22,10 +22,12 @@ class My_storage_widget extends GetView<HomeScreenController> {
       width: double.infinity,
       child: InkWell(
         onTap: () {
-          Get.toNamed(ChooseYourPlanScreen.routeName, arguments: {
-            "title": "Upgrade Your Plan",
-            "popAfterSuccess": true
-          });
+          controller.user.value?.ultimateStorage ?? false
+              ? Get.toNamed(ChooseYourPlanScreen.routeName, arguments: {
+                  "title": "Upgrade Your Plan",
+                  "popAfterSuccess": true
+                })
+              : null;
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,19 +56,45 @@ class My_storage_widget extends GetView<HomeScreenController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ))
-                      : Text(
-                          "${storageSizeUnit(controller.user.value?.availableStorage ?? 0)} of ${storageSizeUnit(controller.user.value?.package?.storage ?? 0)} Used",
-                          style: TextStyleConstants.bodyMediumWhite(context),
-                        );
+                      : controller.user.value?.ultimateStorage ?? false
+                          ? Text(
+                              "Ultimate",
+                              style:
+                                  TextStyleConstants.bodyMediumWhite(context),
+                            )
+                          : Text(
+                              "${storageSizeUnit(controller.user.value?.availableStorage ?? 0)} of ${storageSizeUnit(controller.user.value?.package?.storage ?? 0)} Used",
+                              style:
+                                  TextStyleConstants.bodyMediumWhite(context),
+                            );
                 }),
                 k1hSizedBox,
-                Text(
-                  "♕ Upgrade to Premium ↗",
-                  style: TextStyleConstants.bodyMediumWhite(context).copyWith(
-                      // decoration: TextDecoration.underline,
-                      color: Colors.amber),
-                ),
+                Obx(() {
+                  return controller.user.value == null
+                      ? Shimmer.fromColors(
+                          baseColor: AppColors.kgradientBlue,
+                          highlightColor: AppColors.kgradientPurple,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 1.w),
+                            height: 1.h,
+                            width: 30.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ))
+                      : controller.user.value?.ultimateStorage ?? false
+                          ? const SizedBox()
+                          : Text(
+                              "♕ Upgrade to Premium ↗",
+                              style: TextStyleConstants.bodyMediumWhite(context)
+                                  .copyWith(
+                                      // decoration: TextDecoration.underline,
+                                      color: Colors.amber),
+                            );
+                }),
                 Container(
+                  margin: EdgeInsets.only(top: 1.h),
                   width: 40.w,
                   color: Colors.amber,
                   height: 1,
@@ -92,27 +120,30 @@ class My_storage_widget extends GetView<HomeScreenController> {
                           color: Colors.white,
                         ),
                       ))
-                  : CircularPercentIndicator(
-                      radius: 5.h,
-                      lineWidth: 5.0,
-                      percent: percentUsed,
-                      center: controller.user.value == null
-                          ? Shimmer.fromColors(
-                              baseColor: AppColors.kgradientBlue,
-                              highlightColor: AppColors.kgradientPurple,
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 1.w),
-                                height: 1.h,
-                                width: 20.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ))
-                          : Text(
-                              "${percentRemaining > 1 ? percentRemaining.toInt() : percentRemaining.toStringAsFixed(2)}%"),
-                      progressColor: Colors.white,
-                    );
+                  : controller.user.value?.ultimateStorage ?? false
+                      ? const SizedBox()
+                      : CircularPercentIndicator(
+                          radius: 5.h,
+                          lineWidth: 5.0,
+                          percent: percentUsed,
+                          center: controller.user.value == null
+                              ? Shimmer.fromColors(
+                                  baseColor: AppColors.kgradientBlue,
+                                  highlightColor: AppColors.kgradientPurple,
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 1.w),
+                                    height: 1.h,
+                                    width: 20.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ))
+                              : Text(
+                                  "${percentRemaining > 1 ? percentRemaining.toInt() : percentRemaining.toStringAsFixed(2)}%"),
+                          progressColor: Colors.white,
+                        );
             }),
           ],
         ),
