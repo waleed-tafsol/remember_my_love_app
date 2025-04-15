@@ -26,6 +26,7 @@ class UserModel {
   bool? inAppNotifications;
   String? customerId;
   bool? pushNotifications;
+  bool? ultimateStorage;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -56,6 +57,7 @@ class UserModel {
       this.inAppNotifications,
       this.customerId,
       this.pushNotifications,
+      this.ultimateStorage,
       this.createdAt,
       this.updatedAt,
       this.iV});
@@ -98,6 +100,7 @@ class UserModel {
     inAppNotifications = json['inAppNotifications'];
     customerId = json['customerId'];
     pushNotifications = json['pushNotifications'];
+    ultimateStorage = json['ultimateStorage'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -136,6 +139,7 @@ class UserModel {
     data['inAppNotifications'] = inAppNotifications;
     data['customerId'] = customerId;
     data['pushNotifications'] = pushNotifications;
+    data['ultimateStorage'] = ultimateStorage;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
