@@ -23,11 +23,11 @@ class My_storage_widget extends GetView<HomeScreenController> {
       child: InkWell(
         onTap: () {
           controller.user.value?.ultimateStorage ?? false
-              ? Get.toNamed(ChooseYourPlanScreen.routeName, arguments: {
+              ? null
+              : Get.toNamed(ChooseYourPlanScreen.routeName, arguments: {
                   "title": "Upgrade Your Plan",
                   "popAfterSuccess": true
-                })
-              : null;
+                });
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
