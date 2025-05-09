@@ -63,7 +63,7 @@ class My_storage_widget extends GetView<HomeScreenController> {
                                   TextStyleConstants.bodyMediumWhite(context),
                             )
                           : Text(
-                              "${storageSizeUnit(controller.user.value?.availableStorage ?? 0)} of ${storageSizeUnit(controller.user.value?.package?.storage ?? 0)} Used",
+                              "${storageSizeUnit((controller.user.value?.package?.storage ?? 0) - (controller.user.value?.availableStorage ?? 0))} of ${storageSizeUnit(controller.user.value?.package?.storage ?? 0)} Used",
                               style:
                                   TextStyleConstants.bodyMediumWhite(context),
                             );
@@ -105,8 +105,8 @@ class My_storage_widget extends GetView<HomeScreenController> {
               final availableStorage =
                   controller.user.value?.availableStorage ?? 0;
               final totalStorage = controller.user.value?.package?.storage ?? 0;
-              final percentUsed = availableStorage / totalStorage;
-              final percentRemaining = percentUsed * 100;
+              final used = availableStorage / totalStorage;
+              final percentUsed = (1 - used) * 100;
               return controller.user.value == null
                   ? Shimmer.fromColors(
                       baseColor: AppColors.kgradientBlue,
@@ -125,7 +125,7 @@ class My_storage_widget extends GetView<HomeScreenController> {
                       : CircularPercentIndicator(
                           radius: 5.h,
                           lineWidth: 5.0,
-                          percent: percentUsed,
+                          percent: 1 - used,
                           center: controller.user.value == null
                               ? Shimmer.fromColors(
                                   baseColor: AppColors.kgradientBlue,
@@ -141,7 +141,7 @@ class My_storage_widget extends GetView<HomeScreenController> {
                                     ),
                                   ))
                               : Text(
-                                  "${percentRemaining > 1 ? percentRemaining.toInt() : percentRemaining.toStringAsFixed(2)}%"),
+                                  "${percentUsed > 1 ? percentUsed.toInt() : percentUsed.toStringAsFixed(2)}%"),
                           progressColor: Colors.white,
                         );
             }),
