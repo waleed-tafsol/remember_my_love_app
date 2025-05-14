@@ -58,7 +58,7 @@ class My_storage_widget extends GetView<HomeScreenController> {
                           ))
                       : controller.user.value?.ultimateStorage ?? false
                           ? Text(
-                              "Ultimated",
+                              "Unlimited",
                               style:
                                   TextStyleConstants.bodyMediumWhite(context),
                             )
