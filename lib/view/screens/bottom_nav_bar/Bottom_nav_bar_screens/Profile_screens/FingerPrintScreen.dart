@@ -54,7 +54,7 @@ class FingerPrintScreen extends GetView<FingerPrintScreenController> {
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 4.w),
         child: Text(
-          "Please t apa.",
+          "Please tap the fingerprint icon to activate biometric authentication",
           style: TextStyleConstants.bodyMediumWhite(context),
           textAlign: TextAlign.center,
         ),
