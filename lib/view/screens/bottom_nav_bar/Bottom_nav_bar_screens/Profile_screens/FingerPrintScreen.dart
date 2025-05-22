@@ -23,7 +23,7 @@ class FingerPrintScreen extends GetView<FingerPrintScreenController> {
                 Get.back();
               }),
           k2wSizedBox,
-          Text("FingerPrint",
+          Text("Biometric",
               style: TextStyleConstants.headlineLargeWhite(context)),
         ],
       ),
@@ -54,7 +54,7 @@ class FingerPrintScreen extends GetView<FingerPrintScreenController> {
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 4.w),
         child: Text(
-          "Please make sure you select the finger you want to use for future logins.",
+          "Please t apa.",
           style: TextStyleConstants.bodyMediumWhite(context),
           textAlign: TextAlign.center,
         ),

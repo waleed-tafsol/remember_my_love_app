@@ -266,13 +266,13 @@ class ProfileScreen extends GetView<HomeScreenController> {
                       ),
                       k3wSizedBox,
                       Text(
-                        "FingerPrint",
+                        "Biometric",
                         style: TextStyleConstants.bodyMediumWhite(context),
                       ),
                     ],
                   ),
                 )),
-           /* k2hSizedBox,
+            /* k2hSizedBox,
             CustomGlassmorphicContainer(
                 margin: const EdgeInsets.symmetric(vertical: 0),
                 child: InkWell(
