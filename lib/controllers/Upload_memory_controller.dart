@@ -104,46 +104,6 @@ class UploadMemoryController extends GetxController {
     ));
   }
 
-  Future<List<SearchUserModel>?> getAvailableUsers(String? email) async {
-    try {
-      Response? response = await ApiService.getRequest(
-        ApiConstants.getAvailableUsers,
-        queryParameters: {
-          "search": email ?? "",
-        },
-      );
-
-      if (response?.data != null && response?.data["data"] != null) {
-        allAvailableUsers.clear();
-        var userList = response?.data["data"]["user"];
-        if (userList is List) {
-          allAvailableUsers.value = userList
-              .map<SearchUserModel>((user) => SearchUserModel.fromJson(user))
-              .toList();
-
-          return allAvailableUsers;
-        } else {
-          Get.snackbar("ERROR", "Invalid user data format received.");
-        }
-      } else {
-        Get.snackbar("ERROR", "No available users found.");
-      }
-    } on DioException catch (e) {
-      // Improved error handling
-      if (e.response != null) {
-        // Show the error message from the API response if available
-        Get.snackbar("ERROR", e.response?.data["message"] ?? e.toString());
-      } else {
-        // If there's no response, show a generic error message
-        Get.snackbar("ERROR", "Something went wrong: ${e.message}");
-      }
-    } catch (e) {
-      // Catch any other errors that might occur (e.g., parsing errors)
-      Get.snackbar("ERROR", "An unexpected error occurred: $e");
-    }
-    return null;
-  }
-
   void removeRecipient(int index) {
     if (recipients.length > 1) {
       recipients.removeAt(index);

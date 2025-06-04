@@ -10,7 +10,6 @@ import 'package:remember_my_love_app/view/screens/bottom_nav_bar/Bottom_nav_bar_
 import 'package:remember_my_love_app/view/widgets/custom_scaffold.dart';
 import 'package:remember_my_love_app/view/widgets/gradient_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:searchfield/searchfield.dart';
 import '../../../../../constants/TextConstant.dart';
 import '../../../../../constants/colors_constants.dart';
 import '../../../../../constants/constants.dart';
@@ -19,12 +18,12 @@ import '../../../../../utills/Colored_print.dart';
 import '../../../../widgets/Custom_glass_container.dart';
 import '../../../../widgets/Custom_rounded_glass_button.dart';
 import '../../../../widgets/Glass_text_field_with_text_widget.dart';
+import '../../../../widgets/SearchDropDownWidget.dart';
 
 class RecipientDetailsScreen extends GetView<UploadMemoryController> {
   RecipientDetailsScreen({super.key});
   static const routeName = "RecipientDetailsScreen";
   final _formKey = GlobalKey<FormState>();
-  // final GlobalKey _seKey = GlobalKey(); // Create a GlobalKey
   Timer? _debounceTimer;
   final ContactPickerService _contactPickerService = ContactPickerService();
 
@@ -63,20 +62,8 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                 'Note', 'Clear email field to add contact email');
           }
         }
-
-        /*if(contact.phones.isEmpty){
-          controller.recipients[index].contactController.text = '';
-          throw Exception(
-              "No phone number available for the selected contact.");
-        }*/
-        /* else if(contact.emails.isEmpty){
-          controller.recipients[index].emailController.text = '';
-          throw Exception(
-              "No email available for the selected contact.");
-        }*/
       }
     } catch (e) {
-      // CustomSnackbar.showError("Error", e.toString());
       ColoredPrint.red(e.toString());
     }
   }
@@ -166,19 +153,6 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                       ),
                                     ),
                                     k1hSizedBox,
-                                    // GlassTextFieldWithTitle(
-                                    //   title: 'Enter Relation',
-                                    //   hintText: "Family, Friend, Sibling, etc",
-                                    //   controller: controller
-                                    //       .recipients[index].relationController,
-                                    //   validator: (value) {
-                                    //     if (value == null || value.isEmpty) {
-                                    //       return 'Required';
-                                    //     }
-                                    //     return null;
-                                    //   },
-                                    // ),
-                                    // k1hSizedBox,
                                     const Text(
                                       "Select Relation",
                                     ),
@@ -222,79 +196,76 @@ class RecipientDetailsScreen extends GetView<UploadMemoryController> {
                                     k1hSizedBox,
                                     const Text("Email"),
                                     k1hSizedBox,
-                                    SearchField<SearchUserModel>(
-                                      searchInputDecoration:
-                                          SearchInputDecoration(
-                                              suffixIcon: IconButton(
-                                                  onPressed: () =>
-                                                      handleContactSelection(
-                                                          index),
-                                                  icon:
-                                                      const Icon(Icons.email))),
-                                      onSearchTextChanged: (value) {
-                                        if (_debounceTimer != null) {
-                                          _debounceTimer?.cancel();
-                                        }
-                                        _debounceTimer = Timer(
-                                            const Duration(milliseconds: 500),
-                                            () {
-                                          controller.getAvailableUsers(value);
-                                        });
-                                        return null;
-                                      },
-                                      suggestionItemDecoration: BoxDecoration(
-                                        color: AppColors.kGlassColor,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      itemHeight: context.isTablet ? 8.h : 6.h,
-                                      suggestionsDecoration:
-                                          SuggestionDecoration(
-                                        color: AppColors.kGlassColor,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      onSuggestionTap:
-                                          (SearchFieldListItem<SearchUserModel>
-                                              x) {
-                                        controller
-                                            .recipients[index]
-                                            .emailController
-                                            .text = x.item?.email ?? "";
-                                      },
-                                      hint: "Enter Email",
-                                      validator: (value) {
-                                        // if (value == null || value.isEmpty) {
-                                        //   return "Email is required";
-                                        // } else if (!RegExp(
-                                        //         r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
-                                        //     .hasMatch(value)) {
-                                        //   return "Invalid email format";
-                                        // }
-                                        // return null; // No errors, return null
-                                        return emailValidator(value);
-
-                                        // return null;
-                                      },
+                                    EmailSearchField(
                                       controller: controller
                                           .recipients[index].emailController,
-                                      suggestions: controller.allAvailableUsers
-                                          .map(
-                                            (e) => SearchFieldListItem<
-                                                SearchUserModel>(
-                                              e.email ?? "",
-                                              item: e,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  e.email ?? "",
-                                                  style: const TextStyle(
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                          .toList(),
+                                      validator: emailValidator,
                                     ),
+
+                                    // SearchField<SearchUserModel>(
+                                    //   searchInputDecoration:
+                                    //       SearchInputDecoration(
+                                    //           hint: Text("Enter Email"),
+                                    //           suffixIcon:
+                                    //               // onPressed: () =>
+                                    //               //     handleContactSelection(
+                                    //               //         index),
+
+                                    //               Icon(Icons.email)),
+                                    //   onSearchTextChanged: (value) {
+                                    //     if (_debounceTimer != null) {
+                                    //       _debounceTimer?.cancel();
+                                    //     }
+                                    //     _debounceTimer = Timer(
+                                    //         const Duration(milliseconds: 500),
+                                    //         () {
+                                    //       controller.getAvailableUsers(value);
+                                    //     });
+                                    //     return null;
+                                    //   },
+                                    //   suggestionItemDecoration: BoxDecoration(
+                                    //     color: AppColors.kGlassColor,
+                                    //     borderRadius: BorderRadius.circular(8),
+                                    //   ),
+                                    //   itemHeight: context.isTablet ? 8.h : 6.h,
+                                    //   suggestionsDecoration:
+                                    //       SuggestionDecoration(
+                                    //     color: AppColors.kGlassColor,
+                                    //     borderRadius: BorderRadius.circular(8),
+                                    //   ),
+                                    //   onSuggestionTap:
+                                    //       (SearchFieldListItem<SearchUserModel>
+                                    //           x) {
+                                    //     controller
+                                    //         .recipients[index]
+                                    //         .emailController
+                                    //         .text = x.item?.email ?? "";
+                                    //   },
+
+                                    //   validator: (value) {
+                                    //   return emailValidator(value);
+                                    //   },
+                                    //   controller: controller
+                                    //       .recipients[index].emailController,
+                                    //   suggestions: controller.allAvailableUsers
+                                    //       .map(
+                                    //         (e) => SearchFieldListItem<
+                                    //             SearchUserModel>(
+                                    //           e.email ?? "",
+                                    //           item: e,
+                                    //           child: Padding(
+                                    //             padding:
+                                    //                 const EdgeInsets.all(8.0),
+                                    //             child: Text(
+                                    //               e.email ?? "",
+                                    //               style: const TextStyle(
+                                    //                   color: Colors.black),
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       )
+                                    //       .toList(),
+                                    // ),
                                     k1hSizedBox,
                                     GlassTextFieldWithTitle(
                                       title: 'Contact',

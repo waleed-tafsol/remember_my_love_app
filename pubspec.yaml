@@ -57,7 +57,6 @@ dependencies:
   google_sign_in: ^6.2.2
   firebase_auth: ^5.3.3
   flutter_cache_manager: ^3.4.1
-  searchfield: ^1.2.1
   shimmer: ^3.0.0
   get_thumbnail_video: ^0.7.2
   chewie: ^1.8.5
